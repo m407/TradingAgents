@@ -92,23 +92,25 @@ class TradingAgentsGraph:
         os.makedirs(self.config["results_dir"], exist_ok=True)
 
         # Initialize LLMs with provider-specific thinking configuration
-        llm_kwargs = self._get_provider_kwargs()
+        deep_llm_kwargs = self._get_provider_kwargs("deep")
+        quick_llm_kwargs = self._get_provider_kwargs("quick")
 
         # Add callbacks to kwargs if provided (passed to LLM constructor)
         if self.callbacks:
-            llm_kwargs["callbacks"] = self.callbacks
+            deep_llm_kwargs["callbacks"] = self.callbacks
+            quick_llm_kwargs["callbacks"] = self.callbacks
 
         deep_client = create_llm_client(
             provider=self.config["llm_provider"],
             model=self.config["deep_think_llm"],
             base_url=self.config.get("backend_url"),
-            **llm_kwargs,
+            **deep_llm_kwargs,
         )
         quick_client = create_llm_client(
             provider=self.config["llm_provider"],
             model=self.config["quick_think_llm"],
             base_url=self.config.get("backend_url"),
-            **llm_kwargs,
+            **quick_llm_kwargs,
         )
 
         self.deep_thinking_llm = deep_client.get_llm()
@@ -150,8 +152,12 @@ class TradingAgentsGraph:
         self.graph = self.workflow.compile()
         self._checkpointer_ctx = None
 
-    def _get_provider_kwargs(self) -> dict[str, Any]:
-        """Get provider-specific kwargs for LLM client creation."""
+    def _get_provider_kwargs(self, thinker: str | None = None) -> dict[str, Any]:
+        """Get provider kwargs, including per-thinker reasoning effort.
+
+        ``quick_think_reasoning_effort`` and ``deep_think_reasoning_effort``
+        override the legacy shared ``openai_reasoning_effort`` value.
+        """
         kwargs = {}
         provider = self.config.get("llm_provider", "").lower()
 
@@ -160,8 +166,14 @@ class TradingAgentsGraph:
             if thinking_level:
                 kwargs["thinking_level"] = thinking_level
 
-        elif provider == "openai":
-            reasoning_effort = self.config.get("openai_reasoning_effort")
+        elif provider in {"openai", "openai_compatible"}:
+            reasoning_effort = None
+            if thinker in {"quick", "deep"}:
+                reasoning_effort = self.config.get(
+                    f"{thinker}_think_reasoning_effort"
+                )
+            if not reasoning_effort:
+                reasoning_effort = self.config.get("openai_reasoning_effort")
             if reasoning_effort:
                 kwargs["reasoning_effort"] = reasoning_effort
 

@@ -73,10 +73,14 @@ def test_reasoning_thinking_overrides(monkeypatch):
     dc = _reload_with_env(
         monkeypatch,
         TRADINGAGENTS_OPENAI_REASONING_EFFORT="high",
+        TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT="low",
+        TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT="medium",
         TRADINGAGENTS_GOOGLE_THINKING_LEVEL="minimal",
         TRADINGAGENTS_ANTHROPIC_EFFORT="low",
     )
     assert dc.DEFAULT_CONFIG["openai_reasoning_effort"] == "high"
+    assert dc.DEFAULT_CONFIG["quick_think_reasoning_effort"] == "low"
+    assert dc.DEFAULT_CONFIG["deep_think_reasoning_effort"] == "medium"
     assert dc.DEFAULT_CONFIG["google_thinking_level"] == "minimal"
     assert dc.DEFAULT_CONFIG["anthropic_effort"] == "low"
 
@@ -85,6 +89,8 @@ def test_reasoning_effort_defaults_to_none(monkeypatch):
     """Unset reasoning/thinking knobs stay None so each provider uses its own default."""
     dc = _reload_with_env(monkeypatch)
     assert dc.DEFAULT_CONFIG["openai_reasoning_effort"] is None
+    assert dc.DEFAULT_CONFIG["quick_think_reasoning_effort"] is None
+    assert dc.DEFAULT_CONFIG["deep_think_reasoning_effort"] is None
     assert dc.DEFAULT_CONFIG["google_thinking_level"] is None
     assert dc.DEFAULT_CONFIG["anthropic_effort"] is None
 

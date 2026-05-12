@@ -24,6 +24,8 @@ _ENV_OVERRIDES = {
     # interactive choice, which is skipped when the matching var is set.
     "TRADINGAGENTS_GOOGLE_THINKING_LEVEL":   "google_thinking_level",
     "TRADINGAGENTS_OPENAI_REASONING_EFFORT": "openai_reasoning_effort",
+    "TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT": "quick_think_reasoning_effort",
+    "TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT":  "deep_think_reasoning_effort",
     "TRADINGAGENTS_ANTHROPIC_EFFORT":        "anthropic_effort",
 }
 
@@ -89,7 +91,11 @@ DEFAULT_CONFIG = _apply_env_overrides({
     "backend_url": None,
     # Provider-specific thinking configuration
     "google_thinking_level": None,      # "high", "minimal", etc.
-    "openai_reasoning_effort": None,    # "medium", "high", "low"
+    # Per-model values override the shared OpenAI value. The shared key remains
+    # as a backwards-compatible fallback for both thinking models.
+    "openai_reasoning_effort": None,       # "medium", "high", "low"
+    "quick_think_reasoning_effort": None,  # "medium", "high", "low"
+    "deep_think_reasoning_effort": None,   # "medium", "high", "low"
     "anthropic_effort": None,           # "high", "medium", "low"
     # Sampling temperature, forwarded to every provider when set. None leaves
     # each provider at its own default. Lower values reduce run-to-run
