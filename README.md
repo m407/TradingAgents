@@ -109,14 +109,21 @@ git clone https://github.com/TauricResearch/TradingAgents.git
 cd TradingAgents
 ```
 
-Create a virtual environment in any of your favorite environment managers:
+Install [uv](https://docs.astral.sh/uv/) and sync dependencies (recommended):
 ```bash
-conda create -n tradingagents python=3.13
-conda activate tradingagents
+uv sync
 ```
 
-Install the package and its dependencies:
+Run commands inside the managed environment with `uv run`:
 ```bash
+uv run tradingagents          # installed command
+uv run python -m cli.main     # run directly from source
+```
+
+If you prefer creating your own virtual environment manually, you can still install with pip:
+```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install .
 ```
 
@@ -166,8 +173,8 @@ cp .env.example .env
 
 Launch the interactive CLI:
 ```bash
-tradingagents          # installed command
-python -m cli.main     # alternative: run directly from source
+uv run tradingagents          # recommended
+uv run python -m cli.main     # alternative: run directly from source
 ```
 You will see a screen where you can select your desired tickers, analysis date, LLM provider, research depth, and more.
 
