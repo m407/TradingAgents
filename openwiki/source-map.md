@@ -3,6 +3,12 @@ type: Source Map
 title: TradingAgents Source Map
 description: Practical repository ownership map showing where engineers should start for graph runtime, agents, data vendors, model providers, CLI operations, persistence, reporting, and tests.
 tags: [source-map, navigation, engineering]
+openwiki:
+  roles: [repository]
+  change_kinds: [navigation, configuration, deployment]
+  source_paths: [tradingagents/graph/trading_graph.py, tradingagents/default_config.py, Dockerfile]
+  symbols: [TradingAgentsGraph, TradingAgentsGraph._get_provider_kwargs, DEFAULT_CONFIG]
+  test_paths: [tests/test_env_overrides.py, tests/test_openai_reasoning_effort.py]
 ---
 
 # Source map
@@ -16,14 +22,14 @@ Use this map after selecting the relevant concept page. The [architecture overvi
 | `README.md` | User-facing install, CLI/API examples, persistence, reproducibility, disclaimer | [Quickstart](/openwiki/quickstart.md) |
 | `pyproject.toml` | Package metadata, dependencies, CLI entrypoint, pytest/Ruff configuration | [Operations](/openwiki/operations/runbook.md) |
 | `main.py` | Minimal programmatic example | [Quickstart](/openwiki/quickstart.md) |
-| `tradingagents/default_config.py` | Defaults, environment overlays, vendors, benchmarks, retry/debate settings | [Operations](/openwiki/operations/runbook.md) |
+| `tradingagents/default_config.py` | Defaults, environment overlays, vendors, benchmarks, retry/debate settings, and shared/per-thinker reasoning effort | [Operations](/openwiki/operations/runbook.md) |
 | `tradingagents/__init__.py` | dotenv loading precedence | [Operations](/openwiki/operations/runbook.md) |
 
 ## Graph runtime
 
 | Path | Responsibility |
 |---|---|
-| `tradingagents/graph/trading_graph.py` | Composition root, client/tool setup, propagation, memory resolution, checkpoints, state/report persistence |
+| `tradingagents/graph/trading_graph.py` | Composition root, independent quick/deep provider kwargs via `TradingAgentsGraph._get_provider_kwargs`, client/tool setup, propagation, memory resolution, checkpoints, state/report persistence |
 | `tradingagents/graph/setup.py` | LangGraph nodes, edges, analyst sequencing, debate/risk path maps |
 | `tradingagents/graph/analyst_execution.py` | Analyst key validation, compatibility names, ordered execution plan |
 | `tradingagents/graph/conditional_logic.py` | Tool-loop and debate termination routers |
@@ -94,7 +100,7 @@ The routing and temporal contract is canonical in [Data and LLM integrations](/o
 | `cli/stats_handler.py` | Runtime callback/stat tracking |
 | `cli/static/` | Localized UI strings/assets |
 | `tradingagents/reporting.py` | Shared final report-tree writer |
-| `Dockerfile` | Non-root container build and entrypoint; currently references missing `uv.lock` |
+| `Dockerfile` | Multi-stage pip/venv build, non-root runtime user, and `tradingagents` entrypoint |
 | `docker-compose.yml` | Standard and Ollama profiles with persistent volumes |
 | `.github/workflows/ci.yml` | Multi-version tests, clean install, Ruff gate |
 | `scripts/smoke_structured_output.py` | Trusted-environment provider schema smoke |
@@ -110,8 +116,8 @@ Tests are organized by behavior rather than mirroring source directories. High-v
 - persistence: `test_memory_log.py`, `test_reporting.py`;
 - data safety: `test_news_lookahead.py`, `test_ohlcv_cache_freshness.py`, `test_alpha_vantage_hardening.py`;
 - vendors: `test_vendor_routing.py`, `test_vendor_errors.py`;
-- providers: `test_provider_registry.py`, `test_capabilities.py`, provider-specific tests;
-- CLI/config: `test_cli_config_precedence.py`, `test_cli_env_skip.py`, `test_cli_no_console.py`.
+- providers: `test_provider_registry.py`, `test_capabilities.py`, `test_openai_reasoning_effort.py`, provider-specific tests;
+- CLI/config: `test_env_overrides.py`, `test_cli_config_precedence.py`, `test_cli_env_skip.py`, `test_cli_no_console.py`.
 
 The full change-oriented matrix is in the [testing guide](/openwiki/testing.md).
 
@@ -122,6 +128,6 @@ Recent releases shifted the repository toward explicit correctness contracts:
 - v0.3.0 introduced the provider/vendor registries, CI gate, verified data access, report API, and strict config precedence.
 - v0.3.1 hardened look-ahead filtering, router safety, graph-shape checkpointing, crypto sentiment mapping, provider retry budgets, and Bedrock auth.
 - Subsequent fixes refreshed same-day OHLCV caches, made Yahoo news UTC/end-exclusive, prevented schema-only agents from requesting unavailable tools, and unified report writing.
-- Local HEAD `b5d86f4` changed only the Dockerfile toward uv-frozen builds and currently lacks its referenced lockfile.
+- The current local integration commit added per-thinker OpenAI-style reasoning effort and then restored the container to a pip/venv multi-stage build, removing the earlier missing-lockfile failure mode.
 
 Use targeted `git log -- <path>` and `git show <commit> -- <path>` when a rule appears unusually defensive; many such rules correspond directly to regression tests and changelog entries.

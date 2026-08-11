@@ -3,6 +3,13 @@ type: Project Guide
 title: TradingAgents Quickstart
 description: Entry point for engineers working on TradingAgents, covering purpose, setup, first runs, repository navigation, and current operational caveats.
 tags: [tradingagents, quickstart, engineering]
+openwiki:
+  roles: [repository]
+  change_kinds: [configuration, lifecycle, integration, testing]
+  source_paths: [tradingagents/graph/trading_graph.py, tradingagents/default_config.py, cli/main.py]
+  symbols: [TradingAgentsGraph, DEFAULT_CONFIG]
+  test_paths: [tests/test_analyst_execution.py, tests/test_env_overrides.py, tests/test_openai_reasoning_effort.py]
+  validation_commands: [pytest -q]
 ---
 
 # TradingAgents quickstart
@@ -11,15 +18,16 @@ TradingAgents is a research-oriented, multi-agent financial analysis framework. 
 
 ## Start here
 
-| Need | Read |
-|---|---|
-| Understand components and graph topology | [Architecture overview](/openwiki/architecture/overview.md) |
-| Follow one analysis from ticker to saved result | [Analysis run workflow](/openwiki/workflows/analysis-run.md) |
-| Understand analyst roles, debates, ratings, and learning memory | [Trading decision domain](/openwiki/domain/trading-decisions.md) |
-| Work on market-data vendors or model providers | [Data and LLM integrations](/openwiki/integrations/data-and-llm.md) |
-| Configure, run, recover, or troubleshoot the system | [Operations runbook](/openwiki/operations/runbook.md) |
-| Choose tests for a change | [Testing guide](/openwiki/testing.md) |
-| Find the owning source files | [Source map](/openwiki/source-map.md) |
+| Change area or user intent | Relevant wiki page | Exact source entry points | Important symbols or types | Focused tests | Minimal validation command |
+|---|---|---|---|---|---|
+| Change graph shape, analyst order, or debate routing | [Architecture overview](/openwiki/architecture/overview.md) | `tradingagents/graph/setup.py`, `analyst_execution.py`, `conditional_logic.py` | `GraphSetup.setup_graph`, `build_analyst_execution_plan`, `ConditionalLogic` | `tests/test_analyst_execution.py`, `tests/test_risk_router_path_map.py` | `pytest -q tests/test_analyst_execution.py tests/test_risk_router_path_map.py` |
+| Change run state, persistence order, or checkpoint recovery | [Analysis run workflow](/openwiki/workflows/analysis-run.md) | `tradingagents/graph/trading_graph.py`, `propagation.py`, `checkpointer.py` | `TradingAgentsGraph.propagate`, `Propagator`, `thread_id` | `tests/test_checkpoint_resume.py`, `tests/test_reporting.py`, `tests/test_memory_log.py` | `pytest -q tests/test_checkpoint_resume.py tests/test_reporting.py tests/test_memory_log.py` |
+| Change analyst roles, ratings, debates, or memory semantics | [Trading decision domain](/openwiki/domain/trading-decisions.md) | `tradingagents/agents/schemas.py`, `agent_states.py`, `memory.py` | `ResearchPlan`, `TraderProposal`, `PortfolioDecision`, `AgentState`, `TradingMemoryLog` | `tests/test_structured_agents.py`, `tests/test_signal_processing.py`, `tests/test_memory_log.py` | `pytest -q tests/test_structured_agents.py tests/test_signal_processing.py tests/test_memory_log.py` |
+| Add or modify a data vendor or LLM provider | [Data and LLM integrations](/openwiki/integrations/data-and-llm.md) | `tradingagents/dataflows/interface.py`, `tradingagents/llm_clients/factory.py`, `openai_client.py` | `VENDOR_METHODS`, `create_llm_client`, `OpenAIClient` | `tests/test_vendor_routing.py`, `tests/test_provider_registry.py`, `tests/test_capabilities.py` | `pytest -q tests/test_vendor_routing.py tests/test_provider_registry.py tests/test_capabilities.py` |
+| Tune quick/deep reasoning effort or provider construction | [Architecture overview](/openwiki/architecture/overview.md), [Operations runbook](/openwiki/operations/runbook.md) | `tradingagents/default_config.py`, `tradingagents/graph/trading_graph.py` | `DEFAULT_CONFIG`, `TradingAgentsGraph._get_provider_kwargs` | `tests/test_env_overrides.py`, `tests/test_openai_reasoning_effort.py` | `pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py` |
+| Configure, run, recover, or package the system | [Operations runbook](/openwiki/operations/runbook.md) | `cli/main.py`, `tradingagents/default_config.py`, `Dockerfile`, `docker-compose.yml` | `_build_run_config`, `DEFAULT_CONFIG`, `TradingAgentsGraph` | `tests/test_cli_config_precedence.py`, `tests/test_env_overrides.py` | `pytest -q tests/test_cli_config_precedence.py tests/test_env_overrides.py` |
+| Select broader checks or find analogous regressions | [Testing guide](/openwiki/testing.md) | `tests/`, `pyproject.toml`, `.github/workflows/ci.yml` | pytest markers and Ruff configuration | Change-specific files listed in the guide | `pytest -q <focused-test-files>` |
+| Locate ownership before editing | [Source map](/openwiki/source-map.md) | Repository entrypoints listed by subsystem | Owning APIs and implementation symbols | Linked from each subsystem row | Use the command from the owning concept page |
 
 The [architecture](/openwiki/architecture/overview.md) dispatches an [analysis run](/openwiki/workflows/analysis-run.md), which applies the [trading decision rules](/openwiki/domain/trading-decisions.md), calls [data and LLM integrations](/openwiki/integrations/data-and-llm.md), and writes artifacts managed through the [operations runbook](/openwiki/operations/runbook.md).
 
@@ -73,7 +81,8 @@ See the [analysis workflow](/openwiki/workflows/analysis-run.md) for the grounde
 
 ## Important current caveats
 
-- **Container build is currently inconsistent.** HEAD changed `Dockerfile` to `uv sync --frozen` and `COPY uv.lock`, but the repository does not contain `uv.lock`. Until a lockfile is restored/generated or the Dockerfile is adjusted, expect `docker build` and Compose builds to fail at the copy step. This follows commit `b5d86f4`; CI does not build the image.
+- **Container builds are not exercised by CI.** The current multi-stage `Dockerfile` installs the package with pip into a builder virtual environment and copies it into a non-root runtime image, but `.github/workflows/ci.yml` does not run `docker build`. Validate container or Compose changes locally.
+- **Per-model reasoning settings are primarily a non-interactive/programmatic seam.** `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT` and `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` override the shared OpenAI effort value during graph construction. The interactive CLI still asks for one shared OpenAI value, so use environment variables or a Python config when quick and deep models need different effort.
 - **Historical runs are not fully reproducible.** Price and indicator windows are date-filtered, but live news, StockTwits, and Reddit inputs can change for the same historical date (`README.md`).
 - **Analysts are sequential.** The former concurrency setting was removed as a no-op in v0.3.0; latency and cost increase with analyst tool calls and debate rounds (`CHANGELOG.md`).
 - **Structured output is fail-open.** Selected agents prefer Pydantic schemas but retry with free text when schema binding or parsing fails (`tradingagents/agents/utils/structured.py`).
@@ -87,7 +96,7 @@ pytest -q
 ruff check .
 ```
 
-Then select focused regression tests from the [testing guide](/openwiki/testing.md). Changes to Docker should additionally run a real image build once the missing-lockfile issue is resolved.
+Then select focused regression tests from the [testing guide](/openwiki/testing.md). Changes to Docker should additionally run `docker build .`; Compose or Ollama-profile changes should exercise the affected profile because CI does not cross that packaging boundary.
 
 ## Backlog
 

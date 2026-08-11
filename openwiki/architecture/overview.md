@@ -3,6 +3,14 @@ type: Architecture Guide
 title: TradingAgents Architecture Overview
 description: System architecture for the TradingAgents LangGraph runtime, including graph topology, state boundaries, model allocation, structured outputs, and extension points.
 tags: [architecture, langgraph, agents]
+openwiki:
+  roles: [architecture]
+  change_kinds: [lifecycle, configuration, public-api]
+  source_paths: [tradingagents/graph/trading_graph.py, tradingagents/graph/setup.py, tradingagents/agents/utils/agent_states.py]
+  symbols: [TradingAgentsGraph, GraphSetup, AgentState]
+  test_paths: [tests/test_analyst_execution.py, tests/test_openai_reasoning_effort.py, tests/test_risk_router_path_map.py]
+  invariants: [Quick and deep model clients are configured independently before graph construction., Every bound analyst tool must also exist in its matching ToolNode.]
+  validation_commands: [pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py]
 ---
 
 # Architecture overview
@@ -63,6 +71,8 @@ Nested debate states are `TypedDict`s rather than runtime-validated Pydantic mod
 
 The quick model handles analysts, researchers, the trader, risk debaters, reflection, and signal processing. The deep model handles the Research Manager and Portfolio Manager (`tradingagents/graph/setup.py`). Both clients come from the provider factory described in [Data and LLM integrations](/openwiki/integrations/data-and-llm.md).
 
+`TradingAgentsGraph` constructs independent kwargs dictionaries before creating those clients. For OpenAI and `openai_compatible`, `quick_think_reasoning_effort` or `deep_think_reasoning_effort` wins for its respective client, then falls back to the shared `openai_reasoning_effort`; temperature, retry budget, and callbacks are copied to both (`TradingAgentsGraph._get_provider_kwargs`). This separation prevents a quick-model tuning choice from being forced onto the deep managers and vice versa. The focused contract is `tests/test_openai_reasoning_effort.py`; environment exposure is covered by `tests/test_env_overrides.py`.
+
 The Research Manager, Trader, Portfolio Manager, and Sentiment Analyst prefer Pydantic schemas (`tradingagents/agents/schemas.py`). Their validated results are rendered immediately into stable Markdown because prompts, CLI output, report files, memory, and external consumers already use textual contracts. If structured binding or parsing is unavailable, `invoke_structured_or_freetext()` retries once as free text. Schema-only prompts explicitly forbid external tools so models do not call tools that were never registered (`tradingagents/agents/utils/structured.py`).
 
 ## Persistence boundaries
@@ -99,6 +109,16 @@ Create a Pydantic schema and stable Markdown renderer in `agents/schemas.py`, th
 ### Add a provider or data vendor
 
 Use the registries described in [Data and LLM integrations](/openwiki/integrations/data-and-llm.md), then add targeted capability, routing, error, and configuration tests from the [testing guide](/openwiki/testing.md).
+
+### Change quick/deep model construction
+
+1. Add the default and any `TRADINGAGENTS_*` mapping in `tradingagents/default_config.py`.
+2. Route the value in `TradingAgentsGraph._get_provider_kwargs` without sharing a mutable kwargs dictionary between clients.
+3. Confirm the selected provider client actually accepts or capability-gates the kwarg; graph-level forwarding alone does not prove consumer compatibility.
+4. Preserve the legacy shared setting when introducing a narrower override unless a breaking configuration change is intentional.
+5. Run `pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py`; add the relevant provider-specific test when behavior crosses beyond OpenAI-compatible clients.
+
+The defining module test proves internal precedence, while constructing the real provider wrapper proves the shipped constructor surface does not forward unsupported parameters.
 
 ## Architectural cautions
 

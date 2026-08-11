@@ -3,6 +3,14 @@ type: Operations Runbook
 title: TradingAgents Operations Runbook
 description: Practical configuration, execution, persistence, checkpoint recovery, container, artifact, and troubleshooting guidance for TradingAgents.
 tags: [operations, configuration, docker, recovery]
+openwiki:
+  roles: [operations]
+  change_kinds: [configuration, deployment, recovery]
+  source_paths: [tradingagents/default_config.py, cli/main.py, Dockerfile, docker-compose.yml]
+  symbols: [DEFAULT_CONFIG, TradingAgentsGraph._get_provider_kwargs, _build_run_config]
+  test_paths: [tests/test_env_overrides.py, tests/test_openai_reasoning_effort.py, tests/test_checkpoint_resume.py]
+  invariants: [Per-model reasoning settings override the shared OpenAI setting., Successful checkpointed runs clear only their matching checkpoint rows.]
+  validation_commands: [pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py]
 ---
 
 # Operations runbook
@@ -20,6 +28,20 @@ The effective configuration is assembled in layers:
 5. In the CLI, explicit environment settings or explicit flags win; otherwise interactive choices apply (`cli/main.py`).
 
 High-value variables include provider/model/backend, output language, debate and risk round counts, checkpoint enablement, benchmark, temperature, retry budget, results/cache/memory paths, and provider-specific reasoning controls. Treat `.env.example` and `default_config.py` as the canonical non-secret references.
+
+### Quick and deep OpenAI reasoning effort
+
+For `openai` and `openai_compatible`, unattended or programmatic runs can tune the two model roles separately:
+
+```bash
+export TRADINGAGENTS_OPENAI_REASONING_EFFORT=medium
+export TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT=low
+export TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT=high
+```
+
+The quick/deep values override the shared value only for their matching client; unset values inherit the shared setting, and all three unset leaves the provider default. The graph applies this before `create_llm_client()` and also forwards temperature, retry budget, and callbacks independently to each client (`TradingAgentsGraph._get_provider_kwargs`). Known non-reasoning native OpenAI models still discard the parameter in `OpenAIClient`.
+
+The interactive CLI currently collects one shared OpenAI effort and writes `openai_reasoning_effort` into the run config. It does not prompt for separate quick/deep values; however, `_build_run_config()` starts from `DEFAULT_CONFIG.copy()`, so per-thinker environment overrides remain present and take precedence during graph construction. Use those environment variables or pass a Python `config` when the two roles must differ. Validate changes with `pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py`.
 
 ## Run modes
 
@@ -90,16 +112,17 @@ Compose defines:
 
 The runtime image uses non-root `appuser` and persists `/home/appuser/.tradingagents` (`Dockerfile`, `docker-compose.yml`).
 
-### Current build blocker
+### Container validation boundary
 
-At HEAD, the Dockerfile runs `uv sync --frozen --no-dev` and copies `uv.lock`, but `uv.lock` is absent. This is a repository inconsistency introduced by the local `b5d86f4` uv-first Docker refactor after v0.3.1; v0.3.0 had explicitly removed the committed lockfile. The README and CI still use pip, and CI has no Docker-build job.
+The current `Dockerfile` uses a Python 3.12 builder stage, creates `/opt/venv`, runs `pip install --no-cache-dir .`, copies that environment into the runtime stage, and runs as non-root `appuser`. It no longer depends on `uv.lock`; the earlier frozen-uv build blocker is resolved in the current source.
 
-Until corrected, do not present Compose as verified. The likely resolution must be chosen by maintainers:
+CI still verifies only editable test installs, a clean pip install/import, and Ruff. It does not build the image or start Compose services. Therefore:
 
-- generate and commit a current `uv.lock`, align README/CI on uv, and keep frozen builds; or
-- revert Docker to a pip/venv install and remove the lockfile copy.
+- ordinary Python changes do not require a container build;
+- changes to `Dockerfile`, package runtime dependencies, package data, entrypoints, or `docker-compose.yml` require `docker build .`;
+- changes to Ollama service wiring or volumes additionally require the affected Compose profile in an environment that can start containers.
 
-After resolution, add `docker build .` to local release checks and preferably CI.
+Do not treat `pip install .` passing as shipped-container correctness: the consumer-facing boundary is a successful image build and `tradingagents` entrypoint startup.
 
 ## Troubleshooting
 
@@ -125,4 +148,4 @@ Confirm the selected provider, its documented environment-variable name, and end
 
 ## Release checks
 
-Follow the [testing guide](/openwiki/testing.md), verify a clean package install, and inspect `git status` for generated results or credential files. Container changes require an actual build; integration changes should run the relevant real-provider smoke only in a trusted environment with credentials supplied by environment variables.
+Follow the [testing guide](/openwiki/testing.md), verify a clean package install, and inspect `git status` for generated results or credential files. Container changes require `docker build .`; integration changes should run the relevant real-provider smoke only in a trusted environment with credentials supplied by environment variables.

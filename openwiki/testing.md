@@ -3,6 +3,12 @@ type: Testing Guide
 title: TradingAgents Testing Guide
 description: Test strategy and change-oriented verification guide for the TradingAgents graph, agents, data vendors, LLM providers, CLI, persistence, reports, and containers.
 tags: [testing, pytest, ruff, ci]
+openwiki:
+  roles: [testing]
+  change_kinds: [validation, provider, configuration]
+  source_paths: [pyproject.toml, .github/workflows/ci.yml]
+  test_paths: [tests/test_env_overrides.py, tests/test_openai_reasoning_effort.py]
+  validation_commands: [pytest -q, ruff check .]
 ---
 
 # Testing guide
@@ -43,7 +49,8 @@ CI runs:
 | FRED or Polymarket | `test_fred.py`, `test_polymarket.py` |
 | Symbol, identity, crypto, path safety | `test_symbol_utils.py`, `test_instrument_identity.py`, `test_crypto_asset_mode.py`, `test_safe_ticker_component.py` |
 | Provider registry and capabilities | `test_provider_registry.py`, `test_capabilities.py`, `test_model_validation.py` |
-| Provider endpoint/key/reasoning behavior | `test_api_key_env.py`, `test_ollama_base_url.py`, provider-specific tests |
+| Provider endpoint/key/reasoning behavior | `test_api_key_env.py`, `test_ollama_base_url.py`, `test_openai_reasoning_effort.py`, provider-specific tests |
+| Environment override precedence and coercion | `test_env_overrides.py`, plus the owning CLI/provider test when the value crosses that boundary |
 | CLI configuration and terminal behavior | `test_cli_config_precedence.py`, `test_cli_env_skip.py`, `test_cli_no_console.py`, `test_cli_symbol_handling.py` |
 | Localization | `test_i18n_coverage.py` |
 
@@ -94,9 +101,27 @@ The script exercises structured output against configured providers and is usefu
 - Cross-provider `temperature` and retry behavior remains optional.
 - Structured-output tests cover both parsed and malformed responses.
 
+### Model-construction configuration change
+
+- The default remains `None` when omission is meant to preserve provider behavior.
+- Environment overrides map to the exact config key in `test_env_overrides.py`.
+- Quick and deep clients receive independent kwargs; per-role values override shared fallbacks without mutating each other.
+- The real provider wrapper drops or transforms unsupported parameters, not just the graph helper.
+- Interactive CLI precedence is tested if the setting is exposed there; per-thinker OpenAI effort is currently environment/programmatic only.
+
+The narrow check for the current per-model effort seam is:
+
+```bash
+pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py
+```
+
+Run `python scripts/smoke_structured_output.py <provider>` conditionally only if request/schema compatibility changed and trusted credentials are available.
+
+In a fresh checkout, install development dependencies before these tests. If collection fails with a missing runtime package such as `langchain_core`, the environment is not provisioned; that is not a product-test failure.
+
 ## Current gaps
 
-- CI does not build the Docker image. This currently misses the absent `uv.lock` referenced by `Dockerfile`.
+- CI does not build the Docker image, so Dockerfile, package-copy, entrypoint, user/permission, and Compose regressions require an explicit local image build.
 - Historical news/social reproducibility cannot be proven without archived input fixtures or snapshots.
 - Marker classification is not comprehensive; the full suite is the reliable gate.
 - Most provider behavior is mocked; a release touching protocol compatibility should supplement unit tests with targeted trusted-environment smoke runs.

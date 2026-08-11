@@ -3,6 +3,14 @@ type: Integration Guide
 title: Data and LLM Integrations
 description: TradingAgents integration contracts for market-data vendors, temporal safety, error handling, social sources, LLM provider routing, credentials, and capability quirks.
 tags: [integrations, data, llm, providers]
+openwiki:
+  roles: [integration]
+  change_kinds: [provider, configuration, data-routing]
+  source_paths: [tradingagents/dataflows/interface.py, tradingagents/llm_clients/factory.py, tradingagents/graph/trading_graph.py]
+  symbols: [VENDOR_METHODS, create_llm_client, TradingAgentsGraph._get_provider_kwargs]
+  test_paths: [tests/test_vendor_routing.py, tests/test_provider_registry.py, tests/test_openai_reasoning_effort.py]
+  invariants: [Only explicitly selected data-vendor chains are attempted., Per-thinker reasoning effort falls back to the shared OpenAI effort value.]
+  validation_commands: [pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py]
 ---
 
 # Data and LLM integrations
@@ -105,7 +113,16 @@ Provider behavior is capability-driven (`llm_clients/capabilities.py`). Importan
 - MiniMax M2.x avoids incompatible tool-choice behavior and enables reasoning splitting.
 - Generic local OpenAI-compatible servers bind schemas without assuming object-form tool choice.
 - OpenAI reasoning effort, Anthropic effort, and Gemini thinking level are applied only to models that accept them.
+- OpenAI and `openai_compatible` can receive separate quick/deep reasoning effort from `TradingAgentsGraph._get_provider_kwargs`. Each per-thinker value falls back to `openai_reasoning_effort`, preserving existing configurations; `OpenAIClient` still drops effort for known non-reasoning OpenAI models rather than sending an unsupported request parameter.
 - `temperature` and `llm_max_retries` are forwarded across providers when explicitly configured.
+
+The effective OpenAI-style precedence is:
+
+1. `quick_think_reasoning_effort` or `deep_think_reasoning_effort` for the client being built;
+2. shared `openai_reasoning_effort`;
+3. provider/model default when both are unset.
+
+Environment names are `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT`, `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT`, and the backward-compatible `TRADINGAGENTS_OPENAI_REASONING_EFFORT` (`default_config.py`, `.env.example`). The interactive CLI currently exposes only the shared OpenAI setting; use environment variables or programmatic configuration for separate values.
 
 Schema-oriented agents prefer structured output but retry once as free text. The recent `030b434` fix ensures those prompts do not prime the model to call unavailable external tools.
 
@@ -127,5 +144,16 @@ Schema-oriented agents prefer structured output but retry once as free text. The
 3. Define structured-output and reasoning capabilities.
 4. Add provider registry, endpoint, key, model-validation, and structured-output tests.
 5. Update CLI choices and the fast-changing model catalog only when a curated list is maintainable.
+
+### New provider-construction knob
+
+1. Decide whether the setting is shared across both models, provider-specific, model-specific, or per runtime role.
+2. Add its non-secret default and environment mapping in `default_config.py`; document placeholders in `.env.example`.
+3. Forward it at `TradingAgentsGraph._get_provider_kwargs`, keeping quick and deep kwargs independent.
+4. Capability-gate it in the owning provider client when unsupported models or endpoints reject the parameter.
+5. If interactive users must control it, update `cli/main.py`, `cli/utils.py`, localization assets, and CLI precedence tests. Per-thinker reasoning effort currently deliberately omits this layer and is environment/programmatic only.
+6. Validate internal precedence with `pytest -q tests/test_env_overrides.py tests/test_openai_reasoning_effort.py`, then run the narrow provider-specific test or trusted smoke when wire compatibility changes.
+
+Escalate to `python scripts/smoke_structured_output.py <provider>` only when the change affects real provider request construction or schema behavior and credentials are available; ordinary config precedence changes do not require it.
 
 The [source map](/openwiki/source-map.md) lists the exact entrypoints.
