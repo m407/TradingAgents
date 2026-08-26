@@ -1,0 +1,28 @@
+{
+  "as_of": "2026-08-12T12:00:00Z",
+  "balances": [
+    {"currency": "USD", "cash": "1200.50", "available": "1100.25", "equity": "4200.75"}
+  ],
+  "positions": [
+    {
+      "position_id": "position-long-sanitized",
+      "symbol": "LONG.EX",
+      "quantity": "10",
+      "average_price": "100.25",
+      "market_value": "1030.00",
+      "currency": "USD",
+      "unrealized_pnl": "27.50",
+      "side": "long"
+    },
+    {
+      "position_id": "position-short-sanitized",
+      "symbol": "SHORT.EX",
+      "quantity": "-4",
+      "average_price": "50.50",
+      "market_value": "-196.00",
+      "currency": "USD",
+      "unrealized_pnl": "6.00",
+      "side": "short"
+    }
+  ]
+}

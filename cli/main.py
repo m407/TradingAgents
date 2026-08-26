@@ -20,6 +20,7 @@ from rich.table import Table
 from rich.text import Text
 
 from cli.announcements import display_announcements, fetch_announcements
+from cli.portfolio import app as portfolio_app
 from cli.stats_handler import StatsCallbackHandler
 from cli.utils import (
     ask_anthropic_effort,
@@ -70,6 +71,7 @@ app = typer.Typer(
     help="TradingAgents CLI: Multi-Agents LLM Financial Trading Framework",
     add_completion=True,  # Enable shell completion
 )
+app.add_typer(portfolio_app, name="portfolio")
 
 
 # Create a deque to store recent messages with a maximum length
@@ -1278,6 +1280,13 @@ def run_analysis(checkpoint: bool | None = None):
     display_choice = typer.prompt("\nDisplay full report on screen?", default="Y").strip().upper()
     if display_choice in ("Y", "YES", ""):
         display_complete_report(final_state)
+
+
+@app.callback(invoke_without_command=True)
+def main(ctx: typer.Context):
+    """Preserve the historical bare `tradingagents` interactive analysis."""
+    if ctx.invoked_subcommand is None:
+        analyze()
 
 
 @app.command()

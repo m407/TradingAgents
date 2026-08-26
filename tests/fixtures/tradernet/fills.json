@@ -1,0 +1,5 @@
+{
+  "fills": [
+    {"fill_id": "fill-1", "order_id": "o-partial", "symbol": "BBB.EX", "side": "sell", "quantity": "3", "price": "20.10", "commission": "0.07", "currency": "USD", "executed_at": "2026-08-12T10:01:00Z"}
+  ]
+}
