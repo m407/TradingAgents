@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:3f128da8ecb64cfc83cdd3296cde18317c2f5dd22bd82374fd28eb00bd7954d0",
+  "claims": [
+    {
+      "id": "claim_4aa4b961a43142a086c20045499b1bd2",
+      "statement": "TradingAgents разделяет долговременную Markdown-память решений, временные SQLite checkpoint, JSON-снимки состояния и Markdown-отчеты; восстановление графа использует checkpoint, а не JSON или отчеты.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py",
+          "version": "repo-file-v1:sha256:533c5201d549ec4af364448ad8e6b23347a07a754e80aed9e24adb41a9337a4d"
+        },
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py",
+          "version": "repo-file-v1:sha256:bee184bbb807a157b27742259be524d618e6cbfb4b5c189f887d21423937d263"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py",
+          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py",
+          "version": "repo-file-v1:sha256:4ce1da3df265ff22e4f33e70f135a9124ac1db74d69f13797857dd94a2ba451c"
+        }
+      ]
+    },
+    {
+      "id": "claim_3be537d62d8a40aebe157029a943f488",
+      "statement": "TradingMemoryLog appends a pending entry containing the parsed rating and final decision, uses an HTML comment as the entry delimiter, becomes a no-op when no log path is configured, and suppresses a sequential duplicate only when the same exact ticker and date already have a pending entry.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py#L112-L160",
+          "version": "repo-lines-v1:sha256:abe439ff7e98d55b834f4c44bc09abadc9da1b2eacae5998eda805d65d1149c8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2MmE0ZGYxNzQ3YWI1OTA2YTNjN2ViMGRkN2Y3ODk0MTA2Y2RmM2I1NmM0OTUxMjQ0OTkwZDVlZTZkMmQ4YTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3NzI5MmRlM2NiZWNkODM3MDM1MGVlYTljYzRlMzNmMDI1MTA5NTg2MDczZjFmMDkwNjc2ODNjY2M0ZmYzZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxOTQwZGZiZmIzN2Q2NzI1NmI5NGYxMWQ0OGQ5MmM3OTA0MmQ2YjYwMDFjMDVkY2ExMWVhZDgwZDY1MmFlZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjN2FmOGJlOGE3ZWIxNDhlMDYzMGRiZmNlZDE1Y2JhY2E3NmM1MjkxYzhhMjcyZmJlNTkxMDJjNzJjZDQ2MGUifQ"
+        },
+        {
+          "resource": "repo://tests/test_memory_log.py#L192-L205",
+          "version": "repo-lines-v1:sha256:6171f24fcafa0d5eafaa5f1158e3ee5e41db0911e4a7385d836d457572058afe:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NmJlYjhiM2I2ZDJkMjhmZTgwNjhhYmUyODI2NjJiYTYwMmIxOTAwMGU4YzBiZjQwOTI3YzYxMTIxNzgxYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhN2I0MjBhMGI2NThiOTJkOGYwYTNiZDE3MjIwMGM1MmU0YjkzMTRmM2YyYTVhZmQ1ZjA3OWY2MWY0NmJkMDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwNWFiNjRiOGVkNWVlOTcxYjQ5ZDk2MjRiZTE2Yjc4YTQ5YmQ4MGFjMmJmNzNkN2FhOTIxNDUwMDE0ZmY3NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkZWMyMjE3ZGMyMGNmMGY2NmUwYjdmMWU2Njg2ZjRmM2M0ZWVkYmQyMjJlYjBmZTc4NWQyZGNlMTFjNDlhMDAifQ"
+        },
+        {
+          "resource": "repo://tests/test_memory_log.py#L287-L293",
+          "version": "repo-lines-v1:sha256:84cf50032880043c70f032d46a8929e1ecd1d70c5f695fd17f8360bfe2caf4a5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2Q3NWU4NGE2MDZhYWI3YzkzZTcxNzA1ZWU4OWRmZDYwNTI5M2U5OTYwYzA5ZDJjNjUyNjgwNDI2MDQ4MDg3YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEyODA2M2M1ZTEyMWQxZjE5MGZmZmY3ZjI5NjNmOWYwMWJhNGRlYTUwMGM1NTgwM2MxY2FkYjcxMTc3NWQ4NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmU2OGNkZGI2ZDdkNWViNThlZTRmZjc0Y2NjNTc4NTk0ZTlmN2VmMzgwYThmMWUyZTZmMzY2MDdjYzY0YjliYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmFlNTQ0OWYyNzExODM2OGZkY2Q2ZmRmMzIzYmEyMzAwMzVhNDExZjFhMTJlMjA5YzRhMTdmYmI1NjM5MDU3ZSJ9"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L9-L49",
+          "version": "repo-lines-v1:sha256:1af4f3085359d6508f368878ffded964f9f35a03d7315a9be3c6d0d00013fc0a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZGYyYzM1N2U4NzhkMjM0ODlkNTQ3MDIxYjQ0YzU4ZjU3NjkxNDRlNjU4MGQxNWYyMjUxMjZmNjZhYTFiZTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzODM1NDQ5ZGNkZjk5OTkwMDgzYmVlODBkNzJhZTY5ZjFlYzVhOTA1OTUxNjA4ZDczZGQzOTBlOTVkOWZjOTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwYmM5MDIyYTEwODAwNTY1YWFmYzU0ZmFiNGU0MDczMDEwMGM5NTYyY2MwMDhkZWFlNTYwN2IxOGYwNDcxY2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk5OWZhYjNjYmUzYjhjMTU3MTI2MmQ4ZTFkNDdhODI1NWE5MWRmMzQ2YTA1ZjQ1ZmE0YjI4NjhmY2EwYmJmNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b465ac2d2b274c71bdfab7917f46d02d",
+      "statement": "До нового графа propagate разрешает pending только для точно совпадающего тикера; недоступные исходы и другие тикеры остаются pending, успешные исходы получают рефлексии и применяются одним пакетом.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L326-L365",
+          "version": "repo-lines-v1:sha256:092bdd87cd22f52cbfd744749bff48181fda1979e3c967bdeb41098409472ebb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMzliOWM5YTQ5YjU0NDk5NDRkMjA3NTJiOGE1YjMyNWNlOTNhNjY2MGZlMjFmMWIxZDIxZGVmYjVkNjlmNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTAwZGE1NTI4NDJiMGI3YjY3MGZlZjQxMzNiNTU1ZTQzN2NiYWQ5MDI0YWQwZmVlZmQxMWNjZWQzM2IwOGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5YWU0Y2VmM2YyNGUwMDA2MGQ0ZDk0MDUwYjM0N2U4MTMxNWUzNTliZGQxOWM3MjAwMDVhNWVhN2UyYjVlY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmOTE0ODNiOWM3MDVjMjk5ZDUxYWRkMTMwN2I3NGIyMzE3ZGJmMDllY2Q3OTMwZTc5ZGZjMGZkZWVhZTU2YTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L420-L429",
+          "version": "repo-lines-v1:sha256:848dd1cc36f4b6c3b873b3064178e07ca35af0c1e6c42b93e8b17ca4999644f3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZjE2OWM5YTM5YTVlZWFiYjU0YmExMmIzZThlOGFmYTFhNGQ1NjA4M2ZkMWJmYzljMGJlMTY1MDkwOWFjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MDMyZTk2NGQwOTMyMzUxZTVkMTg1MjY5MjgxYjE3MWEzYTA5YjA4YjI4NmU2NjFlYTQ3MDMyM2M4MmViNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4OTcyZjlmMTBiYWYzOGM2ZGMzM2M2ZTFkY2FmZTA0Mjk4M2QwZTVlYjJiYWFhMmRiYzc3NjU0OThmMTg5YzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExNTRiODc0OTIyN2RhMzg5NTNkNGY5OTAwNmE4ODA2NjMyZDU1OTNkYTQwYjRiMDM0YmYwYmNmM2E5N2I0NzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d348f4b68d3d42fd9ed166b3c5a0fc09",
+      "statement": "Расчет исхода требует более holding_days строк в каждой серии, по умолчанию шесть для пяти интервалов, использует Close на позициях 0 и holding_days и alpha как разность доходностей; неполное окно или исключение возвращают четыре None.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py",
+          "version": "repo-file-v1:sha256:9c168b15ea624107c8bb6550b588114f6a068121a1e512d8e238d70d703d3dcb"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L273-L324",
+          "version": "repo-lines-v1:sha256:e7e7ff710d2bed5b3285a339552fd62f1637e95de32eef43248e6c54089bc049:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MTM2ZTE0ZmQ3MGQwZmUyMjQ4MzQ3MTkxNmU0MmYyMGQyNWY3MmQ5MmYwMTRjZjA3NzM4ZmQ1YmYwOWRhNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNTZmYjE5ZjNhMzc4YTk0Y2IwM2MzMjcxOGUzNDEwMWQxNGQwN2Y2OWM3ZTBhZDE3MmNmNzI1ZWQyMjhhOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5NzRkMmQxM2Y0N2YxMmI1NmY4NjIzYzA2YjM3MmVhYzZhNGQyM2Q3OWJkMDljNWM3NGVlMWI0NzM0Yzc1NDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwNGJmNjQ3ODU2YzE2Nzg0OTdjZjk5N2MxNTY5ZDg2ODg5Y2EyMmIwMDk0MGZiZDQ3OTM3OGI3NjYxZTA4OTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a02eef4cdab479285774c2bb902af59",
+      "statement": "benchmark_ticker имеет универсальный приоритет; иначе benchmark выбирается по суффиксу без учета регистра с резервом по пустому суффиксу или SPY и используется как для alpha, так и для имени benchmark в запросе рефлексии.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/default_config.py#L151-L169",
+          "version": "repo-lines-v1:sha256:35fb21169a10099d7e3630329b27cc5d01ccd370dd54f5061125ef6e4fb0ecc9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlMjRhZTA0OTU1NjUxMzQxY2QwZWViZGM5YWY4MDRlN2E3N2ZkODc5MzRkNjQ0NWZkYzE5ZmVhMmQ1NjNhMDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyNjQ4NTc0OThjNTExOWYwZjk1NjY2ZWI3OTZjYmM3YWVhMGFjMDc3YmFjNmE0OWRjODU2MDhiNTk4ZDYyZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L252-L271",
+          "version": "repo-lines-v1:sha256:e6333e9386c57dca834d654f30d22fa36a27a52cf7fa1368a82eb1f1985bc40d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZmM0N2QzZTFlYTIyMzMxMGI5ZjM2NGNmNWZkNDY3NTkxODBjMTFhOGIwZTEwY2JmMTQ3YjdhNTMzZDJkMDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkZWY1YWU3Nzk0YTIzZjNhOTZkNjljMjU3ODYwOTI5MDdjM2RlZDdmNTQxYmJiZTBlY2YwYTgyNDBhMWE1ZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxYWQ1NGMyZTM2NjcyNjRjM2UwMjA1YThlZGJhODUwNGJhZGM0YzJlMWYxN2Y2ZWIxZjVkNjUwODk4YTc3ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3MzRhOWYzYWExMGI4ZjlkYWUzODEwMmRkZjRlZTg5YzkxOTMwNDk5M2I0ZDM1NTgxNjBmZDg1ODM1MzAxMDkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L340-L353",
+          "version": "repo-lines-v1:sha256:d1587069914ceb3fa8dadfaef41edf6a0062d5dfc30176c2901207d0dcbc2647:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2OGI1MzlmYzVjNjQwNDUxOTIyN2UxOWQwNThiZTEwNGM2ZWM3M2EzMmNhYzlkMTA1NDI1MGJmMTYyY2NiZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MDMyZTk2NGQwOTMyMzUxZTVkMTg1MjY5MjgxYjE3MWEzYTA5YjA4YjI4NmU2NjFlYTQ3MDMyM2M4MmViNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxZGZkZDhiNjk0YzQxZDJkMzIwOWI3NTBiZDIwNGU3ODAyYzM5OWQ1ODQzZmQ1ZWZhNGYwY2ZiOTk0MGNiYjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzOGI3NWEwNWIwMTU1NjE3YWE1ZDJmZTRhZWRlZWMyYWVjZDMwZjIwYjdmMzBlM2U3MDE3YzM5ZTIzYjlmM2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e42832da6c4740699e0898b927a2681a",
+      "statement": "В prompt допускаются только разрешенные записи памяти: по умолчанию пять своего тикера с полным контекстом и три других с контекстом уроков; _run_graph передает текст в начальный past_context, условно включаемый Portfolio Manager.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/managers/portfolio_manager.py#L36-L40",
+          "version": "repo-lines-v1:sha256:50aaba57d3aca5bb595fdf5c95e7734e28e3b5f645ab8175f3ce1495ff5d5b07:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGU5YWUyNzdhYzNiMGQzNzQxYzYxZDdiNmJmNDU3NTdjM2ViZjljZDY3OTU2NjQwZjNkYmY1OWFkMDcwMWE5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTIzOWZjY2NkYWQwOGE3NGQyY2JhNjFmMzhiOTliMjcyOWQwMDEzMDBlZjVlYjM2YWEwMDViOTE4MWFkZmFhNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTFkMDMxMTMwMWY5YjdhOWQ5YWY4MzcwMTk5NjkyMzc5OGE3OTU2NjQwZWU1Yjc1MzE0MGZjMTU2NzI0M2I0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjNjNWVkM2I1OTBlMDE0YjZlMjQxMjAyYzU5MWEzOWY1ZTViMDBiMDk3YWFiZTM3NzMzNGI0YThlYWExNTg1NSJ9"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L70-L107",
+          "version": "repo-lines-v1:sha256:213e3d153b6bc539c7410e2dc928411bf6a1a968af8abe1b15be1f2679727f54:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0YmUzZmUzNGY1YzM0YjliYzZkNzM4ZDRhZWJmMmNhNjlhYWQzNzkzYTU3OThmZDRkYWM2MDMyYWNlMzc1NDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyNmY3ZDZkNWJkNDI0ZmEyMTliNTk0MzNlYzQyMWFlODUyNmVlOWZlZjZjNzkyMTdjZTYyZWRlNjc5Yjg5MGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhYjNkMTYzZTQyZTA0YThjYTFiYTVlMjVhZDU1OWUxNWE2MjM2YzQ2NzUyOGU0NTY2YTIyZGZjNDU0YzQwOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjMzlmNzk3ZjQyNjg4NjY1ODNjMDBkZGNiZTAzYTQ1NmE2MGM3NmE2NjZjM2FlMzhkYTI0OWQ5NDZlZTQ2ODMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L509-L526",
+          "version": "repo-lines-v1:sha256:7702fa344d4ea60977b1c9ab9844a212f5defc1ed75f1b64bbe3e8cfcd92279d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwOGI3NWY4OGZmYTc3ZTA0NzViZWUyMWJkMTU0ZGJlMmFlMTVhMzIwOGM5MmQ5OTVhNmEzZTExOWQyM2M0MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNDUwYjg0YTA0OWI2ZjlmMWNlN2QyNDQxMmNiOGYxYTIxYjg5ZjBhYzljYWMzOTNjNDRiMDMxNzEyYTU0OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NGUxMTg3MDhkMjdkNTY5YTE5MzA0MzgzOWFkODc5NDgzMzE5OTNiYTgyYjNmZDgzMGU4MTk1MmU3OGExMzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_10e5ed65fe654c3aa2933030c0ab64b9",
+      "statement": "Обновления исходов переписывают журнал через соседний .tmp и Path.replace; ротация удаляет старейшие разрешенные блоки сверх memory_log_max_entries, но сохраняет pending. Атомарная замена не обеспечивает блокировку нескольких процессов.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L111-L283",
+          "version": "repo-lines-v1:sha256:468fb14f9168398abc88bcfe3494adf205878a46acecec296ec996118f9b0ac7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTczLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNWVlNWQ5MTU1NGYwZTVkOTQ5ODI0N2ExNjQ1OThhNGY0OGMxMjliZDQ5YzY1YzY2MzJkN2U5YTc4ZDk3MmMyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0ZDEwOGQ2ZTNiMDMwOGZkYmVjNWY1N2M0ZGEzMWFhZDFlOWQ2ZGQ4MGI0ZDc0NGY3NGNmY2Q1ZjM3YTFjM2Q4IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxYzM5Zjc5N2Y0MjY4ODY2NTgzYzAwZGRjYmUwM2E0NTZhNjBjNzZhNjY2YzNhZTM4ZGEyNDlkOTQ2ZWU0NjgzIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0NDAxNTlkOWExNDNjN2YyMDQwMGIxMDA4N2I0NGQxNTgxNjFlYTRiODYzNzRhOGE2ZTMwM2M3YzQyN2YyNzQxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_25f52eb05727443aa60470a18449d9d2",
+      "statement": "Checkpoint storage uses a path-safe, uppercased per-ticker SQLite database, while each resumable run is identified by a deterministic truncated SHA-256 thread ID derived from uppercase ticker, date, and an optional graph signature.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py#L19-L51",
+          "version": "repo-lines-v1:sha256:c38d5f654b7b79173ef367790c7856a87193298a4200add45c1d4e136e88e48e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhZmRjMjk4ZmI4NGY0M2NiZjUyMzU4MjRmZGE4ZjIyZjExZmE5MGNlN2Q2MzYyMDY4Y2I0ZGI0ZTU2MTk1NTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZGQ0ZjQzOGVhMTU2MTg5YWE2Y2VlYjQ3YzY2ODZjNzY0ZGNhZmI0NDBmMDhjZTk0MGFjMDYwZjk1YWJiNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NTAwMzg3NTNjNGFlYTdlOTMwMGQ5M2MzZjBlZTBjMGZkMGJiNmM1NmQyNjNiOWM2Mjg5YmYzODI1Y2EwY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNjMzYmVmZDdjYjFhYWE0ZTcyNTBmZDRmNDU2M2VjNTg2NGQzMTY5OTRmMWU3N2I1MTRlMDkzODNjZDNmODIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py#L28-L38",
+          "version": "repo-lines-v1:sha256:88fa674bb29ee8e26acb8d0fc1ec2ac2bdd4b6e173e391bec6c5627de97e15a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5NGUxZjVkNDExMDM2M2EyZDY3MzQ3NjIwMjRmMTdkMmVlMzk1ZmRmMGUzNDNlNjQwZGZiMWIwYjZiNzQzNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlZWFjNDUzNzk4MjRjYjVjMDNkMmYwMjUxMTdmNjYyNDM1ZWNiNGRjYjFmYjgzMzBlOGYxNmUxZjY1NWQwYjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmNTQyOTIxM2UyMmRiZjdiZmIwMGUzNjA4M2UwYWIyZTJmOTRmYzk3ZGRmNTE0YmJjZDU2YjY5NDBlMjQxY2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5N2I4YTg4ZTYzYTY2NGQwM2U1NzU2YWJjOGJhMTkwYTcyZWRjNDU1OTMwN2YzYWZiNDJhNzFhZjNjYzMxNzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2152a470f556461b9273cf6c4aa412ae",
+      "statement": "Подпись checkpoint включает выбранных аналитиков, глубину инвестиционных и риск-дебатов и asset_type; изменение этих параметров меняет идентичность потока и изолирует несовместимые варианты графа.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py#L28-L38",
+          "version": "repo-lines-v1:sha256:88fa674bb29ee8e26acb8d0fc1ec2ac2bdd4b6e173e391bec6c5627de97e15a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5NGUxZjVkNDExMDM2M2EyZDY3MzQ3NjIwMjRmMTdkMmVlMzk1ZmRmMGUzNDNlNjQwZGZiMWIwYjZiNzQzNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlZWFjNDUzNzk4MjRjYjVjMDNkMmYwMjUxMTdmNjYyNDM1ZWNiNGRjYjFmYjgzMzBlOGYxNmUxZjY1NWQwYjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmNTQyOTIxM2UyMmRiZjdiZmIwMGUzNjA4M2UwYWIyZTJmOTRmYzk3ZGRmNTE0YmJjZDU2YjY5NDBlMjQxY2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5N2I4YTg4ZTYzYTY2NGQwM2U1NzU2YWJjOGJhMTkwYTcyZWRjNDU1OTMwN2YzYWZiNDJhNzFhZjNjYzMxNzEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L390-L402",
+          "version": "repo-lines-v1:sha256:8126d96b72a800ce9abd19f9683d44a7e8c35083ba405e2518d559b57e5dc8cc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzNDczNDZjN2MxZGJkNTAyNDc4ZTI3MzJkOTk1N2E3ZDU5NmZlN2M4ZTQ0MGUzYjUyNmU1ZDIxODZkN2JmYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyNzZjMWQxZjk3ODVlNTU2MGQwYmI1Zjc5YzJlOTc5OTk3YjcwY2RlZDFmM2I2OGVlYjBjZDE5MTBhZTIyN2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkYTI1Y2MyMjhjZThhZGNiMDYyYTVkMmY5YjI2YjFjMWZjNjBkY2JkZGQ2NWNkYjMyNDcxYTViYjhlODQ5M2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiNzhlZDdjOGE2MmNjNDVmZjVlNDQyNTI4NjRlZWU5NzY5MDc5ZDQ0NzI0ODUxMDUyZGQ5YzNhNjZkYTZkZmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b66d483c163c4a19b4c82484c8c3b487",
+      "statement": "propagate использует checkpoint_scope: begin_checkpoint открывает SqliteSaver, перекомпилирует граф и определяет resume по checkpoint_step, а finally вызывает end_checkpoint для закрытия контекста и восстановления обычного графа; ошибки до очистки не удаляют checkpoint, ошибки самого teardown не подавляются.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L420-L484",
+          "version": "repo-lines-v1:sha256:db4dd5bf99e06cbabcdf833c7d6f6beb5033a9f8454561df2527acef388e4d74:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZjE2OWM5YTM5YTVlZWFiYjU0YmExMmIzZThlOGFmYTFhNGQ1NjA4M2ZkMWJmYzljMGJlMTY1MDkwOWFjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhMTI4ZTdjZGY4ZTk2ZWI2YjUyZjk1ZjEwYjc1ZGI5NzkzODI2MTUyZWQ0NjRmZmU0ODE5N2RiMTk4NmJjMWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4OTcyZjlmMTBiYWYzOGM2ZGMzM2M2ZTFkY2FmZTA0Mjk4M2QwZTVlYjJiYWFhMmRiYzc3NjU0OThmMTg5YzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNGRkODdmMjQ2NTYxZGMzNDZiNmJiZjI4YjRmOGY3ZWQ4YjBjNTA5OTViZGQ3NmY4YzY2Y2Y1ODFkMGY0NmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bd1fe87adc6e4e6486824b3072f9ff08",
+      "statement": "В API после графа последовательно устанавливается curr_state, записывается JSON, добавляется pending, очищается checkpoint и обрабатывается сигнал. Ошибка JSON или append пропускает очистку без отката предыдущих эффектов; ошибка после clear может произойти уже без checkpoint. Очистка удаляет только строки потока из writes и checkpoints.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py#L84-L98",
+          "version": "repo-lines-v1:sha256:32924c163447bef6cf316097fce33f699d4c48c375263e48e7536aae83eb5d69:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkZDQ3NGQyMWRiMjFjNTNjNmYxZjFlOGI3NTA4ZTA1ZmUyNWUzMTRiZWU2N2M3MmY4YzY5NmIxNjJiZTc3YmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZGQ0ZjQzOGVhMTU2MTg5YWE2Y2VlYjQ3YzY2ODZjNzY0ZGNhZmI0NDBmMDhjZTk0MGFjMDYwZjk1YWJiNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiYTBkNWVjODE3M2QzMjQzZTBjMWE4NTAyYTM2Yjk2ODJlZTQ4NDk0MjQxMzY5YTdlOTY4OWY2N2UwMGFhMWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L558-L574",
+          "version": "repo-lines-v1:sha256:9035e93d4ce9a9fd82f425b4f3059a22d389ec1c162db1cd4d25ad77da7d6f8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ZmE1Njg3NmQxNjg4ZWUzOTVjMmViMjkxMmRjNmQ2NGViMzQ1YjFjNDdlZDk4YmM1YmNiYTBmNDYwM2IxZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyYzRlMmY2MTFhMzJkNDdmMmE0YjFlNjY5MzE0ZGIzNWMzZDU1ZjYxM2NjNjFhNDBmM2I2OGEzOTA2YmUxNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzMjE3MTQzODU4NGQ3MmM3MDA1MjI3OWU2N2IxYWMyZDBjMWIzNmNhYjBmZTAzMjU3ZmVhOTgyYjMyNTA5MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNzdkYTdiYTU4ODVlOTczYWY1MWE2ZjA0MjhiZmY1MTkwZGUyMGRmYzAzNjM4OTA0MjRjNjRhNzQyZGExMzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed3f5490c4664124b13c0fba89a526ef",
+      "statement": "safe_ticker_component prevents ticker-derived path traversal by accepting a bounded set of market-symbol characters while rejecting empty, non-string, overlong, whitespace-containing, separator-containing, null-byte, and dot-only values; checkpoints, JSON state logs, and default API report paths invoke it at their path interpolation boundaries.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_safe_ticker_component.py#L11-L53",
+          "version": "repo-lines-v1:sha256:c2fde9c879055e926f9f94682ad5b368b6b0c282ce880970ffc759f2548d6222:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMmQzNzNiZGM3NTgyZmNkOTY5NGM0YzcyOTI3MjIxNjliZDNjMWY4YTM1ZjA0MTczZjI1NTg3NTA4ODNjY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NTAwMzg3NTNjNGFlYTdlOTMwMGQ5M2MzZjBlZTBjMGZkMGJiNmM1NmQyNjNiOWM2Mjg5YmYzODI1Y2EwY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/utils.py#L9-L42",
+          "version": "repo-lines-v1:sha256:f6ac203361a37a575f1d6708b8191394c02d86fb0a863c6e335e9f49553435e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZjU1YWQ2NDZlMzUzMDQzNDI3MDhiZWFkZWUzMDU5MzA2ODNiYTMxOTBlMDkwOTIzZWMxMmUxMTkxYmE3ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5M2ExMzA2MmYxMGVlNGYxMjE4ZDkzZTM3YTZmODFkMzQ2ZmYxMWVjN2U1NWRkNTQyZTJkMmQyZWYwNzExZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhNTdlNzYzNzNjNjNiNGYwNjc1OTYwM2UzMGJhZDMyOGYwMzVhNzBhZmQ5ZTdiNWE0MWMyOTk1ZGM4MDgxNmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4Y2QzZjM0ODc0YjFjYjU3YzQ0NzQzMThjNjdhNWIyMmQyODNiNWIxMjMxMTgwZTkyODUyNWVjZTI4MGEyNDYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py#L19-L25",
+          "version": "repo-lines-v1:sha256:bccb2833ca54e88ae48617553bc4214908ef9f652289e16ad8aaf2c8ff388072:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFmZGMyOThmYjg0ZjQzY2JmNTIzNTgyNGZkYThmMjJmMTFmYTkwY2U3ZDYzNjIwNjhjYjRkYjRlNTYxOTU1OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDcwODJlMTRmYjVjNDBjMDJmNDYyMjA2NjI0MTU2MWZhMWMxMjc0ZGRiNTE4MzM2YjVkMTY5YmEwMjk5NWE1MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzc1MDAzODc1M2M0YWVhN2U5MzAwZDkzYzNmMGVlMGMwZmQwYmI2YzU2ZDI2M2I5YzYyODliZjM4MjVjYTBjYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGY5ZTI4Y2E2ZWQ4OWU3MmIwZWRjZWRlOGI2ZjhkOGUxNjNjOTE1OTdlZjVkOGJiMzY2NmU3Y2Q5ZTA5MjY4YyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L404-L417",
+          "version": "repo-lines-v1:sha256:996e9ec01dc4cccd2346a60ecd33cdcd0ae966da0675d08a8ba1be7e62b59c6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwMDM0MmY1YjRmMTEyODBkNTFkMjY4NjczYWUzMzgyOGI4OTQ2ODdmMDM1NDFmZTFhYmM3MGEzMGJlZDExMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmOTA0YTUyOWZmNGM4ZTY4ZWM1OTI1NGMzYzhhNDM0MTE1ZTQyOGI4Y2Q0OTQwYjNjNGNlZjAzOWJmMzU1ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4M2ZhMmQ5NWY4YjViYzdlYzVkZGZhZmM3ZDczOTk5OGI0NzU2Zjk1M2E5OWU5MThjNjU4ZGE2MTE0NTExOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwYWU2M2YwYTQxZDQ2OTNmMjRjYTI3ZGI0MzgxNDFlZjU2YjNlODg3OWMxYzcwODE1NmFjYzE5NzY5NzhhYWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L516-L524",
+          "version": "repo-lines-v1:sha256:c7a12c478c7f32210cd270dcd80e502881ef3b2aa8eb0b9d8d5fff92d799423f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWZiY2NmZGYyZjNhZmViNjI3ZmM3Mzk3NjY1ZTBiMWIyZGM4OGIxYmY5Mzc4M2Q0OWE0MjdmMGUzOWY1YzMwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFkYTc4MmMxZTg4OTIyOTVjYjFlOWMxN2U2NGVkZGIzZGJhNTE5ZmEyMTI5OGI0NGRmNzE1ZDY5NTM2ODk2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODhlNmNlMDYxMDA4MTgzN2Y2MjMzYjg2OWE4NTI1OTZiZGUzNjJjZDVlZTgwM2U5OTcyZGMyZWRhYWViMTgwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDljNDI2ZTcxODUwODYwY2Y3YWJkZjE2NTBhMGMxODY4YjEzNjU0MmJhMGRlMjkwMzcyYTI5MDAyZWM3MmMyMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_aefe0064595e443590edaf4b3e8afc25",
+      "statement": "The completed-run JSON logger writes a selected serializable subset of analyst, debate, trading, risk, investment-plan, and final-decision state to results_dir/<safe ticker>/TradingAgentsStrategy_logs/full_states_log_<date>.json using a direct UTF-8 json.dump overwrite.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L484-L524",
+          "version": "repo-lines-v1:sha256:7eb679cc89f89ae12024c91487a51bb72d3d700246cc2f845777c587d609643d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwMTEwYWYyYThkODhlODQwMTJjNGNjNWUxYmQwYjlhZjc1NzQ2MWY2YmQzMjYzZTBlNDViODU2MWFhM2I2MDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZGE3ODJjMWU4ODkyMjk1Y2IxZTljMTdlNjRlZGRiM2RiYTUxOWZhMjEyOThiNDRkZjcxNWQ2OTUzNjg5NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkM2FmNzBhMDRjNmVmYWNmNjU2ZmQzOTI5NjAzN2JiZThiZDRjOTI3ZjkxYzVkNmFmYTQzMGE0ODFjYzM3ZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5YzQyNmU3MTg1MDg2MGNmN2FiZGYxNjUwYTBjMTg2OGIxMzY1NDJiYTBkZTI5MDM3MmEyOTAwMmVjNzJjMjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_61ca42e1b3d3403e8ed8860fa8060d22",
+      "statement": "write_report_tree is shared by CLI and programmatic entrypoints and conditionally emits numbered analyst, research, trading, risk, and portfolio markdown files plus a timestamped complete_report.md; TradingAgentsGraph.save_reports defaults to a safe-ticker timestamped directory below results_dir/reports but accepts an explicit caller-owned path.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L763-L765",
+          "version": "repo-lines-v1:sha256:c3399c7c1ef1657d4a85f9562b3c43203b61cb8e0d5c66e5f3b5090b5bfdaa11:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzc1ZmQxODUyN2RiNzA3NDczYjAxZjVkMmY2ZDRjMjQ3OWQ2NzYyYmU4MmQ2MmEyYTNhZmY0MDliMWRhZWM4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWY4YjA4MmI4MWQ4Y2RjNjk3YTk2ZTNlYTAyYTk2M2U4NTRmYTlhMGQwZThjZGM4OGQ3OGJhYzM0N2FhMzVlNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTZkZmJmNDUzZjdmMWJlYmFiNzI4MzYxYjBmMzkzZWViNGMxZmI2NjhmOWVhMjJiOTE2ZGFjZjVkZmY4MWQ4MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTkyZWFhNGE0Nzc0ZWJmY2JiOTU5OGE1ZGM5NDU2OTQ1MzJhN2Y1OGFlNzUzNjQ1OTA1NDAxZDlmMTI5NzRjMSJ9"
+        },
+        {
+          "resource": "repo://tests/test_reporting.py#L22-L50",
+          "version": "repo-lines-v1:sha256:cd4ba4847b40de214b61161525a846f57d980bfeeca10ec462ab4d03b5e7029a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhNTE2MTAwMTBlMTQ3Yjc2NTIxYmMzNjNkNDgxZGYzMzYxMmFkMTkzOTIxZjUxYTNkNjM4YTU5MzM3MzhmOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmYmQwMDkzMTRiYzI3MDg0MTY3MzRhMDJhZTVmZjM5YTFlNDhhMDUwYmU5MWY0M2IyZmFhOTIwMDJjNjJiZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L404-L417",
+          "version": "repo-lines-v1:sha256:996e9ec01dc4cccd2346a60ecd33cdcd0ae966da0675d08a8ba1be7e62b59c6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwMDM0MmY1YjRmMTEyODBkNTFkMjY4NjczYWUzMzgyOGI4OTQ2ODdmMDM1NDFmZTFhYmM3MGEzMGJlZDExMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmOTA0YTUyOWZmNGM4ZTY4ZWM1OTI1NGMzYzhhNDM0MTE1ZTQyOGI4Y2Q0OTQwYjNjNGNlZjAzOWJmMzU1ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4M2ZhMmQ5NWY4YjViYzdlYzVkZGZhZmM3ZDczOTk5OGI0NzU2Zjk1M2E5OWU5MThjNjU4ZGE2MTE0NTExOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwYWU2M2YwYTQxZDQ2OTNmMjRjYTI3ZGI0MzgxNDFlZjU2YjNlODg3OWMxYzcwODE1NmFjYzE5NzY5NzhhYWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py#L1-L16",
+          "version": "repo-lines-v1:sha256:7cfea9a505b5a799c704c8f9a6714fe7cd464d5402ac10c87843e90e30acd733:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhMzU2YzcyNDM1YmMzOWY0MjRjYTM4NzM3ZWNkYzQ5MzY0OTFlYTg0NTdmYTZjNGM5MTgzM2Q1YmZhYWNjMzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYzAyODFiMGY1ODk2MjQ5YzRkY2U5MDkwZDAyOWYxZGExZTIwZTM2ZmNjOTRhZjc1Mzc4OGVmYjdhNzlmMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3ZGM2NGFiMzFkNDRmYjI2YzBjNzg4MDcwOWNiMzVkZmQ5NGQ2MjM2MDk0ZmQwOGFmNzBlNmU2NDUzYWYwNDkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py#L19-L101",
+          "version": "repo-lines-v1:sha256:aee591ea95d9972c1eb42ff4fc38d2e75b7c4e5b59b548be4b8ef3322e9a4c09:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWU4ZDY1NTk0ZjI4M2JiMzVjYzYzZDgwOGI4NmUwNmVhNGNmMDA3ZjYyZTg4NWU5ZTU2YjYxMzk0MWVhZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlMjhlNjBjNjNmYjQ3YmJjOTY1MTQ0MjZmNWUzNGEyY2QxYmI0MzQ1MzMwNzQyY2NmNDc3ODY1NTU2YTk5MWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkYmUyM2JhNjA0MzI2ODg5YzhmODAwMzQ3Yzg5ZDQ4ZmU1MzU3YzAxOTBkNjNjNGE2YTdjNDU2YTcyZGE4MDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9cdfceea933949b4bbf4ea456555d52e",
+      "statement": "Default persistence configuration places results under ~/.tradingagents/logs, cache and checkpoint data under ~/.tradingagents/cache, decision memory under ~/.tradingagents/memory/trading_memory.md, disables checkpointing, and leaves memory rotation disabled unless memory_log_max_entries is set.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/default_config.py#L103-L105",
+          "version": "repo-lines-v1:sha256:db4174ea85cafcf40521a653b1f0e9ccc671be18c68030536f1ead119e5dfe2c:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDdhMmEwMzY4NDJlZTUwNzU5NjFhZGE3OGVjYzBmMzhmMDYzNmVkOWVkY2Y1NjU2ODhjMWM1MmQ0YWJjZjk3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGVlOTIwNzM2ZTMzNjg3YTg1OWJlMDQ2MjI1YmIyZjU5NDhmNzZhNWQ3NmJhZWExNzg5NzYzZjUyYTUzMGViMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzU3ZmI1ZmM0Y2IxZTU0NzRmY2FhZDNlZmRlMWNjYTU3ZGVkMzZlZGM5NjkzYWRkOGFhZDc2YzczMzE5ZTU0NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWRhNDFhMWVmNDhjNDA3MzUyY2UwYjg5YTZiMzA4NWJlMjA1NDBiMGZjNTNiMTY0NDg5N2UyMzNkZTQ3NzVjZCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/default_config.py#L71-L79",
+          "version": "repo-lines-v1:sha256:1522a42900bddf285502665e9b98114a948e5dfb0b0dcf7bed3ffbb103b8031e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDNkYTA3NjhkMjc3YjgzNjU3MzM0NzM3OTIyOTE3OThiNDVjNzI3YTQ5YWNmODFkOTc5ZTAyMjZmYjczMjQ2MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVjYjQzOTE5N2QyNDkwNTA4MmExYzVkNTRjZjdiN2VlZDdhODgyZDYyZjIzNmU1NDdkOWFkYzAzMjE1NjJhMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWQ1Mzg2ODkwYjFkNzdhYzM2MjlmNzg1ZjRhODA0NjU2MDg4ODJjNjczYTY1NWRmNmI0NDNhOGZiOWI4MjhhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2ExMTMzZDIzNjQyN2ViZTRmNTk0NDBiY2U1YmZmZTEzODBiZWYwOWM2MGRkMjk3NGFiM2Y5OTQ4YTEyYTJkNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_af06e91f5a7d4db0b825c863a3172d89",
+      "statement": "CLI напрямую формирует состояние и вызывает graph.graph.stream, не выполняя propagate: разрешение pending, чтение decision memory, запись нового решения и JSON-снимка остаются автоматическими эффектами программного пути, а не CLI.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1004-L1296",
+          "version": "repo-lines-v1:sha256:d650c1975ce546c4420e110cdfd9985be031dfc033a6aec6f8dea4ac50f28bad:eyJzZWxlY3RlZExpbmVDb3VudCI6MjkzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiMWM5N2QyNTBkNWNiODFkZjk3ZTE2YjcyYTQ1ODBmMzBiNmJjMDA1OTI2NDJjOWU3MDQ4N2IyZjk5OWExOTA3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiODFkYWUxNWNiNTkyMDc3MWI3NzE3ZmUwMGViNjg3MmJhNjYwYmI5ZWIzNmFhYjA0MDg5MThkZjAyYTY3NWQ2IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlZDUzODY4OTBiMWQ3N2FjMzYyOWY3ODVmNGE4MDQ2NTYwODg4MmM2NzNhNjU1ZGY2YjQ0M2E4ZmI5YjgyOGE1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxZjBmZmU0ZTFiMGQwZWU2ZWQ1OWQxZTg4MTgxYzBkMDA5ZjY4ODkxNmRiZTNkN2RkYjY4ZDBjNGQyZDRmNDA3In0"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L509-L574",
+          "version": "repo-lines-v1:sha256:5107a44340dd8a477855a73860af3aaeca8bc3102f98212333faf9acca1d5ff1:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwOGI3NWY4OGZmYTc3ZTA0NzViZWUyMWJkMTU0ZGJlMmFlMTVhMzIwOGM5MmQ5OTVhNmEzZTExOWQyM2M0MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyYzRlMmY2MTFhMzJkNDdmMmE0YjFlNjY5MzE0ZGIzNWMzZDU1ZjYxM2NjNjFhNDBmM2I2OGEzOTA2YmUxNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNDUwYjg0YTA0OWI2ZjlmMWNlN2QyNDQxMmNiOGYxYTIxYjg5ZjBhYzljYWMzOTNjNDRiMDMxNzEyYTU0OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNzdkYTdiYTU4ODVlOTczYWY1MWE2ZjA0MjhiZmY1MTkwZGUyMGRmYzAzNjM4OTA0MjRjNjRhNzQyZGExMzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a8cd4ef01b244ec384690b38993e7463",
+      "statement": "CLI дописывает сообщения и вызовы инструментов в results_dir/ticker/analysis_date/message_tool.log и непосредственно перезаписывает непустые разделы reports/section_name.md при обновлении message_buffer; эти файлы отличаются от явного дерева экспорта.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1033-L1079",
+          "version": "repo-lines-v1:sha256:0e100bf1f17482f1427d69190f614498500e2d3dc38502658b2812c13c7ab797:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ODM4YTM5ZDAxM2MxMmM0Yzc4ZThmZDQ3MjgzOWMyY2RiZGU1ZmIxZTlkN2M1ZjM2YmQ0NzFjOWRmNzJmMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0MTBkYmEyMmE3ODZjNmNlODhjZDMyMGRhMDc0YzI2NjA4MWU5NTdiNmZmMzk3NWYzZThmODlhNTUzZjI4YWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRmMTRmMGU2ZDkzNGFkYjY5NjIwZjU2MTU3ODI0M2YwNjI4YjRmNWU4YWQxMzdiZGZkMTBjZmI4Mjg2NTU2ZWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllYTA3YTc3ZTlkNDJlODA1ZjIwYjNkZTgxMDZiMGQxOWJjZDhkZjcyZDAxZGZiMGY2MjExNjdkNTZjNjUxYzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7c20c63e54ea4735a65922e0cecc0d64",
+      "statement": "Оба caller передают результат begin_checkpoint в config.configurable.thread_id и используют checkpoint_input: None продолжает найденный checkpoint, начальное состояние используется только для нового запуска, чтобы не добавлять начальные сообщения повторно.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1130-L1144",
+          "version": "repo-lines-v1:sha256:30f029a75493c7a44a0b7ff4bb3f6a50541a090b372d6c0642c8c3985c772ba3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4YjRjYzMyOGY2NWI0OWQwODcyM2RlNzdhNmJlYTQ4ZTlhYWQyYzBlYjg3N2NmOTVjMDA0MWZhNjdmMDY1NzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmN2E5OTY1Y2MyYzM1ZjJlZjQ1ZWY2MDQ5ZDNmNDk1NzdiYjhiYTUwYWNmMjdiNTc5YzM2NDkzN2FkYzhjZWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2Y2VjMTRiNzAyMmM1ZDQ0MTZjZjU1MDk3M2IxMmEzZDBhYTRjMDA0NTVlOWFhYTc1NThmMTU4NTYwMDIyMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwYzEwZWJiMGMzMDQ2NDA3NDY1ZTQ2YmM4ZjdjZGEwYjY3ZjhlYjUyYzg0ZjUzM2JiNzVjN2U1ZTVmZTM4YmUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L431-L468",
+          "version": "repo-lines-v1:sha256:774abec205ef5dce1481fb8bf67c60db328a868188c85c8a856427090ee44c25:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5NzMwNmIwNTc0YmZiNTE5ODc0MmZkYzViMzAzM2Q4OGI1YzBjMWFhYWFhODc3MzI3OWY3NzY5MmE1ZDMwZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2MGY0Y2Q5MTJmYTI2YzdjMjM5ODE2Y2Y4MzI4OTdiODg2Yjk0M2Y3MzAzNWQwNDVmNGU1Nzg5ZGE0MTI5Y2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhYmIxNjc3N2Q2ZWQ0N2JkZGZlMTBlYjBhMGM5ZGI4OWY4N2IzZTQ5YWE4N2E1NThlMDJmMTU2YjE4ODA5YmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3NTRhYzJiZTdiOTUyYWNjZmRhNmEyZWY5Y2I5Mjk4MDViMjQyMmQ5YzdmYTFmMGM0MTgzMDY1ZDM5MzZhNzAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L529-L556",
+          "version": "repo-lines-v1:sha256:222e3c0fa5ddc875e734940871ed65c3e6d49c431c28b04260d139b79b07fbd9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MGIwYjVkNzJmYWQ3MjhhMzAxMDhmNmFkMmY4OGY3MTQyYTVkMTM1N2QzOTM2MDUwYjRmMGM4YjVmMTM2YzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5NTQwNWUzMDI5N2IwOGM3ODVkY2IyODc4NjJkYzVkYTkzMzk3MzdhMTljMjM1NzIzODQ5NjA5ZjdmMzc0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkYzY1NTYzYmVlMWU5NTQ4MDY1MTI0NjhkYzU4MDE4YTIyMjhmZDMzY2QzMTkyNGI2MmU3MTE2OGQ0MzI4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2MDAyYjM3NDc2MzQwZDNmMTk0NTYzNjFmODY1ZmRjNzQ3YjY0MzY3OWZjOTljN2E0ZGU2ODcxOThjNjYyMjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc642fd49c95452495da2bf965e7f5a9",
+      "statement": "В CLI begin_checkpoint и добавление thread ID выполняются до try; внутри try идет поток и clear после нормального завершения, finally вызывает end_checkpoint. Объединение trace, финальные разделы и экспорт выполняются после очистки, поэтому поздние ошибки не сохраняют checkpoint; ошибка экспорта выводится пользователю.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1130-L1296",
+          "version": "repo-lines-v1:sha256:6cc3148c2f28ddd9b25af1eb17a9d362b2a80a3005a2a0f4c6219e3ad0bac5c7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTY3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5OGI0Y2MzMjhmNjViNDlkMDg3MjNkZTc3YTZiZWE0OGU5YWFkMmMwZWI4NzdjZjk1YzAwNDFmYTY3ZjA2NTc5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiODFkYWUxNWNiNTkyMDc3MWI3NzE3ZmUwMGViNjg3MmJhNjYwYmI5ZWIzNmFhYjA0MDg5MThkZjAyYTY3NWQ2IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNmNlYzE0YjcwMjJjNWQ0NDE2Y2Y1NTA5NzNiMTJhM2QwYWE0YzAwNDU1ZTlhYWE3NTU4ZjE1ODU2MDAyMjA5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxZjBmZmU0ZTFiMGQwZWU2ZWQ1OWQxZTg4MTgxYzBkMDA5ZjY4ODkxNmRiZTNkN2RkYjY4ZDBjNGQyZDRmNDA3In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_5e84031b9886477cb4de85bb0e98f2da",
+      "statement": "resolution_date берется из даты бара инструмента на позиции holding_days и сохраняется как resolved в Markdown; расчет серий позиционный, без выравнивания календарей, а дата разрешения не является временем записи урока или максимумом дат обеих серий.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L233-L246",
+          "version": "repo-lines-v1:sha256:83935e206c56c5e4caea90e5e3c26c9d8a2b1db17aff9a34060de17df3f48f5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxYWJjZDBjYzY5MTNkNGY1MWViMjFlNGY1YWZjMmU5MGY4NmQzNmE0NTBiYjQyY2IwNWM2ZjNlMGQ3MDZmOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzNzhiNmMxYmE1Y2QyNDExN2M2OTRiMjUxNjA0NWEyZTI2NDlhOWQwMjc2MWYwNDU4MmRkZjcyMDZhNjUyMGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmMTY0YTBmZDM3M2E0YTdkMjgxY2NjMmJkZWQ0MGVmNDE3MDMwMzJmYTIxZGRiOGM1N2FiNzNkMDk0Zjc5NjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlODEzYmYzNjczNWU0NTk2NzJiYjc3NjhjODQ2OTc1YWRmNDRkNWNhZTMxNzFhZDFhNWQzNzUzZGQ1YmU1OGUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L295-L309",
+          "version": "repo-lines-v1:sha256:ecad5af83311d00020889a6ae6033320fb0b2c427aca1600434d299c29216935:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0NDQ4YWE5NmRhYmQyYWY2YTllNjA0MjFkNTZjYjM3NjdhNDkwYmUzOWFhYTRlNjZhYmIzYzAxYmEyMGE4MTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlYmQ1YzM2M2Q0MDU2ZWM5Zjg2NTk5NzczZDFkYjQ1MDllZDIyOTA2OWY2ODU1Y2YzNDAzYmRmOGJhMDM4MjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyNDA1ZmIyZTgyM2RjZWEyZjE1MWJjMzIwYWVjOTRkMDkyZmNlZDhiODgyMWZjMmE5MWVjMjMzZGViOGE5ZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMDQwOTdjNzNhMzQ0NTBlZDkyZmQ2OTU3YThiZGVhYjljY2VhYTYyYWMyYjAxNGQ1YjdjZDRhNjdhNjRkZDcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L297-L318",
+          "version": "repo-lines-v1:sha256:0d351ad1a419a16cf327b4fed4c177fef6e827a5920dd441f779f6848071a963:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkM2M3MWIwZWFjODg0MGY0NmQyYmRiOGJkNzUwNjIzZWFhOTVlNDdhODMzODg0NTkxMTc4NTJkMjFhYWQ1MzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkOWEwYzhhZjJmNGM0ZjJmOTk2ZDkzMzhiZmJjMGRhOWUxNjA5YmQyNzE1MTRmYWEzZjg0OTUxMDdjZTE0OWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyNzY3ZGQ2YjQ3MWNmMThlYmVmNGZjZDBmMDgzNDE2YWYzYzEzNTRiMmU3MjdjMzFkNjkyZGM5YWE2N2YzODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwYjZkMGI0ZmQ0OWRiM2YyMDg5MTdmMTdkNmZhMWJiY2VjZmQ3YzAzMDk1YjcwOGQ2OTkxYjhiNDcxOTY4N2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_aee35229df844f788f1e7602ef0fabc6",
+      "statement": "get_past_context с as_of допускает только разрешенные записи с известным resolved <= as_of для своего и других тикеров и исключает legacy без даты. _memory_as_of включает фильтр только для даты до локального сегодняшнего дня; сегодняшняя и будущая даты используют None и допускают legacy.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_pointintime.py",
+          "version": "repo-file-v1:sha256:869a1caa687628ba9c3c9779d912463b45d8c0cfb7a5361b14c181ca187ad72a"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L70-L107",
+          "version": "repo-lines-v1:sha256:213e3d153b6bc539c7410e2dc928411bf6a1a968af8abe1b15be1f2679727f54:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0YmUzZmUzNGY1YzM0YjliYzZkNzM4ZDRhZWJmMmNhNjlhYWQzNzkzYTU3OThmZDRkYWM2MDMyYWNlMzc1NDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyNmY3ZDZkNWJkNDI0ZmEyMTliNTk0MzNlYzQyMWFlODUyNmVlOWZlZjZjNzkyMTdjZTYyZWRlNjc5Yjg5MGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhYjNkMTYzZTQyZTA0YThjYTFiYTVlMjVhZDU1OWUxNWE2MjM2YzQ2NzUyOGU0NTY2YTIyZGZjNDU0YzQwOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjMzlmNzk3ZjQyNjg4NjY1ODNjMDBkZGNiZTAzYTQ1NmE2MGM3NmE2NjZjM2FlMzhkYTI0OWQ5NDZlZTQ2ODMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L379-L388",
+          "version": "repo-lines-v1:sha256:5d7d0391ea5bbbf214c18f38fdb6ea3de0dd8268041072f9c0b49d0bb6e97638:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTFhYmJmNTRkYzU4ZjMzMGFhMzZjN2IzNTM2NTlkNDI3NzRiY2Y4MmE0M2Y0MmRkYjdjYjY4ODAyOGVlMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZDcwNTI3OWI0Yzg3Y2MzZjNiYzk4MGEyOTgyNjhkOTg5NjcxODJlOWFjMDVjZjQ2MWMwMzgyNDZiM2FjOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkY2I2MDNmMDhiZTM4YzUxOGUwZjhlMWU1YmNhODcwMTVmYjY5ZGZhZjQzNWE1ZTVjNjNjZDJjNTJmMDIzZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmNTk2YzhkNzEzMDQ0Y2JlMmYxYzQyODY0NzUzNzlmMWRjMWRkMTA1YmY2ZTgxMzUyOGE3MGYzNDI0MmUzZjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f2a1ac47eb1f42a68884c3fea0ce882c",
+      "statement": "Историческая защита памяти действует при чтении: разрешение pending до checkpoint scope не ограничено as_of и может записать исход позже исторической даты. При resume новый начальный past_context не передается графу, поскольку checkpoint_input возвращает None.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L326-L365",
+          "version": "repo-lines-v1:sha256:092bdd87cd22f52cbfd744749bff48181fda1979e3c967bdeb41098409472ebb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMzliOWM5YTQ5YjU0NDk5NDRkMjA3NTJiOGE1YjMyNWNlOTNhNjY2MGZlMjFmMWIxZDIxZGVmYjVkNjlmNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTAwZGE1NTI4NDJiMGI3YjY3MGZlZjQxMzNiNTU1ZTQzN2NiYWQ5MDI0YWQwZmVlZmQxMWNjZWQzM2IwOGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5YWU0Y2VmM2YyNGUwMDA2MGQ0ZDk0MDUwYjM0N2U4MTMxNWUzNTliZGQxOWM3MjAwMDVhNWVhN2UyYjVlY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmOTE0ODNiOWM3MDVjMjk5ZDUxYWRkMTMwN2I3NGIyMzE3ZGJmMDllY2Q3OTMwZTc5ZGZjMGZkZWVhZTU2YTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L420-L468",
+          "version": "repo-lines-v1:sha256:ea7b6dca9d3d966d3840aae0ee80c48b0b161f6b5e11fd1de51ab1ab396104a5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZjE2OWM5YTM5YTVlZWFiYjU0YmExMmIzZThlOGFmYTFhNGQ1NjA4M2ZkMWJmYzljMGJlMTY1MDkwOWFjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2MGY0Y2Q5MTJmYTI2YzdjMjM5ODE2Y2Y4MzI4OTdiODg2Yjk0M2Y3MzAzNWQwNDVmNGU1Nzg5ZGE0MTI5Y2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4OTcyZjlmMTBiYWYzOGM2ZGMzM2M2ZTFkY2FmZTA0Mjk4M2QwZTVlYjJiYWFhMmRiYzc3NjU0OThmMTg5YzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3NTRhYzJiZTdiOTUyYWNjZmRhNmEyZWY5Y2I5Mjk4MDViMjQyMmQ5YzdmYTFmMGM0MTgzMDY1ZDM5MzZhNzAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L509-L535",
+          "version": "repo-lines-v1:sha256:442e7711c8209a5a74a1e1ee1c8878830662dea7c3f883b7a3a2df90f9c4312e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwOGI3NWY4OGZmYTc3ZTA0NzViZWUyMWJkMTU0ZGJlMmFlMTVhMzIwOGM5MmQ5OTVhNmEzZTExOWQyM2M0MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2NDg5NmZjYzNlZjAyOGIyOWQzYWM5ZDc4MTE4YjJjMDgwNTQwNTM4ZGZmYTdkODJjZDFjYWFkMzhhMGVkMDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNDUwYjg0YTA0OWI2ZjlmMWNlN2QyNDQxMmNiOGYxYTIxYjg5ZjBhYzljYWMzOTNjNDRiMDMxNzEyYTU0OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0MGNmMDY4NWFhOGNiMTVkN2YxMDllOWMzMTNkZjA4MmU4ZmQxOGZkYjg0OTAwMDkxNTM0NjExZjBlNzY0MzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_042022764d83449a8bfb397c8f1546f6",
+      "statement": "Контекст памяти отбирается в обратном порядке файла, не сортировкой дат; cross-ticker запись без рефлексии использует до 300 символов решения.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L318-L334",
+          "version": "repo-lines-v1:sha256:de249b4e36ffe7b2487864b96809ee2f6a09641d174c8b95270e79317819c435:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlY2FjNDhkODgwOGU2OWQ2NTNhMmQxOGMwNWMyYzIyYTNhMjY0OGU4ZmYxZGQ4NDc0MTdlNmRkOWQ5YjI4MGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkYjczNTA0ZThiZjgzMTM3OTZiNzFkNWJjMTAxZGUzN2M3YjJmZmY3ZjQ1NmQ5MjZhNWEzMTAyNWZiZmFlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzYjc0NDMzMDY1YmRiM2QwYzdlMTYzNzhjNTJiMzIxOTk4OTI3MjZlZTQ2YjM2NTA4YjJkN2U2NzVlOTRiOGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L88-L107",
+          "version": "repo-lines-v1:sha256:d6eee09f1372b4033e1e7ccb8d602a65e175a92c8dca1a6344181f9bbea81ee1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjAwNTBlY2VlZjMzNDdiMDdjNjIwMjcxMjYzMjAyOGQ5ZjNjZTI5OWI2OTcxNTg4NTIxZWMzZGZiNDc1M2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyNmY3ZDZkNWJkNDI0ZmEyMTliNTk0MzNlYzQyMWFlODUyNmVlOWZlZjZjNzkyMTdjZTYyZWRlNjc5Yjg5MGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRiZDdjOThhYzA5MjM4ZTNiNGZlMzAzNWQ0OTQxODdkOWE0OTYyODFjMzBmOWRjYWU5YjYyOTc2YzRhZDg3YjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjMzlmNzk3ZjQyNjg4NjY1ODNjMDBkZGNiZTAzYTQ1NmE2MGM3NmE2NjZjM2FlMzhkYTI0OWQ5NDZlZTQ2ODMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_67478206cde342c7a76272eec26208c5",
+      "statement": "Получение исходов обращается напрямую к yfinance, нормализуя символ инструмента, например XAUUSD в GC=F, но передавая benchmark как канонический Yahoo-символ; цепочки data_vendors здесь не используются и ключи памяти остаются точными.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/symbol_utils.py",
+          "version": "repo-file-v1:sha256:c2a46c1152bd6991b9ba59b61618b2ae58d3b8e88b40c96c1cb85e01ca32b7b4"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L287-L298",
+          "version": "repo-lines-v1:sha256:790d30b351a247d74b45d082e9b7a7482fe3184a3e8351883424e133626bceb6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1MjdjMjlkNjg3ZDdkODM4MmY5NGQ4ZjFhMDcyMmNlODNiOTliYWQ2YzZhNzdlNWIzN2JkMTc2NjNlOWFiN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0MGM3MGY2YmZiZjM3ODQxMWY3ZDA4MmZmNzZiZGMyZWZlNDM2YzUwNDAzYjkwNzNhMzgwN2I0YzhjM2UyZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4MDZjMWM4MmU4MDlhZDM4NzY3YTEyM2Y4ZTQ3ZTc3MmJmOTQ3ZmVmZWIwMzBiMTE5ZTI3ZDBmMTlkZmE1MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhZmRiY2RhNDdlZGY0ZmFkNzE1NjJkMzlhNTMzZmNiNGNhM2UyMzJmMzJiMTMxNDZiNWE3M2NjMTUwNzJlZmUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L336-L345",
+          "version": "repo-lines-v1:sha256:8a51bf8fe4e77b74f9a5cb2e9edc8c7bcf35d5e3ad4de726519b99567c098ff4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkZmEwNWFjOWFlODNlNDQ2MDA5M2QzZDQ3MTNhMGM2OTAzYTYzZmZmYmY3OGUzZWQzZWI1ZjZlYjc4MTViOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MDMyZTk2NGQwOTMyMzUxZTVkMTg1MjY5MjgxYjE3MWEzYTA5YjA4YjI4NmU2NjFlYTQ3MDMyM2M4MmViNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2MTFjZjA3YjZkNzdmZTcxYzM2ZDBjMzliZTJmZTAyYzE4MTZiOWY4MTE3OTRhNzVkZDg0MzBmNDEzZDY1M2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhODM0YTFlN2E3YjNhMzgyMzZkOTFlYzUzN2IyYmMzMjEzZWZkMzE4YWM4NTM2Njk0NGI3ZjI5NjFjYzA3ZWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7cf698d70fe4517afcf7e1461fa574d",
+      "statement": "Reflector просит у quick_thinking_llm 2–4 предложения по решению, raw, alpha и benchmark и возвращает ответ дословно. Исключения рефлексии или записи не перехватываются разрешающим циклом: ошибка LLM до batch предотвращает запись собранного пакета и новый граф, а успешно записанный пакет не откатывается последующими ошибками.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/reflection.py",
+          "version": "repo-file-v1:sha256:4386a66446cbe770e4d93c3928f2e501e8d4a44614dcc343625c54231e5ff37b"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L326-L365",
+          "version": "repo-lines-v1:sha256:092bdd87cd22f52cbfd744749bff48181fda1979e3c967bdeb41098409472ebb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMzliOWM5YTQ5YjU0NDk5NDRkMjA3NTJiOGE1YjMyNWNlOTNhNjY2MGZlMjFmMWIxZDIxZGVmYjVkNjlmNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTAwZGE1NTI4NDJiMGI3YjY3MGZlZjQxMzNiNTU1ZTQzN2NiYWQ5MDI0YWQwZmVlZmQxMWNjZWQzM2IwOGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5YWU0Y2VmM2YyNGUwMDA2MGQ0ZDk0MDUwYjM0N2U4MTMxNWUzNTliZGQxOWM3MjAwMDVhNWVhN2UyYjVlY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmOTE0ODNiOWM3MDVjMjk5ZDUxYWRkMTMwN2I3NGIyMzE3ZGJmMDllY2Q3OTMwZTc5ZGZjMGZkZWVhZTU2YTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L420-L429",
+          "version": "repo-lines-v1:sha256:848dd1cc36f4b6c3b873b3064178e07ca35af0c1e6c42b93e8b17ca4999644f3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZjE2OWM5YTM5YTVlZWFiYjU0YmExMmIzZThlOGFmYTFhNGQ1NjA4M2ZkMWJmYzljMGJlMTY1MDkwOWFjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MDMyZTk2NGQwOTMyMzUxZTVkMTg1MjY5MjgxYjE3MWEzYTA5YjA4YjI4NmU2NjFlYTQ3MDMyM2M4MmViNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4OTcyZjlmMTBiYWYzOGM2ZGMzM2M2ZTFkY2FmZTA0Mjk4M2QwZTVlYjJiYWFhMmRiYzc3NjU0OThmMTg5YzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExNTRiODc0OTIyN2RhMzg5NTNkNGY5OTAwNmE4ODA2NjMyZDU1OTNkYTQwYjRiMDM0YmYwYmNmM2E5N2I0NzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0cb8e465307f4806b3fe7aba9cfee4fe",
+      "statement": "clear_checkpoint подавляет sqlite3.OperationalError, поэтому возврат helper не гарантирует удаление; clear_all_checkpoints удаляет все *.db под checkpoints и вызывается CLI --clear-checkpoints до анализа, не очищая память или отчеты.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1312-L1323",
+          "version": "repo-lines-v1:sha256:07f374c3172b189689ae986afeb2bfb962d0d2e570e2f211c3298497deeaca4c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjNDYzNTljYjJjZGY3NzU4OTZlNWIwYzdmNzM1YWFjMTE4NjU4ZDNmMGI3MjI1NzY2NjdjYTY1M2RjZDU0ZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxODQ1NzFlMWZiOTc0MDYzOWY0ZmM0MmNlOGRlMGFkNDMwNzk0MWQxOTU3ZTM2N2IwYmEwN2QzMjRhMzc4YjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkOTM1NWMxMGUyZTYxY2IxNjNmMGRiMmM4YjBkMzc5NzUyYTk4NmZiZTRhZGRlNGRhYTBjMmRiYmRiZjdmNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3NmZlN2JmODE5MjI4OTVkOTI0YjQ0MDA5NjFhMTRhZmU1NGQwYzdhNmI0ZTNhYWRiOWJhMmUxMjVhOWRkZTkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py#L73-L98",
+          "version": "repo-lines-v1:sha256:18ff8e586ba7fd7aff2c8b116289baad6e9d7d4dff7cdd8ec0a9ca4fcaf3114c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwYWY5MjNiZWM4NTdiZGE1Y2E1Zjc2ZmE1MzA4ODE3Mjg2ZDU0YzlmODM2Zjg0ZDBiYTI5YjY3ZDZjYjQ0NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZGQ0ZjQzOGVhMTU2MTg5YWE2Y2VlYjQ3YzY2ODZjNzY0ZGNhZmI0NDBmMDhjZTk0MGFjMDYwZjk1YWJiNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNGY4YjE2NzdjNTU5NTgyZWNhMjhlZjUzYjIyODViZThlM2I5ZTcwNmVkZTIxMDk4ZTM1OTQ4YmFmNGJmZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a0db3fcddb4942318ec536ad9c48e6b1",
+      "statement": "JSON содержит выбранное состояние текущей даты и перезаписывается напрямую; экспорт отчетов также пишет напрямую, не удаляя устаревшие файлы разделов. 5_portfolio/decision.md берется из risk_debate_state.judge_decision. Общей транзакции этих артефактов с памятью и checkpoint нет.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L225-L229",
+          "version": "repo-lines-v1:sha256:59f34c1634a285f5b072e6b26bcb4d980d1d3920940139a6e4e370efff0756ee:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU3NzAzMTdjN2IxOWMzZTQwMjFiYzRlZGQ2YWQ4MGE3YTQ0NTQyYTBkY2Q5NzI5ZWFjZWYyNTk0NjQ1MmNiOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmU2ZDIxMzE3MjYyOWFmN2YzODQwZDQ5MGQ4ZDgzNWZiZTc5ZTY5MDlmYjFkMzVmOTU0MDllMGFiNTc2YTZjYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzNiMDA1MTEwYmZkZWZiYmNmMWIwYWMxZDQ5ZDExMGM0YmNjZjJkMTVmNmU0MzY2MTQyYzI5ZjUxYWM2ZGUyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGYxNjRhMGZkMzczYTRhN2QyODFjY2MyYmRlZDQwZWY0MTcwMzAzMmZhMjFkZGI4YzU3YWI3M2QwOTRmNzk2OCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L558-L616",
+          "version": "repo-lines-v1:sha256:8d4358328d20a80fb3cd3e317668ce08b520dcdec7872f6f1330bddca6701882:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ZmE1Njg3NmQxNjg4ZWUzOTVjMmViMjkxMmRjNmQ2NGViMzQ1YjFjNDdlZDk4YmM1YmNiYTBmNDYwM2IxZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZGE3ODJjMWU4ODkyMjk1Y2IxZTljMTdlNjRlZGRiM2RiYTUxOWZhMjEyOThiNDRkZjcxNWQ2OTUzNjg5NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzMjE3MTQzODU4NGQ3MmM3MDA1MjI3OWU2N2IxYWMyZDBjMWIzNmNhYjBmZTAzMjU3ZmVhOTgyYjMyNTA5MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5YzQyNmU3MTg1MDg2MGNmN2FiZGYxNjUwYTBjMTg2OGIxMzY1NDJiYTBkZTI5MDM3MmEyOTAwMmVjNzJjMjMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py",
+          "version": "repo-file-v1:sha256:4ce1da3df265ff22e4f33e70f135a9124ac1db74d69f13797857dd94a2ba451c"
+        }
+      ]
+    },
+    {
+      "id": "claim_d35e6c54b64c407fb9536d85f3fa486f",
+      "statement": "Явный save_path экспортного writer находится под ответственностью caller: write_report_tree не ограничивает корень, а save_reports проверяет тикер только при построении стандартного пути. CLI предлагает отдельный экспорт в cwd/reports/ticker_timestamp.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1281-L1296",
+          "version": "repo-lines-v1:sha256:ad385194ab916bea3e23116fa39b5615b6616603dd001ea23b0d36e8fb269edc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5NGMxY2VkZGIzOGRiNzRjZWJiYTI4ZmQwOGZlZGQ2ODVhMGFkMTIxMDc0MjJmODRjMTRjODA1ODgxMzRiNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MWRhZTE1Y2I1OTIwNzcxYjc3MTdmZTAwZWI2ODcyYmE2NjBiYjllYjM2YWFiMDQwODkxOGRmMDJhNjc1ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjNTQzYWVlOGJiMDMyMjY5ZDM3M2YzNThiM2M4ODkwYzI4NGZhMWVmOGNmYTY0ZTExNjcxZjUzNGNiZmIxNjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmMGZmZTRlMWIwZDBlZTZlZDU5ZDFlODgxODFjMGQwMDlmNjg4OTE2ZGJlM2Q3ZGRiNjhkMGM0ZDJkNGY0MDcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L494-L507",
+          "version": "repo-lines-v1:sha256:996e9ec01dc4cccd2346a60ecd33cdcd0ae966da0675d08a8ba1be7e62b59c6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwMDM0MmY1YjRmMTEyODBkNTFkMjY4NjczYWUzMzgyOGI4OTQ2ODdmMDM1NDFmZTFhYmM3MGEzMGJlZDExMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmOTA0YTUyOWZmNGM4ZTY4ZWM1OTI1NGMzYzhhNDM0MTE1ZTQyOGI4Y2Q0OTQwYjNjNGNlZjAzOWJmMzU1ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiZTM0MmJhM2ZlYTdmOTYzOWE4MTYxMjEyNzlmOGE5ZmQxYzhjYzEyNzFjNTUzNjg0MmYzZWU0OWFhYjgzZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY5YWZhN2IwOWI2OWEzNTAxMzNjYTJhNTIxMGNiZWQwZWI0NjYwM2UwNDIwMzJiOGExMWRjNDE4ZjA2YzE4NGQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py#L13-L16",
+          "version": "repo-lines-v1:sha256:49eabe705772833e254f502b13ffd0b6b9ea824776a1aa362bd3a7fe13e79cce:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTU0MWFiOWQwOTNjMWU5ZDcxMmVhNGM3NDcxMjA0NDgyYmM5YmVjMDg3ZWE1MWI0ZjQ2NTk1YWJhOWM3ZGVkOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjMDI4MWIwZjU4OTYyNDljNGRjZTkwOTBkMDI5ZjFkYTFlMjBlMzZmY2M5NGFmNzUzNzg4ZWZiN2E3OWYwZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTkxYmYzZDk2ZjFiMTE5Njg4ZGVlYTlhMDA0YjJiM2ZlYmIxODBiYjhmYjIzNDQ2MjU2MTRhZGM4NTk1NjNhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjdkYzY0YWIzMWQ0NGZiMjZjMGM3ODgwNzA5Y2IzNWRmZDk0ZDYyMzYwOTRmZDA4YWY3MGU2ZTY0NTNhZjA0OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8ee0d8c1cfc1427e9ed3c2aa7a61b226",
+      "statement": "Checkpoint-тесты используют небольшой двухузловой граф и проверяют сохранение шага, resume через None, очистку и изоляцию подписей; lifecycle-тест воспроизводит стиль CLI, но не полный интерактивный run_analysis или восстановление всех файловых эффектов.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_checkpoint_lifecycle.py",
+          "version": "repo-file-v1:sha256:d9878ba59afc9804a3fb71967d9fb32338d86d877c832553ccc5b8bee81e4602"
+        },
+        {
+          "resource": "repo://tests/test_checkpoint_resume.py",
+          "version": "repo-file-v1:sha256:5b460bf1e16e9cb0845da2e1266bd216dfe5c5f5a705079111722f5456630e82"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T14:23:37.397Z"
+  }
+}

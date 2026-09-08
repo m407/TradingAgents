@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:129223b3db5e05b251a1ec82926dfed77f3918a18df331ae338d67ce262b7533",
+  "claims": [
+    {
+      "id": "claim_b83a05a996e74cae9289bfefd1561361",
+      "statement": "The development test contract installs pytest, pytest-subtests, and Ruff through the `dev` extra; pytest discovers under `tests`, enables `-ra` and strict markers, and registers `unit`, `integration`, and `smoke` markers.",
+      "evidence": [
+        {
+          "resource": "repo://pyproject.toml#L36-L41",
+          "version": "repo-lines-v1:sha256:09944d0761353f021cbd548add3276186ed94ef1932c623f02ecf7cc2b53f913:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTkyMThkYzRjZTk3MWNiZTNkMzhkNzc0MzBlNjM5OTE4ODg0ZGQ3N2Q3MTg0YzdiOTNkZmRjMmU5OTg2OTFiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTQ0Y2QzYjY5MzdjNTU1M2IxYmNkZGY2OGMwNjNkODk3YzlkY2Q3ZGY5YzZmZTdmZTdjMDU2YzgzYmFiMmFlZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmI1YzdlYWEzNmYxMzFlNjVjOTI0NGU2MjY3NDIyNGMxZmE4YzMzNmVmNmE4MDU4ZDRjNDFmOTg3NzI3ZGQ0ZiJ9"
+        },
+        {
+          "resource": "repo://pyproject.toml#L57-L67",
+          "version": "repo-lines-v1:sha256:346358b64cafe681ba56a24678c03dd5f3a83271528aa630164b6f6d2a10e8c7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NzZlNjQxNDY1YTY1NTFlOWU5Y2ZmZDdmYWExZTZhNDJmOWI3MjQ4MDk4MTNjOTAzZDdlZGNiNTJmMzAwNmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlNTlkMWRmOTk0ODk1ZmQ5MWU5NDgyNmY4MjBmZjQ5OGM3MjI5YmJiM2U1NTQ0ZmE0OTUwNTAzOTNlYTU5ZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzYTM2NjkzZTc0ZWRiZjk5NjNiOTUzNDE5NjgyNDRhYWJkYmE3MDcxNzJlOWJiYTY4NGRmOTc5MDdiYTM5NTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3fd213df11144caa9590f218eafff73e",
+      "statement": "Autouse pytest fixtures preserve real non-empty API keys but replace missing or empty known keys with `placeholder`, and deep-reset the global dataflows configuration to `DEFAULT_CONFIG` before and after every test to prevent merge-based configuration leakage.",
+      "evidence": [
+        {
+          "resource": "repo://tests/conftest.py#L14-L37",
+          "version": "repo-lines-v1:sha256:0a1dafc31b79147ded4340a592526f29e568a7025da884e4ee13dbde501d67ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzNDlhODcwODhlZjljYmQ5ZTA2Y2U1OWU2NDM2ZTY2ZGRkMTdhMTYyMGE2NTgxYTMyOTVlYjA4NjA5YWIwYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFhMDk1YTYzMzg1NTEyODcwY2FlYzU4OTJkMTAzNWVlN2JkYjg0ODVjMGJlNDE2MTA4MjI3NjlmMmEwZDM3ZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhZDkyMzk4MmQ1NmE4ZTQ2NmFkZjUzNjhkYTllNDhkNGRmYjMxNWVmNDA1YTU1ODY5ODE4MjBmYzUyMGVjMWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlZjExYzliNzE2N2MwYWRjNDJmZWE4NTRhYjYzNDk5NzcwODE0YjBlNzE4MTAzYTllYzBmOWJlN2FmNjk5NzkifQ"
+        },
+        {
+          "resource": "repo://tests/conftest.py#L40-L56",
+          "version": "repo-lines-v1:sha256:958e92c76f1b6090096952d92ccdbf601a4c1d54b86da2025e3082486042e49c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMDg2NmY0MDExZTU4NWZmYzA5MDkyZWRmMDgzMmUxN2I1MmY0YzkwYzRjYTBiNDJkY2ZhMDUwZmEzNzViNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MGEwZjJjNzMxNzBkZGU2ZjY1MThlMTFlZWFiODkxYjIwMTJhZTI0MWRlNjk2OGM3NDFjZDkzOGQwY2Q3MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwMGY4MmQ2ZTAwOGFkOGEzNTg4NThhNzgxZGE0Yjg3YTU3NzgyYmVjZjZkMzEyNDdiZjMxM2U3OGQzYjUxYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzYmY2ODkxZWQxODZjN2ExOTk5MWM0NzlmYWFmZjgzNDNkNmRiNmM4MzcxNmE2MGY0YzZhOTY0YmJlYmI5MDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_92601dda93c346cba87e4ca038bc3d61",
+      "statement": "CI runs `pytest -q` after an editable install with development extras on Python 3.10, 3.11, 3.12, and 3.13, with matrix fail-fast disabled.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L12-L30",
+          "version": "repo-lines-v1:sha256:f138d8f6a4d6b70057eb28c57f0dee64b0d5d3b311f05d6074035c5b9a74d367:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjZjg1OWJhMmJkNWRmMDJhNzAzMTNjMjZmM2Q1ZDllZjMzZTU0ZGNhZTZmZGFiMGI5YmY5NDU4NmRiNzJlZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1MzA5OGEyNjYwZGFkN2I3YzgxYjg1MmYyYzk2YWExMjIxNzMzNWVlZTgyZDI4NDFmZTI1YWUwZWI0NTZlZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZjOWE3NjUwNjI4ZjAzNmQ0MzkzMzBlM2I4NTE4ZjZhNmI0Yzc1MDRlMTMyNWM5YjZjOWY1MDUyZjhhNmViMDAifQ"
+        },
+        {
+          "resource": "repo://pyproject.toml#L10-L10",
+          "version": "repo-lines-v1:sha256:a084fe5e23a79804f71c31e24f1d078b4e5a202665d58be4e827d822a527c851:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA4NGZlNWUyM2E3OTgwNGY3MWMzMWUyNGYxZDA3OGI0ZTVhMjAyNjY1ZDU4YmU0ZTgyN2Q4MjJhNTI3Yzg1MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA4NGZlNWUyM2E3OTgwNGY3MWMzMWUyNGYxZDA3OGI0ZTVhMjAyNjY1ZDU4YmU0ZTgyN2Q4MjJhNTI3Yzg1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjQzOTYzYzc0YjJmOWEzNmM5NGMxMTg0NzRmYzRjZGUyNTdiN2EzYjg5YTg5YWI5ZjZjZDg2ZWNmNjRmNDNkMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTNjNzQ4YTA5NDJlNjZjZjUyOWVlZDdjYWY0ZTg2ZjM3YzhiYTJjMDE5ZTRhNDllZmM2ODBlNjkzMTYxNmZkOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_64f898462bd348cc951f3bce5956eb02",
+      "statement": "CI independently verifies a non-dev `pip install .` on Python 3.12 can import both `tradingagents` and `cli.main`, protecting against undeclared runtime dependencies and packaging/import regressions.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L32-L46",
+          "version": "repo-lines-v1:sha256:eee0983e34083bcb5ab86bc9db7fa2947f378a330ec428f0f24a9da9861deeb8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjMzA5YjkxYTE1NTRmZjZlNDFmNTQzOWI2MTBlZWI4NWQzYWI3MWJmMmZlNzU3MWRkN2ZkMjVlMjFiMmVlMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwNGZlNTVmMDE0YzFmMjA5NzlmMjI0ODA4YWY2YmZlMTMxOGUwZDU1OGFjYjgzYTYzYTU0NTA1ZWVmMzdjMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIzZjIwNTNkMmI5MjQxNGRjYjA4ZjAwNDMyMTJhNzYwYjVjMmRjNTgzZjA5MjYyNGQ1NmI0MDIwY2EwZTczNzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzNjE1YzkxODQ5YTgzMWVkMmYzOWMwZTQ0N2JhMjIxYWIwOTNiNDk1NmU5ZTk5OTNkYjcwZDE3Mjk1ZDNlMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ac18bdd8428a47408283f32538792a69",
+      "statement": "The lint gate runs `ruff check .` over the repository; Ruff targets Python 3.10, excludes `results` and `worklog`, selects E/W/F/I/B/UP/C4/SIM rules, and deliberately ignores E501.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L48-L61",
+          "version": "repo-lines-v1:sha256:5bd0c6ac6a46cb728677c4afd30757f61895e7dc7ea243b9f83992cedfc3fb1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4ZmI3Mjc3ZmRkMjBkMmY4NDY2ZmM3M2I1ZTQyNzA0Nzg5YjA5OTkxNjYyODlkY2IxOTM1YzAwNDg1MTZlZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzZjIwNDVlNDdjMzZhNTIzMzY2ZjhmMzEyOTY3MTU0ZDUzYzZhNDBlYzdmOTQ3OTU4ZDA3NTdlNmJhNjlhZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzOTg1YjYzM2VjNmM5NDczMzVjMTYyZGFmZWU4M2I2MzBkNjU2MWU5OGY2OWVjZjZjZGI2ZjU1OWJjODY2NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://pyproject.toml#L69-L88",
+          "version": "repo-lines-v1:sha256:ab7be217535ea9211af4fc0575e0423abc6d0155de50bb9e11c515101bfa96c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NDVmYWI4NmIxMjFkYzg1YjRmNzg2NzMzOWExM2ZlZTgwNGM4YTAyZjQ3MTA2NTcyZjJiZjA2NjRkNTk1MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ODI3MmM1OWEzOGNhOGFiNTQ2NWQ0YjJjY2YyYjViZDdhNjE5OGI4YjUwOGJmNzExYzM0NzQ1MmYwMWQ5NGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3ZTg3NGM0NmU2MTNiMWViZmRkMTUyODJlZjMzN2EzOWNmZGU3MDcxZWQ5ZjQ1Zjg4ZjA0MDc1ZTcxMWEyMzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_24697a4dc7f74c3986cfd530614f6d13",
+      "statement": "Graph regression tests protect analyst selection order and compatibility metadata, while shared debate and risk path maps must cover every destination their conditional routers can return, including terminal and drift fallback destinations.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_analyst_execution.py#L11-L41",
+          "version": "repo-lines-v1:sha256:ed4b6524e7a8ea9449b0ea02dae2f4fc1a8a05d20feefe98f09c8d53b88031ac:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiOTlhNWE0ZTY4NWNiN2EwZmM1ZjQwZDdmMDAzYjdjMjkzODMxOGVlODA4YjU4ODFiMTFmNjJhYjgyYmQ5MjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYTVkZThhOWNkZTA0OGEyMTgwNzc3MjQ2NWQxZTE5OTM1ZjhkNjY5NDdiNWFkMDZhMWZjZGQ5ODUyNjc2YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkMzIyMmFmNDhhMmZiOTA1MDZjYzRlZGU3ZjBlYTgwNGRkMzI3MWU4Yzk4ZmRjMWFkM2RlYTY0MDFiMmFmYWIifQ"
+        },
+        {
+          "resource": "repo://tests/test_risk_router_path_map.py#L24-L81",
+          "version": "repo-lines-v1:sha256:8c67da5d8cf27098cedafb77e66e3e3289ecc6c1f018a683665e87445e63a5ce:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzODlhZWNlMzRlZjk1ZTNjYzNhY2ExODQ0M2E2ZDk2NjQ5ODMxZDAzNjViNTkwNGQwZjExYzhiNTk1MmFkODciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiMzI2MTdkYzYxN2YwZWUzZGI3YTkyNDNiZjJjZDQ0YmJkMDA2YTc5N2YyYmEyYzM2ZGRkZjg0MDU2Yjc4OTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/setup.py#L113-L154",
+          "version": "repo-lines-v1:sha256:7d714046efcfa28fd1aac28e049e1c8a18a0664e9c36077b8fee5e624ffb96d4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjMjQzYTg2YjFlZWFlYjQwOTU3OTJlMjAyMmMyYzVkOWVhM2Y3MThkMTgzMDk3NmQ1NWI2MGY0NDQ4YmRhNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwNzdmZGI2YTNkNDc2NzkwYWE5Njg0YzNiNjhiNjg4OGY5YzllNTY1OWVmMjJiOTI1NjU2YzhkODZhNDBlNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4ZmVlZmRiODY4NzgxNWM3ZjgxNmEyY2JhMzIzNmQ2NmRmNmVmYWE3YTcwMzllY2MzNzZmNjQxNWVmMjU4NTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhYjQ0MzhhYmZlZGFhZjM2NWEyOWE5NWMxMWFjMjc2YmRiMTM3ODVlYTUzZGJiY2VlMTQzMTU4MWVlNDI1MzAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/setup.py#L28-L42",
+          "version": "repo-lines-v1:sha256:ec5dba8a5644862bd79ce9b58d88428aa955b256e58d1c20335f21d12e0b5843:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1ZmU3OTAzNDc1NTUzM2ViZGFlMjMwYjk1YWVjZTNlNGM4Yzk5YWMzZTdmODA1Yjk4NDU2NzcxN2YyMTMzNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYzUyN2I2NzgyNDc1OTYzODRkYzc4YjZlZDAxZGIxMTAwNDVmNTUwOWQ2MWUzNTBkODU5ODE4OTBjODBmYmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYTYwMjEyMDY2MjU5MjE1YzI2Y2UxNmVmNzY1OTI5N2UzODc5MmZlOTk0NDBmNGQ4NDI4NjQ3MzgwNjZhMGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cffb2f2a93244f74b6645d5927edfb40",
+      "statement": "Structured-agent validation covers typed schemas, stable rendered Markdown, propagation into state/messages and free-text fallback for unsupported binding, None results and invocation failures.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py#L747-L779",
+          "version": "repo-lines-v1:sha256:75bcf3598265b9ab90119362bb33c37031f0fdaf6e15b474e2e75f9680d94509:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5NmMxNjRiNTA5ZTExOTdkYmQ5YzBiMjZhZTdmMjc3ZTIwNTk5OTE1ZTdjNDAxNjkwMzU2NDg0OTczNTY1ZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0YWUxMzliMGFmZTBmZGIwYTU5OTdlYTA3N2EwODU2ZmQwOWYyZDljODA0NzJmM2VlYmQ5NTMyMmI5NmRkMDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYmIzM2IzYjU1N2ExZjE3NGQ1MjU5NjQ4YmFhZmE2NTJkMTI0YzA3ZTQ0MTNiNzE3MTRiYWZhMGRjZDVjMjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzOGVjMWU2M2E3ZGZkZmNiMjMzYzhiZTUwZGI4YjNiZTBhZDM4MTJjOWMyNmU0YTUwYTU3MzdhZGFjYjUzMzIifQ"
+        },
+        {
+          "resource": "repo://tests/test_structured_agents.py",
+          "version": "repo-file-v1:sha256:72754f5af2c2346d56fbd8567c38e003689ba05d94205032fd0857516a7912e6"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/structured.py#L42-L89",
+          "version": "repo-lines-v1:sha256:0b692a13c4bc11d1bf4efde66a0ce473e16a0d300a7a45121b08b8913bea0229:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjY1YTM3YWEwN2RlN2IwOTE2NzZhNjk2YWY2ZmU0ZjBiZjczNDk0ZThiMmVhMTg2MmRkMzQxOWY2ZTMxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMGM4NDIwYjhhNTQ5N2VhZmQzMjU1NWE3MTg4NThkYjE4NjYwOWNmMjVlYjVlNTI4Njg0NDE2N2EzZTlmYjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_873b72b1a8be4c82854c89999a84de97",
+      "statement": "Schema-only agents include NO_EXTERNAL_TOOLS in rendered prompts; Sentiment omits tool-call date-range guidance while tool-using Market and News retain it, guarding against unknown-tool attempts and unnecessary free-text retries.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_structured_agent_prompts.py",
+          "version": "repo-file-v1:sha256:4aad14e7a59bf645fe9986878d5e8b8df0d26a5d52d88d0ce90ee71b3f7cc26b"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/structured.py#L31-L39",
+          "version": "repo-lines-v1:sha256:c21bf8b0d0f9f0a26763caef4f5c3810c7751e0924bd62956d79a541a7aff7fb:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmNjNzY1ZWI5MzIyOGNkMjYwZTQxZWEwZDE5ZTVmOGY1ZDdiN2NjN2NmNDQ0YzFmZDc2YWExNzAyNzU1NTExZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQ5NWVlZjAyN2E1YTg3YWYzMGU2MzJkMmRhMzM3MzczM2JlYzVhMTRlMTAyMzZiM2RjNzU5ZThkZDZmOTU1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDllY2Y1NzNmNDU0YzJjNzQwYTE3MWIwNDFiYWViNDI4NjEyOTVhNmQ4MGZkZjg1ZjM3ZGZjMDQxOWU2YWVkYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7ae37c53249e4bc2807aff7d99a16f30",
+      "statement": "CLI regression coverage enforces environment-over-interactive precedence for provider/model/language and debate settings, explicit checkpoint-flag precedence, symbol normalization parity with the data layer, and narrow translation of the Windows no-console failure.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_cli_config_precedence.py#L28-L69",
+          "version": "repo-lines-v1:sha256:5296cd1f533c32c005b0d4b126b240d8a2f84bc08b8fae619981b1be6a3b027d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlOWI0YjY4YWU3ZmYyZDI3YjZkMDRiNGUzYmM5NWMxMjkzNjgwNzRlYTQxMWY3MGRjZmM2NWZkYzJkYWY0OGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4ZTU5YzYxMDg0MjE1NWEyNDI3ZWYxZTgyMDA0MTk4MjNhODIzNzYyMTIwOTZhOWUyYzFkYzExNDA4MmEzYmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5ZjkzMDgzYzE5NzEyMWI5ODI3MDBiYThhZmFiZDE3MjJjZjFkM2U3NDA0NTA5ZTgwZWZhMjcyNDdmNjJmMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/test_cli_env_skip.py#L33-L82",
+          "version": "repo-lines-v1:sha256:c112e0cf44280909165cce799367b1bea8520165390f78c46d12be11f7b5e8ff:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1NTAzYjc5MGViYzRlZWQ3YzYwNDM5YzJkMWM0ZDRhZDFlMzIzMTRjZjExNTk5OTgyNTZlMDIyNzZjMDkxZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5Y2JlZWUxM2NjYzY2OGQwYzQ2ZTAwZDhkNDEwNzViYTIxYTA1YWUxNDZmOWI0ZjAxODFmNDc3MzI0ZmFkNmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tests/test_cli_no_console.py#L29-L57",
+          "version": "repo-lines-v1:sha256:17a69e9b38cd2858b3691677bcac9b2da3c906fb827ad102a5961ee3190702b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0MzE1M2U5YWFmODBiNmU2MTk5OTQ4M2UyNzg5ZGY2M2M0ZmM1ZTMzZWJkZGUzYzFlYmQwNzk5MGJlMjg0NzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0YTFkYTBmNTgzNjk4MGI5YTYyNTQ0ZmRiNDk5NjQzY2QxOTA5NjVhN2UzMzIzMTQ5N2YzOTZlNTM2NWJhMzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxNGMwZDNjOTA1ZWU1MjU5ZTIzZmIyY2UzNjk5NzZmODc4OWY5NTRhNWI5MGY5MjI2NTNkMTVmMDVkZjU1NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/test_cli_symbol_handling.py#L13-L62",
+          "version": "repo-lines-v1:sha256:733c5c80f07b41949e4c8dba3af113bd4e2e08974888a83c9d4c767fe300bab9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkYjk5NWQ1MWEyM2ZiN2Y2MTE4NWUxNjdjMDBmZmU0OTFkY2Q0ZGMxZjlmNzllMTlhNzMwZjk4ZDEyZjA1NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzYWIxYjM0NzA0MjYzZTlhMTRhZWYyZmJmYTIzMjM3N2E4MDFiZjczNjA4YmY5MDk0OTkzYWY3NDRiMTBjY2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3YjgyYmIwY2FlZjA5ZTRlN2NmNDM5MTliOWI0NDEyMGQ5MjFjNWVjYzU1NjU4OTYwMGIwODQxNjhjMjA1NjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_99023b7b47b34b67a739b695efc7d202",
+      "statement": "LLM provider creation lazily selects native Anthropic, Google, Azure, and Bedrock clients, while OpenAI-compatible providers route through a declarative registry that owns endpoint, client subclass, key optionality, custom-base-URL, and Responses API behavior.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_provider_registry.py#L16-L59",
+          "version": "repo-lines-v1:sha256:b8193e85e77f0ecc62f021c82d9cb50bd8ea82340ebeca7bd9c7c87fd738d6e3:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5YTJjM2I3MDEyNTljYmU1YjA5ZThjMTZkNDRkMGZiZWEyMDhhYTkzMGY1NzliZGFiODZmYzE3YTE2NjZjM2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/factory.py#L11-L54",
+          "version": "repo-lines-v1:sha256:392aded1b7e00ba0b3a4c9aa796d72736a59f630f9fa0d552e74fcb63d1b2e80:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4YzMxODU0M2QxOWI2YTAzNDE5MDEyOTMyYzYwNDg4MzhhNjI2NmE2ZjIwZWQwMjgyZDBjMGRmZGNhNTYxY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyNDVlMjQwNmNkYTAyMTk1OWI5NjAyZjJiNDg3NWRkM2Q0MjBjYTE1N2E2Nzc5MDQzOTRmZDgzM2ZlOWY2YTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhZmQ4MDhkOTM2ZDQ2MzcyZDdjMjlmY2FhNTQzMzc3MTA2MDkzYzRkYWZlZDMyNGFiNDViNzFjM2U5MmE0ZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L183-L233",
+          "version": "repo-lines-v1:sha256:4eaf1d9c48fd77c370e0b89b65106542ebc3bec99f7ccb668809f9ddc7c490c9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2OWExMzk3NWMyNTZlYzgzMjBlMjAxNjA4M2M5NmRmNjM3Y2EzZDM1YmViZGUyMzE0YmVlM2E0NzExYjU2Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxNzQyZmYzMDAyYTNkNzM5OWY3YWMzOGY0MWJlZjJhYTc2Y2ZjODU2NTRkMjcxM2VjZTU0NWY3MzhkM2M4MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmMTk3NjFjODU3NjQ3NThjZjVlZDViZjI5Y2JjNDk1ZDFkMDBjYzQzODFjMzA4YjhmYTEyODk2NjcyYTU1NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b39da329440c4135bb1f911bb59875e4",
+      "statement": "Market-data routing treats an explicitly configured vendor list as the complete ordered fallback chain, logs real vendor failures, returns an anti-fabrication no-data sentinel when a vendor reports typed no-data, degrades optional enrichment failures, and re-raises unresolved core failures.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_vendor_errors.py#L60-L101",
+          "version": "repo-lines-v1:sha256:6e2fb80c4b243940b936703f5ed5a62ae093f9f20dfaaafe4da09251718a60ae:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkMjQ2OGE3NWE1NDJjMGZkNmNkYjcxNjBmODM1YmM1MjIzNDNiOTk3YjI3NzFhNGExYzJmMTQwMDZjMWI0YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMTE5NTU3MDI2YzJiNGJkMzJiZjA3OTQ3ZGYxYmNjM2U5MzU2YzZiYzY2YWUyNDg4NjBlNWQ3ZmM1MmY3MWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjMzQ3YWY5MTEyOWY1MTUwMDNjOTMzYmFjZWJiODhmOTI2YTYxOGY4NjA3NjY3ZTA2M2NlOTllNzE3MjZlMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tests/test_vendor_routing.py#L58-L119",
+          "version": "repo-lines-v1:sha256:6e8cbbe8e81a26c3eafc0d675b129b74ef30db2cce813e284ad32f21c1a7c8d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhNDc4ZGE1Yjc3YWJmOTIxMTJjMjY1NTY5ZDI4ZjkxY2MzYjQyZDAxNGViNzFkMTk0Y2QwZTc1OGQ2NjUzNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMTE5NTU3MDI2YzJiNGJkMzJiZjA3OTQ3ZGYxYmNjM2U5MzU2YzZiYzY2YWUyNDg4NjBlNWQ3ZmM1MmY3MWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdiYmMzZGM2MDZhMWJmN2U1ZGYwMDMzN2VhYWU1MTNmNGMyM2RmMTAxNGJiZDI3YmQ5ZTE5MGNmNDc2NGUyYzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L168-L221",
+          "version": "repo-lines-v1:sha256:0e3a4257e57318b21eaa645e0f98614aa9aa17d547f2869bbd826f64befc768e:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiN2MzNzRiMTYyZGYwMmM4NmJhZjU3YTc1Y2M4MjM0Zjk0OGRlZTEyNDMzNDA0YzJmNjdiNzEwYjc5Y2U0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2YWQwNTJjNDRiOTUzZjBkODMyODZhMmRkZGVjMjE4NWU3ZjE4OWRiMGU0ZjUwMmM2ZjA2ZjM0NzU4NDU0YTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyZDQ5NTFiZmQ5ODFlNjhhMjU5ZjdkMTQxYjVhZTllMDA3YTQwN2JlZDI4MjU3NjhiY2FlMjIxY2VhNzlmZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhNmM0MGU3ZWE0YzAwZWJlZjRhZTAyMGY3MzI2NDFkOGEyMGMzNTc5Y2QyZTBkNmQyYzRmOWEzM2U2ZmQzMTIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L223-L262",
+          "version": "repo-lines-v1:sha256:8d78f459bc11002ab1e3b8de5b50089b64c7e4b8850d3e8e3632989ff8c0a78d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYWUzY2I1MGM5NDc2ODE5YjExOGVkMTczYWZmNDJjODdjYTFkNzllMGM1MGE5MDM2NDA1YTc3N2I4MTM0MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3ZWI3NTgwZDkzNWZjNDVkMzQ0YzBiYTE3MGMwN2Q3OTZkNGNhYjY3OWI0NDljYzU1NDYxYWM5YWQ1NDkxYzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwOGUxNTg2OGE4NGIyYjdlMGQwZDNjYjA0ODhmOWY0ZTU1MzQ3MDYxN2U4ZGVlZDlkNjFlODdlMmVhMTc2NzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_21b3ce36ca6a452890a67edc841ebbd2",
+      "statement": "Market-data correctness tests enforce analysis-date lookback, prior-trading-day behavior, bounded verified snapshots, same-day cache TTL refresh without refetching immutable historical requests, and rejection of stale OHLCV with the stale reason propagated to agents.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_market_data_validator.py#L24-L76",
+          "version": "repo-lines-v1:sha256:d80b8da4984ac783854f6ca9cf2dc6d7b28cee4485531d4af5020ea998600564:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlMjIwNWQyMzU0MjY5NjU2OTM3OWIzNjEwMGFjMjkyMTk1YTdlYjg1ODYwMDNjNjFkZTczZWVmYWUxOTMxZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MDhkMzhkNmYxMGUwMmFjZTllZjA0Nzg0Y2Y1YWRlMTJkZGZhYjQ1NjhiNjk5ZjM2YTdkMzlmYmVlZDNhNGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/test_ohlcv_cache_freshness.py#L32-L109",
+          "version": "repo-lines-v1:sha256:8632aded3b1304e2465bf1e27b00f0836caf0b3ac9fd1af02e6cc318d6ea0eac:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyNzA5ZDMxM2U2MWIwOGQ2MGZmNjAzZTNhNDcyM2ExMDgwZTJhOTk1MjNkMDViNGQ2NTVjNjE4NDJjYWQ0NjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkZDkzOWQ5MmJlN2VkNWUzZGNmMTQxYzRkZjA2Zjc2NjZiNTQwYWY3ZWRhODk5MjZmMThhMzUxMDg5Y2RjYzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/test_yfinance_stale_ohlcv_guard.py#L37-L109",
+          "version": "repo-lines-v1:sha256:74ba972608027821a7f08021bc0abc4969e9c5a79f6a2ff9d3dbdb8ca5483aeb:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1NmUyMzk2YmVlNDAwMzM4YzE5MGUxMDkyY2YwZmFiNjkwYzNmOTVlYjE4NDlhNWFhNjBiOGY4ODg1MmY5NjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzRhN2QxY2M3OTZhYmEzZTQ2NzIzMzI3ZjUxN2U5ZjgxMTk4MmQyNTBmMDcwMjk4NmU0YjU3NjRhZDk1ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9bcbbd81d88c49f8a15762fdf30eeb26",
+      "statement": "Checkpoint recovery uses per-ticker SQLite and deterministic thread IDs with analyst selection, debate/risk depth and asset type in the run signature; interrupted runs resume committed state and successful production completion clears the keyed checkpoint.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_checkpoint_resume.py",
+          "version": "repo-file-v1:sha256:5b460bf1e16e9cb0845da2e1266bd216dfe5c5f5a705079111722f5456630e82"
+        },
+        {
+          "resource": "repo://tradingagents/graph/checkpointer.py",
+          "version": "repo-file-v1:sha256:bee184bbb807a157b27742259be524d618e6cbfb4b5c189f887d21423937d263"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L390-L492",
+          "version": "repo-lines-v1:sha256:506b68bccd524afdb7c88c86b645fb832125a39837f1b93fd751cedad1e607bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5MzQ3MzQ2YzdjMWRiZDUwMjQ3OGUyNzMyZDk5NTdhN2Q1OTZmZTdjOGU0NDBlM2I1MjZlNWQyMTg2ZDdiZmM1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI1NTAzMmU5NjRkMDkzMjM1MWU1ZDE4NTI2OTI4MWIxNzFhM2EwOWIwOGIyODZlNjYxZWE0NzAzMjNjODJlYjRkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhZGEyNWNjMjI4Y2U4YWRjYjA2MmE1ZDJmOWIyNmIxYzFmYzYwZGNiZGRkNjVjZGIzMjQ3MWE1YmI4ZTg0OTNhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlZDMzYzI5ZTg5MmJlMGRiYWMwZTYxMzMxY2VhOTliNDcwZjAwNzMwODlhNmM0NmJkNGY3M2U3NDc3NWE4ZjkwIn0"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L558-L574",
+          "version": "repo-lines-v1:sha256:9035e93d4ce9a9fd82f425b4f3059a22d389ec1c162db1cd4d25ad77da7d6f8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ZmE1Njg3NmQxNjg4ZWUzOTVjMmViMjkxMmRjNmQ2NGViMzQ1YjFjNDdlZDk4YmM1YmNiYTBmNDYwM2IxZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyYzRlMmY2MTFhMzJkNDdmMmE0YjFlNjY5MzE0ZGIzNWMzZDU1ZjYxM2NjNjFhNDBmM2I2OGEzOTA2YmUxNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzMjE3MTQzODU4NGQ3MmM3MDA1MjI3OWU2N2IxYWMyZDBjMWIzNmNhYjBmZTAzMjU3ZmVhOTgyYjMyNTA5MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNzdkYTdiYTU4ODVlOTczYWY1MWE2ZjA0MjhiZmY1MTkwZGUyMGRmYzAzNjM4OTA0MjRjNjRhNzQyZGExMzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a613447ebcb447fbeb791e2fccebfb0",
+      "statement": "Memory stores decisions idempotently as pending, resolves only same-ticker pending entries when outcome data is available, persists reflected outcomes, excludes pending from past context and injects completed lessons into Portfolio Manager prompts.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py",
+          "version": "repo-file-v1:sha256:9c168b15ea624107c8bb6550b588114f6a068121a1e512d8e238d70d703d3dcb"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L326-L365",
+          "version": "repo-lines-v1:sha256:092bdd87cd22f52cbfd744749bff48181fda1979e3c967bdeb41098409472ebb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMzliOWM5YTQ5YjU0NDk5NDRkMjA3NTJiOGE1YjMyNWNlOTNhNjY2MGZlMjFmMWIxZDIxZGVmYjVkNjlmNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTAwZGE1NTI4NDJiMGI3YjY3MGZlZjQxMzNiNTU1ZTQzN2NiYWQ5MDI0YWQwZmVlZmQxMWNjZWQzM2IwOGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5YWU0Y2VmM2YyNGUwMDA2MGQ0ZDk0MDUwYjM0N2U4MTMxNWUzNTliZGQxOWM3MjAwMDVhNWVhN2UyYjVlY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmOTE0ODNiOWM3MDVjMjk5ZDUxYWRkMTMwN2I3NGIyMzE3ZGJmMDllY2Q3OTMwZTc5ZGZjMGZkZWVhZTU2YTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d6ee2a305e344250935bb1ce1532df27",
+      "statement": "The shared report writer provides CLI/programmatic parity by writing available numbered report sections and `complete_report.md`, and `TradingAgentsGraph.save_reports` delegates to it with an explicit path or a timestamped default beneath `results_dir/reports`.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_reporting.py#L22-L50",
+          "version": "repo-lines-v1:sha256:cd4ba4847b40de214b61161525a846f57d980bfeeca10ec462ab4d03b5e7029a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhNTE2MTAwMTBlMTQ3Yjc2NTIxYmMzNjNkNDgxZGYzMzYxMmFkMTkzOTIxZjUxYTNkNjM4YTU5MzM3MzhmOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmYmQwMDkzMTRiYzI3MDg0MTY3MzRhMDJhZTVmZjM5YTFlNDhhMDUwYmU5MWY0M2IyZmFhOTIwMDJjNjJiZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L404-L417",
+          "version": "repo-lines-v1:sha256:996e9ec01dc4cccd2346a60ecd33cdcd0ae966da0675d08a8ba1be7e62b59c6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwMDM0MmY1YjRmMTEyODBkNTFkMjY4NjczYWUzMzgyOGI4OTQ2ODdmMDM1NDFmZTFhYmM3MGEzMGJlZDExMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmOTA0YTUyOWZmNGM4ZTY4ZWM1OTI1NGMzYzhhNDM0MTE1ZTQyOGI4Y2Q0OTQwYjNjNGNlZjAzOWJmMzU1ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4M2ZhMmQ5NWY4YjViYzdlYzVkZGZhZmM3ZDczOTk5OGI0NzU2Zjk1M2E5OWU5MThjNjU4ZGE2MTE0NTExOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwYWU2M2YwYTQxZDQ2OTNmMjRjYTI3ZGI0MzgxNDFlZjU2YjNlODg3OWMxYzcwODE1NmFjYzE5NzY5NzhhYWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py#L1-L6",
+          "version": "repo-lines-v1:sha256:542c6326bf53ad9fc7ac111d5b57ceac44f328e03b5f97cc29a0e536139585a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmEzNTZjNzI0MzViYzM5ZjQyNGNhMzg3MzdlY2RjNDkzNjQ5MWVhODQ1N2ZhNmM0YzkxODMzZDViZmFhY2MzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWU3MzMyODVmYmY0MmU1N2RkNDU0MWI2MjI3NzdmNmE3MDA2OWNhZWUwMmFkYjEyYTZjMTU0NzY5NGNmNDA1MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTdiOTE2MTE1YTA5NDgwMWZlMjk0ZGZhMjFmN2Y5NDQ2YjVhMzk2MzYxYWNkOTg4ZGZiMWQyMmE1ODI4YTQ0YyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py#L13-L100",
+          "version": "repo-lines-v1:sha256:c978947d9cadb6971798802ce2f122cad52c797910d70ec1e9f7c5998575cd1e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1NDFhYjlkMDkzYzFlOWQ3MTJlYTRjNzQ3MTIwNDQ4MmJjOWJlYzA4N2VhNTFiNGY0NjU5NWFiYTljN2RlZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxNmZhOWI4YmNjYTQzZTU2NGE2NjNjMjg4ZTM1ZDIwMjFmZmI2NzkxNGVlZTJhMmM2OGI5M2FjZjkyZDFkNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5MWJmM2Q5NmYxYjExOTY4OGRlZWE5YTAwNGIyYjNmZWJiMTgwYmI4ZmIyMzQ0NjI1NjE0YWRjODU5NTYzYWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlMjhlNjBjNjNmYjQ3YmJjOTY1MTQ0MjZmNWUzNGEyY2QxYmI0MzQ1MzMwNzQyY2NmNDc3ODY1NTU2YTk5MWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_36e3f6c0a91e48e388bebb5ad992f9b7",
+      "statement": "The opt-in structured-output smoke script makes real provider calls only to the Research Manager, Trader, and Portfolio Manager, feeds their rendered outputs forward, runs the non-LLM SignalProcessor, and fails if stable downstream markdown markers are missing; it deliberately does not run the full graph.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/smoke_structured_output.py#L1-L19",
+          "version": "repo-lines-v1:sha256:958b103940971b511ed0c2cbbbe45973976a1a6d4a93d2c21cd56bb9b97deb33:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0NDI0ZjZmYjAzOTUzMGM0YjQ4YzdlMDRjMzhhNTlkNGRhZGVmMGE3MDY0NWVjZjY5NjIwY2U1MjBlMDE2NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDNlY2RkNGE0ZDEwZjE5YzczZmQ0MmZkMTI0MzdmZDMzNTRhODI2ODE2MDVkYTUyNTVhOTdhMzkwNjhkYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1YjZlODcwNmI0MzA0N2YyYTZkYjY3ZjEzMjYzODU5NTYwNGU2N2YzNjk2Njg3NmNlMDE1OGYwMDUzZTZiZDEifQ"
+        },
+        {
+          "resource": "repo://scripts/smoke_structured_output.py#L105-L147",
+          "version": "repo-lines-v1:sha256:298f0fd53f1ce7de165b439fc677b89f8398da19a0261317ca72373218c3c023:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNzIwNTI2ZjRiNjhjNGE0ZjUzODMzNWI0ZTYzZTgxZTYyMjEzOTQxNGUwYzlhNTkwOGQ5OGU5MTA1N2QxODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NzkwZjk2NDRlYzBjYzAxNzNmMGQxMWViNmVlMTlkYmYyNzFkMjcwZjExYWQ3Yzg1MmQ3YjRiODM3YWM4MzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0ZTA3MTQwMzBhOGIzZjc4MjAxN2Q5ODg3MTEzMDZkM2YxZDc1YjM0OTIxOWEyNzFiMjFjYTkwM2RhZWZkZTEifQ"
+        },
+        {
+          "resource": "repo://scripts/smoke_structured_output.py#L149-L170",
+          "version": "repo-lines-v1:sha256:64702d97914b0bc480af2f609f034b049e7a5b381a514389b464e71f6b3b9be7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5YTM4NDI0Yjc4NDcyZTQ4OTMzYjM4MTQwZGZlZTAzOGZmMzJiOWI4MjcyYzliNDY3YWE0Y2UxMzBhYjliYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2YzU5YzRlM2ExY2Q4NWE4ZDliMzg3Mjk5ZTE5MTI0YTdlYWY1YzVjMTc4Y2U4MGQ2NDFhOTM3NmM5NDY3MjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e1e71433abd44cd69de27b5915b3444c",
+      "statement": "The live DeepSeek structured-output integration test is marked `integration` and skips unless `DEEPSEEK_API_KEY` is set to a non-placeholder value, allowing deterministic default runs and explicit real-provider opt-in.",
+      "evidence": [
+        {
+          "resource": "repo://tests/conftest.py#L32-L37",
+          "version": "repo-lines-v1:sha256:8f2109ccff5f6437d776be52a29a1bc7414c0931d60bf17cfc379803b4443ad4:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYwODY2ZjQwMTFlNTg1ZmZjMDkwOTJlZGYwODMyZTE3YjUyZjRjOTBjNGNhMGI0MmRjZmEwNTBmYTM3NWI1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWEwOTVhNjMzODU1MTI4NzBjYWVjNTg5MmQxMDM1ZWU3YmRiODQ4NWMwYmU0MTYxMDgyMjc2OWYyYTBkMzdmOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTk4YjA2M2Q5YjQ3ZTY1Mzc5NjI1NTcyY2NlMTk3NjY5ZDU3NjdlMTJjMThiZTA3NTY1MmI4Y2Q5ODFjZThkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWVmMTFjOWI3MTY3YzBhZGM0MmZlYTg1NGFiNjM0OTk3NzA4MTRiMGU3MTgxMDNhOWVjMGY5YmU3YWY2OTk3OSJ9"
+        },
+        {
+          "resource": "repo://tests/test_deepseek_reasoning.py#L187-L223",
+          "version": "repo-lines-v1:sha256:d52d59d90b8b688d6c427f1d4ff0bbd73e67a31ede48116b1ae6112a3f1fcf0f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyNzc1ZWRmNmJkMTE4MDgzMWJjZjYxZGU2ZjY0OGMwZjIwY2Y0ZTc3ZjQwYmY2MjNjNjFhYTFmZGUyOTFjNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NzIzNWUzMjMxYzk3OTVmYTU1ZGNlZWM3ZjA4NTQ5ODIxNGQwNDgyOGI1MDdlYTE1M2Q1NDY3NWY2NDZiOTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4MjY3NmM4ODhjMWE0ZDlmYTc3MmZjZGMzMDJmNzczYmM3MjkwZWViZmY5ZGEzNmEzOWY0NGMzMjExOTgzODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzM5ZDU1YjFjNDA5YWVlN2MzMThhZThmZWU0ZjEyOWVlODM1OWViMjczNjU3NWJlYmI4MDcxN2E1Mzk2OWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c7e60f045163430480284c7c89e3edf3",
+      "statement": "AGENTS.md требует выбирать самую узкую тихую проверку, доказывающую изменение, сохранять полный вывод сбоя и считать исходники и тесты авторитетнее generated wiki.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L5-L8",
+          "version": "repo-lines-v1:sha256:e2b74f7d42c8238992a3d720938fd32ede67ade4a830564abd9c1cef507b82be:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWRiNDYwNjYwZjRkNTBhMjVhY2E3Nzk2MTAwMmQzOTcwNWM2NDZkYzI2YThiZmE2NmFlNmY2OTA5NTljNjk1MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNiMzA1ZGNiMTRkY2I0MTUzZTFhM2YyNTk0NjVjZWFkYWRjOWIwNDRhNzkzZGE0MjdkMmM0M2QzYTA5ZDQ5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWFmYjk2MDZmNWIwZDhmNjM0YjI2MDM3OGQ2ZWNlMjUzYjVjMTQ0N2E5YmYxZDA0OTM0OTQ0MGE4YjVlYmYwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjU1MjQ4YjYyZjU1MmY2Y2I2ZjcxMTA5YzgzY2E0OWZlOTU1MmU5NjYyYTBhZmNjZTdjNjY5YTJiYmEwZWMwYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc4ea6ca623f4ed9a656faae42026fb2",
+      "statement": "Dummy-key autouse fixtures не являются сетевой изоляцией; mock_llm_client не autouse, а prompt-тест Sentiment отдельно заглушает предварительные StockTwits, Reddit и news-вызовы и захватывает LLM prompt.",
+      "evidence": [
+        {
+          "resource": "repo://tests/conftest.py#L32-L67",
+          "version": "repo-lines-v1:sha256:af3fc1416910e612699b5fc180e307265611fe4a8ed7d20649b48d7ad3c5643e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMDg2NmY0MDExZTU4NWZmYzA5MDkyZWRmMDgzMmUxN2I1MmY0YzkwYzRjYTBiNDJkY2ZhMDUwZmEzNzViNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMjY0ZjZiYjk0Y2FkNzUwNjc1ZjlkN2QzMTZhNTliZWExZTcxYjRmNDU2NjUwZDUzZWZkNTNkNDU0MjZkYzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/test_structured_agent_prompts.py",
+          "version": "repo-file-v1:sha256:4aad14e7a59bf645fe9986878d5e8b8df0d26a5d52d88d0ce90ee71b3f7cc26b"
+        }
+      ]
+    },
+    {
+      "id": "claim_2b394e6b54c7450389e8bf68dd96ac5a",
+      "statement": "Environment overlay DEFAULT_CONFIG проверяется через очистку известных overrides и importlib.reload; неправильные int и boolean вызывают ValueError при импорте, после которого тесты восстанавливают модуль; сброс dataflows _config сам по себе не переисполняет default_config.",
+      "evidence": [
+        {
+          "resource": "repo://tests/conftest.py#L40-L56",
+          "version": "repo-lines-v1:sha256:958e92c76f1b6090096952d92ccdbf601a4c1d54b86da2025e3082486042e49c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMDg2NmY0MDExZTU4NWZmYzA5MDkyZWRmMDgzMmUxN2I1MmY0YzkwYzRjYTBiNDJkY2ZhMDUwZmEzNzViNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MGEwZjJjNzMxNzBkZGU2ZjY1MThlMTFlZWFiODkxYjIwMTJhZTI0MWRlNjk2OGM3NDFjZDkzOGQwY2Q3MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwMGY4MmQ2ZTAwOGFkOGEzNTg4NThhNzgxZGE0Yjg3YTU3NzgyYmVjZjZkMzEyNDdiZjMxM2U3OGQzYjUxYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzYmY2ODkxZWQxODZjN2ExOTk5MWM0NzlmYWFmZjgzNDNkNmRiNmM4MzcxNmE2MGY0YzZhOTY0YmJlYmI5MDQifQ"
+        },
+        {
+          "resource": "repo://tests/test_env_overrides.py",
+          "version": "repo-file-v1:sha256:fc5d0e2fb703f36d93cb44339f7e9e9d504ffa6a779a987f74bc682fe2aa379c"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f071c4da5374ac287970aab18d79573",
+      "statement": "Промпты Bull/Bear и трёх risk debators при пустых ответах оппонентов получают явный opening marker has not spoken yet, а реальные аргументы передаются дальше; тесты проверяют захваченные промпты, не поведение живой модели.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_debate_opening.py",
+          "version": "repo-file-v1:sha256:f3a441ad3a1d327a527b377985ed02eb5473f712bfb5b74227b66710272c9bed"
+        }
+      ]
+    },
+    {
+      "id": "claim_8bc389b809a1401b8a88befc8172984e",
+      "statement": "Trader получает Technical Market Report и инструкцию заземлять price levels только при непустом market_report; при пустом отчёте эти секции отсутствуют, но investment plan сохраняется.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_structured_agents.py",
+          "version": "repo-file-v1:sha256:72754f5af2c2346d56fbd8567c38e003689ba05d94205032fd0857516a7912e6"
+        }
+      ]
+    },
+    {
+      "id": "claim_e1ef25e79c324eb79de0a07be674ea47",
+      "statement": "Structured helper при ошибке structured invocation или render и при результате None пробует plain invoke с тем же prompt; ошибка plain invoke не подавляется этим helper.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/structured.py#L59-L89",
+          "version": "repo-lines-v1:sha256:bbb96ea0c3988d5d8ac53f860eac6e583ff2233082e7734ab6016bfadcb6d6f3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmODQ3MGZlYzE5MDI0NDJhMTU0NDlhMWJlNWEwZDhmOTk3MWRjOTZiMjEzMzQ1ZDFjY2I1ZGVjNzIxMDIwOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMGM4NDIwYjhhNTQ5N2VhZmQzMjU1NWE3MTg4NThkYjE4NjYwOWNmMjVlYjVlNTI4Njg0NDE2N2EzZTlmYjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczM2U4NDg3Yzg1ZGZkY2Y5ZmE3YjkzYzc0NmM5NDYyNWFlNDdlMTIwYzc5N2U3OTFlNzM3ZjllZDdmZmM3M2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a1b56f04225a4f7eb37ad7d4addae3c7",
+      "statement": "SignalProcessor детерминированно извлекает пять рейтингов без LLM и возвращает REVIEW при нераспознанном решении; parse_rating для совместимости сохраняет default Hold, а явный Rating и fullwidth-двоеточие покрыты регрессиями.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_signal_processing.py",
+          "version": "repo-file-v1:sha256:b8c9ccbe07358b73e2fc2f57de7e830f17e65e57615700c22281bc38e0861ad1"
+        }
+      ]
+    },
+    {
+      "id": "claim_69a7d9e8b16a4413be0c53f36d432f57",
+      "statement": "Общий checkpoint lifecycle используется propagate и CLI: begin_checkpoint перекомпилирует workflow с saver, checkpoint_input возвращает None только для resume, успех очищает keyed checkpoint, end_checkpoint закрывает ресурс и восстанавливает обычный граф; сбой stream сохраняет checkpoint.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1130-L1253",
+          "version": "repo-lines-v1:sha256:6f8427b8e8e95c25db95ac412b3b8427416aebf7675b18ddc2864f79195e19f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5OGI0Y2MzMjhmNjViNDlkMDg3MjNkZTc3YTZiZWE0OGU5YWFkMmMwZWI4NzdjZjk1YzAwNDFmYTY3ZjA2NTc5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIxNzRlYzliZDkwNzBhYjEwMWY1NWQyYTYzNjE0OTc4YTkyYWE3MTY0YmRlYmM5NzNkZDUxMDE0ZGViZWZiMDgzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNmNlYzE0YjcwMjJjNWQ0NDE2Y2Y1NTA5NzNiMTJhM2QwYWE0YzAwNDU1ZTlhYWE3NTU4ZjE1ODU2MDAyMjA5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJkOGQyMjdkMTc2YjRhYTg1NTNiODM3ZWNiMDY0OWVjNDEzNTllZjZhYTAyMDllYmJjNmU1NzljNjk2MWQzODhkIn0"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L404-L492",
+          "version": "repo-lines-v1:sha256:cac51208abc2e58fdfe1002dd76890e4e17e59633852923cf42913c59821cd2a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzODJhYTk5MzE0NjIzNDBjZTI2ODhhNTlkY2M4NjJhYWUwNGJjMjFkMDRkNjc4YzQwNjkyZjRkOGZmMGUxN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MDMyZTk2NGQwOTMyMzUxZTVkMTg1MjY5MjgxYjE3MWEzYTA5YjA4YjI4NmU2NjFlYTQ3MDMyM2M4MmViNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJiZGEwY2VkZTFiMTM1ZjEyMzU2ZmU3MDllYTFiNDE1YjIxNGIwYzRiOGQ3OWMxODQxMTdjNzUwN2ZkMGM4ZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVkMzNjMjllODkyYmUwZGJhYzBlNjEzMzFjZWE5OWI0NzBmMDA3MzA4OWE2YzQ2YmQ0ZjczZTc0Nzc1YThmOTAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L529-L574",
+          "version": "repo-lines-v1:sha256:e99487d710495a7ba4e2159b3268780bca3d39b2c924259d3d5cf9d618e28984:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MGIwYjVkNzJmYWQ3MjhhMzAxMDhmNmFkMmY4OGY3MTQyYTVkMTM1N2QzOTM2MDUwYjRmMGM4YjVmMTM2YzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyYzRlMmY2MTFhMzJkNDdmMmE0YjFlNjY5MzE0ZGIzNWMzZDU1ZjYxM2NjNjFhNDBmM2I2OGEzOTA2YmUxNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkYzY1NTYzYmVlMWU5NTQ4MDY1MTI0NjhkYzU4MDE4YTIyMjhmZDMzY2QzMTkyNGI2MmU3MTE2OGQ0MzI4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNzdkYTdiYTU4ODVlOTczYWY1MWE2ZjA0MjhiZmY1MTkwZGUyMGRmYzAzNjM4OTA0MjRjNjRhNzQyZGExMzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb948721556449d2be2a50bb4dae407f",
+      "statement": "Checkpoint resume/lifecycle тесты доказывают SQLite/LangGraph сохранение и возобновление на двухузловом toy workflow и bare TradingAgentsGraph, включая итог 11, disabled no-op и выбор initial input; они не запускают настоящий CLI с production агентами.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_checkpoint_lifecycle.py",
+          "version": "repo-file-v1:sha256:d9878ba59afc9804a3fb71967d9fb32338d86d877c832553ccc5b8bee81e4602"
+        },
+        {
+          "resource": "repo://tests/test_checkpoint_resume.py",
+          "version": "repo-file-v1:sha256:5b460bf1e16e9cb0845da2e1266bd216dfe5c5f5a705079111722f5456630e82"
+        }
+      ]
+    },
+    {
+      "id": "claim_3775e847cb8344bd8d302b4e77b03aff",
+      "statement": "Outcome памяти не разрешается до полного holding window как ticker, так и benchmark; _fetch_returns возвращает resolution_date последнего использованного stock bar, а неготовый outcome оставляет pending без вызова reflector.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py",
+          "version": "repo-file-v1:sha256:9c168b15ea624107c8bb6550b588114f6a068121a1e512d8e238d70d703d3dcb"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L273-L365",
+          "version": "repo-lines-v1:sha256:20c44520895114afff93ccfe3e0bb846557a1f3911cb8e880252151a11b2f073:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MTM2ZTE0ZmQ3MGQwZmUyMjQ4MzQ3MTkxNmU0MmYyMGQyNWY3MmQ5MmYwMTRjZjA3NzM4ZmQ1YmYwOWRhNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTAwZGE1NTI4NDJiMGI3YjY3MGZlZjQxMzNiNTU1ZTQzN2NiYWQ5MDI0YWQwZmVlZmQxMWNjZWQzM2IwOGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5NzRkMmQxM2Y0N2YxMmI1NmY4NjIzYzA2YjM3MmVhYzZhNGQyM2Q3OWJkMDljNWM3NGVlMWI0NzM0Yzc1NDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmOTE0ODNiOWM3MDVjMjk5ZDUxYWRkMTMwN2I3NGIyMzE3ZGJmMDllY2Q3OTMwZTc5ZGZjMGZkZWVhZTU2YTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_30f98fb8780441b1867aeadec1822b75",
+      "statement": "Memory log сохраняет resolved date и фильтрует same/cross-ticker уроки по resolved <= as_of; legacy entries без этой даты исключены из исторического контекста, но доступны без as_of; graph включает cutoff лишь для даты раньше сегодняшней.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_pointintime.py",
+          "version": "repo-file-v1:sha256:869a1caa687628ba9c3c9779d912463b45d8c0cfb7a5361b14c181ca187ad72a"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L379-L388",
+          "version": "repo-lines-v1:sha256:5d7d0391ea5bbbf214c18f38fdb6ea3de0dd8268041072f9c0b49d0bb6e97638:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTFhYmJmNTRkYzU4ZjMzMGFhMzZjN2IzNTM2NTlkNDI3NzRiY2Y4MmE0M2Y0MmRkYjdjYjY4ODAyOGVlMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZDcwNTI3OWI0Yzg3Y2MzZjNiYzk4MGEyOTgyNjhkOTg5NjcxODJlOWFjMDVjZjQ2MWMwMzgyNDZiM2FjOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkY2I2MDNmMDhiZTM4YzUxOGUwZjhlMWU1YmNhODcwMTVmYjY5ZGZhZjQzNWE1ZTVjNjNjZDJjNTJmMDIzZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmNTk2YzhkNzEzMDQ0Y2JlMmYxYzQyODY0NzUzNzlmMWRjMWRkMTA1YmY2ZTgxMzUyOGE3MGYzNDI0MmUzZjQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L509-L518",
+          "version": "repo-lines-v1:sha256:89804b673ab9658abeb9d93abe59b25bc724b5b9cb199c10bf10068d2e856b1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwOGI3NWY4OGZmYTc3ZTA0NzViZWUyMWJkMTU0ZGJlMmFlMTVhMzIwOGM5MmQ5OTVhNmEzZTExOWQyM2M0MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNDUwYjg0YTA0OWI2ZjlmMWNlN2QyNDQxMmNiOGYxYTIxYjg5ZjBhYzljYWMzOTNjNDRiMDMxNzEyYTU0OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0ZjYwZDk5NzFiOWE5MGZlNmZkM2VjNWMyZTUyYzYzNzRlZGM4YTQyOGQ5N2EyZTRjYTM0MDY0N2VhNjJhMjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fdd29753fb594f8b9ad3a4121fe2f13a",
+      "statement": "Memory context для другого ticker содержит reflection без полного decision, соблюдает лимиты выборки; rotation не удаляет pending, а обновление outcomes проверяется на атомарную запись.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py",
+          "version": "repo-file-v1:sha256:9c168b15ea624107c8bb6550b588114f6a068121a1e512d8e238d70d703d3dcb"
+        }
+      ]
+    },
+    {
+      "id": "claim_f4afcac8ff744490b4cda472b819af8d",
+      "statement": "Memory full-cycle тест проверяет store/update/context отдельно от PM prompt injection; full_pipeline_no_regression использует mocked graph.invoke, initial state и signal processor, исполняя реальный путь записи, а не полный live pipeline.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py#L716-L779",
+          "version": "repo-lines-v1:sha256:148a317cf0b126a404610cffa5976f379311537da9c66c06003f61e4a88310d1:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MTdlNjZlNzJkZGZhNTU2OTUyNTQwZmM1NDNjZDhmNGI1MzA3OGRlOTgxM2FkYzY0YmFkM2NmNjM2MWUzMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0YWUxMzliMGFmZTBmZGIwYTU5OTdlYTA3N2EwODU2ZmQwOWYyZDljODA0NzJmM2VlYmQ5NTMyMmI5NmRkMDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3OGFjN2VjY2I5ZTkzM2RhYzkyMTg4OTBkOTA1YmM0OGJiMGRmOTFhZmUxYTE2NjRhYzQwYWRkZjFmNzNjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzOGVjMWU2M2E3ZGZkZmNiMjMzYzhiZTUwZGI4YjNiZTBhZDM4MTJjOWMyNmU0YTUwYTU3MzdhZGFjYjUzMzIifQ"
+        },
+        {
+          "resource": "repo://tests/test_memory_log.py#L824-L837",
+          "version": "repo-lines-v1:sha256:f905d303e6c8b67bcafd4466b7b474e30153bf7fc4a22840282cf9e5b6c4bae8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjZGNiZDljMGY2ZTA0NzA1MmUyZDM0MGRlYTE1YWMzMzNjYjNiNmQwZmYyNWQ5NmFjMDA2YjYxZmNhY2VkMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMDBhMjdmNmQ1NDljYzExMTY5ZWQxY2RhYjJkYzZkYzc2N2IwNThjNzM4NmI2Mjg4NTZjZWRmYzkyYzdhYmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0Y2M5MDRlNjI0M2YyY2IwYTA4MjI5N2ZlMjVhZDExZmE3ZGNmMDE0NjUwODYzZDQ4OTZhNTAxYWFkZTUyODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzM5ZDU1YjFjNDA5YWVlN2MzMThhZThmZWU0ZjEyOWVlODM1OWViMjczNjU3NWJlYmI4MDcxN2E1Mzk2OWQifQ"
+        },
+        {
+          "resource": "repo://tests/test_memory_log.py#L867-L910",
+          "version": "repo-lines-v1:sha256:12ea453b38c36bc8ed8d93d9b554e247ae851b52694dad16c8289d4def3fb60b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5NjUwMWE0MmVmNjVkMTRkNGU1ZDI4MjJiYjA3ZTI3ZGRjYTM2Zjk2Y2MzOTQ5YTg1ZTk4NzRmZDBkNWNiYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1OGRlYmYxMTViZjRkZWQ3ZGNlOThhMDJlYmE0MjAwZjgzYmU5ZjliNDg3NmM0Y2IzNGJkMWRhOGNkNjMyMzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MmE2YzkwODllNTkxOTNjY2JjYjhiNTE5YTc3MDkzNGNkM2I1YjVkY2QwNjU4ZTcwNWE4MGM4ZWM3ZDkwMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b1b2cdcdeea4aaf9dcf2e771927a3e1",
+      "statement": "Capability regression tests различают exact IDs, шаблоны DeepSeek/MiniMax и default неизвестных моделей; только официальный deepseek/ namespace снимается для OpenRouter, third-party prefix сохраняет default, capability rows immutable.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_capabilities.py",
+          "version": "repo-file-v1:sha256:39aa3f06984a3264d2287f72b7175e80c322ddeaa3c8ef433aee6fd92fc86105"
+        }
+      ]
+    },
+    {
+      "id": "claim_802df205db864ae4839bc53fe6a59df3",
+      "statement": "Opt-in max_tokens проверяется на положительные int и числовые строки, отказ для boolean/неположительных/нецелочисленных строк и отсутствие kwargs при unset; graph направляет Google max_output_tokens вместо max_tokens, а env override проверяется через reload и последующее coercion.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_llm_max_tokens.py",
+          "version": "repo-file-v1:sha256:d843825da66c4c77c75c867cc918428f9288b01b46380e3fd6e8dd4d1f865931"
+        }
+      ]
+    },
+    {
+      "id": "claim_f358a5c25fe641419e9497a57b610c1b",
+      "statement": "Same-day OHLCV TTL требует refresh даже при уже присутствующей частичной сегодняшней свече; свежий cache не скачивается повторно, исторические запросы не обновляются этим TTL, а mocked load_ohlcv regression проверяет доставку обновлённой цены вызывающему коду, не финальность live свечи.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_ohlcv_cache_freshness.py",
+          "version": "repo-file-v1:sha256:228b8add276320c59b09f4db38a92571d130c45a25bcc3529ee2353009256954"
+        }
+      ]
+    },
+    {
+      "id": "claim_2adc41febd80402581c8c695ce62bfea",
+      "statement": "OHLCV latest in-range NaN Close вызывает NoMarketDataError вместо молчаливого перехода к предыдущему бару; старые NaN gaps удаляются, даты сохраняют локальный календарный день включая mixed DST и положительный timezone offset.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_ohlcv_latest_bar.py",
+          "version": "repo-file-v1:sha256:4e45a93eb67759ee95c13d5cb0df9d12bf6d373deb97f225ca189cd7bf1b1421"
+        }
+      ]
+    },
+    {
+      "id": "claim_c39c9970dcec47c198193c3a8672eddd",
+      "statement": "News/social in_window сохраняет конечный день целиком, исключает полночь следующего, переводит offset timestamps в UTC и исключает undated из backtest, сохраняя их в live; StockTwits/Reddit фильтруют recent feed по analysis window, а полностью отфильтрованные global news дают явное сообщение.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_news_lookahead.py",
+          "version": "repo-file-v1:sha256:69d4d7de252e12b137e345f2b3ae9d4eca49ec19bdc5646475ba04f7b3688d7d"
+        },
+        {
+          "resource": "repo://tests/test_social_lookahead.py",
+          "version": "repo-file-v1:sha256:6083babdb0179ebce630388f66ea32da2f23628af81bd076835133e592d71e8f"
+        }
+      ]
+    },
+    {
+      "id": "claim_255c3c8f262545f4875b2bc3e87cb3b8",
+      "statement": "Reddit использует RSS-first без JSON по умолчанию; opt-in JSON деградирует в RSS при 403 и IncompleteRead, RSS 429 повторяется ровно один раз с Retry-After включая ноль либо jitter, malformed/oversized RSS даёт пустой список и RSS отчёты не выдумывают счётчики.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_reddit_fallback.py",
+          "version": "repo-file-v1:sha256:f523e00f3afb75e6dcc2da6ca123b7806f2c371361264666ad023989589998d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_d996ce29f35f4ec5a6a9106b071cf1d5",
+      "statement": "StockTwits при проверяемых transport errors возвращает unavailable placeholder, а известные crypto пары преобразуются в .X, включая проверку запрошенного URL.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_stocktwits_resilience.py",
+          "version": "repo-file-v1:sha256:b2a1ff88cefecd2535bca5f0c93c441d2586a19eaf09b31c4506e319e80e3c9b"
+        }
+      ]
+    },
+    {
+      "id": "claim_0226ac2a3b5c4f89b9db4141a9cbbc1b",
+      "statement": "FRED revision regression проверяет vintage realtime_start/realtime_end на metadata и observations: дата анализа ограничивается сверху сегодняшним днём FRED в US Central, тогда как observation_end остаётся curr_date; mocked запросы доказывают параметры, не live полноту исторических данных.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_fred.py#L139-L192",
+          "version": "repo-lines-v1:sha256:9f2f6a47e3b2e07adbf1f06e74b3f1718ac3acf37a3831fb779e9d836ad4ee7f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTZmMjQzZjk2NjIyMmExOWU2NjczZGZhNTc3YzA4ZWQ3ZGZkYWE1Y2E0ZjQ5MmVjNzhlOTg1ZTE4MWE2ZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0YmU1OTQzNjhjMzIyM2U0YmIyYWI0MDRjNjI4MzEzMjI4Yjg3NDFkOTM1NzQ1MGI3MWQ0MDg1NjI5YjdiZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MmQxYTUyNGYwMmE4MTMzYjIwMDFhZTI3Zjk0OTAzOGJjNjE3Y2VlYTMxNGJlMTE2ZWJjODgyNGI1NWQ4MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b686d7931164115b8624bf013cbd7ee",
+      "statement": "FRED тесты покрывают aliases, missing-value '.', ограничение таблицы с расчётом изменения по полному диапазону и деградацию optional macro routing до DATA_UNAVAILABLE при отсутствии конфигурации ключа.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_fred.py",
+          "version": "repo-file-v1:sha256:4252546cb0bb3b1786d63c563c3f792ead0fc308af9a9fdb60b3296665d40db3"
+        }
+      ]
+    },
+    {
+      "id": "claim_a96d1c3f424744a1b543aaeafd6ac3ff",
+      "statement": "Успех live structured-output smoke доказывает наличие Markdown markers, но не отсутствие free-text fallback и не обязательный native typed binding: скрипт вызывает обычные фабрики агентов с fallback и проверяет rendered строки.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/smoke_structured_output.py#L126-L170",
+          "version": "repo-lines-v1:sha256:f9448288ce16c7c6b7a906f090f2dd59c7d5fbcbb27f5a379e87341a4126c5e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmNmYwODdkOTFmZGQ1NmY0ZjExNTg2NTVmODk2NWRmZjZiMjZhNjMyYzIxYjNiYjdlMjBhNjFkYzZjMmQyOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5NzIwYjIyNmZkMGFiODhjNTI2N2QzZWUwMDU5OGI3YTc1M2MzOGZiZGU3MTlmNzRkMjExNjNjMGYyYTQxM2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/structured.py#L42-L89",
+          "version": "repo-lines-v1:sha256:0b692a13c4bc11d1bf4efde66a0ce473e16a0d300a7a45121b08b8913bea0229:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjY1YTM3YWEwN2RlN2IwOTE2NzZhNjk2YWY2ZmU0ZjBiZjczNDk0ZThiMmVhMTg2MmRkMzQxOWY2ZTMxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMGM4NDIwYjhhNTQ5N2VhZmQzMjU1NWE3MTg4NThkYjE4NjYwOWNmMjVlYjVlNTI4Njg0NDE2N2EzZTlmYjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T14:23:37.397Z"
+  }
+}

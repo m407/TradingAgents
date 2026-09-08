@@ -1,0 +1,656 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b5881d5d71bd0cfe244d2fdcbea9fd20e31cd7abc229ba5c8fd3a82ea07a2ebe",
+  "claims": [
+    {
+      "id": "claim_ca7408cc59284138b9ff1efe5f02ee5b",
+      "statement": "Agent-facing market tools delegate to a central routing contract in `tradingagents.dataflows.interface`, where `TOOLS_CATEGORIES` assigns methods to semantic categories and `VENDOR_METHODS` maps each method to its supported vendor implementations.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/core_stock_tools.py#L1-L24",
+          "version": "repo-lines-v1:sha256:3c0ed4d0758ce20551bac0232c4642ece9c7962c307f30432aa20d5d74f77d28:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzZmJlYTUyNmQ5YjU1YWY4NTQ3Yjk4N2I2NWFhZGVlNDg3NGYzMTI3MTBlZGJhNTk1ZjRiMDlkMGU2MzY4ZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4N2RjOTFlMDgxMThhZmZjMmY5NjgxNmVlYzNmNDUxM2ZiNGQ4ZWY4MDIyOTA5OThmNzgwY2JlNzU0OWU1YzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L35-L78",
+          "version": "repo-lines-v1:sha256:ef25ddfc35d56b1d2077cb6dd9fe63e94d2ace10d9fc7d06bd8097788cd59f38:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0YzExODJmODg0YTk1ZDgwODVmNTRiODdhMzI5NjEyMzBjYzYzY2Q4NmVkYzQyNTBlZDc0NmRhZmY0MmQwYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1YzFjNDYyZTJhMzlkNzQ3NTlmNWUxYjEyNmY3NjgzYTJiNzMwMTE4ZTE4ZjUxMjJiMDhjZWRlZWI2NTBlMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1YzM2ODE2MjI1Y2Y4MzdjNTljMmFmYTIyYmYzMjNiMTUyNTNjYzUzOWE4NTNhYjBiNWU0ODk1YmE4OGZlMzYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L94-L144",
+          "version": "repo-lines-v1:sha256:e28d556d7f6fa041900355fe4e2d3980b9ae2dae7c5fcd5e36b1c6210f994105:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiYzc2OTJmODU5ZWM2M2M4YTIwZmRiOGRjOThhYmIzOWY2ZTg5NzhhYzgxYWExZTcxMmRlYjE3MzUzYTAzODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5M2Q0YmFmYTIxMzlhNGJiNWZlODQ4YmEyOGJmMTBkMzZkZGZiNzU4NDE3YmVkZjc2ZmZkMTI5YzNlZjIwYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1NzhhYTcwM2UyZGE0MTQzZjNhZmRmMzQ1OTZjYzQ2NTg2MTgwZWY5ZjI3N2U2MmQ2ZmZmNDVkYTlhOWE0MDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d7f632eda8504009aa35ab1c528d0c5c",
+      "statement": "Tool-level `tool_vendors` configuration takes precedence over category-level `data_vendors`; an explicit comma-separated vendor value is used as the exact ordered fallback chain without widening to unchosen vendors, while `default` uses all implementations registered for that method.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_vendor_routing.py#L58-L97",
+          "version": "repo-lines-v1:sha256:0663d43cdfa6f5d29bfa8337daee82630ca07124e90efa0164df221d63b8c7fc:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhNDc4ZGE1Yjc3YWJmOTIxMTJjMjY1NTY5ZDI4ZjkxY2MzYjQyZDAxNGViNzFkMTk0Y2QwZTc1OGQ2NjUzNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMzJhOWQ3MWRjZjMxNGY2ZTFiNWJiMTM4MzI3OWIzMjU0ZTkzZjc1NGFlNTAwMmQ3Y2RhNzJkNTI5YTQ4NDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdiYmMzZGM2MDZhMWJmN2U1ZGYwMDMzN2VhYWU1MTNmNGMyM2RmMTAxNGJiZDI3YmQ5ZTE5MGNmNDc2NGUyYzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxODA4NWNkNTVkYWVmZDU4MGFjNTk1OTQxMTQ4OTEzNDYzNDE4NGUxZmE0MjRlNGExN2JkOTJmMTY5Mzg4NjkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L146-L193",
+          "version": "repo-lines-v1:sha256:98083a78f7f9212670c3507c90943524b69630f6ffb6bae6c7bd6cd0c4ac9159:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZDY4NDQyMzUzZWY5OGIwMzZjOGI3YjUxYmQxMjEzNDk2MjY5N2YyNjM4ZDkxNTJmNDVjMGZiMmYyOWViMTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNjg2ZmUzNThiMWQ1NDc3MDMyMWU1MjMxZDIwZDQ4NGVkZTExMzVjMTE3NDQ4MThiMDVlMmZiODAyMDNjYTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3NmE1NDRjYzAyM2VkNDA1ZTNiOThiOGEzNTQwOTBmYWQxNmU5ZTE4ZDVlZTlmN2JhNmMzZTcwMDUzMDA5ZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMGZjZTY4OTQ3OTJmZTM0MWZjMGI2ZWY0MWI0MGQ5MWVmMmJjMjgyOWNhZDc3YzU1MmMyODlmZDZjOTk0ODMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/default_config.py#L128-L144",
+          "version": "repo-lines-v1:sha256:d45f0886c37d4a0dd25d3f0ba17c3c454276b1a6d36ba0bc1162c632f38e5e91:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmN2YzODIyYmE3NzEzOGRiYTJjMWM2OThmY2ExNjNmZTExNjc0MmQ2ZGJmMDMyYTk3ODdmNjZmMmIyZTkxZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1YzVmOWI3YjhkYjg0Y2JkMmZkMDc5NWJkYWRjMDlhYmJhZDQ4MzRjNTFhMmQxNjFjNTU5YTJkZTQ4NWFjNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkMTE0ZmQzYjUxNDVkZTUyMjYxOWVhOGUxMWRlMmRkYTRjOTQwMmQ5NmJlYmY1YmUxZjJkOTE0ZjNlNWM5MDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f0697ea7529b42e1a514798d933e55ec",
+      "statement": "The router returns immediately on the first successful vendor, advances through the configured chain on rate limits, missing configuration, no-data, and other logged errors, and preserves the first real error for the final exhausted-chain outcome.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_vendor_errors.py#L60-L101",
+          "version": "repo-lines-v1:sha256:6e2fb80c4b243940b936703f5ed5a62ae093f9f20dfaaafe4da09251718a60ae:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkMjQ2OGE3NWE1NDJjMGZkNmNkYjcxNjBmODM1YmM1MjIzNDNiOTk3YjI3NzFhNGExYzJmMTQwMDZjMWI0YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMTE5NTU3MDI2YzJiNGJkMzJiZjA3OTQ3ZGYxYmNjM2U5MzU2YzZiYzY2YWUyNDg4NjBlNWQ3ZmM1MmY3MWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjMzQ3YWY5MTEyOWY1MTUwMDNjOTMzYmFjZWJiODhmOTI2YTYxOGY4NjA3NjY3ZTA2M2NlOTllNzE3MjZlMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L195-L221",
+          "version": "repo-lines-v1:sha256:f5c8804315b957ca128cca9b85518fb80c2761df06506c02023e0989fca4edef:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxZTZlMzA4M2ZmODZmNWY1Y2JiZGViOWY5OWM3NWVmM2E4ZTI1Mzk4ZGQ5MTQzNTlkOTE0NjRkMWM4MTE3OGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2YWQwNTJjNDRiOTUzZjBkODMyODZhMmRkZGVjMjE4NWU3ZjE4OWRiMGU0ZjUwMmM2ZjA2ZjM0NzU4NDU0YTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4NTMwNzVmZWNmYmFlYWVmNDIzMTdiNmUyOGI1NjBmZTA2MTIyNTc5NzI1ODAwMjkxOGRmMjk5ZjIxOGMxNGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhNmM0MGU3ZWE0YzAwZWJlZjRhZTAyMGY3MzI2NDFkOGEyMGMzNTc5Y2QyZTBkNmQyYzRmOWEzM2U2ZmQzMTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_54913627c3a94572aa879b3b32c8b10f",
+      "statement": "When a configured vendor reports `NoMarketDataError`, exhausted routing returns a provider-neutral `NO_DATA_AVAILABLE` sentinel containing requested and canonical symbol provenance and a no-fabrication instruction; this no-data outcome takes precedence over incidental fallback errors, which remain logged.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_no_data_handling.py#L49-L84",
+          "version": "repo-lines-v1:sha256:d195cbabe5eb237e98c2878b1c0dfe1177f2ec84d56afad7a046eba43ab3e298:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMmI5MmEyYWRkODJlNDEzYTNlMDE4MTc3NGIzYTFiNDg0YTc2Nzc0ZDc2MTUyOTE4ZmE3NTY3NTI3OTNmNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5MWZhYjU2YjIyN2Q5ZWU5MjA1Y2YyOTY2YzhlZjdjMjE2YmIzNTNhYzZjYmY4OTU5ODIzYmQ0YmFmOTg0NDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tests/test_vendor_routing.py#L74-L84",
+          "version": "repo-lines-v1:sha256:404bb3856a8e13dd0260a307526cd2e4fd62038a81010bafdac1f5ad0f496008:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkZDk4OGVlYmUxNGRkOGIzMjc2ZDgyY2M4NTgzMWJjNzU0NTBmMzAyYzg5YjI2YTMxMDNmNTk2NDEyN2IxYWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjODdhNDRiNjg1NThmZjEzNWJkYzRhZDhjZjY2YWY4YWRiZDg0YTAxNTllZWQ5YmNhZGQ0ZmQ0ODc4YWU0ZWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4ZTMyNjRjMjBkODY5MzExNDQ2ZGQwZTZlMGU2YzRlMGIxODAxMGEwMmEzOWY1OWNlZDFiNWVhZTU1NGI4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNkMTg4MWJjNWZmM2RmOGRkNzMyZWVmMTE2MTUyNmZmYjNkODA3Yzg4OGZhZjI1MzZjOTEyMDdmZTc0ZDhhNTIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L223-L247",
+          "version": "repo-lines-v1:sha256:f571808b36c5328b15b05541b793b7c7a100930ffd9a66677e1d15f5e3fc62cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYWUzY2I1MGM5NDc2ODE5YjExOGVkMTczYWZmNDJjODdjYTFkNzllMGM1MGE5MDM2NDA1YTc3N2I4MTM0MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwOGUxNTg2OGE4NGIyYjdlMGQwZDNjYjA0ODhmOWY0ZTU1MzQ3MDYxN2U4ZGVlZDlkNjFlODdlMmVhMTc2NzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg2Y2M4OTk2NmVhNDNmZDIzY2ZhNGUwN2YxMWNiMmQ4YjZmZDk1MmM2Mzk0M2EyMTMyNzc3NTQ4YjM5NWExMjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bb2f8800656341a780ee708c1f9bfb05",
+      "statement": "Macro and prediction-market categories are optional enrichment: exhausted real errors degrade to `DATA_UNAVAILABLE`, whereas exhausted errors in core price, technical, fundamental, and news categories raise the original exception.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_vendor_routing.py#L102-L119",
+          "version": "repo-lines-v1:sha256:963877ef042543da50dd9b8037089269526d598c102a4aa88c79f8f740f03cea:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxMWEwN2M5YzJlOGM1NzI5Y2JjNGU0MjcwNGViNjNiOWUxNDhjMzgyOTE0OWZkODA3NzJjNDBhYjE3MGUwOWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMTE5NTU3MDI2YzJiNGJkMzJiZjA3OTQ3ZGYxYmNjM2U5MzU2YzZiYzY2YWUyNDg4NjBlNWQ3ZmM1MmY3MWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjOGVjOTdhZGNmYTY0YTUwODI1OWZjNDkzMDcwNDUyODA0Y2MwNTExN2IxYzVhZGM4OGM1NmNhMzM4N2E1NmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L249-L260",
+          "version": "repo-lines-v1:sha256:63c790a7dd9ca463880fc18938a5f3dcfbf2c96cf73a88841de1dfc79f65526a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkYTU5MmM2Yzg5NDJkYzdjNTcwZjE0NDM5ZGFmYWRmYmYwNDE3MjA5NDkyNjViNWE1NmQyODZiZDQ2ZTVjZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlYjkyNWVhYjkwYzkwNjk5M2EwMzljNGQ2OGY4OGIzZTlhZDI2OGJmMDc1ODA2MDhhN2RiN2MxNTFjN2JiNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiZGU1NTZlMDRhNGUwNGE0MmI2Mzc4NmFkMDQ0YjFkYzNhOTk1MjJlMTA2ZjQ5ZjU4MDcwZDQ4NzQ5MTE5YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjOGVkNTE4Y2Y3MjhkZjVmZTY1MzQ0NDIxZTQ5NjA1NzMwNzBiNmUzMTBjMTljNDYyMmE0OTUxM2U2NWZhMTAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L87-L92",
+          "version": "repo-lines-v1:sha256:aacb9f1e0d6469e71f63353ffe16fa6c9d23932a9d1058ee0e2c2c72da19adeb:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2YyMzA1ZjE5ZmY5MTgyZDI2Y2JhYTE0OTlkMTllZjNhMTVhMjk3ODU5MzVjYjViNjM3ZTExMWQ1NzU4ZWM0ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU1NDRmZjJjMTU0YTI4MmUxYjNkZGFjMjNiNTFhYmJkZTZjNTdjYTAxZGMzMmM2OWY2NjA5MzVjYWY0NGE1MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjQ3YjczMDE5ZjQyMjJhNzhmMDdjMTc3OTNiOGI4YjJhNTNmY2JkNTViNTVjZjZhMWYwMTNiNTVmNWY2NTgxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTIyZTZlMDc4MzNkNzJhMWQ4NTQyNzdjN2M3OWNiMmU5NDMxYmYxODBiN2JmMDFiMTVjNDc4YjZjNzQxMDhiOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_95932ab0a27748b3843e214310a8df60",
+      "statement": "The vendor error hierarchy is behavioral rather than provider-specific: no-data, rate-limit, and missing-configuration conditions derive from `VendorError`, and vendor-named subclasses inherit router behavior without requiring vendor-specific catch branches.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_vendor_errors.py#L28-L49",
+          "version": "repo-lines-v1:sha256:f1f15edeab0b6c8a0dff8e43b66a9f11673ea716e58dc82736cf6e63045569c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkNGFkNjgzNDFmOWRhN2I4MTZhOWJiNzg1NGEwNjk0NDAyMjM5NmNmMzZhYjk5NjhiNTBjYjcyNjk1M2ZmMzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2NTQ4YzA2NmY5M2Q0MjVjZTVkNTYwNGNjYjc2MjM4N2I3MWQ0YTY0YmY3YTc5ZTMxZmIxNzRmZWIzNmQxNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/errors.py#L1-L15",
+          "version": "repo-lines-v1:sha256:ba6271fa662d43c11c187d7ab3f9df4531157b1f9e60efa367c2311d317a4683:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyNGIwZDA2OGEyZTgwY2MzZGMwMzNlNWE2MGUzMzhmMjQyNjU5MTJjMTFiNTVjMTFjMGNjNGJlZTM4NDA2YmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjZjM1YzNkNGEwNTUyNGZjZTk1Njc0ZmY3ODQyZjMwNTlmNjI2ZDI1MGZlYjQ5ZTc3YTBlZTQxZDA5MjQxMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhYWY3NjM3Y2I2ZTdlNWRiODVkNjM0Mjc0NjAxNGRmMDQxY2NkNTU4YTkyMGIyOWViNmFjNzE5ZDdiYWY1YzIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/errors.py#L21-L54",
+          "version": "repo-lines-v1:sha256:182dc5724c6d532bce51248b46c8ca8857506f6b95907b15a62f922d25b37dec:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2MTIwZjE4MTVjN2Y5YmQ0MmQwY2EyZTAwYTM1MmQyNzhjYTMxMWUzN2EzNDFmYmU5NmZlNjQxNDYyNTRkOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3NDEyNGUzNTIzNzAzOGM1MjY1Y2NmMGRkNjljZTlmMmFjMGIyZWQwYzUxNGM1MjczNmZiMjUxMzM1ODdjMTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkYjQzNjM0NTNhNDU4MDA2ZWY4MzY3YWYyZTMxMmVhODU0NzY3OTBjODQxODViN2ZiY2Y1OTY0MDI3ODk0ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2YTcxNTI1NzJlZTg0ZjEwOTA2Yzc0YjlmMmE5MjQzNGRkYWIwZTNjNDI4MTNiMDRlNTk3ZWZjZWM5NTFiMjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3213a5a508f4477f8bb4e45f6cd1b1ee",
+      "statement": "Yahoo symbol normalization is centralized and syntactic: explicit commodity and index aliases are applied, known USD/USDT/USDC crypto forms become `BASE-USD`, valid six-letter forex pairs gain `=X`, and other uppercased Yahoo-native or equity symbols remain unchanged.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_symbol_utils.py#L15-L54",
+          "version": "repo-lines-v1:sha256:7ecec924895939e015014f372dcea02fdb5e0c48c3d861d7f6d80cfaa5b556ee:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0MTVlZjExOWM4YjM3NDkxNzI4NTcxZDQ5ZDkyYWJjOWU4NWY2ZTM1M2RmYzk4NjM1YTRhNGEyNmFjNzRkZWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/symbol_utils.py#L32-L80",
+          "version": "repo-lines-v1:sha256:7fcf46fe57e6df584b4cd72962b9c3c9e791a1ef139d173c92c16975921da51e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxZDFhM2U1OWJjOTA1MTEzMzg2NmE3Yjk4MTU2NTNmMGI4NDhiYzUwOTcyM2RhYjgyYTAyM2E1N2UzZjRmOWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1YzFjNDYyZTJhMzlkNzQ3NTlmNWUxYjEyNmY3NjgzYTJiNzMwMTE4ZTE4ZjUxMjJiMDhjZWRlZWI2NTBlMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFkMGQ0MTlhMmFkMmU3YjlmMWQ4YzU3YzhhNzYzYjRhMjQ5MDgyZGIwYTRlMmYwOThjYjk4YzI2NjhiY2JiY2IifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/symbol_utils.py#L83-L138",
+          "version": "repo-lines-v1:sha256:dc50772251ccf363e9dd29d6f11e4c5cf0bfc32cd9e2387b038559722496e419:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhYTM5NjYxMjI5OWYwYzZhZDViOGMyZGRjNmU4YWRiMzkwYTFiYTMyZjQwOGRkY2M4NDRmZDA1NmFjYTNmYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMzg2MzlhOGZiZTI4MWJhNDRlNDQ5ZDQyMzRiMDhhN2ZkOWY0N2JlYjhjOTIzZGQ1N2MyY2E1NjQzZDhlNjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmYjNlNjBkZThhNjYxMmMxNDUzNjljOTQyYzdhNzU0YTU1NmYzMzE5MzFlMGQ5MWU3ZGZmMTQ0MjM2NDg4NWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwZmJlNGM2OWJlMjc1YTA1NDU3MmNmYjcwNzY2MmE1OTRiNzcxYmJiZjdmZDU0YmVkZjg3MWNkYjQ3MDViNjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_393063214ea24511ab151813dd9cdbff",
+      "statement": "Yfinance-facing price, indicator-cache, fundamental, news, identity, and realized-return paths use the canonical normalized symbol while preserving the requested ticker for context or provenance where applicable.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_symbol_normalization_paths.py#L16-L74",
+          "version": "repo-lines-v1:sha256:5198354a518f433b37f49b9102de000c5125c13c7b6d0365159493312c58c735:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZjM0MjExZDZjN2MyNWZhNTFhMjI1MjUxZTI2ZTMzMDVkMDY0NTZmNzg1ZTNhODBjODVlODNlM2NhODMxZjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyOWQ2YWIzNjUyY2Q2YWRkMmVlZTdlYjY2MWY2YzFkOTI4Y2M5MjE0ZmQ2ODA2YWI3NDRhNDg3NmMyZGFmMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiNzI0M2RmMGY0MThlYjJjMDhhNWZjZjRlOGMzMzEyZGRhZmE3MTI3MDU0NzA2ODFiNjJkZjQwZTE0N2U4OTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhOWFhMTU1OTY5NGFmNzY0ZDlmZDYxZGU3OWQ5YmRjYmQ2NTIzYjNhZWZhMGVkNmZhYzkxZDAzYTNiOTY1ODcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_utils.py#L78-L119",
+          "version": "repo-lines-v1:sha256:94d1bac7fda9645755df7381374032f4710191aa792c36ba986f74aa21f40d17:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiMThjZDBhYzcwM2FiZThiOWU0MjViMmQ2MzU4MDhiMDNlZjA0NzRhMDZhNGE4ZmVmMTc5ZWUyM2JiMWUwNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTQ1MzExMDc5YmNjOTVhZDA5MmYwZDA1N2QxNjc0NjA4YzA3YjQxYjI4NjFjYjFmYjJmNzE1OTIxMDYxMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwYzgzYWViYjYwNTBhMmY0MjgzNGQ4ODhhNWRiOWJlMTVjYmMwODJmNWRlZTE2NjAwYTUzMzBiODA5Y2VmZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcwZDZmYjZhN2QzNGZmZDUxZjllZDcyMTljZGI2M2RiYjA0NzdiOWMwMTcyMWVmZGRmNWI5YTQ1MTNmZmY4YzMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L148-L177",
+          "version": "repo-lines-v1:sha256:dccf26b899285a62500a288519e0cc9bca400bbcb694abbf6a0f7015753ecccc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzZjJkZjk1NzY2MWI1ZTZjZWIyZTY0N2NhNGM5OWM0NjdjMzlhNzJiY2ExNThmMDIwMTYxYWE4MTFmNGIwZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmYzNlOTg2YWM4NDBjZmQ3MjYwOTFhOTc2NmU2ZDM1MjY0Mzk1OGZkMDQ4OTQ3NmFhMTE0ZDMwNDcxYjkzZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwYzM4OTg2MzhlODkyN2MzZDY2MmNkZGZkNThmMTkzYTRlMzg2ZjMxOWViNTc0ZGYwZGEwMTJkYzAwNmU1NDYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/y_finance.py#L18-L70",
+          "version": "repo-lines-v1:sha256:c7b23124b4ca17911b9707891b0d4114c6892ec6e16ce20ffea32634114b6598:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzNDQyYTBkN2EyZTU5ZGQ0NGI5ZWJhNjk3YWQ4Y2RjZTcwZDg4YWQ3MGM3ZGE4NzY4OWU3ZDIwZmUxNTQwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1YzdjNzQwNGMwYTAxZGJhMzcxZjNkMzA1ZWRmMDhiMjgwNDA0ZTg3NTMyZDQwYTM2N2IwOGUyYWQzNGIwYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhNjQ1MDAxODFiNzVkMDA1YzQ1MjczZWEzYjMxM2ZhZTI2MTAyMmZmMDIxMmFhYmMwM2Q1Mzk1NTlmMjNlZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmYmU1YzRlMjZkMzJkODBjOWZhZGZjNzJlNjcyM2VjYTIzMDI2ZWI4YTE4MWYwMmQ2MTBkMmVjNzNkNWZjODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_694dd43e80574d06b34dd5e5b523c2e8",
+      "statement": "Идентичность инструмента получается через нормализованный yfinance lookup с мягким отказом и LRU-кэшем на 256 входных тикеров; программный _run_graph и CLI оба внедряют instrument_context в начальное состояние, а чтение контекста агентами не выполняет сетевой поиск при его отсутствии. После вытеснения из LRU повторный lookup возможен.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L1113-L1125",
+          "version": "repo-lines-v1:sha256:4820057a3b73a6a47b827922817ccf56eb213370b93ebea7587ff83ee00083d5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MDcwNGUzYTQyMTExMzhiZjJhNTA3NDg1YWU5MGZkMThhMmNhZDI2MTM5MDU2MjkxZGM3YTViNjNlNTEyM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmNTZmMGZiNzExYWFhZDU4ZmU3Y2IwMzNmMjM0Yzk0MGMxZTZkYmExNTU4ZjcwYmRmNWEwYjIyYWQxYjE1YTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4NTg1MWFhMTI3OWFmMTBhNzhlYTZiNDg2OWExOWFjMjdkMjEwYzFjNmMyNGM2YWIzYzUyZDJmZjc2NDkwYWIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_utils.py#L92-L201",
+          "version": "repo-lines-v1:sha256:9ec70ef6099e34d82c172292cfca31e94bccbb3db72f5faf0b55a1e22afb0515:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0YjE4Y2QwYWM3MDNhYmU4YjllNDI1YjJkNjM1ODA4YjAzZWYwNDc0YTA2YTRhOGZlZjE3OWVlMjNiYjFlMDZjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzMGMxZjE4OGYxNDJlZDdhODI0NjgwYjIwNzE3MmM1NTE5YmM2MTRhNDhmZGE3Y2YxNjdlZGI4ZGRmNzk5NTZjIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyMGM4M2FlYmI2MDUwYTJmNDI4MzRkODg4YTVkYjliZTE1Y2JjMDgyZjVkZWUxNjYwMGE1MzMwYjgwOWNlZmUxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5OWU2ZDc2YTE1YjdhZmM2MjhjZTU0NTAwOTFiODg5Mjc4MjRiNGY4Mzg1ZjlhOWJlODFiMWJkNzFjM2UzZWM0In0"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L367-L377",
+          "version": "repo-lines-v1:sha256:1ff7bec50b4174fafdb9f3e99c62e92f94f1d16b1c9f9f3856d199612c4e4d67:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1ZjlhMmRlNTE4MDNiNmY5ZGE4ZmM4YjRhMDk4MzVjMmYzMWJiOTA4MmI2MjNkNGZjZGM4NGVkNzI4NTVjMDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4YTUwMjM1YmZhYTAxNzhkZDJjNmZmODhlNThhOWIzOGUwMWQxNGExNTU1OTg4NDNhMTliYzI2Mzc2ZDA0ZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmMDk5OWE5N2JkODc4YmVhYTk0NjUxYjYxODdiY2FjNDgyMTk2YzJhOWIxNDM3MTRmM2E2OTZhOTMwZWM5OWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlMDNjMGJjYzZjMmZjNzM0Mjg0MWU2NDQ3Nzk1YjZiYjg1OGNhZjQwOWUyMzJiODNlNjViMjc2NDBmOWJkMDkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L509-L526",
+          "version": "repo-lines-v1:sha256:7702fa344d4ea60977b1c9ab9844a212f5defc1ed75f1b64bbe3e8cfcd92279d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwOGI3NWY4OGZmYTc3ZTA0NzViZWUyMWJkMTU0ZGJlMmFlMTVhMzIwOGM5MmQ5OTVhNmEzZTExOWQyM2M0MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNDUwYjg0YTA0OWI2ZjlmMWNlN2QyNDQxMmNiOGYxYTIxYjg5ZjBhYzljYWMzOTNjNDRiMDMxNzEyYTU0OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NGUxMTg3MDhkMjdkNTY5YTE5MzA0MzgzOWFkODc5NDgzMzE5OTNiYTgyYjNmZDgzMGU4MTk1MmU3OGExMzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d097b62be2974d1d94ddd73ff6638e24",
+      "statement": "Yahoo-запросы компенсируют исключительную границу end дополнительным днём, load_ohlcv отсекает строки после curr_date, финансовые столбцы Yahoo фильтруются по окончанию периода, а FRED ограничивает окно observation_start/observation_end. Alpha Vantage включает обе CSV-границы только при успешном разборе: при ошибке фильтра возвращается исходный ответ с предупреждением.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/alpha_vantage_common.py#L116-L151",
+          "version": "repo-lines-v1:sha256:14fd1756f20295343d8bfe01abe1212f8b20c6113aa6b1b4b3f1cf261cbf076b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzNDU1NWYxYjk0NDBjNjY5OWIwMzkxMzkxNDQ3MzkwNWU1ZDcxYjVhYTkxZGI3MTcwYzM4OTFlNWQwNjJiMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlYTgxY2RjZWYyNzM5ODUwM2I3ZDBmYThmMjAyNDI1NmQxMjEyOGVjNzg4MTllNDI5OTczODQzNDAwMzI3Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhM2NmNTE5MjM1NGY3MTYxNWFjNTEwMzRiM2U5N2MyMGVkYTk5NjQzZmNhZjViYmU2ZDQxYWQ1OWJkMTIxNjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/fred.py#L212-L221",
+          "version": "repo-lines-v1:sha256:6445155992767da63491c60f53e3fa9e18e100db8968509736346f5a1e6ad669:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzNDA3Y2RlY2ZkOWNlNzQ0Y2FhMjliMzE2MWJmZjI0YzQzYjZiNzI1ZDhjNWU3MjNmMjFhY2NjNzcwODRiMmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3N2VhNTFjMjc3ZmMwYTM4NDA1ZDliNTdiODM2ZTYzMmMyODRhMmJmOTg0ODFlYThlZTQ5ZTE4MzI5M2E0M2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzYWVmM2ZjMGExNWI5ZWM4YjM5MDdiNTMyYWVkMWUzNThmOTcwYWUyYmNiYzNjYzIzMThjMTEzODBjNDA5ZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlMmZiYzAxNjQ4ZDkyZWRmMTFiYTYwZWY0OTkzZGQ5ZmIzYWM2M2YzNWZhZjBhYzZlMDcxMmVjMzU2NWVkMDcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L184-L282",
+          "version": "repo-lines-v1:sha256:0e0e1b593570629d59348e019ce1af68f2414613ce709525f478a32765d2c466:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzZjJkZjk1NzY2MWI1ZTZjZWIyZTY0N2NhNGM5OWM0NjdjMzlhNzJiY2ExNThmMDIwMTYxYWE4MTFmNGIwZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlODBmZDkwOGRjZDNjZTQ0NjlkYjc2ZTc1Zjc3Y2I2M2MxOTQ3YTM4ZjdhZjI2NTQ5MGRmM2Y5NzkwMWRmNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmYzNlOTg2YWM4NDBjZmQ3MjYwOTFhOTc2NmU2ZDM1MjY0Mzk1OGZkMDQ4OTQ3NmFhMTE0ZDMwNDcxYjkzZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3ODdiMzY2MzY4NmE2MWUyYWJiYjc4NTU2MGQzYzA4NDEzYzEyZjhkYTA3YjE5OTIwZjI4NjBmZWFmMWQwMjkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/y_finance.py#L24-L35",
+          "version": "repo-lines-v1:sha256:08f7734828b8886bed5e7b27e37aa54c955f65c5ad2d4fe799d313eae763e428:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYzNkMDhmOTBmOTZkYjc2YTYwYWMxODdmODJkZGViNjhkNWVjN2ZiMjkyNzc1Mjc3NjY0Njk0YzE3YTI2ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMTNjNTEyNmFhYzlkYzY1ODk5NmQzNDZhZTdjZGIyNGNjYThkOTE0YTI3NmVkNzdiYjRhY2EzYjcxMjEyZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjNmQ2MDI3YjY1MmUzMjE3ZTFlMDI3MzRjMzkxNzYxZWZhODUwMDg1ODdlZjk1ZTBlY2M1MmMyZTFiNzc5ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzYTdlYTYzYzc2ODNkYjUxYjUwYzg5MTk4ZTJlMjY3NmYyNTY5OTRhNWFiY2I2NzgyNjkzNDU0MjY4OTM4NzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8046a0cfd65e4cf6b6c991e420930f6b",
+      "statement": "Общий OHLCV-загрузчик нормализует даты и числовые поля и использует CSV по каноническому безопасному символу и текущему пятилетнему окну до завтра. Прочитанный пустой DataFrame или отсутствие Close означает промах, но исключение pd.read_csv для нулевого/неразбираемого файла не перехватывается. Пустая загрузка или загрузка без Close не записывается; непустая записывается до полной очистки и проверки последнего закрытия.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L184-L268",
+          "version": "repo-lines-v1:sha256:fa535726216c201805d7a75dba0eaca7783d13ba56c2721cdedd56c47c5a8cbc:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzZjJkZjk1NzY2MWI1ZTZjZWIyZTY0N2NhNGM5OWM0NjdjMzlhNzJiY2ExNThmMDIwMTYxYWE4MTFmNGIwZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjZjYxNjViYjAzM2JlNTRhMjE1OGY4YjBlNTcyZDg2ZjJjNTU5ODQzNTRkYjI3NDNmZWNhOWNhMjIzYjVkMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmYzNlOTg2YWM4NDBjZmQ3MjYwOTFhOTc2NmU2ZDM1MjY0Mzk1OGZkMDQ4OTQ3NmFhMTE0ZDMwNDcxYjkzZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyZmI0MmVlNTg2YjFiZmExMGZkZTIwMTJmYTU1YThkY2EwNTBjMDZiNTYwOWI0NDg0MWY4NjVjYTk2NmJlOTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a11f3267532447f8b9c5a81a9a3ab57a",
+      "statement": "Historical OHLCV requests reuse usable cache data, but current-day cache entries older than the 900-second TTL are refetched whether today's bar is missing or present, because a present daily candle may still be partial.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_ohlcv_cache_freshness.py#L32-L57",
+          "version": "repo-lines-v1:sha256:2e94c8f515d521ce2babe1b3c95efb32bb4701bfbdfecb87c4e8de5e43e483a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3NzJjMjgzZDAwYzVkYjMyZTI1N2EyYzUyMGJlMzNmYWQ2ZGQ5NTg3Y2JjYjVhMjJlNGI1Yjc5ZmQyZjQ1YTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkZDkzOWQ5MmJlN2VkNWUzZGNmMTQxYzRkZjA2Zjc2NjZiNTQwYWY3ZWRhODk5MjZmMThhMzUxMDg5Y2RjYzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tests/test_ohlcv_cache_freshness.py#L60-L108",
+          "version": "repo-lines-v1:sha256:20588435e9e14ed8c4f2cde26a9a40ee6ac27ec0c54c04e21e3be61345ef08e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNGViMGIwNDU3Zjg0NDA5YzMxM2NmZjdkZGQyNmNkYmU0M2E4YTU0MGFmNjFkNGZjOTJjMTFiZTMxNDQ5NWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0ODJlMjkwMGI4ZmMyZmUwZDFkY2E4NGI2ZTIzOWNiODdiNTk3ZTkxZDk2MGE1NDVmZWNhZmFjYmI1ZGQxMTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyNzA5ZDMxM2U2MWIwOGQ2MGZmNjAzZTNhNDcyM2ExMDgwZTJhOTk1MjNkMDViNGQ2NTVjNjE4NDJjYWQ0NjMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L131-L145",
+          "version": "repo-lines-v1:sha256:e37c70171647e713f564475b1ada81d8abc9130d588ecc21d21952d49c9af7e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNDdlYmEyNDE0OTU4NjA5YmUxMTBlOGNhYTU5ZDQxMTAzYTNiODk5ZjZhNjc1YjE0ZTY3YTE3ZGY2ZjdhYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyMDhkZDYyZDMyZDNlMDBkZGM5NzkzZjdlMGFiYTQ4MTU1MGRiY2I2ODk4MGMyN2I1MDcwNjY0NmViZDdhODciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZGYyYWNmMDZlOGMzZjAzYzcxMzVjNmU4YWM1YTljYTU0MzJhYmUwNmE3NGFjYTBmZGQ5YTUzYTAwOGY5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzZmU3YjAxNGIxNjFkZDJjNGJlZDgyYTZhZWUzMGQyOThhNDgyYzU4MjU0NTEzODA1NzFjOGQ0NDExYzAzY2IifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L179-L202",
+          "version": "repo-lines-v1:sha256:1fbe25ca3af17ae5c5cd8b3b6372ccb9abb8f62f6b2f4b8ce8136d7dd5c9069a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0OTFjZjJmYjA0OWEwNTYxM2YxMmZmMzY4M2ZkNWM2YTljMGEzYTg5NDBiYzk2ODQ4OTk0MWE3NzBiYmZkNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YjhkNGVlY2FmNGQ2NzA3NWRlZDRiMzZhNjA1ZDhiZTU4OTBjNWVlZjQ3M2MzNGMxOWI1NWQxNmMyM2UyYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViZmUxY2ViYTU4ZTNiODVkZDFhOWU4ZGQ2NGI1ZTQ3MGUxNmY4OGE5ZGNkOTlkNGE3NzgyNTdlYmVmNGRjZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiZjJlOGQ3Yzk4NWJlMDRhMjRiNGU4NThjOGQ3Y2U4Yjg5NzQ3ZmFlOTc0NWUwZGU2NzZiMDA2NzZhNTk3MzcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L22-L26",
+          "version": "repo-lines-v1:sha256:8d63f853050d8533f0d58e7d971b45bcf889e50177c11a3c32bbeccdfbfe4652:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYyODVmYjViNTJlYzMxMjQ4OTE4MmIyZmM3Y2RmNTA4MGNiOWE5NWNmM2I2M2UxYTYxMjJiNTY2ZmI5MDExMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjJjMTQxZWI0ZTcyOGQ3MzI2NjZiYTY0ZDBlMjU0Nzk0MjBjNzQyNDVkNGM3M2Y5ZDBlZTY3MTk0NWMyYTc4ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTA1YWI0MmFjZTVkOGE4OGVlNzM4ZTFiMWQ2MTMwNjZjY2EyZTQ3MmVlOWJkZDE1ZjExMGM1ZTU5MzZkMzI4ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTJmNTQ4MTE3ZGUyYzA2M2Y0MGVkNGExNTJiZWQ4ZWZmN2NhYmYzYjNiMjkwZmU1ZTdiNmVlNmFmZjRmYjg5YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_88ff17d5b6154108bdf98fc743b61243",
+      "statement": "OHLCV whose latest eligible row is more than 10 calendar days before the requested date is rejected with `NoMarketDataError`, allowing routing to try another configured vendor or emit a sentinel that surfaces the stale-data reason.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_yfinance_stale_ohlcv_guard.py#L37-L58",
+          "version": "repo-lines-v1:sha256:a933769822617a8f8619f991e908be9a02178b157fdf2442bf993ce01f5fe91e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3YzgxZjE2MTY0ZWMxOWZkMDI3Y2Q5NmIyODVkYjI3ODc2NWVhODBiZjI4ZmZhNWY1YjM3OGY0N2QzNzI4M2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzRhN2QxY2M3OTZhYmEzZTQ2NzIzMzI3ZjUxN2U5ZjgxMTk4MmQyNTBmMDcwMjk4NmU0YjU3NjRhZDk1ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tests/test_yfinance_stale_ohlcv_guard.py#L92-L109",
+          "version": "repo-lines-v1:sha256:ac339e17d985b4fd1c0510e891968314a9cbd77609cd957bde1d3860fc7b45c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmYjA0Mzk3Nzk3ZWFjZDQxZDA0ODllYTA5YWE3OWEyMmJkNGI1OTFlODY1ZmM5MDI0NTYxNmM5NjZjYTRjZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1NmUyMzk2YmVlNDAwMzM4YzE5MGUxMDkyY2YwZmFiNjkwYzNmOTVlYjE4NDlhNWFhNjBiOGY4ODg1MmY5NjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjMzQ3YWY5MTEyOWY1MTUwMDNjOTMzYmFjZWJiODhmOTI2YTYxOGY4NjA3NjY3ZTA2M2NlOTllNzE3MjZlMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L17-L20",
+          "version": "repo-lines-v1:sha256:e13ca5f59ec557aa64158e11a148bf9fda554c45c08f498eb4f6cf8d245dfd25:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTFiNGVkODNjOGYxZTk5ZTEyNTAwYjk1Yzk4OTMyNzI4YjkyODIwNzFiYzI0MmY0ZDQ1OGMzZGVhYzg2NGYyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU0MDIwMTQ4ZDg4NTZhMzA2NWRjNmEwNTVmYTNkNTVkMThjNDhmM2M2MTdhMjk5YTI2NmE2MDM2YjhhZmYyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTVjMWM0NjJlMmEzOWQ3NDc1OWY1ZTFiMTI2Zjc2ODNhMmI3MzAxMThlMThmNTEyMmIwOGNlZGVlYjY1MGUyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGJlZGNlZDE1NmI3N2Q2ODQ1OGIzZjdmYmRkYmRjMTYzZmZjYTY1MDZhZDlkOGVmZTcwYjliNmQxZDg3ZDk5YyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L214-L221",
+          "version": "repo-lines-v1:sha256:fcd7d9cd0c352b917870f9de90dba5447ea1b60a02af063819bfc628749a40bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExMzAzZGM0MzhiZTFmNDQ4ZjRkZWRhNTZiMzMwMGNmMmFkYjk5ZTlmNzAwNzU0NWY2YWFhNDY3MWM1MDU1OTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjZjYxNjViYjAzM2JlNTRhMjE1OGY4YjBlNTcyZDg2ZjJjNTU5ODQzNTRkYjI3NDNmZWNhOWNhMjIzYjVkMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0MjZjZDlkMWQ3YmYzY2U3ZDlhNDlhNDc3MTQ3Mzg5NTk5OThkODNlYmI3ZjNhZTE5NDUxNDI2NGExMDViNWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyZmI0MmVlNTg2YjFiZmExMGZkZTIwMTJmYTU1YThkY2EwNTBjMDZiNTYwOWI0NDg0MWY4NjVjYTk2NmJlOTQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L94-L128",
+          "version": "repo-lines-v1:sha256:a0921ffaec5da98fef98d5eabc44127cddcf300cbb273c30bc2ac594fbe63604:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhZWZkZTZkYTNmNGM2Njk0ZGM0YzkyMDJlMmY1MjYyZTY0YzI1ODQzOTZjODdmYjQzYjM0N2IzZTRkM2ExNDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiMmViMTdiY2E5NjBiMGRlOWViNjYxYzk4MDA4ODZlMDM3MjNjYzUxOGJmZTFlNDZmOGZjODU3NzJiNDdmODAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiZjY4MmVmZDMzZGE5ZDk5NDRkMzA1NGI2Y2U0NDNiZDM1YTIyMTRhMmEwOTk3ODJiYzhhMWMwYWM5NDliZmYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/y_finance.py#L49-L52",
+          "version": "repo-lines-v1:sha256:a4a28c510f145a310b649a21619788e0ad4a465679700f3f4595295692b10763:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmQ1NzJjZDk3Zjg0M2M1ZThlYzZiZDc2ZDIwZmJiNTZmODgyNWU5ZWI1YjQ2N2VlNjNiZDVjZDYyNTFiOGYxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjVhZjUxMjlhNGQ4YTQxYTdiMjA1YjhlZjgyOTZiMzk1ZTk4MGQ5ZmFlODAwOGM5MDQ3MGUxZmQ3NDU5OTU2NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzA0MjU5M2I1YWFlMjM5OWM1ZGVmYzM1NzJmMDQ0YWFlOTUyMTZkMzY1OGVjYjY2NjZhNTliNGE5NDk1Zjc1YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzkyNjJjOWJhYTBhY2I3YWM5N2RkY2VjNmQ0N2Q4YjdkN2Y1NzVkYzYxMmE0YmE5NDg1YTU3NTM0ODRlMmYyMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a13d247ad49043c3ba3eb671c9370339",
+      "statement": "`get_verified_market_snapshot` is a local deterministic market tool built on `load_ohlcv`, not the generic vendor router; it defensively excludes future rows, selects the latest row on or before the analysis date, computes a fixed indicator set, and limits recent closes to at most 30 rows.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_market_data_validator.py#L24-L63",
+          "version": "repo-lines-v1:sha256:eb6520d7b68feddd743ffb3c94718a0b872bdf8c03a5c160660e4787681c472c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4OTc3MGNlNTc5NjdmOTA1MmU1NzJhNTA5ZjQ3ZGMwYjUwYzhhNzQ0ZmI0ZTI0MzMwNGFiY2U0ZTA5MWRlYTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MDhkMzhkNmYxMGUwMmFjZTllZjA0Nzg0Y2Y1YWRlMTJkZGZhYjQ1NjhiNjk5ZjM2YTdkMzlmYmVlZDNhNGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/market_data_validation_tools.py#L1-L23",
+          "version": "repo-lines-v1:sha256:1b3bd5da283ea9ae2a5d189ac60f4f952c95dc63bd8e78eb6fb0f7090af1a7c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzZmJlYTUyNmQ5YjU1YWY4NTQ3Yjk4N2I2NWFhZGVlNDg3NGYzMTI3MTBlZGJhNTk1ZjRiMDlkMGU2MzY4ZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0N2IyZDM2MWRmMGM1YTAwMDg3M2MwZWIyYzMwY2Q2YjNlMGExODBhMmU3OTA3NGRjODg5ZTdhNWIyMDVlYTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/market_data_validator.py#L20-L45",
+          "version": "repo-lines-v1:sha256:d9f8065c01f495a56eed812a89f8070d3965d004dfe69e208034cff06ba5138e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0NTA3MTUyNWZiOWIwMjAzODJlOTY1Mjg1NGUzNjQwYTQ2MTc1MWZjNDU3Njk5MDc4ZDkyM2M1NjllNThlMDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmZmI2NmU1NDJiNGEyZTg1NmRkZDJkNmQ0MjU1Y2NjM2JiNTE0NTMwYzEzOTJjOTc5NWNlZDg5MWMyMWQ4OGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVkZWJmMGM3MjA3MWI5Y2ZjYjJkN2JkMTFhOGQyOTIwOGY0OWE5OGY0MWI0NDkxMWQyZGQ3OTU5MzVhZDhmZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkY2Y1ZDg3ODJiOGE0MjdkMjk2NWY4YjhjOTA5OTAxMzA3MWVkYTIzYjBlNWIwOTZkZjc1NTg4N2QwOTI3MmEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/market_data_validator.py#L62-L123",
+          "version": "repo-lines-v1:sha256:113a32edb2a621c53771ab9e18e559262a58dae6d762d138285e6eec4a86c0a8:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NzBlNTlmNWFiMzgxZmNhM2M4ZTBiZWFhMjEwYjU4ZmM5YTY2ZGQwZDEyNTRhNGE3MTY1MGY1NTgwYTQyYjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzZTdiYjMxNTZkZjFmNzcyOGY0NTMxOTM0NDlhYTc0NmQ3MWE1NDEzYTQ0M2FjZGVkMTZkYzcwNTI2Nzg0ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3N2I4YzU4OWYyMmUxNjkwMDZlNTAzNTE5ZjRjODc5ZTRiODM5NzA3MDA0MzA4OTk5MTAzOGZjMzgwMzQwMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b19a6c7222d3457f9506e6850f1d4a65",
+      "statement": "The market analyst is instructed to call the verified snapshot before its final report and treat it as authoritative for exact OHLCV, price-level, and indicator claims; the market ToolNode registers the snapshot so the instructed call is executable, and discrepancies must be flagged rather than reconciled by invention.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_market_toolnode.py#L13-L23",
+          "version": "repo-lines-v1:sha256:0d0a47232754bfd8167860397afdd64d347700463df9dfbeb5666104760b8607:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0MTIwYzRlY2FhZjgzMGUyNzExZjBjMTNlOWFlZmYyOWVmYjdkZWRmNzg4NTY3OTI5YWNiMjUyMjgxYjE4ZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiNzI0M2RmMGY0MThlYjJjMDhhNWZjZjRlOGMzMzEyZGRhZmE3MTI3MDU0NzA2ODFiNjJkZjQwZTE0N2U4OTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/analysts/market_analyst.py#L18-L22",
+          "version": "repo-lines-v1:sha256:0d43fb88e6bba03c714c57153c7a0f0adf37f4a11c0ece069bb4322a44398865:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjI1Yjg4ZTE2M2RmNDFmZTI4NDlkZjFmOWM1ZDUzOTc2YjQwM2Q0ZmJkYjFiOGRkMDE0NTk1YWNmZTk3YzE1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmFhZThhMGNhNzZmOThmN2I3ZGM3OTg0OTUxZDYzZTU3ZGIzYzY0NTU3OWNhNTFiYWQ2YTUzOWQ2MTRlZGJiZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2NlY2UzY2JkOWRhMGJmMjY4NTM3NDM5N2RjM2ZiY2VmYzk0ZTM1ZDhkYWNkODFhZjRiNmJhOWM4M2VmMGZmMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTZkNWFjNTMwYWUzOGIwYjM4ZDY3NmRjMzMyNDlhYmY4NDllYWFlMDdiZTU4ZTMzNzY1NTRmNGRlMmYxNTZmMCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/agents/analysts/market_analyst.py#L49-L55",
+          "version": "repo-lines-v1:sha256:facc09ea10353608faada1e48586dec6b3229a097a7e3cd158e042dd76bdc130:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2E3OWE5OGFjZDAxZjZkNTRkMTM3MThkNjI5ZmJhYWQxYWQxZDBkMGU2ZmM0ODY1Y2Q4MmZiNGU1ZTNhZWMzZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWZlMDNkY2MxZGE3MDZhOTIyNmUxZGU2M2Q1ZmFjNzgxY2IyNDQzNmIyZGE0MGZhMjBmOTE0ODQwOTdkNzhkYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzA4MmYxNWE1NjM3NDViNDMwOWU5Mzk0OTc3NDkxZjM1YmZmYTRmZTBkYzMwZjNiNzMzZGNmY2Y2NzQwZGNmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWE1ODMwZGYzMjc1N2Q4ZTY5MTQ4MzgwYzYyYmY4YmIyMzc2YTg1MWY0M2IwN2Q0ZjZjNTQ1NGM5Mzk2YzcyNSJ9"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/market_data_validator.py#L114-L121",
+          "version": "repo-lines-v1:sha256:ef808c7fdf048f61d0c97f1b576082ee53dd68d8b639cf858a97c8fa38645e16:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzMyZTk0YjkxNjk5ZTQyZmMyNDFiZGM2YmJiMjk5YTUyMzMyMDljNThkZTFhNjAxYjI1YzJlNjYwYzY3ZmIxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWU4MWNhMjBmMjNhMDkzYzRmZTEyNjUzMzQxMzYwZmU4MjQ4YTJhYzViYjRiYTFiZTJkNjI4YWE2MGFjYzg0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWYxNmQxZDhiYjcxMGE3MmYxYTE5ZDhlOTBhMzcwNDQ1NGJmMDM2MDViZGUyMWY1NDA2MmE4MTk5OTdhYjJjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2NmYzBmNzNmNjExZjhiZTUzMDBmYmJmNWFhYzY2Zjk1YzYyNDMwYThhZjIwYmZmZWYwYTM1MDRlZGMzMmJhNyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L188-L201",
+          "version": "repo-lines-v1:sha256:0ae5a22e8c33f2c3a05dc7a96f3d411b7ee2db3d18625dcfd962939896d94d01:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5ODZiNzhhN2RmMTVkZTI5NzAwMTJiZDFkZmU5MzRmMTc0MGQwMGU0NzhlZGY4NWRlMzUyOTc4ODkwNDRhMGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0ZmMwM2RmODViMTU3MjdkODRkZDRiYWY2OTViYzYxNjllODE5MTQ3Y2Y5NDc3YzRiNGFlNjM2YjZmZmY3YjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllODU1ZmNlMTQ3MWU3MzhiZjA2YmU2ZDA0MWYyNjI5ZmI3OTM2MDYyMTc3YzBhMTIwNDc0YmU3YzM5YWI3ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5NjE1OTQyZDUwNzRlYTg1ZmJiM2I4OTA1OWY0NjBhZjA3M2FlY2U1YWYyNjQwNTY3OTJlZThkMmUxZWQ0ZDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3239c55692d940488b3204d487b25e42",
+      "statement": "Cache filenames validate the canonical ticker as a safe filesystem component, rejecting traversal components, path separators, whitespace, unsupported characters, empty values, and overlong tickers before interpolation into `data_cache_dir`.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_safe_ticker_component.py#L11-L53",
+          "version": "repo-lines-v1:sha256:c2fde9c879055e926f9f94682ad5b368b6b0c282ce880970ffc759f2548d6222:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMmQzNzNiZGM3NTgyZmNkOTY5NGM0YzcyOTI3MjIxNjliZDNjMWY4YTM1ZjA0MTczZjI1NTg3NTA4ODNjY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NTAwMzg3NTNjNGFlYTdlOTMwMGQ5M2MzZjBlZTBjMGZkMGJiNmM1NmQyNjNiOWM2Mjg5YmYzODI1Y2EwY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L155-L177",
+          "version": "repo-lines-v1:sha256:9fa6bb8e0e6b1111a5cfd192cb6c47f47a8b87d19a1f20bcdefaf716ef031cc9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YjNlMmY1MTU5ZWFhMjFmMmQwZDg1ODQxYjZhMzZiM2UzYzllMDU4OTk0Y2ExODE5YTIzMWVlMDk4ZDIyOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmY2Q3YjgwOGI4YjgzMzk5NGMxMzVlMjM3NWJkNThmYTFkNzIyMzRiOGUxZmQ0NTNmOTE2YjZmZjlkYzUyMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwYzM4OTg2MzhlODkyN2MzZDY2MmNkZGZkNThmMTkzYTRlMzg2ZjMxOWViNTc0ZGYwZGEwMTJkYzAwNmU1NDYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/utils.py#L9-L42",
+          "version": "repo-lines-v1:sha256:f6ac203361a37a575f1d6708b8191394c02d86fb0a863c6e335e9f49553435e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZjU1YWQ2NDZlMzUzMDQzNDI3MDhiZWFkZWUzMDU5MzA2ODNiYTMxOTBlMDkwOTIzZWMxMmUxMTkxYmE3ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5M2ExMzA2MmYxMGVlNGYxMjE4ZDkzZTM3YTZmODFkMzQ2ZmYxMWVjN2U1NWRkNTQyZTJkMmQyZWYwNzExZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhNTdlNzYzNzNjNjNiNGYwNjc1OTYwM2UzMGJhZDMyOGYwMzVhNzBhZmQ5ZTdiNWE0MWMyOTk1ZGM4MDgxNmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4Y2QzZjM0ODc0YjFjYjU3YzQ0NzQzMThjNjdhNWIyMmQyODNiNWIxMjMxMTgwZTkyODUyNWVjZTI4MGEyNDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2ab07d1819d84ec081525004e1bf335a",
+      "statement": "Market-data configuration is initialized from defaults, merged one level deep for dictionary-valued updates, and returned by deep copy; `TradingAgentsGraph` installs its configuration into the dataflow layer during construction.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_dataflows_config.py#L12-L61",
+          "version": "repo-lines-v1:sha256:848c14e7616d44abf4d12b7f8a7acd5be753cdfaa99a8057614162d29754cd23:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhOGY0YzQ2NWE0NWI4ZmM0MDI2YzNiMzM3YmRmNWExNWNlYTFjZWJjOWY2N2QyMmZkZWViY2E2OWViMTNmM2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzNjZmMjdhMmY2ODEyNDZlZGYwM2NhMTNkMTE1NTcwOGU2MThlYzkyYWFmZjc4ODYyMjQ4N2FkZGU3M2I5Y2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/config.py#L1-L41",
+          "version": "repo-lines-v1:sha256:4e68df2d43b8772bc7ee6b3a11f93ecd725ecd0bc73215b8bc21535e2a5dbe40:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwYjZlN2YwNDg4NjM4MTQ2YzZjNjk4NzkwNzg5NTkzMmE1Mjg1ZjVjNzBkYWE2NmJkZjUwZDNlN2M2NzMyYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZmI2NGZkZjE4ZWE2MTI4ZjcyMzkyYWNhYzFlYTcxNTY4YTFlYjRiYWU5YWM1YzczNmI5NGZjNjczMDc1M2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L83-L92",
+          "version": "repo-lines-v1:sha256:6cb5211d9c70898a5fdd446c8c82a89ab04144423a2ca2157e9fbc1e4c3c5863:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZWE4MjljOGY5N2EyODZkNTExOTliOWY5NDU4MWE2ZjE4OTBlNmUzYWM0NzYyY2MyNjU0ODQ0OWU5OGI0NjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0MmM1ZmU4NWIwNGM5NzM3MGM0Y2JmMTU2NTFmMDk1NGQ4NmI1OTA2OWVhMzg5ZGFjYjBkMTZmMjkwYzJkZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5MTM2OTZmMGY3NmE5NmQzNWJkNTg0MzljZDI3ZTk4NDU3ODFiOGNkYzAxMDM3NzYyNjllMGYyMGZjMTczMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzYjVlMDBjZTQ5NjdmN2JiMmI3MzAwZDk3ZDcyYzE1YTBkMDM2ODNmNWUyZGNlYTljZjhmYWVhYWM5ZjVmMGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3d7f91aed3314b92be1a6d93e10d9bd5",
+      "statement": "VendorRateLimitError не сохраняется как first_error: после цепочки только таких отказов роутер поднимает RuntimeError, даже для необязательной категории; обычное возвращаемое значение завершает цепочку без проверки его текста.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L195-L262",
+          "version": "repo-lines-v1:sha256:ff893570abb45e321c72eb42a6bb7cf1e682778cb304b66334f052f73f0e3e82:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxZTZlMzA4M2ZmODZmNWY1Y2JiZGViOWY5OWM3NWVmM2E4ZTI1Mzk4ZGQ5MTQzNTlkOTE0NjRkMWM4MTE3OGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3ZWI3NTgwZDkzNWZjNDVkMzQ0YzBiYTE3MGMwN2Q3OTZkNGNhYjY3OWI0NDljYzU1NDYxYWM5YWQ1NDkxYzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4NTMwNzVmZWNmYmFlYWVmNDIzMTdiNmUyOGI1NjBmZTA2MTIyNTc5NzI1ODAwMjkxOGRmMjk5ZjIxOGMxNGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5f19e972e10a4ec9b75308c9b3dddb5b",
+      "statement": "Yahoo news перехватывает исключения и возвращает текст ошибки или отсутствия новостей, поэтому такой ответ не вызывает vendor fallback; get_indicators разделяет список запятыми и преобразует вышедшие из роутера ValueError в текст отдельных результатов.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/technical_indicators_tools.py#L26-L35",
+          "version": "repo-lines-v1:sha256:7999f7a1e5fb8b7318b996ee519960805fe61dbc43456768c54ca41128835176:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ODEwNjhmNTNjM2JkNmEyMjc2NDMzYjllZDc5YjU2M2EyMjcwMGMyOTNiZTU1YWJmMTYxNWU0ZWUxYWMwMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4YjNkYmZjOTY4NGFkZjc0MTYyYzBkMjgzODA5ZDM1NzllM2JhNWVkMTNjZDJhMDE1MWEzMjJlYWYyOTNmN2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5MDJhOWVlYzkzOGY4ZmRhZmJhYzY1NDI0NjQ2YmNiYzczZTE4NGQ1NGM1ZGVjNmI1MmJjZjNjYmM4NDYwM2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/yfinance_news.py#L176-L208",
+          "version": "repo-lines-v1:sha256:9e5b6c52eb59e1b21374bc5b926bceb50fdb7f044c1f38674573a9f12a817ba4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkMGYzODAyYmEwMDZkMTEzNzQ4YzQyYmU5ODE5OWZkMTE1MGIwNjJjZDBjZjMxNWRmNGMxNDdiOTU4ODhmM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzOTUxZDFlMjFhYjllZjRmOTk5ZjZmMWJhZmE3OTE5NTA3ZWMzNGU5ODMzMjU2MWM0OTVmYWJhMGVjMTZhOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg1M2M0ZTgzNWZlYmY5NWJjZTBhZmIzNmRjNWI1N2I4OWM0Mjk3OGFmYTY5Nzg1NDdiYThjMDZkNzMxMmJhOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/yfinance_news.py#L63-L120",
+          "version": "repo-lines-v1:sha256:0ce4263954bbf0e3f5daa6da920d86ee21be0bda837e0661394b8153434007af:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2ODJjOWQ0Y2NjYWZkNDlhZmMxZGNhYTI1NWRlYmQ1OTI2N2JmNDRkNjdlZmE0ZmZmN2NlMmEyNmQ0N2ExNDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyNjk5MTRkZDAzOWYyNTdmZmFmNWMxYTcwNzAzZWFmMTBlOGUwZjNhYzllODBjZDdlZjlhZDVhNTAwYzg0NWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmOGNmNmU2MjBjMDg2ZDAzMTIyYzIxNThkMTY2ODZkMmIzYzBkZGE3YjY1ZDdkMjc4YjVkNWFlOGE2MDMxMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhYmRjNTEzNzBiMTUwMzdjODkzZTMwYzE3YzcxNzk3NzM4Mzg5ODI3M2Q2NmU3M2FhZDE1OTk2NjQ4M2MzY2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8d72e595b25443668db1cd94bf7aa8ab",
+      "statement": "По умолчанию основные категории используют yfinance, macro_data — fred, prediction_markets — polymarket; порядок расширенной цепочки default определяется реестром конкретного метода, а не VENDOR_LIST.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/interface.py#L177-L193",
+          "version": "repo-lines-v1:sha256:b815831d3887dbe9c047ff9c5c3407e547a19e9fe85362b6ff0804e8773c9d5f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MjhmMTJhZDZiNzE4ZDgxYmEwNmIwYjhjZjNkY2Y5NDA0MmNhMmVkZDIyYmQ2ZjczZDAzMmY5NWJhYjk3OTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNjg2ZmUzNThiMWQ1NDc3MDMyMWU1MjMxZDIwZDQ4NGVkZTExMzVjMTE3NDQ4MThiMDVlMmZiODAyMDNjYTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3NWQxMzI5YmM1OGVkNzk4YzUwZjBhOTBjY2IwMWQzNTU1MzcyOWNiMDc2YzU0YWJhODE5MDE2NTU4NDgyZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMGZjZTY4OTQ3OTJmZTM0MWZjMGI2ZWY0MWI0MGQ5MWVmMmJjMjgyOWNhZDc3YzU1MmMyODlmZDZjOTk0ODMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/default_config.py#L134-L150",
+          "version": "repo-lines-v1:sha256:d45f0886c37d4a0dd25d3f0ba17c3c454276b1a6d36ba0bc1162c632f38e5e91:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmN2YzODIyYmE3NzEzOGRiYTJjMWM2OThmY2ExNjNmZTExNjc0MmQ2ZGJmMDMyYTk3ODdmNjZmMmIyZTkxZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1YzVmOWI3YjhkYjg0Y2JkMmZkMDc5NWJkYWRjMDlhYmJhZDQ4MzRjNTFhMmQxNjFjNTU5YTJkZTQ4NWFjNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkMTE0ZmQzYjUxNDVkZTUyMjYxOWVhOGUxMWRlMmRkYTRjOTQwMmQ5NmJlYmY1YmUxZjJkOTE0ZjNlNWM5MDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9e85db27735f4d288ba5cd9d6cf7da51",
+      "statement": "Прямой Yahoo-ценовой путь использует Ticker.history без общего файлового кэша, тогда как окно stockstats-индикаторов, одиночный StockstatsUtils и проверенный снимок зависят от load_ohlcv; настройка другого ценового поставщика не переключает Yahoo-зависимость снимка.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/market_data_validator.py#L18-L45",
+          "version": "repo-lines-v1:sha256:1032be89a24ff0bb5b5e6c16744601dd554b339c6eba858dbf005c83048974ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiNzljMzNjNzMyZmI2ZDhlZDBmYTcwYmY4YTBiZDkwMDAzNWYxNjExZDI5Njg5YWM3YzkwYTg2NmM5M2IxMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmZmI2NmU1NDJiNGEyZTg1NmRkZDJkNmQ0MjU1Y2NjM2JiNTE0NTMwYzEzOTJjOTc5NWNlZDg5MWMyMWQ4OGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmNjAwYTU0MjhkZmFmYzMyNjk0OTc5MzA3ZTZhZGU3NDBkNTRhNWE4MTUyZjI4ZGI5ZDliMjA0OWJlYjI2NjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkY2Y1ZDg3ODJiOGE0MjdkMjk2NWY4YjhjOTA5OTAxMzA3MWVkYTIzYjBlNWIwOTZkZjc1NTg4N2QwOTI3MmEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L285-L308",
+          "version": "repo-lines-v1:sha256:05c0b57ec2da530a44891a7cbe8cbcf3d698405bba12ef635963d9d96b8067ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkYjk4MmU4ZGEwNmRkY2Y1OGI3ZGY4YmIzYzU3NzM2MzE4NTkwMDAwOTQ3YjE5NjI3OGMwM2QyZDc4ZWM4ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2NTM2MzhmZTM1MjVkOGRkYmIxODQwNTJjZDIxYjQ4ZDFkYjI1NGUzMGNlNzgzNjcwNjNiMTAxYjg0ZDE2ZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0MTU3OWMwZjQ4ZmQxZDY0ODgxNWFjY2JiZjU2Yzk3OTM3MmZmY2Y1ZWE0MjAzMTgxMzAwZTQ4MjQ1ZTc4ZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/y_finance.py#L18-L70",
+          "version": "repo-lines-v1:sha256:c7b23124b4ca17911b9707891b0d4114c6892ec6e16ce20ffea32634114b6598:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzNDQyYTBkN2EyZTU5ZGQ0NGI5ZWJhNjk3YWQ4Y2RjZTcwZDg4YWQ3MGM3ZGE4NzY4OWU3ZDIwZmUxNTQwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1YzdjNzQwNGMwYTAxZGJhMzcxZjNkMzA1ZWRmMDhiMjgwNDA0ZTg3NTMyZDQwYTM2N2IwOGUyYWQzNGIwYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhNjQ1MDAxODFiNzVkMDA1YzQ1MjczZWEzYjMxM2ZhZTI2MTAyMmZmMDIxMmFhYmMwM2Q1Mzk1NTlmMjNlZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmYmU1YzRlMjZkMzJkODBjOWZhZGZjNzJlNjcyM2VjYTIzMDI2ZWI4YTE4MWYwMmQ2MTBkMmVjNzNkNWZjODYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/y_finance.py#L217-L243",
+          "version": "repo-lines-v1:sha256:772832348a4d60c7693734859b24d0b36b8b9ff0d1ed52d2e4acd144ddeb7fae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2YTcxNTI1NzJlZTg0ZjEwOTA2Yzc0YjlmMmE5MjQzNGRkYWIwZTNjNDI4MTNiMDRlNTk3ZWZjZWM5NTFiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyN2VhYjNhNjQyYWQxYTYwODk3NjMyZGVkZDY0MDYxNjM1OGM2OGQzMDY3ZTEwMWU0ZGEwNmE2ZmRjNDY1MzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0NmRiMzFjYjQ4NDRjODc3M2M4Zjk1ZGI3NTI3MzJlM2MzZDk4ZjY3OThlNDhlY2NhM2M1MjI4NzU4YWE4NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzN2MyZTkxNzRjYmM0ZGVkOTA0Yjk3NDRhMDQ4YmY5ZDFmMDk4NDQ0MWEyYWI0MDQwOWY3Zjc4ODg4NWJiY2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0401794b89d74ccca7f47b48d3df123c",
+      "statement": "OHLCV-даты приводятся к полуночи локального календарного дня каждого бара со снятием timezone без UTC-сдвига, что сохраняет даты положительных смещений и смешанного DST; после отсечения curr_date последняя входная строка с отсутствующим Close вызывает NoMarketDataError до удаления старых неполных строк и заполнения пробелов. Загрузчик использует iloc[-1] без сортировки.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_ohlcv_latest_bar.py",
+          "version": "repo-file-v1:sha256:4e45a93eb67759ee95c13d5cb0df9d12bf6d373deb97f225ca189cd7bf1b1421"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L248-L268",
+          "version": "repo-lines-v1:sha256:d8c56146ae08e6d510cddcc35f7c2324c4127c8c843030ba49974427534cc8c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlZjU5MWQ4YWZlYTA0MzY5Yjk5YTNkZmQ1NDEwNDJjNThjNGI3YmQ1YzAyMmJlZjFkN2Q4YmI0YzJiZThmNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjZjYxNjViYjAzM2JlNTRhMjE1OGY4YjBlNTcyZDg2ZjJjNTU5ODQzNTRkYjI3NDNmZWNhOWNhMjIzYjVkMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczMzRlZDVkNGI1ZTQxNDJiOWNmOWYxNDI2NThhZTc1MTUyOWY3NWQ5M2E1NDNiNWViMGFlMDRkODY3ZWEzMjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyZmI0MmVlNTg2YjFiZmExMGZkZTIwMTJmYTU1YThkY2EwNTBjMDZiNTYwOWI0NDg0MWY4NjVjYTk2NmJlOTQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L63-L110",
+          "version": "repo-lines-v1:sha256:34037db7d9f78cb3387021362f657740ddac17e9a93c36fe223dc3b958acf8df:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiMTRjZWUyYWNhNjU4ZDliYmVlNmFjNGE2ZjVkYjcyMzQxNGMyOGZlMjc4YmNhZWZmMjcxZTE3YjBhOTgwYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjZjYxNjViYjAzM2JlNTRhMjE1OGY4YjBlNTcyZDg2ZjJjNTU5ODQzNTRkYjI3NDNmZWNhOWNhMjIzYjVkMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3NTE1NzZhMjc3NDdlYWMxZWZlYWU4MzNmMTA5YzE4Y2M3NjRjYjNhNDZiMzc3NDE2OTAyNmQ3NjE1YmJiMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0OWViMDdmNzk5NTgwOTcwY2Y5YzY1MzQ1MWFhZmYxMGYzZWIyNzU4MTQxOTFlOWMxNWY3MjAzN2NkODAyNDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_578595c3f2064c57ad2ecdadd3ce8e1b",
+      "statement": "OHLCV TTL применяется по mtime для сегодняшней и будущей даты запроса, исторические запросы повторно используют кэш; yf_retry повторяет только YFRateLimitError с экспоненциальной задержкой. TTL не удостоверяет окончательность текущей дневной свечи.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L167-L181",
+          "version": "repo-lines-v1:sha256:e37c70171647e713f564475b1ada81d8abc9130d588ecc21d21952d49c9af7e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNDdlYmEyNDE0OTU4NjA5YmUxMTBlOGNhYTU5ZDQxMTAzYTNiODk5ZjZhNjc1YjE0ZTY3YTE3ZGY2ZjdhYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyMDhkZDYyZDMyZDNlMDBkZGM5NzkzZjdlMGFiYTQ4MTU1MGRiY2I2ODk4MGMyN2I1MDcwNjY0NmViZDdhODciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZGYyYWNmMDZlOGMzZjAzYzcxMzVjNmU4YWM1YTljYTU0MzJhYmUwNmE3NGFjYTBmZGQ5YTUzYTAwOGY5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzZmU3YjAxNGIxNjFkZDJjNGJlZDgyYTZhZWUzMGQyOThhNDgyYzU4MjU0NTEzODA1NzFjOGQ0NDExYzAzY2IifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L22-L45",
+          "version": "repo-lines-v1:sha256:f09149ae9b194910a98de7f7c2903d371eb220989ab69ea0cf9dc92acc2f498e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMjg1ZmI1YjUyZWMzMTI0ODkxODJiMmZjN2NkZjUwODBjYjlhOTVjZjNiNjNlMWE2MTIyYjU2NmZiOTAxMTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxNjFjZTliMTJjOGMxZGQwOWU3MTcwMWUzNzU3Mjk3OGU1MWU3YTQ3ZDA4ZDAwYzEwM2JkODE2NmU3NTFjNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwNWFiNDJhY2U1ZDhhODhlZTczOGUxYjFkNjEzMDY2Y2NhMmU0NzJlZTliZGQxNWYxMTBjNWU1OTM2ZDMyOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiNTI2ZTk3YzcxNDc4YWJiNzE2N2Y2NjNmNjNlZDQzMDc2MDUxYjcxN2Y3NmQ4MmExNTgzZTZkMmJhMjkxN2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fe3bed288ed94f8fb76f8fa219a6ac06",
+      "statement": "В проверенном снимке сбой отдельного индикатора даёт N/A без потери остальных результатов, пустые допустимые данные вызывают ValueError; одиночный StockstatsUtils для неторгового дня возвращает N/A вместо выбора предыдущего дня, в отличие от снимка.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/market_data_validator.py#L28-L87",
+          "version": "repo-lines-v1:sha256:01cf00d81b43e75ddf112b8c72dd0314bbaa97ec29d72566dfa914178445d8c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3YTEwYjMzZTNhYjI2Y2NlODY0ZWMxM2IyMDIxODYxOGYyZDg4ODM2NTcyNDk0NWVkNjNhOWFmZjE4NDU4ZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MDQwNTEyNzQzYjFmMjQyMWNiMDYxNGEwMjQ3NWEyYzViZjdjNjAwMzI3Y2ZlYTIyYTg3MGYzYTdhYWNiYmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmOWJmMzg5Y2Q5NDY1MTIwNmMwOTIwODU4NDBmNTJkNDE5NWY5NGUyODNlMTFkZWVhOGEyNjI5ZDZiNmVkNTYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L285-L308",
+          "version": "repo-lines-v1:sha256:05c0b57ec2da530a44891a7cbe8cbcf3d698405bba12ef635963d9d96b8067ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkYjk4MmU4ZGEwNmRkY2Y1OGI3ZGY4YmIzYzU3NzM2MzE4NTkwMDAwOTQ3YjE5NjI3OGMwM2QyZDc4ZWM4ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2NTM2MzhmZTM1MjVkOGRkYmIxODQwNTJjZDIxYjQ4ZDFkYjI1NGUzMGNlNzgzNjcwNjNiMTAxYjg0ZDE2ZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0MTU3OWMwZjQ4ZmQxZDY0ODgxNWFjY2JiZjU2Yzk3OTM3MmZmY2Y1ZWE0MjAzMTgxMzAwZTQ4MjQ1ZTc4ZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_12db4a45c3e24d0488fe42902b2cf1d3",
+      "statement": "Yahoo news, StockTwits и Reddit используют общее полуоткрытое UTC-окно [start, end + 1 день); naive datetime считается UTC, значения со смещением переводятся в UTC, недатированные материалы допускаются только при end >= now(UTC) - 1 день. Социальные fetchers без обеих границ оставляют список нефильтрованным.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_social_lookahead.py#L38-L54",
+          "version": "repo-lines-v1:sha256:4d7480f38c61472da303de0d919a99757846b8df3c2ecf1dc05fd47291968129:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4M2I3NTI0NTUxYzAxZDlmMjI1ZTcyMzA4OTQwYzU0MmVhNTFjYWQ2MGYyNjBkZTFkZWYyYWFlMWU3NTBjMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiMGNkNzZmMWU5Zjk1YTUyZjE0ZjhkMWNiZGFkYjVjNGVhMDgwY2QyZTU3NTk2MjExNmQ2MzhiNzgxM2QwZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5OWUyZDA4MDE3YjBhNjVjZDVhNWYyNzc5NDZhM2YyY2VmZDNhZWZjY2E5MTNhZjY0ZWIwZGM2NjIyMmM5NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlNDgyNTc1YjEyNWU3OWQyZGQ1M2QyZjhmMzk2NzQ1YmY4YWZmYmU4OTIwM2ZkMDViM2M3MmZkZmUxM2M0ZGYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/date_window.py#L17-L30",
+          "version": "repo-lines-v1:sha256:1681cba3be15434954bf2c6996dc28bc8191c7ef96cddae44468832170c06ff0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNjU2YmE5ZjNiOGQ3NTg0MDEwODEwZDBkMTg5OGQ0NzA2ZGNmODc1NzM0MWUwZGUwZjEzMmIxOGUzNmUyNTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkZDQ1NWU4MDIyNGVlZWU2Y2U1NDM3NmFmNzQ0OWI4NzljMzU2YWIyMWUxYjI0MWNlZGVkM2E4NTFkNDNlNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkNmUwOWZjM2ZmN2U3NWI1ZTczMTg2MmNkYTExNGViNGJiYjBmZTU1YzhkOWRmOTRlMGMyMzkxODE1NzZmY2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/reddit.py#L40-L56",
+          "version": "repo-lines-v1:sha256:721bd46e22088823f305ba7efee8c2cbc8b4cbd2a9260a199e69f39420ba12fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyYmE3ZDExZmMxODFiMDFkZWFmMzY2NDQwYmJlNmQxOWFiZTRiNTllYTNjYjgzYTkyODhkMTIwZGZjYmJjNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5OTQ5YjAxZjUzYTNmZmJiODBlOTk1ZDlmZWNiOTllZmM5OGRmMTYwNjZmNjIzMzRlZmJkNTYyN2NhZjc5YzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMDA5N2U0YWE1MDA2OGJhMTU3ZjlhMjczOWZhZDg2OTk1ZTFlMGNkY2NkYWRjNTg5N2MyMDM0Yzc0ZDNlZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNDgyOTZlMjU1ODg2NjRmYTVlY2YzODBkZmQwOTE4ZDYxYzM4YzI4YjQxN2VhZjkyOTVlYjI1NWRlMTEzNjgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stocktwits.py#L33-L53",
+          "version": "repo-lines-v1:sha256:a832443cb5da4423a1de61fa58d82f77ad2fb194c616bfe37be7b69e693f06ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3MmNlMjcwNzIxMWIwMzEwNjNlNDMwMGQ1Njg3ZWYxZWRkNDI1YjQ4NTE3NTMxMDk1NDYxYjI4YzFmOTllYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5OTQ5YjAxZjUzYTNmZmJiODBlOTk1ZDlmZWNiOTllZmM5OGRmMTYwNjZmNjIzMzRlZmJkNTYyN2NhZjc5YzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2MWUzNTE2ZWQ2YzgwYjI0ZjU4YjgxNzM1YTI3NTA3Zjc5NTFmYjNjYWQ1MDZhOWNhOTZkN2U1ZGYzOTg2ZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4MDJlZWRlZjcxMzliMjMwYzVmYmUwZGRkNWEwYzc0ZmJlMGVkODFmZWEwYjRlMDYzZDU0NzJlMGM5NWE2ZDcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/yfinance_news.py#L186-L191",
+          "version": "repo-lines-v1:sha256:441f900452dc7ce1c56eb03724f78fa905fe869b7a6c4815490511a62b216dd3:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFhZTcwOTRmODY5ZWZmZDI0ZGU2MTEzZDJiOTc0OWI4ZjUzNDkzMTZlMzNmMTI2MWE4MDZlYTE3YjExZDEwMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWQ4YTllOWMzMjUyODIwYzY1YTgxNjUyMGI4ZGI0OTMyMjgwODQ5ZWM4YzdkMmViNjI3MmFmZGZlYmUwNTljMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDFiOTQzOGFhZDVmYzYwYTg1OTc1YjFlNjcwYzI1YzlmMzAzYjU0NDAyZTZiYjFkMmEwZDIwZDA3ZTEzOWJhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIwYmQxNmEwMGM5N2ZmN2JiZmYwODg1ZGNmMWMwNTNlMzZiNTlhOTBmMGNhM2MzN2VlOTFiYzhhZTRiNDhhOCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/yfinance_news.py#L99-L104",
+          "version": "repo-lines-v1:sha256:4d8d96bb398ce96ede2277dee8d82fa6fb4d3d8575a626c3c4f43b650d78f294:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjAxZDFmMzJlNzM2ZGViZTZjN2U4MWU4ODM4NTcyYTlhM2FiYWFjMDJlNzQ5YTZiZjViODBhODkyNmNjZGI1MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWQ4YTllOWMzMjUyODIwYzY1YTgxNjUyMGI4ZGI0OTMyMjgwODQ5ZWM4YzdkMmViNjI3MmFmZGZlYmUwNTljMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODFmYmU4NzEwMDQ2ZDlmN2M2Y2M5NTNkMTFmYTRlOGVlNzVjMGQyZTEyOTNlZjgzZDQ1ZGQ0YmJlZjZjZDI1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZhMjY1NjE1ODZlY2Q2NjIxMTY1OGY3NTkyOGE0YTY2MThjNWE5OTBmODAxZTc1Y2JkNjEwZDI0NThhMzQ5OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ea42da0af155477aa8d45c1447c3a515",
+      "statement": "Yahoo news разбирает как content.pubDate, так и плоский providerPublishTime в UTC epoch, отсекает кандидатов по окну и сообщает об отсутствии новостей, если все отфильтрованы; запрос свежих ограниченных лент не обеспечивает полноту исторического архива.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/yfinance_news.py#L148-L208",
+          "version": "repo-lines-v1:sha256:a8521a5664eb8c0086eb487bbaada1e32d67257e89617f43514071c3e7f70db5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyNTQ4NTM4ZjdjY2M4NTZmOGYzZjc2YmYwMzliMmFmNmMzNjRhNGU3M2M0NjAxOTNlNWQyOTA1MjI5Y2QzZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzOTUxZDFlMjFhYjllZjRmOTk5ZjZmMWJhZmE3OTE5NTA3ZWMzNGU5ODMzMjU2MWM0OTVmYWJhMGVjMTZhOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmN2RlNjAzODM3MmYzZDdlNWQyMGU5NDM4OWFlNTEyMGRkMDY5NmNlZTFmNDQ5ZmMzM2QwYjYwMTM4YjZhNzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/yfinance_news.py#L15-L120",
+          "version": "repo-lines-v1:sha256:4856e8199f901b204997069c6612e1d0ef08c94e756634b529b9916a9f2b31a7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNjUyZTcyN2ZjNjhmMDk1Zjk3NTc3N2RhNjU1NzIxYTAxNWZjZjhiNjkyNDQwYmE3MWU1NzRjNTZhNTgwMDBiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI1MjY5OTE0ZGQwMzlmMjU3ZmZhZjVjMWE3MDcwM2VhZjEwZThlMGYzYWM5ZTgwY2Q3ZWY5YWQ1YTUwMGM4NDVmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiYzJkZTBkYTUxMDQ0Yjg3ZGZlOTk5YTJmOThmZmVjZWY3NWZlYjViODM5YzhlNmNkMzBiZjE1OGFmZTcxN2M4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4YWJkYzUxMzcwYjE1MDM3Yzg5M2UzMGMxN2M3MTc5NzczODM4OTgyNzNkNjZlNzNhYWQxNTk5NjY0ODNjM2NiIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_f8395e26a19e49b7acc92776c76fabbf",
+      "statement": "Sentiment-аналитик до LLM собирает окно trade_date - 7 дней .. trade_date: get_news.func проходит общий роутер, а StockTwits и Reddit вызываются напрямую и внедряются в промпт без внешнего tool-calling. Отдельного перехвата ошибок маршрутизируемых новостей в узле нет; недостаток источников должен снижать уверенность отчёта.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/analysts/sentiment_analyst.py#L165-L189",
+          "version": "repo-lines-v1:sha256:a50f37bae9658fe364ad891ab09750f2286cc8e66587d27d6cc436763025efac:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4YTFhOWIyNTc5YzU5NGIzNTUyMjgyZjJmZWUyM2YyMDU5MWIzNWQ3Y2JkNjgxYzQ3MDRjNmQxMGFlZWY4MGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxMTk1NThjZGY1ZWY5ZDU4ZjA3MzMxZGI4ZGM4ODU0NDg0OWU4OWU2YWZhNzZiY2E1MTc1NWJkZWJjMzU0NzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkOTUxZDZmNjU1NzEzODNmODZjMTA2OGM1Zjc3MDU0ZTRkZGM4NzFhNzA3NzQ3ZDVmODFjODQxODE2YjE0MzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkN2EyODE0MTY4ZTBhNmQxYjg5ZDM0MDQwMTI2ZTQzNzBmMTdiNTI1NDM4MzQ0YzBhMjUzMWY2MWE3NWNiMTEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/analysts/sentiment_analyst.py#L47-L120",
+          "version": "repo-lines-v1:sha256:3d553744f6ab968baff1532768ea79defdd62fe81097113bb0c2a557da1b97fc:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5ZDRiNDljZWMzY2M1ZTJmM2UzY2VjYTBmMmJlY2U3N2E2NzQyZjI1OGZiY2Q0OTQyMTM1YjhhOTUxODIxYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4ZmU0YTNlNzQ0M2U3NzY1NjNkNTBlYTdlNGVjNTQwZjVjMDU2NDAzMmQ2ZDQxZTkzYWM4YzE5MjQzYjQxNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhMDNmZWQ0NmMzNzU3OGNjMGYxZTYwNzQxMDNiMzM2NjJiMjY1ODQ2ZmFjODAzODExMTFmZGFlN2VjMjhiY2YifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/news_data_tools.py",
+          "version": "repo-file-v1:sha256:4e8b3c2d24a9dc3057401973f3880c7d05f2f5e463b51db0a7bdba3513c62fe1"
+        }
+      ]
+    },
+    {
+      "id": "claim_d20c4709b57f42fcbf6077bb3419aa57",
+      "statement": "StockTwits получает публичную свежую ленту без ключа и использует BASE.X для криптопар, Reddit ищет криптобазу; обычные транспортные ошибки и отсутствие подходящих историческому окну материалов дают placeholders, а не вымышленные социальные данные.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_social_lookahead.py#L69-L121",
+          "version": "repo-lines-v1:sha256:16ae3825992989435a39c0cdf89aaebee590e77b18a7dc4d877074664a0715a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyZTYzMDk1NzFjYmNkZmJhMGVlY2FlMjIyMGU2MGI4YzAxMDU4OWM5Nzc2YjcxZGMyMDE4Njg1ZTRmODdlYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMWU1YWRmMWVhZjk5ZGM3NDFjOWRhZjUzZjM3MjVjMzhjZTYzZjVlYTAwNjRlNzI5N2RiYmNjZmU3NjM3ZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/reddit.py#L247-L313",
+          "version": "repo-lines-v1:sha256:6da87b7f61c6a3c4ffc56b77814206e239376ed62f442598c96f89eb765bb0d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzYTA4MzllNzBkYWM4M2Q3YzA5Mzg1NGQwYmE4MjhhMDA4MGQ5ODZhM2I0NThiMTgwMGMwMzUxMjU0MTk4MzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyNDE0OTEzYjk0YzYyZDE0ODA0ZDQ2MzUzZDM4ODk3MDU5NWQwN2YxYjgzNTZmNGMyZDdhN2ViMDE0NDc0OWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3Y2Y5ZTAzY2ExMzdkNjA0Y2RmYWI4MTkyNGY4ZWRmZDlkMTUxNGIyZTExYTQ5MzYxMDdiNTgwMDBjZmQ0MjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stocktwits.py#L56-L105",
+          "version": "repo-lines-v1:sha256:7be89aebac8872b08d0e19caeee3f790d346074ebde412af9ab8465544e0062b:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwNzJkMTlhODUxMTkzYTc1OGIwOTUwODkwYTJiYzRmYWM1ZWQ2ZWRkM2UwYmQ3MzFiYmEzNzYyYzA2NGY1MTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ZDdlNGJkNGZmZTIwMDc2MTVjNzM4MDg5OTBhMWQzNDQ0ODVhODk0YzNhN2Q1YmJiMWM5ZWE0MTA1Mzk4M2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwNGE4YjUwMTkzODJkYjFjY2EwMDBmZTBmMzY2MmY5OThkODE0OGQ2NjE5NjcwYWM3NzJhNmUyMzFjNjAxNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhZTQ3NzkwYjBlZGE2MTc1MmE2YjJiOGIwYzZjODNiM2JiNTEwNjZhM2E1ZjlmOGI0NTk1NTg5NzI5NTY5Y2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_15bb46c5f1fb4c7b82f94293fe84f95f",
+      "statement": "Reddit по умолчанию использует RSS напрямую; сохранённый JSON-fetcher при ошибках переключается на RSS, но не входит в основной путь. RSS не содержит scores/comments, поэтому форматирование не подставляет нули.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/reddit.py#L185-L244",
+          "version": "repo-lines-v1:sha256:f8f1e8bee5e4d93759817cb4ce734775443b88d9e1dbfaace1374a9660f15eb4:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMGVkMDc1MTFjMTlmYjZmZjRhZDNmYTI5MzNmNzQ3NWFhZjUwMTc0NmU4ZmE5MGY0NjY4M2NhMDgzZTBhZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkOTk1YjNiN2IzOWI2NzNlNjY2OGZlNzE5MGIyOTkyZTdjMTk2MTI2OGM1ZjU5OTFiM2U4MDM1OWJkMDYyOTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0NmFmYTlmY2E3OGFlYzdhMDIwZTVkMWQ1MThkN2RkMTI3NTQ5YTg4NmVmMjk1NWI5NGE0ZjQxZjYwOTRhNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjNjU1YTg2YWI0Yzk4NjdiNmYxYzJiYjYyZDljODA0MzQxZWI3YWI2YmE4OWM2NDYxOTQ3OTliZTQxZDI3NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/reddit.py#L282-L304",
+          "version": "repo-lines-v1:sha256:a1fd6545e0cfcbdf383af80b21d4298b570ce553e7bb902d9fb6e85a61b6569a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4NDI3ZjIyYjc1MjU4Njc3ZmZlMTllODg4NWMyMjUyZDBkOGIxNDMwNjFmMmJmMzk4OTRkOTA4MWQ1MDc2YTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3YzVkYjMzMTJmMTEyOGUxZDRkMjRmMTA1ZTYxY2Y0NDRjYjM4ZjlkNDcyMTU4MDljM2Y1OGZmZjNjYzgwZWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlMDJiNDliMTBiNTA4YzQwNDQwOTMzNTc2MzBiNjdhNmE2MzUyYTJkNmE4ODM4OGRkOTZlODE1ZDA5NDQ3ZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3YjhjZWE1ZDE3ZTNmODRlNzljMGJiZDU3MmViMDY2MjU0N2I5MDMxNDJhNmE1MGE2MDYyN2Q5MDE0YTdjMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c10d3ecb9f674c01b5bf1de9a76dbf76",
+      "statement": "Reddit RSS при HTTP 429 повторяется один раз, учитывая числовой Retry-After с потолком 30 секунд либо jitter-задержку; запросы subreddit разнесены во времени, чтение ответа ограничено 5 MiB.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/reddit.py#L105-L183",
+          "version": "repo-lines-v1:sha256:1e0039c5733b909d26182baa987acf53d0ddbf285cab51f66fca2a2e36574556:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlMDYwMzM0Y2YwYjE3MGFhNjVjZTY2Njc2OGU0MTQ2NTNjODhmNWU3NTBkNzAwYjBiNGIzYWY0NjBlNTBmZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMWJmOTJmNWMwNDFkN2FkNzcxNGUwMDM5ZGI5NzBjMmU4ZDViY2ZmZjFmN2RiMTIwY2YzNDkzODJmNWNlY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyZTMyNzdiZTQ1ZjZhNzU1MDc5OGJkMDQ4ODRmOWYzODg5YjUyZWJmNzgzNDJjZGYzYjAwN2FiMzZmMWQwZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIwNWJiYjA5MmNkYjAzYzExZDQ5YzY4MTM2N2U1ZmFjMjE1ODIzM2NhMzliN2JiODYwYzU5MjMyYjE0M2U1NmEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/reddit.py#L270-L276",
+          "version": "repo-lines-v1:sha256:f36a7ad80e4639f8209f241f5e5037d297dbdd84783a64ef9bda41637a032be7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjkwOWRmYWYxYzNmNzExYjk0MzkxMzg0NTAzMDcyNmY4MTE0YWY3NDgzNGFiYjcwMzE0NzA3NTlkNDgwYTQyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDA5MGUzODMxN2EzODFjMTAzNjJkNTQ1OThkZWQwNzJlNjQ5NmFlNDZiYjMwNDI4YTViNjM4YjVjZGJiMmQ0YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODI3OGFiN2Q2MGRlMzg4ZmM1M2ZjNzdmZDZlYTI1MmU5MTkxNjk0ODE5ZDgzMzQzODg2OGZlY2FjMjM3OTUzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDU5YzA0OTM1MDA5NGNjYjliMjFiYjAxOGQzZGZhYTY2Mzk1OTIyMjNjMmM2Y2FiZjc0Y2M1YTkwNjM3YjhkOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_88001932c7d245569ec825cdd70c310b",
+      "statement": "FRED фиксирует vintage обоих запросов series и series/observations через realtime_start = realtime_end = min(curr_date, текущая дата America/Chicago), сохраняя observation_end равным curr_date; clamp предотвращает запрос будущего по часам FRED vintage, а исторический pin защищает от поздних пересмотров.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_fred.py#L139-L192",
+          "version": "repo-lines-v1:sha256:9f2f6a47e3b2e07adbf1f06e74b3f1718ac3acf37a3831fb779e9d836ad4ee7f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTZmMjQzZjk2NjIyMmExOWU2NjczZGZhNTc3YzA4ZWQ3ZGZkYWE1Y2E0ZjQ5MmVjNzhlOTg1ZTE4MWE2ZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0YmU1OTQzNjhjMzIyM2U0YmIyYWI0MDRjNjI4MzEzMjI4Yjg3NDFkOTM1NzQ1MGI3MWQ0MDg1NjI5YjdiZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MmQxYTUyNGYwMmE4MTMzYjIwMDFhZTI3Zjk0OTAzOGJjNjE3Y2VlYTMxNGJlMTE2ZWJjODgyNGI1NWQ4MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/fred.py#L125-L132",
+          "version": "repo-lines-v1:sha256:7d7d05f47dbd1a23fbdca9dbbd40b6cae434b5b0347de925c3ea487ed815ab3f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODc4OTk4OTc3YTgyMTlkMTQ3NjU1NTI5NDBmYTM2ZWIxNTI2ZjZlYTk1M2Y1MGRmYTZhNjRiNjM0NDM0NDQxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmNmMzg1NTQxYmQ0ODMxMDU5NjRiN2M5NDlkYTk4OWFmZmYzZjY3NWEyOTRkN2E2MWQ5ZjdhYzBmZWFiMDRmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzkzNjliYWUyOTNjM2IwZjZhZjM4MThjMmQzOGQxNjA3Nzk1MmY3YjZhZDQwNGFkNDVkMWUzNTk3NDViYjVjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDdiZWQ0ZTJjM2RjY2NiZTYzZDE4YWE3NzNkODU1NDQwZWNjMjIyOThhMjEzMWZiNzBlYzhlMTNhMDJjYzhhMCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/fred.py#L178-L221",
+          "version": "repo-lines-v1:sha256:e548fb26d42947c0c0c9a3575ae160a0d3662086153da1c27aeb541deb0d1710:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjNjM4ZWQyOTY2MzgwNTcxMTUwZmEwNzhhMTM1ODg2OWY5OTkyOTc0ZGEwZDljMzkyMjIxM2Q4OGZkZDk4NmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3N2VhNTFjMjc3ZmMwYTM4NDA1ZDliNTdiODM2ZTYzMmMyODRhMmJmOTg0ODFlYThlZTQ5ZTE4MzI5M2E0M2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYWQwZjlhNjczOGZkM2Y4ODAzYmIzMzUxYjk4ODk0ZDI2MGZiZTNlZjY0OGEyMjMwMDU0ZWNmMmU2OWQzYjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlMmZiYzAxNjQ4ZDkyZWRmMTFiYTYwZWY0OTkzZGQ5ZmIzYWM2M2YzNWZhZjBhYzZlMDcxMmVjMzU2NWVkMDcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/fred.py#L24-L28",
+          "version": "repo-lines-v1:sha256:31426198cfbc0f23ac85a23da7a184c5bb6ca972b5e3134d87b978c99e1fd79e:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTQwNzJjM2U0NjY5Y2U4YjlmZTE0NTA3NDRhYWFmMWZlOTE4NzZhOTE1NDFmZDIwYTkzOTc2MGYzNGJiMzM3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTRiN2FiYzZmMDEyM2JmNWEwMWFmOTYxM2M3NzVlMmI3YzNkZjMxZTljZTk2YmJiYmFkYzEyNGY0MDAxMmQzMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGUxM2UwZDI1MDY1MmJmOTAyNDk5ODE0ZDVmYjMzNTA1NTZjZWIwYzE2NGQxNmE2OTY4MzRmYWI2MzQ1MzlmYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjA1NGY0Mzk4MDZiYTFjZmYzNjE2ZTFmMTM0NmM1NWZhNjRhMTQ5NzdmNTRlOWE2OGE0MTlmMWIxZWQxMzk2NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_766e1c3876504d0b856f589b4d5b8f98",
+      "statement": "FRED принимает псевдонимы или raw series IDs, требует FRED_API_KEY, ограничивает HTTP timeout 30 секундами, исключает отсутствующие значения и показывает до 40 последних наблюдений при расчёте изменения по всему окну; отсутствие наблюдений явно описывается в контексте выбранного vintage и покрытия ALFRED.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/fred.py#L223-L272",
+          "version": "repo-lines-v1:sha256:d3e36f96328a3ed6fa5a07cc1f2f9db22b7e76e30fc8988bed0670bb519e5a0d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmNmMzZDk1NWQ5YjkyYmY2MjA1MzIwN2I3NWM3YzNhMGFmM2I5MmE4Nzk5NzhhZDBlZDJjODk1Nzg0ZjVlOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkYWMzMjRiNDFjM2FlMGQ1ODE0ODg2ODRiZmEyMjBiYjBlZTBlYjA2N2MzNTU0MzRhODA3NjA4NzIwNTdkN2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4ZWNlNmJhMDY1NGFmMGI5YmMyODdlYTQwZjQ2MTg3YzZlZDhmOTY2ODRmYmNmMjRiMDZmNTc2ZmE1NTNkN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/fred.py#L30-L40",
+          "version": "repo-lines-v1:sha256:c989911e142b0d9b82de54a9c3a1f623c705306612acd6018c4d4f91780e8d31:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzNjc5NTk4YWEzM2EyZTgyMDdiNDljNTA4YmM5NTNlYzkzZmMxMzkyMDNjZjFkZjM5YWQ3MjQxMGJiM2ZlMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhNjgxOWFiODhlZWI0MGJjNGIyOTUyNmRmMTcyMGY0MzEwMDViZGI4MzdiMGNjMzY0YWE3NDY4MGE2NGJmMmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYjI4ZjQ2ODVlZDE2MzUzZTVmY2FjOGIwMTliY2UxMGJlMWMzYWRjNTg2ZGRmOWFlZDFhNTA3NmQyMThmYmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWEzMmUzYjUyNDQzMTY1NzYwMmQ3MzQzNmI3ZWZmNmQ2MGQ4MDgwZTRiOGEyODA2M2ZkYmI5MzAzOTliZmEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/fred.py#L91-L150",
+          "version": "repo-lines-v1:sha256:84734cc43fabcb7f6a158571a0149124b9c85743805ea5a89f12965182fe1cf8:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhODhjYTNiY2JhYzY1MjAxYmRlNmE5YTg4ZTE5ZTUyMDgxNWYwZmM5ZjM3YjAxMTdiMTBiZGRiOTU2NmJhNzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkOGMzYjM5ZGMwNGIxNWNhZTEwYjBkOTVkYjcyODI4NjZiOWVjNTNhMDM2ZDQ4OTUzMjE1MmMwOWYzZDcyYjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyYjI1NzhkODVmMDU0N2ZhOTE3ZGE3YjE4ZDIwNzg5OTE4MjlhNTM4MmM3OTEyOGJlMTZmNmYxMDg4ZjdhYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBmNDJkMjYxYzBmOTVkMDlhM2NiZDA3OTZjODNiZDE5NDk3ZTVjYmNmM2E2MWFkYjc4YzNiMTlhMjdkNzUwZjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f05180c8e2d54570be1e353cd1773d4f",
+      "statement": "Alpha Vantage требует ALPHA_VANTAGE_API_KEY и timeout 30 секунд; Information/Note с признаками rate limit и с недействительным API key преобразуются в разные наследники общей иерархии ошибок, влияющие на исход маршрутизации.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/alpha_vantage_common.py#L13-L35",
+          "version": "repo-lines-v1:sha256:838c8cd3be92b86838ea609fa4ea6a4e939f1a62605f8c449f6cdc75d97ef33f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4ODMxNGVhY2M2NmVjOTIzMWVjOTE2YTJiMDRmNmRlYzE0YWZkN2E0MmUwYTFjNDFhMDMyZmExY2ZkMGNlOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlZjE2MzIzM2QwNmE3YTU4N2E1M2QxNjEzYTlkYTk1NjJmYjk3ZDc2ZTI2MDc4YzkxOTUzZmE3YzM5Mzg1OTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwOGMzZWE4OTMxNzg0YzM5NTFhOTViOWIyZWFjZmM3ZTdmNzM4NjBiNGIwNjU2OWVmYWVjZmUzZTE2MjU5MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwZWVmMDE1NWM4OGY3NjZmYjRiNGJjYjBiZGRjY2RhMDU0Yzk1ODMwZDM2YmQ5YjkxMjk5YmI1M2M5OGYyNWIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/alpha_vantage_common.py#L58-L112",
+          "version": "repo-lines-v1:sha256:a05a8109701dbd50ab3633d3747a9614007242774f045afb351fa77fd0db4029:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMjQ0YTE5Nzc0NTQ5YjkyMTAxMmVmN2I1ZWI1ZTA2ZTkzNjU4MDdkMWMwNmI1MjAzY2M4MWE1YmM4NjYxODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1YjMyNGJiY2NmYTI4MGZlNjMzZTMxYmVjNzc2OTA0MjE0ODQ5N2VhNmI4ZTdlYmZlOWJiZDU1NmE1YmI5NTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5ZmFkYTk2ZGQ3OWFhZGFhM2Q2NWQ3OGUxMzc5NGQzZTM2ZjRhYTQyZmUzNWQ4ZTAyODZiYzUxMTZkNTZjZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhM2NmNTE5MjM1NGY3MTYxNWFjNTEwMzRiM2U5N2MyMGVkYTk5NjQzZmNhZjViYmU2ZDQxYWQ1OWJkMTIxNjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e647d891f67847348087dc46c8c28385",
+      "statement": "Polymarket использует публичный Gamma API без ключа и возвращает живые вероятности без curr_date: исключает closed и рынки с разбираемой прошедшей endDate по текущему UTC, требует outcomes/prices и сортирует по объёму. Отсутствующая или неразбираемая endDate не исключает рынок сама по себе; сетевые ошибки превращаются в текст продолжения без сигнала.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/dataflows/polymarket.py#L1-L10",
+          "version": "repo-lines-v1:sha256:6b172100690afd15c5d11a0fa86e53463e3eb0045b79f2845bb8238f67de3238:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxM2QxMmI5MGZhNTUyNGMxMDY2MzFmOTcwYzgxZWJkMDU4ZGNmNWIwNWY2NTM0ZDUxZjRmYmNiYTM0N2ViZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MGY1NDJjOWMxOWE5ZjY4MDA2Nzg4NjYxNTk0MzU5OWRlMTA2MjdmNDdjZmVjNzE1ZjE3NWQzODUyNTg1NmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMTA0N2JkYzc4NTZlNmYyYTE4NzdiMzQ0ZTYzNjE2NGQ5MTNkYmNmYjJlOTk1NzA5YTYzYzNjOTM3ZTE0YmQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/polymarket.py#L47-L139",
+          "version": "repo-lines-v1:sha256:60033baa7c12e4c661e1dd205bf2806f55e408eebb6c3ef3298fcd39fde39b10:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkNzQ4MTY4MTRkOTA5ODQxYTA0MjM0YzVlODVhZWViMmJiMDY2NDQzZjY4ZjgxNjgzZjNhMDNmY2MzYjg5MjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkY2QzOTIxNDEyYmEyNDY0ZmY2Y2I2Yzk2OGY1NDRjYTZmZGI1Y2Y1MTUzZjA2NzM2Mjk2YTJiZDcyNDUyMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljZmUwZTM4NDQ0MmNhZWE5MzRjMDM1MzVhZGJlMjljM2U1MzI2ODBjNGU1YmI1ODU1NjQ2NjQwMjQzZGIwMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_42ca1617cb6b428080bc9d58076c19fe",
+      "statement": "Система не обеспечивает универсальную point-in-time достоверность внешних данных: Yahoo-финансовые столбцы фильтруются по окончанию периода, не публикации, identity использует текущую info, OHLCV скачивается с auto_adjust=True, а Polymarket предоставляет текущие вероятности без исторической даты.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_utils.py#L92-L133",
+          "version": "repo-lines-v1:sha256:94d1bac7fda9645755df7381374032f4710191aa792c36ba986f74aa21f40d17:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiMThjZDBhYzcwM2FiZThiOWU0MjViMmQ2MzU4MDhiMDNlZjA0NzRhMDZhNGE4ZmVmMTc5ZWUyM2JiMWUwNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTQ1MzExMDc5YmNjOTVhZDA5MmYwZDA1N2QxNjc0NjA4YzA3YjQxYjI4NjFjYjFmYjJmNzE1OTIxMDYxMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwYzgzYWViYjYwNTBhMmY0MjgzNGQ4ODhhNWRiOWJlMTVjYmMwODJmNWRlZTE2NjAwYTUzMzBiODA5Y2VmZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcwZDZmYjZhN2QzNGZmZDUxZjllZDcyMTljZGI2M2RiYjA0NzdiOWMwMTcyMWVmZGRmNWI5YTQ1MTNmZmY4YzMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/polymarket.py#L68-L107",
+          "version": "repo-lines-v1:sha256:3724a528665c5e4f4552005faa55d74c9805ef4d7aa3a99eb3c1a41b6a968320:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3YWI5NjBjOWZhYzgzODhmODc1MjIxOWEzODc1MGRhMWQ3MjNjNDk4NDRjZGM2MTZlYjllODA3OWNlOGJmOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMjViYzI4NjgwMjc2MGUzNDc2NTgxMWIwZDBkMzg4N2U2Y2IzOTEwOTQzNmZhMDg2MWYxMjczMzYyZDZhOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzRhN2QxY2M3OTZhYmEzZTQ2NzIzMzI3ZjUxN2U5ZjgxMTk4MmQyNTBmMDcwMjk4NmU0YjU3NjRhZDk1ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxZjkxYTgzODc1YmZkNzhhMTUzYWNiMDVhNjhjNWU2MDUwNTY3NGJkOTNkYWI5MThhYTA4NDQ1OTQyYzQyMWEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L230-L245",
+          "version": "repo-lines-v1:sha256:44fe6b4881aaf50fa3a286cc4bd8b867d9f37eb76c45dbf65aea33a79d07f44e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZTBhMGEzYjNjOTFkYjM2MGViZGNlOTdkNWIyMDQyZDc1OGNiOTNlNTU1YjhiMzQ1MmFlNmU2YTI2MjJlOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MjhiOTg0MWM3NWViOGUyNjBlZDU3ZjdiYTRiNzQzMWY4NzAxMTU4MjgxOThjN2IwMWViMTNjNmIxOGJmNDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxYWQ2MGRhNGI3OWQ5NDVjNDczZmI2OWYwNjRjZDk1ZTA2NmU0ZWM5MmQ1N2EwYjRiYTVmM2VlN2U3OTdkODQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM2ZTJkZWFkY2EzNjQyYmNiY2QyNDVkNTA2ZjZjMzA3NzczYTg4MjdhZWYyMDMwYjRlZjFjMGFkNTYxNzdiMTAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/dataflows/stockstats_utils.py#L271-L282",
+          "version": "repo-lines-v1:sha256:8402f8119fe57f5147d3e0caced7a3b7950c2e1a8739a8d80dd0e9c7e6affcf2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MDllZjc5NjI4MGI4NmQ3ZjdjMjJkYjU0YmE5MzRlN2FiMWUyM2Y3ZTE1NTk1ODJjYmZiZjA4OWMyYTE5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlODBmZDkwOGRjZDNjZTQ0NjlkYjc2ZTc1Zjc3Y2I2M2MxOTQ3YTM4ZjdhZjI2NTQ5MGRmM2Y5NzkwMWRmNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3NTE1NzZhMjc3NDdlYWMxZWZlYWU4MzNmMTA5YzE4Y2M3NjRjYjNhNDZiMzc3NDE2OTAyNmQ3NjE1YmJiMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3ODdiMzY2MzY4NmE2MWUyYWJiYjc4NTU2MGQzYzA4NDEzYzEyZjhkYTA3YjE5OTIwZjI4NjBmZWFmMWQwMjkifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T14:23:37.397Z"
+  }
+}

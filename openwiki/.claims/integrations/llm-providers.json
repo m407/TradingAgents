@@ -1,0 +1,550 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a8877c379ada7b8a0205536c6c55ce31117f2f1a821bba432909f00c2dccfa50",
+  "claims": [
+    {
+      "id": "claim_76f26a262b18411486e2b99168e0b59e",
+      "statement": "TradingAgentsGraph создаёт отдельные quick-thinking и deep-thinking LLM через create_llm_client, передавая обеим настроенный provider, backend URL, provider-specific kwargs и callbacks, если они заданы.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L108-L129",
+          "version": "repo-lines-v1:sha256:47675d915e546fff443e7fb4afd2a6b1e9825582babd7b328be538bd9b70722d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWQzN2FmMDdmYjQxZGM2Mjk0MTA1MjhkYmYzMzcyNTI5NmU2MTJhODgxOWM1N2EzNzk2MGY0N2Y1Mjg5MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2N2U0YzU1OWNiZDNhYWE0NjcwNGY0OTRlMmQyNjE2NWNmYTQ1MTNiMDQ3YjgxNTJlODFhYWM3NDFlMGIyOTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L168-L208",
+          "version": "repo-lines-v1:sha256:24edc10da90ef7ceff527eef388178deadd85301f4d212785d46bb83b6a1af92:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiZjJkMzM1YTIxODNkMDBlYWY2ZWI0YzE4MmMxNjAxZGRlZmFiYzUyOGQ5OWNmZWRmZmZjMGYxNDFlZmI0MzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwM2E5ZjU4N2NlNDlkNzNlZDhhNzRkMzZiNTAyODlkNmUwYWQ5YmRhOWVmYzlhYjllNzg3YzhiMzJmOGZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMDNiODA2NDEyZDM5NTBjN2MzNGMyMmY5YWNkYWYyNzI0ODc0ODNlZmM0MTAzYjdlYTUxZGFhZjMxMzhmMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2a1be925ed90442d9b0af0b12cd44b69",
+      "statement": "The LLM factory lazily dispatches Anthropic, Google, Azure, and Bedrock to dedicated clients, routes registered OpenAI-compatible providers through OpenAIClient, and raises ValueError for unsupported provider keys.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/llm_clients/factory.py#L5-L54",
+          "version": "repo-lines-v1:sha256:b0c4be11b05e2c109b88508968a60dc06acd5e6e084f1c89823c5dd1e470b141:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2ZWY1NDAzMTE5NDE3ZDdiN2ViMjdmYTBkZGNlOWU1NjM3YzE5YzE3MGM4ZmUyOTc2N2UzZTliNTI5NDkxODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyNDVlMjQwNmNkYTAyMTk1OWI5NjAyZjJiNDg3NWRkM2Q0MjBjYTE1N2E2Nzc5MDQzOTRmZDgzM2ZlOWY2YTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1OGNkZjA5NDViOGU1NGZjY2RlMWUyOWJkNWQ4Y2I2YjVmNGRhZTQyNmJhNTYwN2U2YTAyYTJkZDllYjhiMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4464be06970043759fe3d7174ec17d95",
+      "statement": "The OpenAI-compatible family is defined declaratively by OPENAI_COMPATIBLE_PROVIDERS, whose ProviderSpec rows own default endpoints, endpoint environment overrides, key optionality, required-base-URL behavior, Responses API selection, and provider-specific chat subclasses; native Anthropic and Google clients are intentionally outside this registry.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_provider_registry.py#L16-L59",
+          "version": "repo-lines-v1:sha256:b8193e85e77f0ecc62f021c82d9cb50bd8ea82340ebeca7bd9c7c87fd738d6e3:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5YTJjM2I3MDEyNTljYmU1YjA5ZThjMTZkNDRkMGZiZWEyMDhhYTkzMGY1NzliZGFiODZmYzE3YTE2NjZjM2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L183-L233",
+          "version": "repo-lines-v1:sha256:4eaf1d9c48fd77c370e0b89b65106542ebc3bec99f7ccb668809f9ddc7c490c9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2OWExMzk3NWMyNTZlYzgzMjBlMjAxNjA4M2M5NmRmNjM3Y2EzZDM1YmViZGUyMzE0YmVlM2E0NzExYjU2Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxNzQyZmYzMDAyYTNkNzM5OWY3YWMzOGY0MWJlZjJhYTc2Y2ZjODU2NTRkMjcxM2VjZTU0NWY3MzhkM2M4MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmMTk3NjFjODU3NjQ3NThjZjVlZDViZjI5Y2JjNDk1ZDFkMDBjYzQzODFjMzA4YjhmYTEyODk2NjcyYTU1NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0b0b7e32ade94e44ab0f9e7c8734f43f",
+      "statement": "The generic openai_compatible provider requires a user-supplied base URL, accepts an optional OPENAI_COMPATIBLE_API_KEY, uses an EMPTY placeholder when keyless, accepts arbitrary model IDs, uses Chat Completions, and suppresses forced object-form tool_choice for function-calling structured output.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_openai_compatible_provider.py#L26-L65",
+          "version": "repo-lines-v1:sha256:2335283c45ecf9f5be2f2ec1a5492af0af8b6f347bd0933676ea237a087f9d3b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxYjIzMTllNWVlNjkxZjA5ODkwOWMzMWM2ZTk1MWRjNGYyZDUyMDcxZTAyZWViMzcyNmEzMTE1OGYyNDgzNmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmZDBmZjhmNTU4ZjkyMGNkZGI3MGFhMDZlOWU5N2ViNTJmOGVkODVhMDU0ZTE4M2M1MGI1ZDdjNjdlNWM3NGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tests/test_openai_compatible_provider.py#L77-L100",
+          "version": "repo-lines-v1:sha256:4960206d7db5c9c67e37f94a764060c76e6a14d8480dd6543d15c4aeabd4dc3a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2Mzc0YjI3ZDViMGQ4MjA4ZDVhN2ZhMWI4NjZmYTNhMWE0MGNjZjIwZWUzYTgzZWM0MWJmN2QxOTM0YTNjMDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkZjM1NjliMmY2Y2NkNTc2NTlkZmYxNDdlNDJhNjIyYjZmNDRhNDhlYjU5YjY0OGY1ZjhlNzBlNzY3NzM0NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L229-L232",
+          "version": "repo-lines-v1:sha256:d90128e7ce7446be9380b5a7f4f1e6d07bc4f08e8f2905d0f5b9a9cacade9ed1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmUwNTE4ZTgyODAxY2RmMmJhMzczNmUzMDQ2NmEwNzEyZWMzMmNkYjFhNTAyY2FhZjc0MGExMWU2Y2FkODdkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzAyYzQxNGI1NGNmODZkZmI0ZjkwZGZlN2Q3YmRiZmE2NjZiN2RkZGQzMmYxMjg2ZjIzMGE1YjUzMjQxODE4YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDY4YThlMTdhOTQyMmNmYTI3ZGI0N2NhMzUzMzlhYWM2ZDFhMDBlN2M5OTY2YjY1OGU2NGEzZjI1NmRlN2VjYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDlmOTMwODNjMTk3MTIxYjk4MjcwMGJhOGFmYWJkMTcyMmNmMWQzZTc0MDQ1MDllODBlZmEyNzI0N2Y2MmYwNyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L54-L68",
+          "version": "repo-lines-v1:sha256:de1720f17143696711bed2c360d4238596564023e44849d97e18655eadfe7e0b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMjA5MjVkY2ZkZTU0NDNjNGEwNjEwZjVhNzNmMDgxNGE1ODE1ZGE2NjIxODAyMjdjODVjOWMzYjNmNmNmOTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ZjM1OTkyNTgyZDJlOGM2Y2M0NjNlNGJjN2U0NGMzNjc2YjliNjZlZDljYjQzYTc3ODcxMzI4MGE2OWQ5ZWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmMGY0ZmQ4MzVmZTVjNTUwMmY5NjNmYjEyNDY3ZGMyMTI2YWRiMmQyMTdjNmE4YWEwY2U4MjhkNjllNWNjZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhZTFlNmYzNWI4ODIxMWNmZjYyMzUwYjdiNTUxYjBjZTc0YTgzNGVlMTM2NzFlNmRjMDliMzM2NGFhZDZiNWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3126403c295e433794dd9fe55ec7d3da",
+      "statement": "CLI backend URL resolution gives an explicit TRADINGAGENTS_LLM_BACKEND_URL-derived value precedence over a menu or regional URL and then a provider default; OpenAIClient subsequently gives its explicit base_url precedence over a provider-specific endpoint environment variable and the registry default.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L624-L675",
+          "version": "repo-lines-v1:sha256:187a4d571c4c7874424be3d833621c414e81af81ed1cf81f83d80d5c528fec68:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwOWQ1MjA5OWQ1ZGQwZTVmOGYyMmUyMzFjY2RiOTRmN2RjNDkzYWNkYjA0MmFkZmY2OTdmNDJmYTEyYzY1NDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1ZDFkNDJmZmJmMWFiZGZjMDAyM2ZkNDc1ZjJiNDRlZDJhMDEwNTRlMTYwNGQ4OGY4OGQ2MjdjZjk1ZTEwNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhZTlhMjU5NjA5MDJmYTYxZmI3YTA2Y2RjYzRjZDZiMDMzMDNlMzcwMDVmNmI5OTYyMjgxNTA4YTdhZTA1YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg2Y2Q1MWNmODVlMDYxN2EyMWI0ZjhkOGU5ZTZjZmI1NWMwZmFmNDc1YzA3ZTQxZmUzNjk5MGZkNGZhMjI1M2EifQ"
+        },
+        {
+          "resource": "repo://cli/utils.py#L369-L402",
+          "version": "repo-lines-v1:sha256:2c73bca6895a0e864032069aa302bfbc4df95eca1074fb1ffb800543b9d36c0b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZTdiMmFlNjU4YzhiMDc2YTNmYjhmY2M3NzIyYzA3ZGEwZGVmNzFkMjYxMzVjMjI2Mzc0M2JlOWYxMjAwODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWUyYmQ3MGVkMzAwMDA2OTRmN2Q4ODhhOTQ2NTgxMTgxMzJiYzBiYjVmNDc1OWU0MmE3YWM2YzU5NjkxYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhODJlYmU5ZWQ0MDdjM2E2YmE0YjAwMzQyOTJiYWE1MmMxMWNlNWFlMjg2MTA3NDAyZGU0NzkyZWVlY2FjZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjNjRlMWFiNmQ0ZWQ5ZTg1MTUyOWI0YzBiMmQ4MmE1N2VjNjcyMjE2Yjc5ZjU2NDNkMzM3ZGE0MTg0YmZmYzcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L286-L300",
+          "version": "repo-lines-v1:sha256:f58e8f55b05bb71d07c3d4b2bee8ea557bc359a458e958970a702aed61d28f0f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljMzBlYjg3NTllOThiZmQzMTE3ZDIzNTRiNWIyOGUxNDI4ZDUwZDZlNTg5MTkyZTVkZjgyNDIzMDgwOTVlNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwNGMyYjEzOTkxN2Y2MmQ3NzcxNTY3OWU0ODZkNzVlZDIwYWMyZjE3YTI4MWJmNzM3MDViYTE4NGI0NGQzNWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwOTFkYzJkOTgyMTY4ZmE3ZDg0MmZhYmE1MDNkMDhiNGRjODI1ODJkOTVjZmJkOTkyMmUyNTY3MTk4ZWM2NzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_805f223c4b9a4109bbb1e14d71995370",
+      "statement": "PROVIDER_API_KEY_ENV is the canonical provider-to-key-variable mapping used by the CLI key prompt and OpenAI-compatible runtime client; key-optional registry entries are not interactively forced, while missing keys for required compatible providers fail during client construction with the expected environment variable named.",
+      "evidence": [
+        {
+          "resource": "repo://cli/utils.py#L603-L650",
+          "version": "repo-lines-v1:sha256:31f4637b7a43d454a76707a244863739064b247054807f064fdd5816bf4b3d01:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNTJmNjAxNDI0YjJhY2RjMjdhODg4MTFlYjg4NzQyMzJlYjMwY2MwOTE1YzJmOWNiYTc2ZDJiODViMTQ0MWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5MDljZDkxMThmMzAzZTI3MWQyYzE3M2Q4ZmM3ODg4ZTAwNTI2ZDRhNWM4NjdmYzNjMjU3N2I0NTNlMmM0NTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZGYyYWNmMDZlOGMzZjAzYzcxMzVjNmU4YWM1YTljYTU0MzJhYmUwNmE3NGFjYTBmZGQ5YTUzYTAwOGY5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhNTNhYzZlYjcyZTgxOGU1MzkyNTZmYzQ0YmVhZjUxYjg3MmY4MDQ2Yjg4ZjRjZmQzZjVhODcwZTRmNzQ5MzYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/api_key_env.py#L1-L53",
+          "version": "repo-lines-v1:sha256:d72c23c071769146176b09e328082871c8275d2bd7f85983c996d12ccac73b4f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4YmNjNTE1MDJhODczNGZhMGI5MDU0Y2Q1NzFlNDE0MTk5YWNmYTkzODdmNWQ2N2M4ZGRkNWYwMDZjYWEyODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyMmVlZjA0MDdkYjQyNTFiZTM3NjZmM2ZlM2YxZWVmYTU3MjFhNmJiOTg4MjA2YjhhOWNmMTcwMWUzYTYzMjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L301-L314",
+          "version": "repo-lines-v1:sha256:21fb32f1ab277ad1d5e7ea04ea05ef1425451f343d1e6624a6dbcb4e5d27a825:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjZTA2YWE1ZmU0MTFhZWY3MzI4MzhmODQ1MmI2Yzk3ODVjMGRkMjlhYjZiZTljNzY4NWY3YzViMDUyM2U3MDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMDM0ODFjNTdkMGYwZGMwZjc2Y2QyY2M4YjM2MDRjNGU4Mjk2ZGE0MTIyYWRkMTllODE3NDVkYzdlMzMxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjNGE3MzNmNTEwYTQ1YzE4MzEwZmNiMjNhZTBlNGY5NmNjZjZiMTk5MTNiZTY0N2Q2NjdlYzI3MTJhMDQzMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5MTRiYTYyYmMyNjk2NTc4NWU0ODVlYTFhYmU0OWJiOGU0NzQzMjdjZGM1YjljNTcxZjZkOTNjMWFmOTRlZDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_10398a5f8ed44fa9b025ce9aa48b085d",
+      "statement": "Qwen, GLM, and MiniMax international and China variants use distinct provider keys, endpoints, and API-key environment variables because credentials are regional even where model IDs are shared.",
+      "evidence": [
+        {
+          "resource": "repo://cli/utils.py#L493-L564",
+          "version": "repo-lines-v1:sha256:8071276c3b93a9fd3d12a62d25e2f378917a537e00586db7fec461ca0cac1136:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkMTZhMDIzMmE2MGIwNzQ5MWY2NjgwZDJkMzIyNmM1MTM4ZDEyMjllY2UyMjQ3NmM0MWE0YzQ5MTc0NzE2N2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiMzllMTZkY2I1YTAyODlmMTQ0MGJiMGNmOGQ1MmRiZTU4MWQyYWI2N2IzNmIzNDQwZWRmZjRmMWRmOGFlNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRjMGIwNzY4MzdmMzFmMDIwZTE0YTAzMTgwOTAyZGQ2ODk5ZTUxZDM4MzVjYzBjZmNiYzM2MGVmMWI0M2I3ZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2MTljZmVjOTA4ZGEzYWNjNzg1MmQ2NmZjMTg3OGFmNTFiNTViNmIxMjZmMDMxMWFhNmNkOWE2NmQ4MTU2ZTcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/api_key_env.py#L23-L30",
+          "version": "repo-lines-v1:sha256:87a18a622de37c68b6305dfc61a730f384cb90341feaf6af5debcc78f821b9f4:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzE2NzFmNzBhMTVmZGNmZWQ3MzliN2Q2MGQxZDhlYWJmNTMwZTk3YmRjNjU5MTVkMDYzODM1ZjFkNWEzYTg0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU5YzNjMGFjNWU2NjFlMDYyZDM2MTMxMGI1OTkzNjBkZDdhYWE1MGM0YjViMTY0ZGFjOGQ3NjIyOGU3NzBlYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjg0YmJmZDlhOGFiOWE2NzA3NWU5ZTU4MTIyODI5MzM1MmY0NjljMGM4ZDlhMTA4ZTdkOTE1MTc2Mjg2MTg4MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTk4NjAxZWY3MjIxOTFmZDdhNmU5Y2RjOTkyMmVkMzA5OGUwY2NiNDcwNjcwNWU2N2MzMDc4MDI3Y2FkY2ZlOSJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/model_catalog.py#L144-L155",
+          "version": "repo-lines-v1:sha256:beffa58b4b570c7b212c21d17af232f0cc6f476945195c2450f3083e1bd590b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1OTgyNjc2OTJhMGNhMGY3MzBmZmNkZTRkZDY1OWNjM2M3ZDk4MDJiNjQ2NGU3YjkxZTIyMTk0ZjA0ZjA2OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0NjA4MzM4MGM4ZDg1OWVhOTZlNDhmNjQxMzFiMzcyMTE3Nzg0Mjk5MTE0NjYzMGVhM2FkMGM5NDUzNmRhNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0ODQ1YWFlMWIzMDZlZTU5OWVlOWQ4ZjJlYTRhMmZjZjEyNjdkYjIwYmU5NzBjM2E2OGI0ZTAyYjhkOTc2MDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjYTVkYWM0NjVmNGJiZTI5MWI4ZDYxNGExMDM0NDAwNmE2MjgxOGM0OTkzMGJhODQxOWVkMDdiNDdhZmFmNDYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L209-L221",
+          "version": "repo-lines-v1:sha256:84bcd372c2c32b5042248b5fc0e367a3ea5da4e90c46e46f1f924b0573d51d4e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5MWM0NGYzYzA2MGU0NzdmOTIyMzg2MWQxMTkzOWU3ZDMxY2JmOTEzZmE4ZmU3OTFkZDEwYjY4NWI5NjcwYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5ZmU5ODM2NGE2MTFiNzUzNzIzNjM2ZjU0MTMyY2ZiMmJjNTljY2NjNWMzMWZiZGVmYzBlOWU2NjNiZDk5MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMjFkYWRlMzI0MzQ3MmE0MjFmMmM0MGE0ODU1NzhlMmJmNTE3OTVkODA2ODZiM2E4MTQ3MWQ3YTliMzQ1NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyZDJjMDdhMzkyYTIwNGNhOWJjYzdiMzkzMDBjZDI3NGU1ZWE0Y2JjYWIxNmQyNWYzYjUyM2Y0YmY5ZDIzNzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_40978c691caf4fd29afe6660f4e3d1c6",
+      "statement": "Bedrock support is a dedicated Converse API client that lazily imports the optional langchain-aws dependency, selects AWS_REGION then AWS_DEFAULT_REGION then us-west-2, prefers AWS_BEARER_TOKEN_BEDROCK as api_key when present, and otherwise leaves authentication to the AWS credential chain.",
+      "evidence": [
+        {
+          "resource": "repo://pyproject.toml#L36-L46",
+          "version": "repo-lines-v1:sha256:189ffab7adda9ac3262be8dd44154108e05f4bbf688f5ef42efefdbdf3bb259b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5MjE4ZGM0Y2U5NzFjYmUzZDM4ZDc3NDMwZTYzOTkxODg4NGRkNzdkNzE4NGM3YjkzZGZkYzJlOTk4NjkxYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0NGNkM2I2OTM3YzU1NTNiMWJjZGRmNjhjMDYzZDg5N2M5ZGNkN2RmOWM2ZmU3ZmU3YzA1NmM4M2JhYjJhZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlNjQ1MGVmNzNhYTYyOThjZDg2ZTBkYTM2YWQ4ZTMxNjViYTMzMDMyYmQ0YzQyNTNjMDFlNjVlMGMzYTAzNDgifQ"
+        },
+        {
+          "resource": "repo://tests/test_bedrock_provider.py#L16-L79",
+          "version": "repo-lines-v1:sha256:0bf00d4c05107d810e856b73352530c948dccb0269c248f7c4ccf0fb358b6680:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlOTMyYWFmY2EyY2E1NTYxYzQ4Mjk5MWUyYzZiMTFkYTU2MGRjOTRiYzEzNDViYTcwMzI4MGJmZWUwZTQ0ZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwZDY0OWI5OGQ4MzUxNjc1OTFhNzYwOTUzY2RiNjhjZmMxMmJmMmI0NTAxMzc3ZWI5ZjNhNTQ3ZWRhZGQ4MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkYTcwMzViNDNjNzkzM2JiZDNkMTU3ZjMzYTE1M2I5M2NjZjQ2YmMwNGUzMTFkODlkZWExMjU1YmJlNDhhZjAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/bedrock_client.py#L41-L76",
+          "version": "repo-lines-v1:sha256:050da9fff9e7959dc4c19ef3592436e90c20dd91175c9595a48feada56504124:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4YzE5Mzg5YWY2MzMzNGQ3Zjg0MWZiYzhkMTMwYjgwMWFmMmY5N2Y0ZWZlZmNmMzM0NzJiMzYxN2MzZTQ2MjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxYmIxNTViYzI5ODBmZTE1N2RkODYzY2M5MGE3NTM5Njc2MWZjNjI1NzNmYTgyNjA1NmVlY2VkYTIwYjZlNWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4MmUxNzQ1ZjYxOTk4YTZhYWM5NDJjYzliMDZmNjQ4NDM4OWM5NDRmOTU4NmZlZjBlOWJkMWIyMDI1MzcxMTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/bedrock_client.py#L7-L38",
+          "version": "repo-lines-v1:sha256:b5c9b76804df2b8b05a4bd44684bbd21a8b868d267b5c3c202bc5720f3926741:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5NTllMjAyMDllYTYzOGViMzkxMjZlMzRjNzUxYTNjZGJjZjZlYmEyOGNiMDc1M2Q1YTY3MzNhNmIzYjY4MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMTkyZjBiZDQxYmNkMjE1NmQzNGY0NGNlYTQwYTVhMWE1NGM4MDllNDkyOTMxMTg1ZDcyYTQ2MTYxNTMxMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwOTI0MjM4Y2M4YTdkYjdlZTM2YTMzYThlZTdjMjYwNDdlZDBmZjgxNTkxNDA5YjBjMzM4Mzc5OTNlMGNkZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU3MzQxYjhiMzNkY2Q3MzhjZjViODUyYzg4Y2UzZWRmYzc3NGIzYjljOGI3ZDAzZThhMTBmMzljZmI0ZjliOTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a2182298a3134afb8a9a66f80783bb22",
+      "statement": "Native OpenAI uses the Responses API only when the resolved endpoint is unset or hosted on openai.com; configuring a custom proxy, gateway, or local base URL disables Responses API mode and uses Chat Completions compatibility.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_openai_responses_base_url.py#L14-L43",
+          "version": "repo-lines-v1:sha256:3bb2d36cef708f8b938ec9405f7bb41adb0acf70ff1fcbda9be038ad2c512ff9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0Yjk2ZGViOWE1OGQ2Yjk0ZDBiNjViNmZlOWQzYmFkZThhN2IwY2NjY2FiYmEwNDg4ZjMyYjg2MzBhYjY3NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L241-L254",
+          "version": "repo-lines-v1:sha256:b6cf8ce03bd71f481a7d01df1218271a58c63d574c5083af596cc4b77aaa1923:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkN2ZiNjg1N2MyNDJhNzg4NDg1MDA0YjI3YTdhMGY0YzQwMDE2MWZiOTk3N2VhMjJlNzk0MjI1NDI3ZWZiZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwOTg1ZWZjMTBjZjIzYmUzYzY5ZmFlYzBkYjc2MDMyM2QwYWE1NmI0NjUyMjNhZDA2MWI1ZWM5YTQzYmNlYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1ZjUwYWRlZTcxNjNkNjJhYzFjODMzMTcyZmE4OGE0NzhkM2M5ZWQwOTQyZDBkNzEwZDE3OGJlMTAwZWE0MzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiNmQwNjM2Njk0MzQ0NWFkM2M5NTg1YmVkODVjYmNiN2MyMTI0MmIyOTMxZDAyMGNlNDZiYjMzZmEwNjFjOGIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L316-L320",
+          "version": "repo-lines-v1:sha256:7d64dcc0ff34ce3c1584190f846e42626d4db4c8bb14ecf300f54f0778ff13cf:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmU3YmY3N2NmYTdlYTE5YTRkYTNkMWZhMzRlNDM3MmYzYmE0NDE4NzJjZWMzYzY5MWE3ZDE4MWQzYTZjNzUzNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NhOGZjM2RiYzIwOTljZWIyZjJmY2FiNTJhYjJkNThmOWQ0OGIwM2ZmNDIxNzk3ZjU0Mzc4NTAwYWU3MjU3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmY1N2VmMDA5NGZkYzRjODAzNDBhMjE2ODJiMmVkNTY4MTM3NWFlNTQ5Yzc1NTkwYWE1MWFhOWRmODU3MjZkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2NhYzlmYWRkOTAyZjRiZDZmMjY3MmYxM2Q2Y2M5MGQ4YWQ5MmVjZjNkNTEwOTBjMmVhOGZkOGI2YjU1NTIzMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_85a85964669e4eb896fa7fde5662e395",
+      "statement": "GoogleClient maps the compatibility layer's unified api_key to google_api_key with unified-key precedence over the legacy input, while AzureOpenAIClient derives azure_deployment from AZURE_OPENAI_DEPLOYMENT_NAME or the configured model and accepts any deployment name.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_google_api_key.py#L9-L27",
+          "version": "repo-lines-v1:sha256:1b421fb3fa1797fabd5ea6f51b88f7283fb8a82a58ebeded22a3aca177891f17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MmJjNjkyYjg1NWQxMTYxMjdhNzdkZmU3YThjNTYyZGFiNDc2N2JlYTliMDg3NzdlOThhYmQxZjI0Y2U4MGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjOGE5NmYwZWJkZGE0MTRkMWM2YWNiMWE1MmM2ZTJmODkyZDdhMWQxOWY3MmNmODYzNTJmNWM3YmFjNTE2YjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/azure_client.py#L21-L51",
+          "version": "repo-lines-v1:sha256:520a506fa3b98859269d5c86ed43b58b95d71a13c6ad332a2be44cefcdf71ef0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhOWQzNDFmMjI0OTVlZTA3M2Y0ZWQzZjI5YTM1YTE5Zjk5NDBjYzBiMzVjZTQ5NDU0ZmEzOTZkZjJmZDA2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMDQyNGJkZTNhZDkxZmY4ZGFlYTgxYTRhYTUwNGIyZmU5ZDM3OTIzZjU5Mzc5MTUyZDU0M2Q3YjRkZWFmNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2NmI2NTRkOGJhNDk4ZTkzNGY1MDM5NmNiNjljMDc0Mzg0YzNhZjc2NGRlZDAzY2M2ZTRlNWEzZTcwYTg3YmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/google_client.py#L26-L53",
+          "version": "repo-lines-v1:sha256:d85efc2ac1a03bde12969f37cae7dcb77edbc4e44ff9d00cc1ec39bc76cba68f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNDNhN2JlZjgwZGYxNmZiYzY0YWNkYzUxMTgwMzUzMTg3NjUzNTJiN2VjZjZiMmNkZTFjZTlkMWFlOTc2ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwOWQ4OTM5YmQwOTJhZjQxMTU1Y2VmNzgzZDgwZjdjZjJkNjRhOGY5YWJiZjgxMmMwN2NiM2M1N2NjYzkyZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0MWUzNTQzYWZkNTM2NWVjYWFjYjFhMmJhMTU4NjRhZDMwMjllZmFkMTNhMmQ3ZjdmMGIyOTAzMDE4ZjNmZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzNGU1MGMxMGEwMzg4YmNmNjdlMmY3MWE0OTkyZjRmNDIwNjk4MjczNWE1NTdhYWFhM2JmNDFlNDEzMmJmNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_05ffd2a150c047ca8618a3cf2a00fc9f",
+      "statement": "MODEL_OPTIONS используется статическим quick/deep выбором CLI и для получения известных model ID; OpenRouter получает варианты динамически, а Azure запрашивает имя deployment напрямую.",
+      "evidence": [
+        {
+          "resource": "repo://cli/utils.py#L246-L326",
+          "version": "repo-lines-v1:sha256:b4c787295b0ab25930f6c7af95638091848a6595b7c00fe643d04f2782c374e9:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzNDNjNzExMzExYzhhNmE0M2U0Nzg1YjFlZDQwYzEyOGYwNWFiZDYyMmQyNjA2OTBhZmRjYzhiYWQ4OGE0ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMjMzMTI4ZDM5ODA1MjY2ZDNhMTg3ZGFhY2MyMTAzYWVmYzRkMTA5NTVjMTM3NTNmYTdjOTkyMGU3OThiN2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhM2ZjMjE0OGMzOTM2YTQ5OGMxMjJhMWUyMzMyYWY5NTFlMDJhZTkwMmUyZjJmNDgwZTJhYzBhNzE1ZGJlMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlOWEzYjVlZjFlM2NmNDk5YzU2MTI4YTMyMWNiODIwZWY3YTNjYmYzZDhkY2IxMTY3MDc4MjYwMzE2ZGU0NWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/model_catalog.py",
+          "version": "repo-file-v1:sha256:e38d920d67aff292d91843146c3d2eff569cc2d2e04ebcab53a0f50e91b796fc"
+        }
+      ]
+    },
+    {
+      "id": "claim_62a186685b7b477bbef3d0f300cd062f",
+      "statement": "Model validation is advisory: catalog-backed unknown models cause BaseLLMClient to emit a RuntimeWarning and continue, while explicitly open-ended providers and Azure accept arbitrary model or deployment identifiers without warning.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_model_validation.py#L24-L54",
+          "version": "repo-lines-v1:sha256:dbeb26a94b894980870e92801730d45a421cfe81df7bc81517ee6a57133e94c8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5M2I5MDYxZDU1MjY4ODZhNTAzYTk0MThlMTUzNzU1NTA2NmE0YzkwY2Q3MjAwMmY0MGFmZGEyZjE1MmQ1MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU3MTJhYWM5ZGUzNDY2OGY0OGZmOTc0OWI0NzAxNDNhNzRiZGNiNDQ3YWY3MmY0MmQ5MTM4YTMyNDcxZGUwNzQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/azure_client.py#L49-L51",
+          "version": "repo-lines-v1:sha256:39e275197541800e19ca110218c8e5750a90f27a8beefd0edb2f727679442be9:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDAxMWFmZmM4YWU2ZmMxZmM4Y2Y5M2FlNWNhNTYxYjRkYmVmNmUxNTYyMjAwYWM2MDQ0NDE5NDVjZGQ0NGY2ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDEwNDI0YmRlM2FkOTFmZjhkYWVhODFhNGFhNTA0YjJmZTlkMzc5MjNmNTkzNzkxNTJkNTQzZDdiNGRlYWY3MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmU3MWQyNDI5ZWJkYmVlNWZkY2E5NGMwY2ZlMDI4Njg0OGQ0Zjg3OWFiZGU3NWJmN2YzODMyZGQ4ZjEzMjZhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/base_client.py#L33-L52",
+          "version": "repo-lines-v1:sha256:de406d803bce5402632825fac765c527edf292effe73fcc90c5e2ff17989a8dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjOTIxNWRjODYyYjMyY2Y4YjY3NjZmY2M4MzJhYWQ5N2UwY2YzZjUyZTg1ODYwZTU1MDZiZGNkNTVkNzcyMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyYjI1NTBkYzk2MmM0Yjk4YTJhYzJiM2ZmYzY5YWUwZDJkYzAyMGQ0NzdlYjc3ZGViOGY5NWY5Yzk0MjNhYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjYjhkNjE2NjYzY2Y5ODliYWU4ODkzMjBiZGM2NTNlMmU5NjBmMWM4YzliYjk4NjA0MDBkMGMyMjkyNjViMzcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/validators.py#L1-L33",
+          "version": "repo-lines-v1:sha256:5571d82c1c4c2ec6bc191e769e4d81fd4c9155c7f2557cd3665c03b9f4d82a46:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0NmM2N2YzMWMxOGFkMDVkYmYzNThjMmFjNTA3MTgyZDNlYjg2YTg3NDQ1OTJjYzI0Mzg4ZWE4Y2ZjMzMxYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhYzYxMjJlZWE2ZDY5MTAzMmM3YjY0YjNkM2MyZWNiYTkyZjYzNzI3MDY2NjdkZjk1YjYwMGRiNWNhYTkxZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b9d59985e1b414881b5f64b9d450b03",
+      "statement": "При привязке структурированного вывода OpenAI-совместимый адаптер разрешает неизменяемые capabilities, удалив только официальный начальный namespace deepseek/ для lookup, затем проверяя точный ID, regex по порядку и permissive default; preferred_structured_method выбирает метод, none вызывает NotImplementedError, а для function_calling без поддержки tool_choice адаптер задаёт через setdefault tool_choice=None, сохраняя schema tool и не перезаписывая явный аргумент вызывающего кода.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_capabilities.py",
+          "version": "repo-file-v1:sha256:39aa3f06984a3264d2287f72b7175e80c322ddeaa3c8ef433aee6fd92fc86105"
+        },
+        {
+          "resource": "repo://tests/test_deepseek_reasoning.py#L129-L179",
+          "version": "repo-lines-v1:sha256:52647b7d33faa3c8f69a73d57db899c1525a61d4f0827f4109a12a9ce3ad402a:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzY2UyYzBhMWIwM2VhYTk5Y2UzMWUzODAzMWRjYTQ5YWI1NTNlZjVkYTQxOTBkY2IzOTAyZGJjNGEzMGI1NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0YjEwNjc1NjQ0NDNiZmQ0YjM1NDM1ZWMwMGZjZmQxZWQyYzcwYWEyMTA5ZmMyNjljMzg0MTMyZDNhNTJhOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzM5ZDU1YjFjNDA5YWVlN2MzMThhZThmZWU0ZjEyOWVlODM1OWViMjczNjU3NWJlYmI4MDcxN2E1Mzk2OWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/capabilities.py",
+          "version": "repo-file-v1:sha256:a733bcb6a23b1c01d3be99ee8745685f6a1b631bdb316e7a68d3387730c5a559"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L38-L68",
+          "version": "repo-lines-v1:sha256:e39cb356414491cd800384c2ee206a3cb1c89b3aa3d4998d7bc1da8b8d014a8d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MDNkNzBkODBhOWJmMDlmZDdhOGUzN2Y1NmQ2YWM4NDUzMDViMjRjNTZiMTNhMGYyZTY1MDNjZGI0MmNhZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ZjM1OTkyNTgyZDJlOGM2Y2M0NjNlNGJjN2U0NGMzNjc2YjliNjZlZDljYjQzYTc3ODcxMzI4MGE2OWQ5ZWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkMWE4NTAxNzUyNTYwNWUwODgxNjg1NGM1YzQ4NzllNzc0YTdkZDliYzc3MDMwMWIzNDFkODQwMjQzOTRjNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhZTFlNmYzNWI4ODIxMWNmZjYyMzUwYjdiNTUxYjBjZTc0YTgzNGVlMTM2NzFlNmRjMDliMzM2NGFhZDZiNWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_34d59867452c48549498936715a068b2",
+      "statement": "Общий structured helper переходит на свободный текст при NotImplementedError или AttributeError во время привязки схемы; после привязки ошибка вызова или рендера и результат None приводят к предупреждению и одному plain invoke с тем же prompt. Ошибка резервного plain invoke не перехватывается этим helper; этот fallback отделён от retries SDK.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/structured.py#L42-L89",
+          "version": "repo-lines-v1:sha256:0b692a13c4bc11d1bf4efde66a0ce473e16a0d300a7a45121b08b8913bea0229:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjY1YTM3YWEwN2RlN2IwOTE2NzZhNjk2YWY2ZmU0ZjBiZjczNDk0ZThiMmVhMTg2MmRkMzQxOWY2ZTMxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMGM4NDIwYjhhNTQ5N2VhZmQzMjU1NWE3MTg4NThkYjE4NjYwOWNmMjVlYjVlNTI4Njg0NDE2N2EzZTlmYjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8707a4989cfd40cea8f475ed80bee426",
+      "statement": "LLM response adapters normalize list-valued synchronous response content into a newline-joined string of text blocks and strings, discarding reasoning and metadata blocks from content for downstream agents.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/llm_clients/anthropic_client.py#L41-L50",
+          "version": "repo-lines-v1:sha256:b4d8087e492bd03242ce9834663c2b6d45c2de5e6f843db0218b9d42add2e1db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzYWQzMDQyZjVlZGE2YmJhYmRlYTM0NTNmNjQzMDgwMWQ0NWMwZDNkMjk3OWE2MzJjYThiNzdhNmRmOTFlN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmMmEzYWE4NWI1M2JmNjE5NmJhMTgzN2JiYWM2MzI3NDE2MzlkOTcxYzI1MmRhZDc4NTE2NzRhNDRhMzQxYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhYzY2NzViZmU2YTU1ZmMzMjVmNTFhYjhjOGRkMTkxNGJjMmNkMWNjZDRiNmZjZmIxZDVmMGI5MDFjNzU2M2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVjZDNhMDVhOTBiYTk5MzViYmM0ODMyZGQ2ZTk0NDU4OWFiM2RiOGJmNTYxOWFjYjhjMjIyZDAzNWUwZThjYTkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/azure_client.py#L14-L18",
+          "version": "repo-lines-v1:sha256:d05f99c6076a82ad30bbf167e0b2133ed84ac2db1e4bf1a93ef91ad088048660:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQwMThjOTk0MjAyMGMwNjYzNzhjMWE5NTgxY2NhMDM0ZTkzZDZhMDU5NzJhYTdjMzAzYWQwNmRiMTYxNDAwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWYyYTNhYTg1YjUzYmY2MTk2YmExODM3YmJhYzYzMjc0MTYzOWQ5NzFjMjUyZGFkNzg1MTY3NGE0NGEzNDFhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTk4YjA2M2Q5YjQ3ZTY1Mzc5NjI1NTcyY2NlMTk3NjY5ZDU3NjdlMTJjMThiZTA3NTY1MmI4Y2Q5ODFjZThkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTg4MzE3MzQ5ZDUxODU0ZTUzMzM0NzJhNzMyYTJhMWNhZmMxYTRhYmFlY2FlOTJlMThlMGFjZDU5MzZjMzdkMyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/base_client.py#L6-L22",
+          "version": "repo-lines-v1:sha256:d261d6ee2b62c44569e56661bc95ffcc44b23d50aebc096c0f44a83d9597e7f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzZjEzZGUwMzVkMWU3NTlhYzFhZTViZTEyNGI2Mzg1MDRiMTAwMWRjMWY3N2VmNzZhNTU2MTQ4YzQxY2ViNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMDg1MzI5MTBjZmNlZmU1ODcwM2Q0MzQ0NWE5YzIwMmIxMjQ4NzcyZjE2ZWY1YTE2MzBlNjJmMjVkZjAyNzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkMzdhMzNkMDczYWI4ZGEyOWRjNzRjZTZhODkxMzE4MThhNTJhNWMxNjVkMTZmMzFkOTkxOTk3ZjBlNjZjZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNTU1N2RiZjgzMzdlNjc1NGM5ZTUwYzkxYmJlNmVkNzg0ZTExN2E3YmRkMmM1ZTk5MTYzY2RiYmUzN2NjNjcifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/bedrock_client.py#L31-L38",
+          "version": "repo-lines-v1:sha256:ce020d681bae52c942aa0e42c5ef7eec184d08695894f6b5ea233e47d79d7d87:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5NDFlOTM0YmM4ZGMxZmEzZTk5YTMwOTY3YTc4MWJkMTBlMTE3ZGE3YzFhZmVjYTUxMGQzYjBlYmNiZDdkMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMxOTJmMGJkNDFiY2QyMTU2ZDM0ZjQ0Y2VhNDBhNWExYTU0YzgwOWU0OTI5MzExODVkNzJhNDYxNjE1MzExYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2ZkM2RhNDZlYzAyOGJmNjEwOTEyMjU3YmE3MDQ0ODNjNDBkYWYyYzJkMjc3MjVjZmM1MWExNzA5ZDU4ZjBjMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTczNDFiOGIzM2RjZDczOGNmNWI4NTJjODhjZTNlZGZjNzc0YjNiOWM4YjdkMDNlOGExMGYzOWNmYjRmOWI5NCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/google_client.py#L9-L17",
+          "version": "repo-lines-v1:sha256:a5cf1b1a195473744c2c3fbbd54ad578b1c1c5c042eb19bc8c1dd918ed14eb1b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDVlMTljYTViMTZmZjc3MWYyYmZiM2I4OGI3ZmNiZWMxMzc0MzJlM2FkMWFjOTYyOWY2NDBiYzYyODJhNmYwZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWYyYTNhYTg1YjUzYmY2MTk2YmExODM3YmJhYzYzMjc0MTYzOWQ5NzFjMjUyZGFkNzg1MTY3NGE0NGEzNDFhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmM2MWZmMWU3NjU0ZjA0ZWMwZDIxYWE5OWVjMTFmOTY0NWM1OTMxZWZiMmEzZjkzOWMzODRiMjUxYjRjMzhjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDRlZDdjY2NmZjQxYzBmNDkxMmQxYTg1MjYxYWFjOTgxMGQ0YjU1OGQyZDM1NmExZGQyMDkxNjcyNzQxZWQ5YyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L16-L36",
+          "version": "repo-lines-v1:sha256:8210e18381a45fb7cfff14582a18b5fb4cbaa1f40806daa49d44a0976b2010bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiMzZhZTI1Njk5OTA5NDRhMjAzZjUyODI4MDYzOTUyYjhkNzBmZTA5ZDYyYTllYTIzOTE3OTQzOWVmYWM1NzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmMmEzYWE4NWI1M2JmNjE5NmJhMTgzN2JiYWM2MzI3NDE2MzlkOTcxYzI1MmRhZDc4NTE2NzRhNDRhMzQxYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJjNjFmZjFlNzY1NGYwNGVjMGQyMWFhOTllYzExZjk2NDVjNTkzMWVmYjJhM2Y5MzljMzg0YjI1MWI0YzM4YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5MGNmOTQ1NjVlYjMwYmUxNzU3MTQyYTVlMTAxY2JlMzgzNmJhMjA4NWY4Y2ExYjNjNTEwNzliN2RiZGQ3NTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_628e7cbec97f4ab88e28e8e07b410c7e",
+      "statement": "DeepSeekChatOpenAI captures response reasoning_content in AIMessage additional_kwargs and reattaches it to outgoing assistant messages on later turns, including both list and ChatPromptValue inputs.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_deepseek_reasoning.py#L55-L115",
+          "version": "repo-lines-v1:sha256:1785cf4f33661254378096db66bd4b979e64ee5a15986c1b2ebcd6754ab98aff:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjYWZiM2MxMTZmZjk1ZmVjODFmY2VmMmYzZTU3ZWRjZDc4ZTZjOGY4ZDhiYWU4N2I4OTE0M2RlMzU0OWI5YzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4MjY3NmM4ODhjMWE0ZDlmYTc3MmZjZGMzMDJmNzczYmM3MjkwZWViZmY5ZGEzNmEzOWY0NGMzMjExOTgzODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzM5ZDU1YjFjNDA5YWVlN2MzMThhZThmZWU0ZjEyOWVlODM1OWViMjczNjU3NWJlYmI4MDcxN2E1Mzk2OWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L71-L129",
+          "version": "repo-lines-v1:sha256:388a50e7be89b94a496ae59b013b2acd6c271fa732bed8a83e34b70da19ecb43:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNzkxMjYzMGQwZmM2OTljYjIyZDY5NzFjZTE0MDNlOGZiMWU4ZTM5YWFkZDkzNTQ0Mjk1MjJkODFhMjk4MWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlZmU3YzYyZjliOGZhMTk5ZGJiOWVlYjQ4MmQ2ZWNmZTNkYWM3OTUxNWE0OGJiMWJkZGM5MTZlNmVhNGU3MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmMGY0ZmQ4MzVmZTVjNTUwMmY5NjNmYjEyNDY3ZGMyMTI2YWRiMmQyMTdjNmE4YWEwY2U4MjhkNjllNWNjZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMTEyNzk5NGNkODQwZDI0NTBmNmNlYTIzZDU3YWEwY2U4YzYwMDVhZDU0ODFhOGZiN2ViNTgxNTdiNzAzNWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_861282005dd34913bd6ed1ab5a532d08",
+      "statement": "MinimaxChatOpenAI injects reasoning_split=True through extra_body only for capability rows requiring it, preventing thinking blocks from polluting content without sending an SDK-invalid top-level parameter.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_minimax.py#L26-L43",
+          "version": "repo-lines-v1:sha256:bb64cc179c34cd26d7a25fcd904cdc28810191cbaef24867e4d93cb9d431fb8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMGZjN2U2MDZjNWQ2NWJjMjY2MGJiYzgzMjcxODBlYjFiNGQxYzY2ODQyMzE1ZjZlYWUxNDYxYjg3NjM3YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzRhN2QxY2M3OTZhYmEzZTQ2NzIzMzI3ZjUxN2U5ZjgxMTk4MmQyNTBmMDcwMjk4NmU0YjU3NjRhZDk1ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/capabilities.py#L69-L83",
+          "version": "repo-lines-v1:sha256:56202710f053569eecda6d2f71de23ba2d904fbcdf757737654526470e5989d5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZDI2ZTQyMjgyNmJhMjk0N2JiYTcwMTcyOWQ0YjMwNDc5OThhNzk2MzEzMjk4ZjM0MGMwMGQwNGE3NmE5NzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwZWNmNmJjYzAzNDYzZDE1ZGEwNWYzZmUzMDA3NDUyNjcyYzAxNzJhZTJhMzA3YmY2NGE2YTkzNDU1ODQyNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlOWVjYjExOTVhOGY4NDJlMTgyNTRiYjQ4NGY0ZTljOTc2YTNlNjUxMmFjZjE5MTMxODAxYWE1N2ZlYzRlMzIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L132-L162",
+          "version": "repo-lines-v1:sha256:5ad8d1ae3321c278536f02ae8cf9a4675d01eb4dacb36a5da203fdfc8696bdee:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkNjc0MDZhYjJlYjAwYjZjZTFjNjA2ZTRiNDVlNWExYjViMmZjMWNjNjE2MmI4NjQ0NDUyNWJkYzJiMGE0OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmMjM0N2NmYWEyYzE1NGI2MmUzZjdkM2M0OWFkNTMyODQ5OWZhNTIxNGYyYWY3ZTM1MjQ2ODk3MTcxOTUwMzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZDg3MGM0ZjIyODY1MjAzZGUxYjgwZWQ0MjBiZWZhZTQyZTY1NjczOWZiZGQ4M2M2MzkzNDBhMTk5OGQzOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmZDBlNDNkNjMwOWQ0NGNiMDY4ZDM3Y2M4NjA2MGMzOWY2NmY4NDIzOWVlYjkyNzFmNTNjZTNhM2NjYTdmMzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_813a9394be864b639a9294fdb10e0157",
+      "statement": "Provider-specific reasoning controls are conservatively gated: OpenAI reasoning_effort is limited to GPT-5 and o-series names, Anthropic effort is limited by supported families and minimum versions, and Google remaps minimal thinking_level to low for Pro models.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_anthropic_effort.py#L23-L83",
+          "version": "repo-lines-v1:sha256:da715edead57d7ad0ae1d7c4884334249f25387ffc6e549df1cc87445ca80259:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwYmVmYmRhM2Y0ODJhMTM1MTk2ZmYyYzZlNzQwYWEyNTExMmQ4NTc3ZTRkNTNmMGQ0MTA3ZTZjZmFhMTMxNTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjYzNlODM0MWQyMTI5ZDczMzY0NGIwYjBhZGQ5ZjcwMTVkYjk3NTY5ZWRjMTljMGNlNDRiYzUzMzA4NjQ4MDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlYzg4ZDQ4MjczMjVlNDM2MjhjYzc2MGFjOWU2YmZjN2JmM2JjZTc0ZmQyY2FiMzU1ZDhhOGRlNzgzMjc4NTMifQ"
+        },
+        {
+          "resource": "repo://tests/test_google_thinking_level.py#L26-L45",
+          "version": "repo-lines-v1:sha256:09ee5a50e71b9bf6b1054c334fc8b59e43983f4dc4bd5b46f1c8e5513f07f24f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2NmEyNzBmOWVjMmNmN2Q5NzczMzE3YTA3NDhlZDNkNTJiNGI2OGZjYjg5OThhY2U0OWI3ZjEwMTMxNTE5MjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MmY1MTc3NWVlOTEwN2JkNzNmYzIxN2E5Nzg1MTllMGY4OWQwZmViNThiYTI1OTQ5MjgzOTg5ODBhZDU4YjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlMmQyOGY0ZjE1MGI2ZTVjMzA5NmY3OGYyZmIxNTkyYjU0ZGIwYzBiY2ZhMmJjMGNjM2M3YTY3OTRiY2ZiZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4ODJkNDIwYjAxYjM5MzM5ZWVlN2EwZTA3NWExMzdiNWNlOTkyOWIwYjcwNDljNzY0YzM3ZDVjMWVkODQ4YmQifQ"
+        },
+        {
+          "resource": "repo://tests/test_openai_reasoning_effort.py#L16-L42",
+          "version": "repo-lines-v1:sha256:83273edf896284078a3f171ad3457e455854647073248bbffe91a6303b1b7a0f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmMzQ1ODNhNTk4NzY3YmY1NmFlZmViNjVlMjAzM2ExNjUxY2M0YzhkN2U2ZjBhZjNlNWNmZDMyOTNmOTMzYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlYmM5Y2RlMDEwZjNmYTRlN2Y4ZWU0MTczNGZiYjk2YjU5YWI0NjQ5ZWIyMDY1ZDYwZmZjODkwNTc5ZGJhODYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/anthropic_client.py#L14-L38",
+          "version": "repo-lines-v1:sha256:5867ddd8698329a5ac1e511be18b0974615504a8c3dc859e962a63ef18e250d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NDRhOTQyOGQ3YjI5MTI0Njg2ZDdlOGU5ODIwMTg3NzA3MzBmMDkwNGFlM2I1NDUyYjE4MTljMGMzNzI2M2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyOWFkYjFmMjczOTNjMjQ1NjI4OWI0ZjFhYmE4YWFmOWM2NmJlNTc3ZWQ2ZWJhMDc0YjA5NTVjMWJjMWU4NjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmN2Y5ZTkxZDMxZjczZGNiNTU1ZTZjNmFkZGJkZmE5NTAzNTkzZDY1YjNlMmFhZmI1ZmJkYWFiNDI1ZjkwZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzOGZkNTEzMzhjZmY0MmQ0OWZkNzg2YzYxNDFiOWJjNTViMmY3MWZlZDA5YTNkYTlhMGNlMzY0MWM4YTNmNjMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/anthropic_client.py#L67-L72",
+          "version": "repo-lines-v1:sha256:fd738b18e00a25af30b437f1662be40341b2e4cf34353bef16712aa52fd7c08f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTEzZmUzMTFmNDI2NGE2N2QzNmIxZWFlM2VlZGI4Yjg1OThiZGE4M2JiMTc4YmU2ZTljOGFmMGYyYzQ5N2QyZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmIzNTAxMjYwYjNkYWNhODBkZjhmMzAyZjhmODY0ZGNmM2Q1YmNlZDc3YjUxMWM3MjVjODUwZjRkODE5MTAyYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjk1MmUwMjUyMTljNzQwZTU2NjgyNTk4OTA3M2NlYmMwMjhhZGQzZGZlMjc5ZDQ1ODE4ZjRiZDVhMGZhYTkyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWZjMjg2ZDNhMmEwZTY1ZGZkY2FmZGRhMTZmZTI5NjdhMDY4OGFhMGIzNDBhMzc4NzdhN2U0ZDEzYWU5ODMzMiJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/google_client.py#L43-L51",
+          "version": "repo-lines-v1:sha256:c591f926fa8450bbadab848848d96c0130417d1b0a1d3b0f72c64b9cd0bfdfe6:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGVjOTZhMzA5YjI2YjE0YjZlYzUyOTZhYzk2NjA4OTAxOTY4YmE1NzBjNDhmODI4N2ZiN2Y0OGM5YTRjNWU4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmFhMjJlOWZkMGRlNGEzYTMzMTNmYTBiZGU0NTY1NGM5YmVlNDcwOTc2OTRhNmM0YjkwOWE4Y2NkZDUyMTNmMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjMzZDU0ZWI5ODIwMjVhYmNjMTY3YjEyMWQ4MGNiZTExOTgyMTllNmE2NDA3MTU3ODg4NmE2MTcwMWE0YjQxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2NlYTkzMGIxZmMyN2VlNjg5NDUwYmY1NGVhODgzMGQ2ZWM0YjM3YTI4YTE3MDExMDBmOGEwNzExNDFmZTg5NSJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L171-L180",
+          "version": "repo-lines-v1:sha256:c63c426f36bff3094dc43ac1da308f95d278b861eed04536ad4691cfa81a4c00:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4YmEzOTA4YjU2ZTY0YjZhZGZhOGI0MzllMGE4ZWU1ODdhY2E1MzAyMzY2ODEwYmM4NjFhZTdiMDMyOTI0MGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzYTJiOTVjNzkwNjY0MDM4MjM1NGMyZWZkYzlkYTI0YTA2MDY0NDYzYjA1OTg5ZmIxOWQ5ZDg5M2Q2NDIyZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI0ZDQwM2NiOTdjNDNkNWE5MmUyNTgyMjYyODA0MjU4NDY4MzgyYzM4YjdmNGJjNTQyOTg1ODgxMTUzZmExMjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcwY2UzZjI0YWI0N2MyZjVhOWQzMzdmMzc3ZWQ4NTczZmE1NjU4NDA3NjQwMmYxYWYwNTRhM2RlZDYxOTQ2MmYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L324-L330",
+          "version": "repo-lines-v1:sha256:b9a932a605e7e8ecfe75cf253397fb507b1e08f3bff019e7fc7e228b418953e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGUzYzI3NGQ0NGVhNjFjNDA2MzBlNDZmZjFmM2FiZmU0ZTMzOTM0NmFlNGJjODNiYTk4N2I0ODM3ODQ2YWNhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmIzNTAxMjYwYjNkYWNhODBkZjhmMzAyZjhmODY0ZGNmM2Q1YmNlZDc3YjUxMWM3MjVjODUwZjRkODE5MTAyYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2NhYzlmYWRkOTAyZjRiZDZmMjY3MmYxM2Q2Y2M5MGQ4YWQ5MmVjZjNkNTEwOTBjMmVhOGZkOGI2YjU1NTIzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI4NDViMjA2N2UwZTFiNDdmZGY2Y2IxZGI5ZjNhNWNjYzRjN2U1ZTQ2ZDAwNGJkMDNjMTc5NTA3Nzg1YmE1MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_82ed89aadf5f422fbb0a934a8b9c3951",
+      "statement": "Температура передаётся как float только при непустой настройке; llm_max_retries передаётся только при явной непустой настройке после преобразования в неотрицательный int; callbacks графа передаются конструкторам обеих LLM.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L108-L129",
+          "version": "repo-lines-v1:sha256:47675d915e546fff443e7fb4afd2a6b1e9825582babd7b328be538bd9b70722d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWQzN2FmMDdmYjQxZGM2Mjk0MTA1MjhkYmYzMzcyNTI5NmU2MTJhODgxOWM1N2EzNzk2MGY0N2Y1Mjg5MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2N2U0YzU1OWNiZDNhYWE0NjcwNGY0OTRlMmQyNjE2NWNmYTQ1MTNiMDQ3YjgxNTJlODFhYWM3NDFlMGIyOTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L188-L199",
+          "version": "repo-lines-v1:sha256:91c8f3d341b4a8011686f9d2952d092a2ea23c70e505003bcb3518d493d87f58:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlNzI2ZDVlY2VjYjNhOWM2MmFmOWE4NjRmYzJmMWIyOTZlMjQ3ZjYwYTY5ZTRkZmJmNzNhODIxOWMxYzNlNTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiZDllZjc0NDdlNDY4YTNhNmExNTNjNjM0MzM3ZjFlNTYzODQ0NjM4YjcwN2ViZTM2NWU0OTBlYTliMTkyMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiMTZjMzU4M2MxY2ExN2FkMzBkNjkwZWI1Nzc4ZGIwZDc1MmE2ZmE0MDc3YzYzYWE4NDZhOTAwNDIzYzAwZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZjOTZiODBjMTFjNmQ2OWJhOGQ3ZmZkNjE5OWVkNDk1YjhhYTEyZDI4NWJkZWMzYTQ1ZTllMzFiZjEyZGY1MjQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L48-L63",
+          "version": "repo-lines-v1:sha256:3bbd7b83d91f01910a27733a224b24e9372d8050add4b07bebb9be4416469765:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYjkzOWI1MWI4OTI2ZjVmZmQzMjFiMjRmZWExZGRjZTIyZGQ3NWUyODRmNzhkYjI4MjljOGE3ZmUwODhmMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExZGMyNDc3OWEzNTkxZmQ3ZWQ1MzUyYjNmOWIyZTZhOGZiMzg3NzExNmNkYzE0NTgzNTNmMDg4OTNjNzNmNDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMDA5N2U0YWE1MDA2OGJhMTU3ZjlhMjczOWZhZDg2OTk1ZTFlMGNkY2NkYWRjNTg5N2MyMDM0Yzc0ZDNlZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiZTMxYjIyMTc1ZjU5NWYwOWU1NGQxYWQwNjA5YjljY2QxYzExMjI1ZjZlYjg1OTY3YTYwNjMyYTU3NGEzZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ab33871bfa5e40dc838bb8254731ea8e",
+      "statement": "Безопасное расширение поддержки провайдера требует согласования нативной диспетчеризации или совместимого реестра, карты ключей, выбора провайдера и региона в CLI, каталога или динамического выбора моделей, открытости валидатора, capabilities и фокусных тестов credentials, endpoint, реестра, валидации и structured output.",
+      "evidence": [
+        {
+          "resource": "repo://cli/utils.py",
+          "version": "repo-file-v1:sha256:4fe25ef004d7fab3e6bf673f72bdc67ebf5c72b514189322396159d4635b064a"
+        },
+        {
+          "resource": "repo://scripts/smoke_structured_output.py#L105-L170",
+          "version": "repo-lines-v1:sha256:5e92b357877492f6ec357fea9fee2fbe5667095732caeab76a1b1ff0983e138d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzk3OTMzYTI0YTgwMWVlOTIzMzI3YmQ2OWEwMTA0OWMwNzc5MTUwMjFjZjJlYzM5ZGRhNGY4MWFhODM3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NzkwZjk2NDRlYzBjYzAxNzNmMGQxMWViNmVlMTlkYmYyNzFkMjcwZjExYWQ3Yzg1MmQ3YjRiODM3YWM4MzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://tests/test_provider_registry.py",
+          "version": "repo-file-v1:sha256:d0f916b3a2dce125248e33d8c838765d12adafa5a15df6db8bb3854cb803ba8e"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/api_key_env.py",
+          "version": "repo-file-v1:sha256:d72c23c071769146176b09e328082871c8275d2bd7f85983c996d12ccac73b4f"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/capabilities.py",
+          "version": "repo-file-v1:sha256:a733bcb6a23b1c01d3be99ee8745685f6a1b631bdb316e7a68d3387730c5a559"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/factory.py",
+          "version": "repo-file-v1:sha256:9bdd90da61124fdc1c49ee56ea55358c19c09f943f9296bb3ba0f8486a4d6f6f"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/model_catalog.py",
+          "version": "repo-file-v1:sha256:e38d920d67aff292d91843146c3d2eff569cc2d2e04ebcab53a0f50e91b796fc"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L183-L233",
+          "version": "repo-lines-v1:sha256:4eaf1d9c48fd77c370e0b89b65106542ebc3bec99f7ccb668809f9ddc7c490c9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2OWExMzk3NWMyNTZlYzgzMjBlMjAxNjA4M2M5NmRmNjM3Y2EzZDM1YmViZGUyMzE0YmVlM2E0NzExYjU2Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxNzQyZmYzMDAyYTNkNzM5OWY3YWMzOGY0MWJlZjJhYTc2Y2ZjODU2NTRkMjcxM2VjZTU0NWY3MzhkM2M4MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmMTk3NjFjODU3NjQ3NThjZjVlZDViZjI5Y2JjNDk1ZDFkMDBjYzQzODFjMzA4YjhmYTEyODk2NjcyYTU1NTEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/validators.py",
+          "version": "repo-file-v1:sha256:5571d82c1c4c2ec6bc191e769e4d81fd4c9155c7f2557cd3665c03b9f4d82a46"
+        }
+      ]
+    },
+    {
+      "id": "claim_4cf1ebd487d548e09e634b79724ad42d",
+      "statement": "Настройка max_tokens по умолчанию равна None и доступна через TRADINGAGENTS_MAX_TOKENS; граф передаёт непустое значение после преобразования в положительный int под именем max_output_tokens для Google и max_tokens для остальных провайдеров.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_llm_max_tokens.py",
+          "version": "repo-file-v1:sha256:d843825da66c4c77c75c867cc918428f9288b01b46380e3fd6e8dd4d1f865931"
+        },
+        {
+          "resource": "repo://tradingagents/default_config.py#L104-L108",
+          "version": "repo-lines-v1:sha256:932c779d37153ef026c5466655f644b823627c8853c547067fe3dd9d002969fd:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGNmMzk3YzFmOThhNWQ3ZGQyZWIyYjIyMjVmNmVjODZhMjIwNTkxYmQ2MDNkODEzMTFkNzFlM2IzZTI0YjNjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTg4NzM0MWQ0MDQxZmVjOWIzY2I4ZjRmNjEwYTY0OTI4MGFlMmFjZWZlY2JjODQwYjA1YTQxZTFmZmYxMThmMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzU3ZmI1ZmM0Y2IxZTU0NzRmY2FhZDNlZmRlMWNjYTU3ZGVkMzZlZGM5NjkzYWRkOGFhZDc2YzczMzE5ZTU0NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGI0MTc0ZWE4NWNhZmNmNDA1MjFhNjUzYjFmMGU5Y2NjNjcxYmUxOGM2ODAzMDUzNmYxZWFkMTE5ZTVkZmUyYyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L201-L206",
+          "version": "repo-lines-v1:sha256:88c6cfd01e1b46cf4780dc881c66a1eee9d1be4233fb808afa98a86c7daf742c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2ViNjNmZWQ3YTAxMGI3ZTBmNGEzOWVhMjJkZjkxMDE2ZTk5NTQyMTkyOGU1ZGMyYTZjNzM4MTQxOWUzYjczZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ0ZDljOTc4Njc4ZGJiM2IwY2ZhZjEzNWE3YmViNTY2NTc4Njk4NTFhMDA0NDk4YmJlNzdjZWY0ZjJjZjkyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWQ4ZTAzOGIxZjk4ODk2YjhmYTdlZjllMjBhMzRjZTY5NWE2NTQ4YzAwNjJhODgwMzRjZWI5MTRjNjViMDZkZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWU4NTVmY2UxNDcxZTczOGJmMDZiZTZkMDQxZjI2MjlmYjc5MzYwNjIxNzdjMGExMjA0NzRiZTdjMzlhYjc4MyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L66-L76",
+          "version": "repo-lines-v1:sha256:ce54c0b902881fdcc216656067413c70cf4338cee5cd78565892496909a2ffa3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNWE5ZGU1ZDJmNjJkZmU5NjQ2ZTk1NmM0MzM3OGU4NjYxNWQ3OWUwMDIwMmFkMGI1MGI2OGU2NmM5Yzc1OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExZGMyNDc3OWEzNTkxZmQ3ZWQ1MzUyYjNmOWIyZTZhOGZiMzg3NzExNmNkYzE0NTgzNTNmMDg4OTNjNzNmNDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwMDViZDc3NjdmMjg0MjkyMjBkOGJiYzkzMGNkMTI2OWY0MmM0MGEzNTJmNjMyMDJkMDdkYjBiZDdjZmY5ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiZTMxNzM3NGQwYjcxMWE4MDVjZjA3ZmYwZDk0NzIwOGRiMDcwMTBhZDgzZDhiZTQ1ZTUzNmQyZDIwMTRjYzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_25e8df19944a4f28a0eb9a20a00258c6",
+      "statement": "Лимит токенов проходит до SDK в OpenAIClient, AnthropicClient и BedrockClient как max_tokens и в GoogleClient как max_output_tokens, но текущий AzureOpenAIClient не включает max_tokens в allowlist и не передаёт его в SDK, несмотря на формирование kwarg графом.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_llm_max_tokens.py#L90-L99",
+          "version": "repo-lines-v1:sha256:e586bac60c95ae41f22a7509c9c8b8a2c06384049627a981c0c8693b84ee829a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4NzA0NjcxNGI0NmQwYjIwZTVmNGNiODFmZDMyYTM4MmY5NDAzYmY5OWZlNTNmOGNmOWQ3MTM4YjM3ZDVhYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjNzM3NjJmZjI5ZDdkMDhiYzBkMWUyZjllNzQ2YmE4YzcwZmVjYjM5OTg3M2E4MjcwMWE0ODU1OWMzYmZmNTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkMjdhMmEwYWQyN2ViMGQ1ZTczYWE2YTczYTlhY2YzZDI5NmM2MGM3NWI2ZThmMDZlNmRiMmYyZDBlZmFhNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE3ZTEzZjNjMGQwZjYyYjgzZmFkYmY1NTgyZDk4NmY5MDViODU2MDIxMjdlMGE0MDkyYjE4OWM4MWIzYTgwY2IifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/anthropic_client.py",
+          "version": "repo-file-v1:sha256:850080533fd4431c31acfa2cbd0bd1197601379ee81db1dec48ff15a9679fb3f"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/azure_client.py#L8-L47",
+          "version": "repo-lines-v1:sha256:b3f2aaa70e2997e563e713130b47e8e43472451e9ff4d120852d08d1adc7172e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMWFhZTliZTEzNDhjZWUyNTcyNjRlOWUzM2I0NzYxODY2Yjg5NTNiMjRjOGM0OTY4ZDQzMTkxM2EzMTk0NmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyYzMzYjNjMTFiMzhmMzIyYWNkYWIyYjFiYzM5MWNhM2I2ZjZhNGNiOWY4MWViOTg0ZjkwNDRlMzFiNTM3ZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMDA3MzYzYzlkYmFmNzIzYWQ3MWFlMWE0OGViMDI2OTE3OWQwMTQyOTM2YmM0NjkyOGIwZmY5ZDRkN2IzMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxNWNjMTczNjlhNDJiYzEwNWQyMWQ4M2E2ZDc4NmI3MjAwNzVhOWUxZDFhNTFlYTZmNDJmNjMzY2UxMTNhY2IifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/bedrock_client.py#L69-L72",
+          "version": "repo-lines-v1:sha256:b46c778b33dcba0d22f6fdf56c75be6dac299cb6417f140d79497d11ba73eb5d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWYwMGJjMzZkZGZlZWM3ZDE2NjMxOWJkNDcyN2ZhMTA1MTU1NGViNTNiN2FlZTgwNGU5NWQ0MDViMjg5NmRiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM3ZmQ2OTE4ZjE3ZDMxNzMwYzk0YTcyMmIxYTZhYTQwZjY0MWRmYTgwODg4MGM4N2QyMDE3N2VmMTFmN2JjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODUxZWJhN2E3N2E0YjM5NjRhYmZjZTkyYTYzYTExZTBkZDc1OGM5ZTU4N2U2OWQ2YjZmZjk4YTRmOTk4NzNkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTcyNWQ0ZmY5MGQxYzMwNGNlMGU4MjEzNGUxYTA0NGU5MDdhMTExZGUzZjc5OWJiMjNlZjYyZmM1NjQxMTM3MyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/google_client.py#L34-L37",
+          "version": "repo-lines-v1:sha256:5ed78e70ac033a932d7b54a0012dfcce3cfa0d860ea858a5ee33e7a94ff1571b:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzAyODMzN2RkYzQ2NTJhNGI5OWNiZjM1YTRjMzZlZTBjNTY3M2FjMDc4YWZkYzk1YzM4ZDM1OTIzZmRmYmM4YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjZlZWM3YjkzZWFkZTk0YTMxZTQ3ZGQ0ZTM3Njc2ZTJlNGNjOGMwOTY4ZWMwYmFhYzI1MmVhMTc4ZWJiYzJiZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjk1MmUwMjUyMTljNzQwZTU2NjgyNTk4OTA3M2NlYmMwMjhhZGQzZGZlMjc5ZDQ1ODE4ZjRiZDVhMGZhYTkyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTY0Yjg1NTc2MzVhNTcyMjgwOWZmMDkxMjc2MTgxNDlmYjk5NTFiNTQxODJhYzg1ZmUxZDM0MDZjYTIzNWU4NCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py",
+          "version": "repo-file-v1:sha256:6fd383743a0f4db1bf00b407be38c2bfd93048e8b6d166b703229f615c67984e"
+        }
+      ]
+    },
+    {
+      "id": "claim_f8d48307d7d543ec902bd33c3cf74ae0",
+      "statement": "Проверки llm_max_retries и max_tokens используют int(value), отдельно запрещая booleans и проверяя знак результата; это не строгая проверка целочисленного Python-типа: строка с дробью не преобразуется, но числовой float может быть усечён.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_llm_max_retries.py#L18-L42",
+          "version": "repo-lines-v1:sha256:edbabf9cc3d1d35dab36072b2dec42dfce9e039a3cc10077ec1f1833e8520bae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZjNiYTU4ZWM4YjcxZGFiZGE1NTc0YWU5YWU1Mzg5NDUwYjFmNjFhZmU3ZGI3NmUwZDZlMmFjMGQ2ZmJkODIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjMzViYWMyYzM4ZDFjZGNhNDc3NjBhOTUwN2RjNjRmNDgzYjZmZjU0YTk4MDA2ZTA4NTBjZjk0ZTM1N2Y5YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUxNjQ3N2EwMmEyMmY4NDM3M2NmOTFiMjFiYWVjNzI0YzJmZDE5ZGE2MDhiMGQ5MmY3MTgzNzgzODZkN2UyN2IifQ"
+        },
+        {
+          "resource": "repo://tests/test_llm_max_tokens.py#L20-L44",
+          "version": "repo-lines-v1:sha256:a094c6c86552c860277a4c41aea2240831a35340b3bf147ff10ace009ef01450:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjYTkxYjMzZDRkYzQ1NDQ5ZDE1NDVkNDAxNzEwZGZmZTI4Zjc5MWJlZmIwNDMwYTBjN2FmNDJiYjQwZTFjMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjMzViYWMyYzM4ZDFjZGNhNDc3NjBhOTUwN2RjNjRmNDgzYjZmZjU0YTk4MDA2ZTA4NTBjZjk0ZTM1N2Y5YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE3NGQwMzdjZWEyYzhkYjJiYjgwZTVmN2RjZmZjMDQxMDM1NGMwNDZmMGQyNmU5OWY3NTE3YTk3M2ZhNDM1NTAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L48-L76",
+          "version": "repo-lines-v1:sha256:56261ef6b07851bec16a590b60a249e06e3358b0b452e37d13fba3f311e57c76:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYjkzOWI1MWI4OTI2ZjVmZmQzMjFiMjRmZWExZGRjZTIyZGQ3NWUyODRmNzhkYjI4MjljOGE3ZmUwODhmMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExZGMyNDc3OWEzNTkxZmQ3ZWQ1MzUyYjNmOWIyZTZhOGZiMzg3NzExNmNkYzE0NTgzNTNmMDg4OTNjNzNmNDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMDA5N2U0YWE1MDA2OGJhMTU3ZjlhMjczOWZhZDg2OTk1ZTFlMGNkY2NkYWRjNTg5N2MyMDM0Yzc0ZDNlZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiZTMxNzM3NGQwYjcxMWE4MDVjZjA3ZmYwZDk0NzIwOGRiMDcwMTBhZDgzZDhiZTQ1ZTUzNmQyZDIwMTRjYzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c4e89ba2a0224f35b801475579b8f2c5",
+      "statement": "Удаление deepseek/ в capability lookup не переписывает model ID запроса и не переключает OpenRouter на DeepSeekChatOpenAI: openrouter использует NormalizedChatOpenAI, а специализированный reasoning_content round trip реализован в подклассе для провайдера deepseek и не активируется автоматически флагом requires_reasoning_content_roundtrip.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/llm_clients/capabilities.py#L119-L135",
+          "version": "repo-lines-v1:sha256:e3ae175d6e85d8364854e44518249a5e5b7b0e809d4996433c036725166d4ec3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwNzM4YmJkNDkzODNiZjQ3YWQ0NzZhZTI5Njk5ZWMzYTgxOGY2ZWIyOWRlNGRiNjNjZjgyNDA0MTM4MDZkOTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwMTZkNjY2M2U2NDBkYmFlMWUzNjdjMGJhMzdmZWU1NmQ5YjlmZGQwNDc5N2Y1NjU4M2VmMTFlZWQ2ZDYyNzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzZDE3MWRlNzU0MzFhMDIxYTBkOTRmYTc2ZmFiZjBkNzEzOWM4OThjMWEwYjQ0YjQzY2E2MDkwM2ZhMWI4NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L200-L222",
+          "version": "repo-lines-v1:sha256:3434f72c5c3c86810d4412f90af7f72077da55ccc48edb0c0e761ba0de014706:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNmMwZDlmMzNjY2JjNDdlNjY1NjM0MDk2MTVmZjc5MDk4NTVmNzJlODE5ZTU2N2U1ZDQyNjAzYjNiOWFjZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhMDRlNmY0Y2JkZWVmZTM5NzRiZDQyNDcwNWUzZDdiYmRkZDBlMzlmNDA3NWU0Yjk3MjVmMTU1YzlhYzQ5OWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxMDMxN2E4YzY5NTkyZTBhOGZmMDgxYjg2NWY4OTc2YWZmMDZkYTVjNTZkYzNlZjY1ZTQ3MDUxZmVmN2M4MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZjQxOGJkN2RiNzU0YjgzOWE1ZTgyMzU3ODEyODRjYTU4ZjgxNzMzZjcxNzViOTJmYjdlNzY1MjA5MzdhNzYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L276-L284",
+          "version": "repo-lines-v1:sha256:4b5ae948380872b33cfeaa56872a9b1b9436591db1b56c1392288ff38f7e1492:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzI0M2E3YmVmODBkZjE2ZmJjNjRhY2RjNTExODAzNTMxODc2NTM1MmI3ZWNmNmIyY2RlMWNlOWQxYWU5NzZmMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzg2YTNiNTdiYWY5N2RiNmQ1ZTc1MGY3NDZlYTg3OThjYTgyNDgwMDRlY2MzNTE3NWU1MGI0YTRmNzlmZDk4ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjc4NTBlMDVlMzU1NGZlM2RhZGQ1ZmRjNDRjNDUzYzljZGYwZmMwODNjNjJkZTNhYjJiYjFlZDg1NjAwMjcwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDUzMDIyN2RiNDU0ODQ3MzBjNzFjNGMyNmZiYTgyOTA1YmMyMDgwMjVlMGFjNTI3NjkyNDZhYTg5YTNhZDY5NCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L332-L333",
+          "version": "repo-lines-v1:sha256:bfff782815abe0e0579236cd5b3810d752a62a8fc217214974cd578a3c58e4da:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODgzNmYwYjVkZmMyNjc2NDI1YmUyYmQ5MTA1NjUwMWNhMmY3ZGM0NDdlNGVkMTE3ZWY0YTc4ZTE3M2U3MTg2NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM3ZmQ2OTE4ZjE3ZDMxNzMwYzk0YTcyMmIxYTZhYTQwZjY0MWRmYTgwODg4MGM4N2QyMDE3N2VmMTFmN2JjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2I3YTZmNDdkNDk0MjhjNDNkNWNhYzA1NjM5ZWExMjllYTM3NDNjZTE0OTcxNjcwOTdmY2VkZTgxNDM1NzM3MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTU4NzdkOWZkZDMzZWFhNjlkNzRmYTJlNzMyZWJjZWNhNGE4MzdmNjZhNjg2MWVhOWRmNzcxNzFkMGRkOGZlNyJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L88-L129",
+          "version": "repo-lines-v1:sha256:655336cd21822588fb2e51afa83089c545a475093d0f2e01537199f8c2097508:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhYTA5YmViYjkzMTUzYTQxMzEzZjU0Nzk4ODVmNmMzODIwZmE3ZDE5YjA0MGIwZjY4NjcxMGNjN2ExYzc4YmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlZmU3YzYyZjliOGZhMTk5ZGJiOWVlYjQ4MmQ2ZWNmZTNkYWM3OTUxNWE0OGJiMWJkZGM5MTZlNmVhNGU3MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhMDdiNjdjZmI3YjEzMWE1ZmNjYzgwNTY3Mzc3YTY5MzJmNzM5MTM3MjgwZDgyODU2ZDgxZGQ3OGMxYzdlZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMTEyNzk5NGNkODQwZDI0NTBmNmNlYTIzZDU3YWEwY2U4YzYwMDVhZDU0ODFhOGZiN2ViNTgxNTdiNzAzNWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_33119fdd2c9e42059718328c6a55a342",
+      "statement": "OpenAIClient проверяет обязательную переменную ключа окружения до переноса пользовательских kwargs, поэтому явный api_key не обходит ошибку отсутствующей обязательной переменной; после этой проверки переданный api_key может заменить разрешённый ключ или placeholder.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L165-L169",
+          "version": "repo-lines-v1:sha256:8645a1ec676f97e9bfab416815457393ece65123c5f33fb4356b6c9aaa248b32:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFhNGZmZWE4ZmYzZWMxM2ZhN2NiNWE5MmU4YTI3OTk1Yjg2NDljZGE4NjFhNzAzMDhlYmMwZGIwNWI3YWM4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjlkZjY5NmE2MjdlMWQ3MjkwY2RiOTM3NTM3ZTgyZWM2YTY1MDUzZmEzY2ZmNzA5ZDUwNjljYzU1NTZhOTcyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmI0YzQ2OTA2MjA3Nzc1ZWE2MzBlNmI5MmZkZDI1M2IyNWYzNzdkOThmNzhmZGE4MGEwOGZjOGYyMWE0MWJjNSJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L301-L330",
+          "version": "repo-lines-v1:sha256:cce1005be2b96948b87e010031239dcdfeb4d0537e931a98b2b49d32f456f674:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjZTA2YWE1ZmU0MTFhZWY3MzI4MzhmODQ1MmI2Yzk3ODVjMGRkMjlhYjZiZTljNzY4NWY3YzViMDUyM2U3MDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMzUwMTI2MGIzZGFjYTgwZGY4ZjMwMmY4Zjg2NGRjZjNkNWJjZWQ3N2I1MTFjNzI1Yzg1MGY0ZDgxOTEwMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjNGE3MzNmNTEwYTQ1YzE4MzEwZmNiMjNhZTBlNGY5NmNjZjZiMTk5MTNiZTY0N2Q2NjdlYzI3MTJhMDQzMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViODQ1YjIwNjdlMGUxYjQ3ZmRmNmNiMWRiOWYzYTVjY2M0YzdlNWU0NmQwMDRiZDAzYzE3OTUwNzc4NWJhNTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_96b65ce690bc4289bf8f1caaa71e2ce5",
+      "statement": "AnthropicClient и GoogleClient передают заданный base_url в chat-конструктор, тогда как AzureOpenAIClient и BedrockClient принимают его через базовый клиент, но не переносят в kwargs своего SDK.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/llm_clients/anthropic_client.py#L59-L74",
+          "version": "repo-lines-v1:sha256:6a39d43a3f4bcf59347813ced1e7da758d9e3f88685d85187471a464ae8ad12e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNDNhN2JlZjgwZGYxNmZiYzY0YWNkYzUxMTgwMzUzMTg3NjUzNTJiN2VjZjZiMmNkZTFjZTlkMWFlOTc2ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhMzY1ZTUzMDBjOTA3NzJkMjM0Mzk5NTEwNTYxOTQxODcwZThiZTU5MjU1MmRjMWVkYzhiMzllMTQwYjUzOTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0MWUzNTQzYWZkNTM2NWVjYWFjYjFhMmJhMTU4NjRhZDMwMjllZmFkMTNhMmQ3ZjdmMGIyOTAzMDE4ZjNmZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwMzA5MmI4NGUxYTM1N2I3MGZmY2ZlYTM0OGU4Y2Q5YjNmMTBlOWJhZDExMDQ0YjZiZDNlZDExMDkwMTMxM2IifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/azure_client.py#L31-L47",
+          "version": "repo-lines-v1:sha256:71c29b001d5e117ebb870d6e331546709f0cd027e32b1090110fce7aa209b951:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlNmMwZTEyY2IwNWNkYjhkYjBmNWZiOGQyNmM5Y2M4NjJhZWFlZjg4MjlhYTY1OTUyNGRjZjRjZWNkOGVmYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyYzMzYjNjMTFiMzhmMzIyYWNkYWIyYjFiYzM5MWNhM2I2ZjZhNGNiOWY4MWViOTg0ZjkwNDRlMzFiNTM3ZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MTVmZmI0ZmI4OTA1ZDBjNjU5YTgxYjgwMWZiM2IzMzQxODI1NTFiYzE2NDkzYjJhZmM4ZTAyZjk2ZmNkZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxNWNjMTczNjlhNDJiYzEwNWQyMWQ4M2E2ZDc4NmI3MjAwNzVhOWUxZDFhNTFlYTZmNDJmNjMzY2UxMTNhY2IifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/base_client.py#L28-L31",
+          "version": "repo-lines-v1:sha256:cb9f32453abc6cc58a7b2b4524ce787b2aa6a9430a3f7c3f7bd4c25641a0ee4b:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU2YzBlMTJjYjA1Y2RiOGRiMGY1ZmI4ZDI2YzljYzg2MmFlYWVmODgyOWFhNjU5NTI0ZGNmNGNlY2Q4ZWZiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdiNjUwMGVlNDQ4MGM2OTdmZTI5ZTQyMjRmMTc2MWExNjI1N2RkMmI5NmI2MjJlMzFkYzViMTBhNmVlMTEwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjMyMzc1NjdmN2NhN2Y2OTM4MmQxYzQ0ZDM0YThmMTU1NzRmMzY5NWM0OGFiZDk1ZThlMTQ0ZDIwYmIyNzNiMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTNiNzQxNDVhYjAwODJmZmJmNGIwZTY3YTc4MjNiZDZlZTQzNThkYzY3N2JlMGU4OTY5NTM1ZjE1MjcwYmJmOCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/bedrock_client.py#L52-L72",
+          "version": "repo-lines-v1:sha256:e905dd8cbfe67eb8e1c4aa8cdca250184e07780128ee5c56765a9ef7f1c4e3d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNDNhN2JlZjgwZGYxNmZiYzY0YWNkYzUxMTgwMzUzMTg3NjUzNTJiN2VjZjZiMmNkZTFjZTlkMWFlOTc2ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljN2ZkNjkxOGYxN2QzMTczMGM5NGE3MjJiMWE2YWE0MGY2NDFkZmE4MDg4ODBjODdkMjAxNzdlZjExZjdiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwNjQxYzQxZDMxY2ViZWM5OGJiYjQxOGEyOWNkNTEwMjJkOGZlZjY4OGM3YzdkOGE0MzMyNTNiMzU5MmNjN2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3MjVkNGZmOTBkMWMzMDRjZTBlODIxMzRlMWEwNDRlOTA3YTExMWRlM2Y3OTliYjIzZWY2MmZjNTY0MTEzNzMifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/google_client.py#L26-L54",
+          "version": "repo-lines-v1:sha256:d85efc2ac1a03bde12969f37cae7dcb77edbc4e44ff9d00cc1ec39bc76cba68f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNDNhN2JlZjgwZGYxNmZiYzY0YWNkYzUxMTgwMzUzMTg3NjUzNTJiN2VjZjZiMmNkZTFjZTlkMWFlOTc2ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwOWQ4OTM5YmQwOTJhZjQxMTU1Y2VmNzgzZDgwZjdjZjJkNjRhOGY5YWJiZjgxMmMwN2NiM2M1N2NjYzkyZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0MWUzNTQzYWZkNTM2NWVjYWFjYjFhMmJhMTU4NjRhZDMwMjllZmFkMTNhMmQ3ZjdmMGIyOTAzMDE4ZjNmZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzNGU1MGMxMGEwMzg4YmNmNjdlMmY3MWE0OTkyZjRmNDIwNjk4MjczNWE1NTdhYWFhM2JmNDFlNDEzMmJmNmQifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T14:23:37.397Z"
+  }
+}

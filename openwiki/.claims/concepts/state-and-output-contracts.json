@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:75919735330d336752832da34096a4affa7083d38852ec28a3f0e9676b8b84db",
+  "claims": [
+    {
+      "id": "claim_7a85566998e548e1b2b33b30c99f957c",
+      "statement": "AgentState extends LangGraph MessagesState and defines run identity/context, four analyst report strings, two nested debate substates, the research plan, trader plan, final decision, and memory context as the shared graph handoff contract.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_states.py#L47-L76",
+          "version": "repo-lines-v1:sha256:258e312a1e0489371d8c03ce9f4fe38633867f1bc879e7fd1e3b46cb5febc155:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2YTVlYjE2YTUyZmUyMzE4MmMyNjZmYjM4YjdmNDQxODdhYTA3MDE3MjViODM4YTg5ZWEzNmI1ZjE4YWY5YzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjMjY2MDI1NDU5N2Y5NDJhMmUxZTA4N2RlOGI2YzAyYzU0YzU3MThiOGRhNzYwYWExNTdmYTI3NGU3OGE3YzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2ZjVmMjU3NDc5MDQ4NjEwZDAwOTc0MTU5Zjk3OWQ2YTZiMzdlZTIyYjNkMDJmODcyNjQyZTQyMmMwOGIwODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/setup.py#L94-L111",
+          "version": "repo-lines-v1:sha256:f4f0444595f0c695958e865d440bb6a823a542562b5c57ae5109951063bc2b51:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzYzU4MWYzZGU4YWExMGI1MDM4MTIwZWVjYjRkMWQzNDA2NzZiNDM2ODU5MDE5OWUyYjk3MzA5ZmEzOGFkNzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1MDVlYTRiN2Y1MTZkNDM2MTYyZTRiNDY2MGQxNmI3N2JkZjhmMzBmZTViMjJhMDc4MmViOTUxNzE0ODAzNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjODZhYmQzNGRiNTQ2ZjAyNmFkY2FiNzExY2ZjODdjY2JkNDNkMjdkNGI4OGFiNjc3ZjA1NzQ2ZWExYTU5ZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4ZTIxZGZkODg1ZWE0NjI3YjFhMmMxNjdlN2JhYjM4OWI0OGI2Y2RlMzAzNjViNjA5OWRlZmIyNzJiN2QwMjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b76828ce43442269767183a932ec91c",
+      "statement": "До выполнения нового запуска Propagator заполняет messages, идентичность инструмента, past_context, пустые структуры исследования и риска со счетчиками 0 и все четыре ключа отчетов аналитиков; _run_graph передает заранее полученные контекст памяти и идентичность.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/propagation.py",
+          "version": "repo-file-v1:sha256:02554458a28330f14f7e3b0d5bc3531a112695f4a867c6b24bf57019f687a60d"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py",
+          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3d142c4add440158f01bc5b0db835da",
+      "statement": "The graph orders selected analysts before a bounded bull/bear debate, then Research Manager, Trader, a bounded three-role risk debate, and finally Portfolio Manager.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/conditional_logic.py#L52-L73",
+          "version": "repo-lines-v1:sha256:805de05b621c66023d851b37ce8df5a7c5610dc581c9b93aa4026beed01d5bed:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhOWEzZjA1MDFmODQ5ZjA4MjUwNTNlNWZmMTNiZTNkOTVhM2IzZTYzOWY5NDcwNTE4ZjhkM2Y4ZDQ5MjM2YzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MjFlYmRlMThlY2E5OGZlMTQ3YzdkM2UxYmYyNDU5YWRjMTMwOGViMjI2YzQyNDE1MjgyNTU0MTk1Y2VmMzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhNDc0ZDI4MDQ3ZTdiZjZkYzk4ZDU5MTJmMzEzOGY0MDk3ZjRkMGY0ZWM1MmQ4MjAzODcyYzM2ZTJiNGE3MzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/setup.py#L113-L154",
+          "version": "repo-lines-v1:sha256:7d714046efcfa28fd1aac28e049e1c8a18a0664e9c36077b8fee5e624ffb96d4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjMjQzYTg2YjFlZWFlYjQwOTU3OTJlMjAyMmMyYzVkOWVhM2Y3MThkMTgzMDk3NmQ1NWI2MGY0NDQ4YmRhNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwNzdmZGI2YTNkNDc2NzkwYWE5Njg0YzNiNjhiNjg4OGY5YzllNTY1OWVmMjJiOTI1NjU2YzhkODZhNDBlNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4ZmVlZmRiODY4NzgxNWM3ZjgxNmEyY2JhMzIzNmQ2NmRmNmVmYWE3YTcwMzllY2MzNzZmNjQxNWVmMjU4NTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhYjQ0MzhhYmZlZGFhZjM2NWEyOWE5NWMxMWFjMjc2YmRiMTM3ODVlYTUzZGJiY2VlMTQzMTU4MWVlNDI1MzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a05e36a32c81472a968c962f06b30b5c",
+      "statement": "Investment debate state retains combined and role-specific histories, the latest response, a turn count, and the Research Manager judgment; researcher nodes append prefixed arguments and increment the count, while the manager duplicates its rendered plan into nested judge_decision and top-level investment_plan.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/managers/research_manager.py#L48-L68",
+          "version": "repo-lines-v1:sha256:9664623115a666c9a2c3e5ccf67633fc85b34f2eb80fb2151acfac52585b3604:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1MmEyMjZkMGM5YWJhM2U3ZmJjZDk5YzljM2JmNDM0M2MwMzZlYmZiMjQxZTkyZDE1YzQ2NmZkNjI3YWFhM2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiNjZhMmUzNzViNDcyNTNkMmQ5ZjRmNjBkNTE3NTA5ZTczMTIyNGI2ODlmNGY5ZjQ4MGVmYTAzYzQ2OWQ2ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMmVhNzg2NzQ5OWFjNzk0MzIwZjlkMGRjOGYzNzA4ZTEzMDIxYWVjM2RlNDdmMjgyZWU3ODBkNDliZmRhMzAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/researchers/bear_researcher.py#L49-L61",
+          "version": "repo-lines-v1:sha256:aff9e6773cff50916a82659819971408d5ef46239d2f860357172a9765c8d6b2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MDMwMzY4NmRiMmQ3NGNlNjNhNjVjMzUyNzYwZjg2NTc4ZjM1MGY2MDQ0NzJjMjViNjdkYzhmMzAxZTM5M2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5M2NhOTFhYTEwYjMyYTBkMzhhN2Y4NTg2ZjhiZjU1Y2Y4OTYyM2IwYjRmY2Y0OGU1NzRjZTAzMDQ4Zjk5NWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3ZjBlMGU3MzMwOGU0ODUzYzM2OTViODBhNTZiNDJjNjgwYmQ0Mjc1ZWUxMjBhMWQwMjQwOTIwNmZiZTM0MmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjNzM1Njc5YjZiMmFiMzQwOTBkYjdmZWFhOWVkNTFhMmQ5ZGI0NzY3NDdhYzdhMzVhZWNkMGM5ZmJlYzA2NGUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/researchers/bull_researcher.py#L47-L59",
+          "version": "repo-lines-v1:sha256:4f13078ba805860b8b444717ce246f58e3251d85145b42915e94572f6efc9605:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MDMwMzY4NmRiMmQ3NGNlNjNhNjVjMzUyNzYwZjg2NTc4ZjM1MGY2MDQ0NzJjMjViNjdkYzhmMzAxZTM5M2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5M2NhOTFhYTEwYjMyYTBkMzhhN2Y4NTg2ZjhiZjU1Y2Y4OTYyM2IwYjRmY2Y0OGU1NzRjZTAzMDQ4Zjk5NWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5MDlkYjNmYWZlZDU2Yjk5YjlmOGU4MDE5MzdmNmVmODllOGUxMTY3NmJkZDYwOWZkZTIwNzFlNDZiNDVmMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwYWVhOTY5ZDQ1NjU0M2MzMDU0YWUxOWRkZjE4Y2NmODBkZjUxNTNiMjg4Y2JkYThmYTUwNmNmNDg0NTM1M2EifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_states.py#L7-L18",
+          "version": "repo-lines-v1:sha256:3b78e0b5122c149bcee06ee091c6ac29a963e9a93e032185ca1b637cc7eabced:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2YmY3YjlkNThkYzQyOWVkOGNiNGY5YmVkNmNlNzY2NjM3NjQyZTM3MTZmY2FhNjliZmRhMGY3MDI1MTBmNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyZWE4ODZlNDQ0NDMyOWFiODk5MjFjNDc1ODliMDdlY2Q0ODlkY2YwOGU2OTljOTdmYzUwZmJmYTZiZDRjYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyYTgzNzVhZWU4MjYwNGMwZjRlNWQ3YmQwMjlkZDk5OGU3ZTA2MDRlNDEyMWE5NGIxYjhlZGRiYjY4NjA4M2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5MWZkNjVjYTQ4ZmM1Zjk5ZDY0NWE0NzU3Y2M2ODc3YzgwNWYxMTdlNmIyY2MyOGUxNDczY2Q0OTQwMDY1ZDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_74c47a611f1346ffbb5f01c388d68e43",
+      "statement": "Risk debate state retains combined and role-specific histories, latest-speaker and latest-response routing fields, a turn count, and the Portfolio Manager judgment; the Portfolio Manager duplicates its rendered decision into nested judge_decision and top-level final_trade_decision.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/managers/portfolio_manager.py#L69-L93",
+          "version": "repo-lines-v1:sha256:aa0d3bed111cadcf51c71183b3c7c87f41294dc2708f462f4d5a98cc5c53240e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4MGY4NjM1MWQ1OTIyMmRjZjBkN2U1MDFlM2U3NzhiYmEzMzcwMTkyN2NhYzk4YTM3MzdiN2FiMTE2MGNlYmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5ODQ4YWUwODQzNjAwYTAxMzM4YjZkNzgxZmUxNmM5MDQzNmIwYzJlN2Q0M2ZkZmUyNDQ5OGMwYWQxNzA1ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ZWIwMDI4ZjVlNjgzZWRkMjhhMGQ1YjA2MTg1ZTM3MTRiM2ZjOWE2NzMwYmMxMTc0MjI5M2VhNjViYjcwMTAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/risk_mgmt/aggressive_debator.py#L39-L57",
+          "version": "repo-lines-v1:sha256:8bf3ec9456134219467eb364e9033646bd9eadedae2b9f5fb9a1fa1ba019d956:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MDMwMzY4NmRiMmQ3NGNlNjNhNjVjMzUyNzYwZjg2NTc4ZjM1MGY2MDQ0NzJjMjViNjdkYzhmMzAxZTM5M2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzNDk1MjQyZDIwN2M1YTRjMDVlZjQ1YmNiOTBmNGM4YTljZDVjMzI0OTcxZWUyZGI0NzM2OTIyN2YzYWI5NzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmZjlhYTUwY2QxNGFkMDAyNWNmMjY4ZDQ1M2ZhNjUyMTQ2MGYwZjdhZTU3MjI3YjJiNDIwMmM1M2NiY2EzZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4OTk0N2E0NDFiNjRjNGJjYzAzYmFkZGY4ZjU3ZWNiZDdjMjNkNTA2ZjViNmIxY2Q2OGZiZmU4ZWM2ZmUzOWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/risk_mgmt/conservative_debator.py#L39-L59",
+          "version": "repo-lines-v1:sha256:22057e3710870f6999c3e0123ed088d7eed7558f8817fa36a87d52e2eee9d3cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MDMwMzY4NmRiMmQ3NGNlNjNhNjVjMzUyNzYwZjg2NTc4ZjM1MGY2MDQ0NzJjMjViNjdkYzhmMzAxZTM5M2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzNDk1MjQyZDIwN2M1YTRjMDVlZjQ1YmNiOTBmNGM4YTljZDVjMzI0OTcxZWUyZGI0NzM2OTIyN2YzYWI5NzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwMzdjZTZhNzMwNDNjNmRkZTVhYmYyNDhkMDAyZjM0MjRkN2NkZjlkNzM0MDMwYjNjYzczZDI4NmEyNzEwOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE5ZGJiY2UyZTExNzQzMmUyZTMzNGJmYTJmN2RjNGY0OTg3NTU5NmJlYWRiNmNlYjNmODg4ZDRmZDA2YTIxNjUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/risk_mgmt/neutral_debator.py#L39-L57",
+          "version": "repo-lines-v1:sha256:e5985583f1dfee9fd231ff7e9306a4f89d6dfdcfd0b0a83d739f113d82d6a036:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MDMwMzY4NmRiMmQ3NGNlNjNhNjVjMzUyNzYwZjg2NTc4ZjM1MGY2MDQ0NzJjMjViNjdkYzhmMzAxZTM5M2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzNDk1MjQyZDIwN2M1YTRjMDVlZjQ1YmNiOTBmNGM4YTljZDVjMzI0OTcxZWUyZGI0NzM2OTIyN2YzYWI5NzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkZTI2YTE3MmFiOTQ0MDAzYjhlNDk0NDVkOGQyN2YyZjY2YzY0MWFmMjc2NDYyODYxYjVkMTJjNTFiY2U1NDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkZTkxOTllNTdmN2FjYzVhNDRkODY4OTNjZmY0M2JiN2NiYWE0YTE5N2Q2NTExZDRhMDIxNWJkOTRiMGVjMjUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_states.py#L21-L44",
+          "version": "repo-lines-v1:sha256:3e2167e054a1d4af5c8dda2a18350fa722866c6d9cfff4eb50271f72773abc58:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3ODQ1NDBmYjM0ZGJjMGYyMDJjMjQ0MDY5MmIxMjI3YzQ3OTkzMGY2ZWIwZDliY2Q0Njg2YjU4YWM4YWVmMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyZWE4ODZlNDQ0NDMyOWFiODk5MjFjNDc1ODliMDdlY2Q0ODlkY2YwOGU2OTljOTdmYzUwZmJmYTZiZDRjYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2ZjVmMjU3NDc5MDQ4NjEwZDAwOTc0MTU5Zjk3OWQ2YTZiMzdlZTIyYjNkMDJmODcyNjQyZTQyMmMwOGIwODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwMDg5MDZlNWNhN2UwMjRkM2FkMmRlMjYyODdkYTNkZjgwZDAwNTY5M2Q3M2EyYzRhNDI2NjYyMmJlNzk5MzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4790eded92784b7b84c2ad486ce64477",
+      "statement": "ResearchPlan.recommendation и PortfolioDecision.rating используют пять значений Buy, Overweight, Hold, Underweight, Sell; TraderProposal.action ограничен направлениями сделки Buy, Hold, Sell.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/schemas.py",
+          "version": "repo-file-v1:sha256:0867189376d172b7f93d07d486fef23dc5f7ce6f3c8d8974082b734e9c22de1c"
+        }
+      ]
+    },
+    {
+      "id": "claim_03c10f12414649f98a4ff4ccb18996c4",
+      "statement": "Structured decision objects are rendered back into stable markdown markers before entering graph state, including Research Manager section headers, Trader action/reasoning fields and trailing FINAL TRANSACTION PROPOSAL marker, and Portfolio Manager rating, executive summary, and investment thesis headers.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/managers/portfolio_manager.py#L69-L93",
+          "version": "repo-lines-v1:sha256:aa0d3bed111cadcf51c71183b3c7c87f41294dc2708f462f4d5a98cc5c53240e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4MGY4NjM1MWQ1OTIyMmRjZjBkN2U1MDFlM2U3NzhiYmEzMzcwMTkyN2NhYzk4YTM3MzdiN2FiMTE2MGNlYmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5ODQ4YWUwODQzNjAwYTAxMzM4YjZkNzgxZmUxNmM5MDQzNmIwYzJlN2Q0M2ZkZmUyNDQ5OGMwYWQxNzA1ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ZWIwMDI4ZjVlNjgzZWRkMjhhMGQ1YjA2MTg1ZTM3MTRiM2ZjOWE2NzMwYmMxMTc0MjI5M2VhNjViYjcwMTAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L105-L113",
+          "version": "repo-lines-v1:sha256:c8af24d5ec18445a54a992b4eae7f76a1878724258a86e6063fb1c1d12b0d317:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzM3NGYzODczYTY0ODA3NTRhNGQ1ZTM4MDgxZWYwY2E0Njc2MjkxNzNjNjgyODk2NjNiMTI3MjU1NTRiNmEyOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGQ0Y2E0ZjhiZWZiNDNmYjE3NTI5N2RkMDVjYjcyMDQ1MGViOWI3YmI2YzRkOWZiYWYxODVmYjFlYzM1Zjc5ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGNjNGE3ZDFjYzc5NmFiYTNlNDY3MjMzMjdmNTE3ZTlmODExOTgyZDI1MGYwNzAyOTg2ZTRiNTc2NGFkOTU4OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2FjMzlkNTViMWM0MDlhZWU3YzMxOGFlOGZlZTRmMTI5ZWU4MzU5ZWIyNzM2NTc1YmViYjgwNzE3YTUzOTY5ZCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L158-L180",
+          "version": "repo-lines-v1:sha256:1afeca63c61fd90cf5c3aaedb59cf3db282587bfe9f3acc22c51c67c08eb7c80:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3MWE4MWRjZjM0MWE2OGVkZDQ4ZGQyZTQ1ZDZiZTdjZWFmNWE5OGQxOGU1YTg2MjM2ZWQ2MTdhZGJkMDYyNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzNmZkN2ViMzJmNWRhMzBkNGI0OTM2MmMyZjJmNTZhMmQ0MjUyYTRjNTRkMzRiMWRjZTdhOWVhZjQ5OGQzYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmNGIxNGE5NGQxNDE2NDNhNjJlZDc1N2EyNjUwM2I3ZTRkMTZiNzgwYjUyZTVkOTc4YTU3MDNhN2FiOTQ3ZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzM5ZDU1YjFjNDA5YWVlN2MzMThhZThmZWU0ZjEyOWVlODM1OWViMjczNjU3NWJlYmI4MDcxN2E1Mzk2OWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L231-L250",
+          "version": "repo-lines-v1:sha256:e8f85b49d109926b8450048330e11fb1f7fd2cbd68961ba7b8329e3f1300820e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMzIxODFjNTg4MGJhOTMzNGI2NTc2Y2UwNjI5YzNjOTdlMGI0YjFiMDdlZmQ4OGE1MTBkM2ZiYmQwYWUwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzNmZkN2ViMzJmNWRhMzBkNGI0OTM2MmMyZjJmNTZhMmQ0MjUyYTRjNTRkMzRiMWRjZTdhOWVhZjQ5OGQzYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmNGIxNGE5NGQxNDE2NDNhNjJlZDc1N2EyNjUwM2I3ZTRkMTZiNzgwYjUyZTVkOTc4YTU3MDNhN2FiOTQ3ZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzM5ZDU1YjFjNDA5YWVlN2MzMThhZThmZWU0ZjEyOWVlODM1OWViMjczNjU3NWJlYmI4MDcxN2E1Mzk2OWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/trader/trader.py#L53-L65",
+          "version": "repo-lines-v1:sha256:7b56f7803172d0762ec3f6790c160bf0bc4d1eb74b0bd42d92dcc66472a483f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkMWFlZGFlYjZkMTAyNGQzNzYzNjFlNzRlMzZjMmZjOTAzMzQ2YzZkYTYwNDZmMjIzNTFhYzVjMWYzMDI5NmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFiYjNkN2IwZTRmODI3NzBhZmI2M2Y5OTFkZGYxN2JiYzAxOTM3ZGY1OGMxYjU3MTllZGNhY2UyZjBiZDFlYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzZjNiMTFjMjE5ZDBlMjEzZDg3MTE0Y2Y2ZjdkMjc0ZjA5MDc2NTAyY2EyZjIxYjBiMjUxZDNkODEwNTA3MmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d71e0aa40044f7d9a13bff5e4e7d1aa",
+      "statement": "SentimentReport constrains the overall score to 0 through 10 and confidence to low, medium, or high, then renders a deterministic sentiment band, score, and confidence header followed by the narrative unchanged.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L258-L325",
+          "version": "repo-lines-v1:sha256:308cb3a6ccac06acf63cdd66d93512eca437558758dffa2da1a7413323fb2ba5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNDAzZWExYTc3ZmI5ZjE1NDc2MGYzNTllNDU5NzkyMDM5MWJkNDliNGM0ZGUxZWExOGMzYmI3NWE3YTgzOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4MjY3NmM4ODhjMWE0ZDlmYTc3MmZjZGMzMDJmNzczYmM3MjkwZWViZmY5ZGEzNmEzOWY0NGMzMjExOTgzODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNkYmMzYzFlOWNmYzY5ZWRjMTk5MmEwZjIzMjljZjVjOGNiYWQzZjM2NzI4MWJkYTRmNDU5MTU4MWZjMWVmOGEifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L328-L341",
+          "version": "repo-lines-v1:sha256:8a9f1020581968c168fc9a013141ad0f12d8d69f515135029f5b788435ba156d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0YTMzNDQ2NDEwOGFmN2ExODBkZDVkOWMyMzMzZGYzZTY0MmJkNzY3YmRiODYxNTZjYTcyNTlkYjNmMDJjNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkNGNhNGY4YmVmYjQzZmIxNzUyOTdkZDA1Y2I3MjA0NTBlYjliN2JiNmM0ZDlmYmFmMTg1ZmIxZWMzNWY3OWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzRhN2QxY2M3OTZhYmEzZTQ2NzIzMzI3ZjUxN2U5ZjgxMTk4MmQyNTBmMDcwMjk4NmU0YjU3NjRhZDk1ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_750a6776279c4a53817672be0166f264",
+      "statement": "Optional numeric structured fields coerce common null-like model strings to None while preserving valid numeric strings, reducing avoidable validation failures from weak model output.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_structured_agents.py#L71-L98",
+          "version": "repo-lines-v1:sha256:1b1591752dc36fa036665af038c3b0e31944b3a7267b50845e82be86b5247578:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhN2U0NGU5NGY0YjlmYWIzOTA2ZTBjODVhNmFkM2EzNjU1ZGRlMTM4YzkxYzQ4ZGZiNzdmZTk4MDVkN2VmZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRhZGRjNDRmZWUwN2M2NjEyMmNjNzU4OGVhYzAyY2Y2ODIzYjUyNzdmMDBhOTliOGZkN2Q1ODMxNmRmZjlkMDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L139-L155",
+          "version": "repo-lines-v1:sha256:3ad50eca7bce7aeb5e314565a773466b0439a6770f7a0da8fd66db6182812f16:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5ZWExMjI3YTU5YTZkODE5MjgzOGFhMTgyNmM5MGI1NmJkZWNmMzM1NTJiOTFkNjFjOGQ2YzFiNWNiNWQyOTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwM2M4YTQzOWNiOWViMzc3NmIxMTc1ODdlNmE1OGQ1NTY4NTAzM2RkOGUxMGNkODEzNTMwNjljZDU5MjUzNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5ZTQ3Y2ExNDAyNjAzM2RlZjkyYmRhOTBjMDQxNmM2MTNkNzBiOWE0MmQ1MWJhOGRmMDdhMmU0NDhkMGFiZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjYzQ0NjUyZjE4ZjM3ZDQ5OGI3ZTVlNjVkZmExNDQ0N2MzMzk3NmM1ZDA0YzNkZGI4NjlkZDE4YmM1OGUzOGIifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L216-L228",
+          "version": "repo-lines-v1:sha256:90dcf3e310632ca64be267a1cd679a3cfa7a2007aac3c3e08ac0d630fd00fbaf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZWQwNTUxZGFiZjI3NTA2ZWNlYzQ1NTRlZGVjNDg2NzIyY2QzN2E5YTNkOGIzZmQ1N2ZlMGZjMTFjYmI5OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwM2M4YTQzOWNiOWViMzc3NmIxMTc1ODdlNmE1OGQ1NTY4NTAzM2RkOGUxMGNkODEzNTMwNjljZDU5MjUzNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxMWMxOGJjNmZjZGViNTNjZmU5NGY2ZGRiZWFiY2I1YmRkNzkyMGE3OTA2YmJlNmYxZDFhY2MxNjNlYzQ5NDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjMzBjZDViZDM4NDJjMWY1ODU5ZjhlZDkxOWFiNDQ0Mzg2NjdiNTg5Y2NlMjg4NDI2ODI4NjRiMWMwOTdmNWUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/schemas.py#L26-L36",
+          "version": "repo-lines-v1:sha256:0e92772652923ad022361a6971fc9b45a064f97fa5e0225a8c991ca137c3f358:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NTAxODNkOGZlOTBjZTEwZDk0ODU0NDliNmFmYTY1NzFkZTZkMmQ5MWYzNDc1ZDdkYjNjNzI5M2NmZWQ4ZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5M2ExMzA2MmYxMGVlNGYxMjE4ZDkzZTM3YTZmODFkMzQ2ZmYxMWVjN2U1NWRkNTQyZTJkMmQyZWYwNzExZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5NmFlZmZjZGM4ODcyNTAwZjBlZGQ5NWUwOTRmZThmYzkzNzc0ODVkOTNlMjE3MDEyNzAzNmNkM2Q5ZTg5YmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzM5ZDU1YjFjNDA5YWVlN2MzMThhZThmZWU0ZjEyOWVlODM1OWViMjczNjU3NWJlYmI4MDcxN2E1Mzk2OWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_72562b216c8b46c7ab0cce358e51a292",
+      "statement": "bind_structured перехватывает только NotImplementedError и AttributeError при создании обертки и переводит агент на обычные вызовы; другие исключения привязки выходят наружу. При успешной привязке invoke_structured_or_freetext перехватывает Exception вызова или рендеринга и результат None, после чего один раз вызывает plain LLM с тем же запросом; response.content возвращается без повторной валидации, а ошибки plain-пути не перехватываются.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_structured_agents.py",
+          "version": "repo-file-v1:sha256:72754f5af2c2346d56fbd8567c38e003689ba05d94205032fd0857516a7912e6"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/structured.py",
+          "version": "repo-file-v1:sha256:77600ca70b17b54a14bd54ac5fedc42d42495d1e153f63f3a58ec984f154afe0"
+        }
+      ]
+    },
+    {
+      "id": "claim_03488a76e98b426582117422715f2b15",
+      "statement": "Schema-only агенты запрещают внешние инструменты через NO_EXTERNAL_TOOLS в отправляемых запросах: единственный ожидаемый инструмент — схема, а неизвестный вызов может сорвать структурированную попытку и вызвать резервный свободнотекстовый ответ.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_structured_agent_prompts.py",
+          "version": "repo-file-v1:sha256:4aad14e7a59bf645fe9986878d5e8b8df0d26a5d52d88d0ce90ee71b3f7cc26b"
+        },
+        {
+          "resource": "repo://tradingagents/agents/managers/portfolio_manager.py",
+          "version": "repo-file-v1:sha256:ecee4c17c3fdc2c6453e989d4ed043b3bf8d61f1cece5df83558c2cc9ae4bdd3"
+        },
+        {
+          "resource": "repo://tradingagents/agents/managers/research_manager.py",
+          "version": "repo-file-v1:sha256:5f6c82185a924380dd4cc774945df4574b5500b32ce6dbdcf0889617bc6a7b19"
+        },
+        {
+          "resource": "repo://tradingagents/agents/trader/trader.py",
+          "version": "repo-file-v1:sha256:b86415240fcb3cee3f381d952bba4f2e3f9e25816fe0983c76f6c4826ff9ab54"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/structured.py",
+          "version": "repo-file-v1:sha256:77600ca70b17b54a14bd54ac5fedc42d42495d1e153f63f3a58ec984f154afe0"
+        }
+      ]
+    },
+    {
+      "id": "claim_a3f5ff4959884459baba6a6bfd87b31d",
+      "statement": "Извлечение рейтинга не использует LLM: extract_rating выполняет NFKC-нормализацию, предпочитает явную Markdown-совместимую метку Rating, иначе выбирает первое отдельное слово пятиуровневой шкалы и возвращает None при отсутствии совпадения; parse_rating сохраняет совместимый default Hold или значение вызывающего кода.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_signal_processing.py",
+          "version": "repo-file-v1:sha256:b8c9ccbe07358b73e2fc2f57de7e830f17e65e57615700c22281bc38e0861ad1"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/rating.py",
+          "version": "repo-file-v1:sha256:abf9821e8ce403c7d0ec8d4d49936f0592b68ad09f77964b5e24f908bc541ced"
+        }
+      ]
+    },
+    {
+      "id": "claim_8506cfc1042e4ee78f17f5ac0f99dffb",
+      "statement": "Программный _run_graph сохраняет curr_state и JSON-проекцию, вызывает запись final_trade_decision в память, очищает успешный checkpoint и возвращает (final_state, signal), где signal — рейтинг или REVIEW. JSON использует имя trader_investment_decision для живого trader_investment_plan и не является полной сериализацией AgentState.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/signal_processing.py",
+          "version": "repo-file-v1:sha256:cd35ce6569626fa513d2193e209a5d7005c02f34f044fb4f0c84e1b8f4186605"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py",
+          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+        }
+      ]
+    },
+    {
+      "id": "claim_e1ae568c2d41410b9b119d85cdbb44c0",
+      "statement": "The memory log embeds full final-decision markdown under DECISION, tags it with the shared parsed rating, uses an HTML comment entry delimiter, prevents duplicate pending entries for the same ticker and date, and defaults an unparseable rating to Hold through parse_rating.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_memory_log.py#L127-L132",
+          "version": "repo-lines-v1:sha256:97b3db3348b5a701cc2f20c57d79bc9d22ce1eb7add1864c21421584f4468371:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWEwZGEzZWM5OTAyOGYwMTNjOGM0Y2U2ODM3Yzk1Y2U5ODQzYmI0ZTE4NWQ4M2VmZThjMzViZTFiMTE4YWExMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU3YTUwN2QwZmYyMmVmNDk2OTliNGM2MjAwYjZhMmQzYjQ2NTY0ZWZjYzY0NGQzYjE0MTJjNGI1YzEyYjNmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNmZWM3NjM2YzhhZTM4MWRmYTBmMjdmNDI1NTE4Zjg0NDg3ODM1YWViOTMwNWFhNjAwMmI3MThiMmU5YWU1NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWMwNWE1MWY1OGI0NDc4YThkYTYyM2E3ZjdiYjQ5NjdjOTA4ZDI3NjY5MTRiZDRjNzFlNjBhMWViMzhiMTE1NSJ9"
+        },
+        {
+          "resource": "repo://tests/test_memory_log.py#L156-L199",
+          "version": "repo-lines-v1:sha256:6a1c7781c1e33bb5307fbf0401642afe47acb96a0d220e9cc0f553955d76ad3b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5NjJiMTc0MzA4NWZjN2UyNWJjYzUwYTg4NzY4OWVhMjc3YWMyMzAwZjFiZjZkODljNTJkY2Y4ZjM0MWI5ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNzY2MTA2YTY4OTVlNzVkMmRlZDI1OGQyOGQ0M2ZhODExMTA5NmE2NjNiOTAyODc0MTQ0MjdiOWI0ZmQyYWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhMGE2OGJkYTIxNDU1NTAyOGUxOTViNDgwMWQ1OGE5MWY3MDNkOTUyNTU0MGZlYWZlN2RhMDgzOTBiMmE4Y2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5MGUwMDdmNDg0YTkxMTNhZWE0YTEzYWZiMDFhNmUyMGIzYjE2MDkyZjFhOWY3YjIyOGZmN2I4ZTFiYjRhZWYifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L53-L68",
+          "version": "repo-lines-v1:sha256:a972b7ad39c3a853baef98b73942ab95c7db1efbc01ec8b08bec3faf1a81b091:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4OWEzYWZiMTAwYThjZWNiODVhYTg3ZjQ5NDFhZTBmNGM3N2M3ZTc3NjZiNjAzNDNkMzdjNzBmZDAwYjFlYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3NzQxMjgyNjBjM2E5OWI4NDIyMGM1ZmUwNTY0MDg1MDU2NTQ1MjBiZTk0MWE2NjRlYWYxMmQ2NDkwNTQwZWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5OWZhYjNjYmUzYjhjMTU3MTI2MmQ4ZTFkNDdhODI1NWE5MWRmMzQ2YTA1ZjQ1ZmE0YjI4NjhmY2EwYmJmNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwNmM5YWI4M2ZjNjQ3YTllMWM0N2ZhNzJlODcyZWM3Yzk0NDlmMDNjZmNiOTBiMWNkZDE4YjkwNDg2OWJlMzgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py#L9-L49",
+          "version": "repo-lines-v1:sha256:1af4f3085359d6508f368878ffded964f9f35a03d7315a9be3c6d0d00013fc0a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZGYyYzM1N2U4NzhkMjM0ODlkNTQ3MDIxYjQ0YzU4ZjU3NjkxNDRlNjU4MGQxNWYyMjUxMjZmNjZhYTFiZTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzODM1NDQ5ZGNkZjk5OTkwMDgzYmVlODBkNzJhZTY5ZjFlYzVhOTA1OTUxNjA4ZDczZGQzOTBlOTVkOWZjOTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwYmM5MDIyYTEwODAwNTY1YWFmYzU0ZmFiNGU0MDczMDEwMGM5NTYyY2MwMDhkZWFlNTYwN2IxOGYwNDcxY2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk5OWZhYjNjYmUzYjhjMTU3MTI2MmQ4ZTFkNDdhODI1NWE5MWRmMzQ2YTA1ZjQ1ZmE0YjI4NjhmY2EwYmJmNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d968fe86a034fd09328cddc3d5780b9",
+      "statement": "The shared report writer used by CLI and programmatic API conditionally writes analyst, research, trading, risk, and portfolio markdown files plus complete_report.md, reading manager decisions from nested debate judge_decision fields and omitting absent artifacts.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L763-L826",
+          "version": "repo-lines-v1:sha256:c1a5d0b0fd9bbe7b813c1a1fcd7367949926b28b8fa5b4aed481aa70ca110147:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3NWZkMTg1MjdkYjcwNzQ3M2IwMWY1ZDJmNmQ0YzI0NzlkNjc2MmJlODJkNjJhMmEzYWZmNDA5YjFkYWVjODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZDNjMzlmMzlmYjE4ZDg4Yjk2ZjI4Mzk0M2UzMWQzZjAzNGZjODAxNTIzMDRhMzllMjRiNDMzYTNjMmU5YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2ZGZiZjQ1M2Y3ZjFiZWJhYjcyODM2MWIwZjM5M2VlYjRjMWZiNjY4ZjllYTIyYjkxNmRhY2Y1ZGZmODFkODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzMTIwNWFhYzZkMDg1MDcxZTI3OGUzMDU4ODg3NDFkYTllMTY2ZTE5NTRhNjUxZGFlNmU3ZGQ3MmE4OGUwMmMifQ"
+        },
+        {
+          "resource": "repo://tests/test_reporting.py#L22-L50",
+          "version": "repo-lines-v1:sha256:cd4ba4847b40de214b61161525a846f57d980bfeeca10ec462ab4d03b5e7029a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhNTE2MTAwMTBlMTQ3Yjc2NTIxYmMzNjNkNDgxZGYzMzYxMmFkMTkzOTIxZjUxYTNkNjM4YTU5MzM3MzhmOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmYmQwMDkzMTRiYzI3MDg0MTY3MzRhMDJhZTVmZjM5YTFlNDhhMDUwYmU5MWY0M2IyZmFhOTIwMDJjNjJiZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L404-L417",
+          "version": "repo-lines-v1:sha256:996e9ec01dc4cccd2346a60ecd33cdcd0ae966da0675d08a8ba1be7e62b59c6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwMDM0MmY1YjRmMTEyODBkNTFkMjY4NjczYWUzMzgyOGI4OTQ2ODdmMDM1NDFmZTFhYmM3MGEzMGJlZDExMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmOTA0YTUyOWZmNGM4ZTY4ZWM1OTI1NGMzYzhhNDM0MTE1ZTQyOGI4Y2Q0OTQwYjNjNGNlZjAzOWJmMzU1ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4M2ZhMmQ5NWY4YjViYzdlYzVkZGZhZmM3ZDczOTk5OGI0NzU2Zjk1M2E5OWU5MThjNjU4ZGE2MTE0NTExOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwYWU2M2YwYTQxZDQ2OTNmMjRjYTI3ZGI0MzgxNDFlZjU2YjNlODg3OWMxYzcwODE1NmFjYzE5NzY5NzhhYWQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py#L1-L17",
+          "version": "repo-lines-v1:sha256:bdce720447f7299913e3eebe1b41f810389d5f44416170e35e65e6b62d636161:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhMzU2YzcyNDM1YmMzOWY0MjRjYTM4NzM3ZWNkYzQ5MzY0OTFlYTg0NTdmYTZjNGM5MTgzM2Q1YmZhYWNjMzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZTY5NWNkN2FlOWRlOWI0N2I2ODc3MzliMDQzNjA0ZGRhMjViNTU3ODhhMTJiMTg5ZDZkMmFlOTRjOTRhYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjMjQ3NDI0M2ZkNWM1NDhlZDUyMDI4OGJmYmFjNTMwOTk2ODU4OTMyZDI1MmI4MGRjYzc4MGQ4OWIxNThmMTkifQ"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py#L19-L100",
+          "version": "repo-lines-v1:sha256:38856c70c03c3e53932374f38b42934f9997316fded184cd969effaf7edb8362:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MWU4ZDY1NTk0ZjI4M2JiMzVjYzYzZDgwOGI4NmUwNmVhNGNmMDA3ZjYyZTg4NWU5ZTU2YjYxMzk0MWVhZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxNmZhOWI4YmNjYTQzZTU2NGE2NjNjMjg4ZTM1ZDIwMjFmZmI2NzkxNGVlZTJhMmM2OGI5M2FjZjkyZDFkNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkYmUyM2JhNjA0MzI2ODg5YzhmODAwMzQ3Yzg5ZDQ4ZmU1MzU3YzAxOTBkNjNjNGE2YTdjNDU2YTcyZGE4MDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlMjhlNjBjNjNmYjQ3YmJjOTY1MTQ0MjZmNWUzNGEyY2QxYmI0MzQ1MzMwNzQyY2NmNDc3ODY1NTU2YTk5MWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c8f2f38437e846afbbf8d5b0a157f5c5",
+      "statement": "SignalProcessor сохраняет совместимый конструктор, но не использует переданную LLM; он и граф возвращают REVIEW для неразбираемого решения. REVIEW не входит в PortfolioRating, поэтому перед преобразованием сигнала в enum требуется проверка is_review; память отдельно продолжает использовать parse_rating с default Hold.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_signal_processing.py",
+          "version": "repo-file-v1:sha256:b8c9ccbe07358b73e2fc2f57de7e830f17e65e57615700c22281bc38e0861ad1"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py",
+          "version": "repo-file-v1:sha256:533c5201d549ec4af364448ad8e6b23347a07a754e80aed9e24adb41a9337a4d"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/rating.py",
+          "version": "repo-file-v1:sha256:abf9821e8ce403c7d0ec8d4d49936f0592b68ad09f77964b5e24f908bc541ced"
+        },
+        {
+          "resource": "repo://tradingagents/graph/signal_processing.py",
+          "version": "repo-file-v1:sha256:cd35ce6569626fa513d2193e209a5d7005c02f34f044fb4f0c84e1b8f4186605"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py",
+          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+        }
+      ]
+    },
+    {
+      "id": "claim_811c84686d824016970b1800e0187836",
+      "statement": "Текстовые Annotated-описания AgentState не задают редьюсеры артефактов или глубокое слияние обсуждений: узлы вручную собирают новые вложенные словари, дополняют истории и переносят нужные поля. messages наследует редьюсер MessagesState; очистка аналитиков возвращает RemoveMessage по id и новый контекстный HumanMessage, не удаляя отчеты.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/managers/research_manager.py",
+          "version": "repo-file-v1:sha256:5f6c82185a924380dd4cc774945df4574b5500b32ce6dbdcf0889617bc6a7b19"
+        },
+        {
+          "resource": "repo://tradingagents/agents/researchers/bull_researcher.py",
+          "version": "repo-file-v1:sha256:04ebd74f0feab48efd42a654f39c9f8aa39f568113682b9c80b27d84022fc94a"
+        },
+        {
+          "resource": "repo://tradingagents/agents/risk_mgmt/aggressive_debator.py",
+          "version": "repo-file-v1:sha256:247b04245037aa4be8e5b9bbcbf6238a00815ea6368d3aab4054c91e12ea0461"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_states.py",
+          "version": "repo-file-v1:sha256:8c3af44a835be3394fb3a36f91c46f03b3fe7041acea6917e89718c501e9c089"
+        },
+        {
+          "resource": "repo://tradingagents/agents/utils/agent_utils.py",
+          "version": "repo-file-v1:sha256:d873642525ae3ae70498bef71f391199274587618e75a7bfac5b84a99a763fb7"
+        }
+      ]
+    },
+    {
+      "id": "claim_add5319d0e3b4b8a910cef24124c5bbd",
+      "statement": "При восстановлении checkpoint граф получает None через checkpoint_input, а не начальное состояние, чтобы не продублировать начальные сообщения через message reducer.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L460-L468",
+          "version": "repo-lines-v1:sha256:b2d4b1eabe62bc94b55e53d950cb84828f191533c3dacd2bc27c903f10f568bf:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGYwNWNkNTQwZDU0OGE5ZjYxNjQ5YWExODZiZDUxYjkzODhlNTEzNzM1ZWVhZjJhNWI2ZjA5N2E5ZmZhZWIwNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjYwZjRjZDkxMmZhMjZjN2MyMzk4MTZjZjgzMjg5N2I4ODZiOTQzZjczMDM1ZDA0NWY0ZTU3ODlkYTQxMjljYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjBiOTk0OWE4MmJkNThjYmFiZjU3OTU2Y2ViMjU4NzkxNmUzOWEwNjg4ZmEwMGI0NjE2YmU0ZmJhMTJjY2FjNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDc1NGFjMmJlN2I5NTJhY2NmZGE2YTJlZjljYjkyOTgwNWIyNDIyZDljN2ZhMWYwYzQxODMwNjVkMzkzNmE3MCJ9"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L534-L539",
+          "version": "repo-lines-v1:sha256:28e7a68a528fc606d2328f998452e5d3eabfd69488c506f52b3c8b40d6ea899b:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTNlZjg4OGFkN2RjZjk3Y2ZhOGRmMThiYjM0YjViOTMxZjQ0ZDZkZTAzZjFkYjYwMjhjMjRhMmQ3ZDgyYjI5NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGZkZGM5ZWUzZjQ3ZmU3OTg0OWM3ODQ2ZGZlNjU2ZDFjMTY4OTRmZDkyYmI1MDQ2ZWQyMDFmMDhkYWRlYzMwMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2Y2MDJhMmQ0ZGU4YjhlMTVkNjZjMmJjOTU5OGExZTNmN2Q3N2E3Yzk2MzRkYTQyMTQ5YmM3ODU4MzNiOGY0MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmE5ZDUxNDJjNmIzNDg3MGM3NWYzYTM2ODk2OGEwOTQ0NmI2NTFjMThhZjk0OTMyZDFmMGU0ZTIyMTQxMjA4YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_45b0df14d51c4307b9e4e5772161f1f1",
+      "statement": "Propagator задает stream_mode values; debug-путь графа и CLI собирают final_state последовательным поверхностным dict.update по trace, тогда как обычный программный путь получает результат invoke. Это потребительское слияние последних значений ключей, а не повторное применение message reducer или глубокое слияние вложенных обсуждений.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py",
+          "version": "repo-file-v1:sha256:cf48bf5db974b0820ddf6baa47d1e0a72871191fd5ba5869b9c51cd0f0c18426"
+        },
+        {
+          "resource": "repo://tradingagents/graph/propagation.py",
+          "version": "repo-file-v1:sha256:02554458a28330f14f7e3b0d5bc3531a112695f4a867c6b24bf57019f687a60d"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py",
+          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+        }
+      ]
+    },
+    {
+      "id": "claim_7c18a919a8d8449c89c8d92229ba011e",
+      "statement": "Trader получает investment_plan и только при непустом market_report включает технический отчет и инструкцию обосновывать ценовые уровни его структурой; сформированный план одновременно записывается в trader_investment_plan и AIMessage с sender Trader. Portfolio Manager получает оба плана, историю риска и необязательный past_context.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_structured_agents.py",
+          "version": "repo-file-v1:sha256:72754f5af2c2346d56fbd8567c38e003689ba05d94205032fd0857516a7912e6"
+        },
+        {
+          "resource": "repo://tradingagents/agents/managers/portfolio_manager.py",
+          "version": "repo-file-v1:sha256:ecee4c17c3fdc2c6453e989d4ed043b3bf8d61f1cece5df83558c2cc9ae4bdd3"
+        },
+        {
+          "resource": "repo://tradingagents/agents/trader/trader.py",
+          "version": "repo-file-v1:sha256:b86415240fcb3cee3f381d952bba4f2e3f9e25816fe0983c76f6c4826ff9ab54"
+        }
+      ]
+    },
+    {
+      "id": "claim_b37f34857615421995aad05376221bcd",
+      "statement": "Сохранение дерева Markdown через save_reports является отдельным действием, а не автоматической частью propagate; без явного пути API выбирает results_dir/reports/<safe ticker>_<timestamp> и возвращает путь complete_report.md. Writer всегда создает сводный файл, даже если содержательные разделы отсутствуют.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_reporting.py",
+          "version": "repo-file-v1:sha256:69531315f2d074af1a0d4585121aeaa423cbf6ca91797d639c4778053b485920"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py",
+          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+        },
+        {
+          "resource": "repo://tradingagents/reporting.py",
+          "version": "repo-file-v1:sha256:4ce1da3df265ff22e4f33e70f135a9124ac1db74d69f13797857dd94a2ba451c"
+        }
+      ]
+    },
+    {
+      "id": "claim_848d1fd381484379ae38bd4c4a34084a",
+      "statement": "Запись решения в TradingMemoryLog включается через memory_log_path; без настроенного пути store_decision ничего не записывает.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/agents/utils/memory.py",
+          "version": "repo-file-v1:sha256:533c5201d549ec4af364448ad8e6b23347a07a754e80aed9e24adb41a9337a4d"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T14:23:37.397Z"
+  }
+}
