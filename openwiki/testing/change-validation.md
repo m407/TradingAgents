@@ -1,11 +1,8 @@
 ---
 type: стратегия тестирования
-title: Проверка изменений и регрессионные тесты
+title: Проверка изменений и изоляция тестов
 description: Карта минимальных pytest-проверок для графа, промптов, сигналов, checkpoint, памяти, провайдеров и рыночных данных. Изоляция тестов, временные границы, требования CI и пределы доказательств локальных и живых проверок.
 tags: [testing, pytest, ruff, ci, validation]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
@@ -21,6 +18,8 @@ sources:
     resource: repo://tests/conftest.py
   - id: openwiki-source-ddd6c483154dc25201daa580
     resource: repo://tests/test_analyst_execution.py
+  - id: openwiki-source-3f41ef8f05f5e1e24fa42a24
+    resource: repo://tests/test_anthropic_effort.py
   - id: openwiki-source-6d74e98815ab4c67b0241218
     resource: repo://tests/test_capabilities.py
   - id: openwiki-source-ba3240e0743878ade1b72a2f
@@ -43,6 +42,8 @@ sources:
     resource: repo://tests/test_env_overrides.py
   - id: openwiki-source-c980c604393a867974c791ef
     resource: repo://tests/test_fred.py
+  - id: openwiki-source-46598ef7af0f1eaff790123a
+    resource: repo://tests/test_google_thinking_level.py
   - id: openwiki-source-0ca180d71b617ea51da4e2de
     resource: repo://tests/test_llm_max_tokens.py
   - id: openwiki-source-664f024ccbd17fefde54fcb4
@@ -57,6 +58,10 @@ sources:
     resource: repo://tests/test_ohlcv_cache_freshness.py
   - id: openwiki-source-a6b37b3a2594eef8fe74ee48
     resource: repo://tests/test_ohlcv_latest_bar.py
+  - id: openwiki-source-a60a5c22d4dff45415540d00
+    resource: repo://tests/test_openai_reasoning_effort.py
+  - id: openwiki-source-cb0425810080c23ce91acd3d
+    resource: repo://tests/test_per_tier_reasoning_effort.py
   - id: openwiki-source-3e88c4a4574ed0a5fa9b6600
     resource: repo://tests/test_provider_registry.py
   - id: openwiki-source-c508a91bddd4b3275caf6ec8
@@ -97,10 +102,13 @@ sources:
     resource: repo://tradingagents/llm_clients/openai_client.py
   - id: openwiki-source-029f62ab86f846277bf398b4
     resource: repo://tradingagents/reporting.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
-# Проверка изменений и регрессионные тесты
+# Проверка изменений и изоляция тестов
 
 Начинайте с **самой узкой тихой проверки, которая доказывает изменённое поведение**, и сохраняйте полный вывод при сбое — это правило [AGENTS.md](repo://AGENTS.md). Исходники и assertions тестов важнее описаний в wiki, названий тестов и комментариев «end-to-end». Затем расширяйте проверку на соседние контракты: state, глобальную конфигурацию, маршрутизацию и сохранённые результаты. Для широких изменений нужны полный pytest и Ruff; при изменениях зависимостей — чистая установка; реальные вызовы провайдера нужны только там, где mocks не отвечают на вопрос совместимости.
 
@@ -163,7 +171,7 @@ python -c "import tradingagents, cli.main; print('clean-install import OK')"
 
 **Dummy credentials сами по себе не блокируют HTTP и LLM.** Патчите именно границу, которую вызывает проверяемый код: `urlopen`, `yf.download`, `yf.Search`, `fred._request`, фабрику клиента или `invoke`. Fixture `mock_llm_client` не autouse и патчит только указанный путь фабрики; заранее импортированная ссылка в другом модуле может требовать отдельного patch. В prompt-тесте Sentiment Analyst явно заглушены StockTwits, Reddit и `get_news.func`, а LLM захватывает итоговый промпт — одного `MagicMock` для LLM недостаточно для изоляции предварительного сбора данных.
 
-Import-time environment — отдельный слой. [test_env_overrides.py](repo://tests/test_env_overrides.py) очищает известные `_ENV_OVERRIDES`, выставляет нужные переменные и делает `importlib.reload(default_config_module)`. Проверяются преобразования чисел и boolean, пустые значения, неизвестные переменные и ошибки импорта при неправильных значениях. После намеренно неудачного reload тесты восстанавливают модуль. Возврат окружения через `monkeypatch` сам по себе не переисполняет уже импортированный модуль; сброс dataflows `_config` тоже не заменяет восстановление `DEFAULT_CONFIG`.
+Import-time environment — отдельный слой. [test_env_overrides.py](repo://tests/test_env_overrides.py) очищает известные `_ENV_OVERRIDES`, выставляет нужные переменные и делает `importlib.reload(default_config_module)`. Проверяются преобразования чисел и boolean, пустые значения, неизвестные переменные и ошибки импорта при неправильных значениях. После намеренно неудачного reload тесты удаляют некорректную переменную и повторяют reload. Кроме того, autouse-fixture `_restore_default_config` сохраняет исходный объект `DEFAULT_CONFIG` до каждого теста и возвращает именно его после теста — также после успешных reload, чтобы новый словарь не утекал в соседние проверки. Это восстановление ссылки, а не очередное чтение окружения. Возврат окружения через `monkeypatch` сам по себе не переисполняет уже импортированный модуль; сброс dataflows `_config` тоже не заменяет восстановление `DEFAULT_CONFIG`.
 
 Для SQLite, CSV-кэша, memory log и отчётов используйте `tmp_path` или временный каталог, а не реальные пользовательские `results`/cache/memory. Для TTL и временных окон фиксируйте часы и даты; при retry заглушайте `sleep`, а не ждите реального backoff.
 
@@ -273,6 +281,34 @@ pytest -q tests/test_google_thinking_level.py tests/test_google_api_key.py
 pytest -q tests/test_openai_reasoning_effort.py tests/test_openai_responses_base_url.py
 pytest -q tests/test_llm_max_retries.py tests/test_temperature_config.py tests/test_anthropic_effort.py
 ```
+
+#### Per-tier reasoning: от разрешения настроек до двух клиентов
+
+К существующим базовым проверкам провайдеров добавляйте этот целевой маршрут при изменении `deep_think_reasoning_effort`, `quick_think_reasoning_effort`, `_get_provider_kwargs` или сборки конфигурации CLI:
+
+```bash
+pytest -q tests/test_per_tier_reasoning_effort.py
+pytest -q tests/test_env_overrides.py tests/test_cli_env_skip.py
+```
+
+Для более узкого старта используйте `::test_resolution_and_no_tier_compatibility`, `::test_both_factory_calls`, `::test_per_tier_reasoning_overrides`, `::test_tier_env_survives_cli_to_clients` или `::test_cli_shared_choice_is_fallback_only` с соответствующим путём файла. Это дополнение к базовому набору, а не замена соседних adapter-тестов или CI.
+
+**Матрица разрешения.** [Per-tier suite](repo://tests/test_per_tier_reasoning_effort.py) применяет одни и те же случаи к OpenAI (`reasoning_effort`), Anthropic (`effort`), Google (`thinking_level`) и контрольному DeepSeek, которому reasoning-kwargs этого механизма не передаются. Общий fallback берётся только из ключа активного провайдера; ключи неактивных провайдеров специально заполнены значением `inactive`, которое не должно попасть в результат.
+
+| Случай | Проверяемая граница |
+|---|---|
+| Разные deep/quick, только deep, только quick | Явное значение относится только к своему tier; другой наследует общий параметр активного провайдера либо остаётся без kwarg |
+| Старый config без tier-ключей | Оба клиента наследуют общий параметр; вызов `_get_provider_kwargs()` без tier по-прежнему использует только общий параметр, игнорируя tier overrides |
+| Все сочетания отсутствующего ключа, `None`, `""` для обоих tiers и общего значения, включая `"medium"` | Пустой tier наследует общее значение; если и оно пустое, параметр отсутствует |
+| Строки `"none"`, `" custom-level "`, `"minimal"` | Непустые значения передаются буквально, без trim или проверки совместимости с моделью на уровне графа |
+
+**Не только bare helper.** `test_both_factory_calls` вызывает настоящий `TradingAgentsGraph.__init__`, но подменяет `create_llm_client` в модуле графа, state/dataflow-компоненты и tool nodes; каталоги создаются под `tmp_path`. Проверяются ровно два вызова фабрики, в порядке deep → quick, отдельные словари kwargs, неизменные custom model IDs и `base_url`. Общие `temperature`, `max_retries` и token cap сохраняются с числовым преобразованием; только Google использует `max_output_tokens` вместо `max_tokens`. Матрица повторяется с callbacks и без них: непустой список передаётся обоим клиентам тем же объектом, для пустого списка kwarg отсутствует. Результат каждого `get_llm()` попадает в правильный слот графа и `GraphSetup`; `Reflector` и `SignalProcessor` получают quick LLM. И helper, и конструктор проверяются на сохранение содержимого и идентичности входного `config`.
+
+**Явный запрет сети.** Локальная autouse-fixture per-tier suite превращает вызовы `socket.socket.connect`, `connect_ex`, `socket.create_connection` и `socket.getaddrinfo` в `pytest.fail`. Аналогичная защита есть в `test_cli_env_skip.py`. Это существенно сильнее общерепозиторных dummy credentials, но относится к этим модулям тестов, а не ко всему pytest-набору.
+
+**Environment и CLI.** [Environment-матрица](repo://tests/test_env_overrides.py#L92-L160) проверяет `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` и `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT`: разные и односторонние значения, пустые строки, буквальное `"none"` и строку с пробелами, с model overrides и без них. Reasoning overrides не меняют model IDs, общие provider settings, provider или URL. В [CLI-регрессиях](repo://tests/test_cli_env_skip.py#L37-L174) выполняются реальные выбор настроек, сборка config и конструктор с mocked-зависимостями; выполнение намеренно останавливается исключением сразу после создания клиентов, до анализа. Проверяется сохранение tier env до обеих фабрик при интерактивном и environment-выборе провайдера. Tier-only настройки сами по себе не отменяют общий reasoning prompt: его ответ остаётся fallback, а не перезаписывает tier-ключи. Отсутствующий ключ, `None` и `""` наследуют выбранное `"medium"`; буквальное `"none"` остаётся явным override. Общая env-настройка либо environment-выбор провайдера подавляют соответствующий prompt. Fixture восстанавливает исходный `DEFAULT_CONFIG`, отдельно проверяются отсутствие мутации CLI defaults и переданного config, сохранение моделей, callbacks, depth, языка и checkpoint-настройки.
+
+**Предел доказательства.** Вызовы фабрики здесь настоящие только со стороны конструктора графа: сама фабрика и клиенты mocked. Ни успешное разрешение `"minimal"`, ни произвольный model ID не доказывают принятие SDK или сервером. При изменении совместимости моделей запускайте `tests/test_openai_reasoning_effort.py` (gate и свойства сконструированного LLM), `tests/test_anthropic_effort.py` (model gate и сохранение других kwargs с перехваченным конструктором), `tests/test_google_thinking_level.py` (передача Flash, remap `minimal` → `low` для Pro, отсутствие старого `thinking_budget`). Даже эти локальные adapter-проверки не заменяют осознанный live smoke при изменении реального wire behavior. См. [LLM-провайдеры](/openwiki/integrations/llm-providers.md) и [конфигурация и развёртывание](/openwiki/operations/configuration-and-deployment.md).
 
 ### Рыночные данные: маршрутизация, время и деградация
 

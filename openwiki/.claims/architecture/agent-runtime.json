@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fc25cbe81e2894891aecc0339cfc5df81b07381cbd881bf67ceb0358a2d97704",
+  "pageVersion": "sha256:2ec76bc073c28e8169ceab90f3ed7b0bb148fcfbcad0345881cce0e41cccba9c",
   "claims": [
     {
       "id": "claim_5c57115a1da74c738a722a8105ff2313",
@@ -288,7 +288,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py#L108-L164",
-          "version": "repo-lines-v1:sha256:9171716db7ca4c757fabaf7d31743a0e0fd4176722b3cf48b72dbe1285e60cf1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NDA5YTBkMTM4NDJhYmE2YmQ2MjczY2FmMjhlYTMyODUzOTVmYThjMjc0ZWFkMjFhNzllMjJjMjE2MjBkODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIifQ"
+          "version": "repo-lines-v1:sha256:f17b602ffb57815a769581191feeae8383d5c96775a63bce608de6d58060b367:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NDA5YTBkMTM4NDJhYmE2YmQ2MjczY2FmMjhlYTMyODUzOTVmYThjMjc0ZWFkMjFhNzllMjJjMjE2MjBkODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIifQ"
         }
       ]
     },
@@ -499,10 +499,70 @@
           "version": "repo-lines-v1:sha256:593a9f5b6200e06995919d4b77a591953803e0e9a1c3979592d5a495e865fc99:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyMzg2NDBhOTU2NjEzNjdmYTJkZWI2MzBiYjVhYmJmODFhYWJjYmM0OTlmYzY4NDU0NmJkMGU3ZDExNGM5OGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwNzdmZGI2YTNkNDc2NzkwYWE5Njg0YzNiNjhiNjg4OGY5YzllNTY1OWVmMjJiOTI1NjU2YzhkODZhNDBlNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2MmU4ZTU5MmQ5OWE3OTk2NjlmODZhNzRiMzlmZmNhZmY0ZmIxZDUwZWQ1NWU1NTBmMzFkZWU4NGYwNzU1ZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhYjQ0MzhhYmZlZGFhZjM2NWEyOWE5NWMxMWFjMjc2YmRiMTM3ODVlYTUzZGJiY2VlMTQzMTU4MWVlNDI1MzAifQ"
         }
       ]
+    },
+    {
+      "id": "claim_da0ef2ccfd184b9fbc592ff5cacac926",
+      "statement": "TradingAgentsGraph вычисляет параметры клиентов отдельно через _get_provider_kwargs(\"deep\") и _get_provider_kwargs(\"quick\"): уровневые reasoning overrides замещают общую настройку активного провайдера, тогда как llm_provider, backend_url, общие параметры клиента и переданные callbacks используются для обоих клиентов с отдельными именами моделей.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L108-L131",
+          "version": "repo-lines-v1:sha256:4f8b7ae00600a84dc78314376693d68fbc35f8b35221df6771218659d512a86d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWQzN2FmMDdmYjQxZGM2Mjk0MTA1MjhkYmYzMzcyNTI5NmU2MTJhODgxOWM1N2EzNzk2MGY0N2Y1Mjg5MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2N2U0YzU1OWNiZDNhYWE0NjcwNGY0OTRlMmQyNjE2NWNmYTQ1MTNiMDQ3YjgxNTJlODFhYWM3NDFlMGIyOTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L170-L213",
+          "version": "repo-lines-v1:sha256:d3822b41a9364955c0dbbadb3cd5d1d502b7a90b586da14faf5be9f5822ef04c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDBlNjVkZWMwNTVhMTIxYTRiNDBhYzU5ZTM3MTM1ZDg1MTk1ZDk2MjhkYjZhNWY2NWFjMzIzYzJkMTlkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwM2E5ZjU4N2NlNDlkNzNlZDhhNzRkMzZiNTAyODlkNmUwYWQ5YmRhOWVmYzlhYjllNzg3YzhiMzJmOGZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMDNiODA2NDEyZDM5NTBjN2MzNGMyMmY5YWNkYWYyNzI0ODc0ODNlZmM0MTAzYjdlYTUxZGFhZjMxMzhmMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_82bfe874df1d463cb8e3b0138c37b19d",
+      "statement": "Переопределения deep_think_reasoning_effort и quick_think_reasoning_effort меняют параметры клиентов, но не назначения агентов между quick/deep и не топологию workflow: назначения определяет GraphSetup, а порядок аналитиков и пределы дебатов задаются отдельно.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/setup.py#L73-L154",
+          "version": "repo-lines-v1:sha256:44bb40f3067500021348bc11619f6137a19c54cd12b07aae0128d9427253e124:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5Yzk4ODgxMDM3OTI0ZjE4MGZlODdhMzRiOTU4NzZiODQ4Yzk3Zjc4Y2Q1NmQxYTFiOTM0NGQzM2VhMDgzMjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwNzdmZGI2YTNkNDc2NzkwYWE5Njg0YzNiNjhiNjg4OGY5YzllNTY1OWVmMjJiOTI1NjU2YzhkODZhNDBlNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3OTNiMzMzN2NhMmRhNDAxZDk3ZTljOWVmZmFlYzIyOWQwYzE5YjQ4MTI0NTU1N2I5NmQwZjYyZTkwNjZiMjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhYjQ0MzhhYmZlZGFhZjM2NWEyOWE5NWMxMWFjMjc2YmRiMTM3ODVlYTUzZGJiY2VlMTQzMTU4MWVlNDI1MzAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L108-L176",
+          "version": "repo-lines-v1:sha256:cc4145e9bfcc26084a3e599b2c6f62fbe4ffb8d2495577dff2be5bfe0cb68b94:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4MGJiMGMzYTc5MzM5YTY4NjRjMWY4MjFlZmE3ZDM2NWI5NzUzODI3OTBjNzMwMmQ3YjdjYzNjNzRjMzU3OGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxMDU3NTBlY2EwYWRhNjMzODEzMzRkMmEwODM5NTAwYjE0ZDYwZjQzMmU3ODhjMjY5ZDViNzJkOTE2Y2NjNDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d769f8b2abcd41e2b7ca6ea1463a4e01",
+      "statement": "Конструктор TradingAgentsGraph передаёт quick_thinking_llm во вспомогательные Reflector и SignalProcessor вне узлов workflow; Reflector вызывает модель для рефлексии по прошлому решению, а SignalProcessor игнорирует аргумент совместимости и извлекает рейтинг детерминированно без LLM-вызова.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/reflection.py#L31-L57",
+          "version": "repo-lines-v1:sha256:92dc63221c8888e6ff9d1787d7a403c87418b7f571c7b21e2aa9f32a864f94ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyN2FiMzgzZTM4ZDIwY2VmOGE5YWE5M2FlOThlMWExNWI0YWI0NjM2ODYwZGYwOWFiZDkzMTE4ZWEyYzU1MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmYzkzZDBkYTE0NzQ4Y2ZmYjJjZTQ1NTViZjhkYjlhYmNkNTYyNmI0MWRiOGZkNmM2OTFiNDI3MzNjMTM0NGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNzgyZDM2ZDE3MTQyZTEyMWUxYThmM2FiNThjNmM5MjBkZWZhNzU2YTYyMGQ0MTBkNGM1OTEwNWE4ZTUxZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/setup.py#L94-L111",
+          "version": "repo-lines-v1:sha256:f4f0444595f0c695958e865d440bb6a823a542562b5c57ae5109951063bc2b51:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzYzU4MWYzZGU4YWExMGI1MDM4MTIwZWVjYjRkMWQzNDA2NzZiNDM2ODU5MDE5OWUyYjk3MzA5ZmEzOGFkNzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1MDVlYTRiN2Y1MTZkNDM2MTYyZTRiNDY2MGQxNmI3N2JkZjhmMzBmZTViMjJhMDc4MmViOTUxNzE0ODAzNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjODZhYmQzNGRiNTQ2ZjAyNmFkY2FiNzExY2ZjODdjY2JkNDNkMjdkNGI4OGFiNjc3ZjA1NzQ2ZWExYTU5ZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4ZTIxZGZkODg1ZWE0NjI3YjFhMmMxNjdlN2JhYjM4OWI0OGI2Y2RlMzAzNjViNjA5OWRlZmIyNzJiN2QwMjQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/signal_processing.py#L20-L38",
+          "version": "repo-lines-v1:sha256:cc0bae3d566ee4a774cbe55dccd4a31fbc4c19eaf7e005fc428e43033fb0aab5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwMGUzNjdmNmFiYzEwYmYwNjVmMjM0NThjYzcwMDg2YzgxMjM2ZGQzZmI4YzlkYWFkZTQwMDc5NjJiNzUyYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZDg3ODAyYWJlZDVmN2VmMjQ5MDY4NTMwNjQ1NTI4MjdkYmNhOTM0MWI0ZDE1NTQ1ZDY0ZWRiZjI1OWQ5MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MDc5MGZhY2M2MzA4MzEwOTBlZWIwYzUzMmFkMWU0YzNmOGVkOTA5ZTg3ODhiMWJlNzBiMzY2ZmU3YjUwMjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L150-L166",
+          "version": "repo-lines-v1:sha256:1354e9f5c5a9efac349277de1fc853458952a0c89e7cc97118cc30e0ac04a77e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkYzkyZjE2ZDZhYjI3MWViZmU0YWUzOTA2MTQ2NDA0ZGNlZWRiN2VmZGFkM2EwMzMwODc4ZjhmZDNjNjY2N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NDA5YTBkMTM4NDJhYmE2YmQ2MjczY2FmMjhlYTMyODUzOTVmYThjMjc0ZWFkMjFhNzllMjJjMjE2MjBkODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxNGQzZjdlZmQ5NGY2NmIyY2Y1ODEzNjUzZGEyZmVmMWIzNjIzMmE0MmZlMGIzM2E3ODAwN2Y1MzA5NjRkZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2d1e6ee992ef46c9875b7b7a738191ec",
+      "statement": "tests/test_per_tier_reasoning_effort.py запрещает сеть и проверяет раздельное разрешение reasoning, оба вызова фабрики реального конструктора, общие параметры, callbacks, отсутствие мутации конфигурации и quick-wiring Reflector/SignalProcessor; GraphSetup подменён, поэтому эти тесты не проверяют назначения отдельных агентов.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L42-L148",
+          "version": "repo-lines-v1:sha256:7f9c4231d0241bc99b637b7ec2a7c9694525d17df455f4e541d2f36b4f7352ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2ZjA4NjZmNDAxMWU1ODVmZmMwOTA5MmVkZjA4MzJlMTdiNTJmNGM5MGM0Y2EwYjQyZGNmYTA1MGZhMzc1YjVhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzMDMxMWJjYjhhYTRhNGI3YzQxOTY5NzcwMjA5ZTk0NzI3ZGY0ODViNTlkZTIxM2Q3MmM1Y2M0ZTkzMTM2YWMxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkM2QxNzFkZTc1NDMxYTAyMWEwZDk0ZmE3NmZhYmYwZDcxMzljODk4YzFhMGI0NGI0M2NhNjA5MDNmYTFiODQ1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T14:23:37.397Z"
+    "at": "2026-09-09T08:26:19.375Z"
   }
 }

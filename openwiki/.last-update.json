@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-09-07T15:28:25.338Z",
+  "updatedAt": "2026-09-09T08:50:05.635Z",
   "command": "update",
   "gitHead": "9dee508c44662702281a8dbaad1f7b42179b5ba7",
   "model": "gpt-6-astra",
-  "status": "complete",
+  "status": "interrupted",
   "language": "ru"
 }

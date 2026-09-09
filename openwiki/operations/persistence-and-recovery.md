@@ -1,11 +1,8 @@
 ---
 type: контракт хранения и восстановления
-title: Хранение, память решений и восстановление запусков
+title: Сохранение и восстановление
 description: Жизненные циклы памяти решений, SQLite-контрольных точек, JSON-снимков и Markdown-отчетов TradingAgents. Различия CLI и API, историческая фильтрация уроков и границы восстановления после ошибок.
 tags: [persistence, memory, checkpoints, recovery, reflection, reports, sqlite, operations]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-93c4bf642ecfa683655a01ec
     resource: repo://cli/main.py
@@ -39,10 +36,13 @@ sources:
     resource: repo://tradingagents/graph/trading_graph.py
   - id: openwiki-source-029f62ab86f846277bf398b4
     resource: repo://tradingagents/reporting.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
-# Хранение, память решений и восстановление запусков
+# Сохранение и восстановление
 
 В TradingAgents нужно различать **долговременную память решений**, **контрольные точки выполнения** и **выходные артефакты**. Память переносит уроки между анализами, SQLite позволяет продолжить прерванный граф, а JSON и отчеты сохраняют результаты для просмотра и обработки. JSON и Markdown не служат входом для resume. Успешная очистка checkpoint удаляет строки конкретного запуска, а не всю базу тикера.
 
@@ -64,7 +64,7 @@ generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
 
 По умолчанию `results_dir` расположен в `~/.tradingagents/logs`, `data_cache_dir` — в `~/.tradingagents/cache`; `checkpoint_enabled=False`, ротация памяти выключена (`memory_log_max_entries=None`). Это отдельные настройки: включение checkpoint не включает побочные эффекты API в CLI.
 
-Основание: [владение в API](repo://tradingagents/graph/trading_graph.py#L404-L616), [запись CLI](repo://cli/main.py#L1033-L1079), [экспорт CLI](repo://cli/main.py#L1277-L1296), [значения по умолчанию](repo://tradingagents/default_config.py#L72-L111).
+Основание: [владение в API](repo://tradingagents/graph/trading_graph.py#L409-L621), [запись CLI](repo://cli/main.py#L1033-L1079), [экспорт CLI](repo://cli/main.py#L1277-L1296), [значения по умолчанию](repo://tradingagents/default_config.py#L72-L111).
 
 ## Память решений: от pending до урока
 
@@ -115,7 +115,7 @@ flowchart TD
 ```
 *Жизненный цикл памяти в программном пути: запись остается ожидающей до полного окна, а разрешенный исход проходит временной фильтр перед использованием.*
 
-В отличие от получения цен, ошибки `Reflector` и файловых операций здесь не перехватываются. Если один вызов LLM прерывает цикл, пакетная запись еще не выполнена, даже если предыдущие уроки уже вычислены. Если batch успешно записан, последующая ошибка нового анализа не откатывает эти уроки. [Разрешение исходов](repo://tradingagents/graph/trading_graph.py#L273-L365).
+В отличие от получения цен, ошибки `Reflector` и файловых операций здесь не перехватываются. Если один вызов LLM прерывает цикл, пакетная запись еще не выполнена, даже если предыдущие уроки уже вычислены. Если batch успешно записан, последующая ошибка нового анализа не откатывает эти уроки. [Разрешение исходов](repo://tradingagents/graph/trading_graph.py#L278-L370).
 
 ### Benchmark и нормализация символа
 
@@ -125,7 +125,7 @@ flowchart TD
 
 Перед запросом доходности **инструмент** проходит `normalize_symbol`, например `XAUUSD` → `GC=F`; benchmark передается как уже канонический Yahoo-символ. Это не нормализация ключей Markdown-памяти. Выбранный benchmark используется и для alpha, и в строке `Alpha vs ...` запроса рефлексии. Этот расчет обращается к yfinance напрямую, а не к цепочке `data_vendors`; см. [рыночные данные](../integrations/market-data.md).
 
-`Reflector.reflect_on_final_decision` получает итоговое решение, raw, alpha и имя benchmark. Запрос просит 2–4 предложения о верности направления, подтверждении или провале тезиса и конкретном уроке. Ответ `quick_thinking_llm` сохраняется без дополнительной проверки формата. [Benchmark и получение цен](repo://tradingagents/graph/trading_graph.py#L252-L324), [запрос рефлексии](repo://tradingagents/graph/reflection.py#L14-L57).
+`Reflector.reflect_on_final_decision` получает итоговое решение, raw, alpha и имя benchmark. Запрос просит 2–4 предложения о верности направления, подтверждении или провале тезиса и конкретном уроке. Ответ `quick_thinking_llm` сохраняется без дополнительной проверки формата. [Benchmark и получение цен](repo://tradingagents/graph/trading_graph.py#L257-L329), [запрос рефлексии](repo://tradingagents/graph/reflection.py#L14-L57).
 
 ### resolution_date и историческая видимость
 
@@ -143,7 +143,7 @@ flowchart TD
 
 Это **фильтр чтения**, не запрет разрешать будущие относительно backtest исходы в общем журнале: `_resolve_pending_entries` не получает `as_of` и может записать такой исход, после чего исторический контекст его отфильтрует. На resume подготовленное начальное состояние вообще не передается графу: `checkpoint_input` возвращает `None`, поэтому новый `past_context` не подменяет сохраненное состояние. Не следует трактовать этот фильтр как полную гарантию исторической корректности всех данных или произвольных старых checkpoint.
 
-После фильтрации записи обходятся в обратном порядке файла, а не сортируются по датам. По умолчанию выбираются пять того же тикера с полным решением и рефлексией и три других тикеров с кратким контекстом урока. Если cross-ticker рефлексия пуста, используется до 300 символов решения. `_run_graph` помещает результат в начальное `past_context`, а Portfolio Manager включает раздел уроков только при непустом значении. [Чтение и теги](repo://tradingagents/agents/utils/memory.py#L70-L107), [форматирование](repo://tradingagents/agents/utils/memory.py#L233-L334), [интеграция](repo://tradingagents/graph/trading_graph.py#L379-L388), [ввод графа](repo://tradingagents/graph/trading_graph.py#L509-L535).
+После фильтрации записи обходятся в обратном порядке файла, а не сортируются по датам. По умолчанию выбираются пять того же тикера с полным решением и рефлексией и три других тикеров с кратким контекстом урока. Если cross-ticker рефлексия пуста, используется до 300 символов решения. `_run_graph` помещает результат в начальное `past_context`, а Portfolio Manager включает раздел уроков только при непустом значении. [Чтение и теги](repo://tradingagents/agents/utils/memory.py#L70-L107), [форматирование](repo://tradingagents/agents/utils/memory.py#L233-L334), [интеграция](repo://tradingagents/graph/trading_graph.py#L384-L393), [ввод графа](repo://tradingagents/graph/trading_graph.py#L514-L540).
 
 ### Замена журнала, ротация и конкуренция
 
@@ -165,7 +165,7 @@ flowchart TD
 <TICKER_UPPER>:<date>:<graph_signature>
 ```
 
-При пустой подписи последний разделитель и подпись опускаются, сохраняя старую идентичность для прямых вызовов helper. `_run_signature(asset_type)` включает упорядоченный список `selected_analysts`, `max_debate_rounds`, `max_risk_discuss_rounds` и `asset_type`. Изменение этих параметров создает другой поток, не затрагивая старый checkpoint. Подпись не является хешем всего кода, модели или конфигурации: новый параметр, влияющий на совместимость графа, нужно явно включать в нее. [Идентификаторы](repo://tradingagents/graph/checkpointer.py#L19-L38), [подпись графа](repo://tradingagents/graph/trading_graph.py#L390-L402).
+При пустой подписи последний разделитель и подпись опускаются, сохраняя старую идентичность для прямых вызовов helper. `_run_signature(asset_type)` включает упорядоченный список `selected_analysts`, `max_debate_rounds`, `max_risk_discuss_rounds` и `asset_type`. Изменение этих параметров создает другой поток, не затрагивая старый checkpoint. Подпись не является хешем всего кода, модели или конфигурации: новый параметр, влияющий на совместимость графа, нужно явно включать в нее. [Идентификаторы](repo://tradingagents/graph/checkpointer.py#L19-L38), [подпись графа](repo://tradingagents/graph/trading_graph.py#L395-L407).
 
 ### Общий begin / resume / clear / end
 
@@ -192,7 +192,7 @@ flowchart TD
 ```
 *Общий жизненный цикл checkpoint после успешного begin: API очищает поток после своих записей, CLI — после обработки потока; ошибки до очистки ее пропускают.*
 
-`end_checkpoint` закрывает контекст SQLite, обнуляет ссылку на него, компилирует обычный граф и сбрасывает `_resuming`. `checkpoint_scope` оборачивает `begin_checkpoint` и выполнение в `try/finally`; CLI вызывает begin вручную, а `finally` охватывает поток и очистку. Поэтому **CLI begin и добавление thread ID расположены до защищенного блока**: нельзя обещать одинаковый teardown при любой ошибке инициализации в обоих caller. Исключения самого закрытия или перекомпиляции также не подавляются. [Общий lifecycle](repo://tradingagents/graph/trading_graph.py#L431-L492), [CLI lifecycle](repo://cli/main.py#L1130-L1253).
+`end_checkpoint` закрывает контекст SQLite, обнуляет ссылку на него, компилирует обычный граф и сбрасывает `_resuming`. `checkpoint_scope` оборачивает `begin_checkpoint` и выполнение в `try/finally`; CLI вызывает begin вручную, а `finally` охватывает поток и очистку. Поэтому **CLI begin и добавление thread ID расположены до защищенного блока**: нельзя обещать одинаковый teardown при любой ошибке инициализации в обоих caller. Исключения самого закрытия или перекомпиляции также не подавляются. [Общий lifecycle](repo://tradingagents/graph/trading_graph.py#L436-L497), [CLI lifecycle](repo://cli/main.py#L1130-L1253).
 
 ### Точный порядок побочных эффектов
 
@@ -217,7 +217,7 @@ flowchart TD
 5. Объединить `trace` в `final_state`, обновить статусы, сообщения и окончательные разделы CLI.
 6. Предложить отдельный экспорт. Ошибка записи экспортного дерева выводится пользователю, checkpoint к этому моменту уже очищен.
 
-Таким образом, ошибка записи промежуточного раздела внутри цикла пропускает clear, а ошибка окончательных разделов после цикла — уже нет. CLI не выполняет `_log_state`, `store_decision` или `_resolve_pending_entries`, несмотря на наличие объекта `memory_log` в экземпляре графа. [Порядок API](repo://tradingagents/graph/trading_graph.py#L420-L429), [финал API](repo://tradingagents/graph/trading_graph.py#L558-L574), [порядок CLI](repo://cli/main.py#L1113-L1296).
+Таким образом, ошибка записи промежуточного раздела внутри цикла пропускает clear, а ошибка окончательных разделов после цикла — уже нет. CLI не выполняет `_log_state`, `store_decision` или `_resolve_pending_entries`, несмотря на наличие объекта `memory_log` в экземпляре графа. [Порядок API](repo://tradingagents/graph/trading_graph.py#L425-L434), [финал API](repo://tradingagents/graph/trading_graph.py#L563-L579), [порядок CLI](repo://cli/main.py#L1113-L1296).
 
 ### Очистка и границы гарантий
 
@@ -233,7 +233,7 @@ flowchart TD
 
 `_log_state` выбирает сериализуемое подмножество состояния: тикер и дату, отчеты аналитиков, истории и решения инвестиционного и риск-дебатов, торговый план, инвестиционный план и итоговое решение. Торговый план записывается под ключом `trader_investment_decision` из `trader_investment_plan`.
 
-Файл открывается непосредственно через `open(..., "w", encoding="utf-8")` и `json.dump(..., indent=4)`. Повторная дата и тикер перезаписывают тот же файл; атомарной временной замены нет. `log_states_dict` индексирован датой, но файл содержит только выбранное состояние текущей даты, не весь накопленный словарь. [JSON writer](repo://tradingagents/graph/trading_graph.py#L576-L616).
+Файл открывается непосредственно через `open(..., "w", encoding="utf-8")` и `json.dump(..., indent=4)`. Повторная дата и тикер перезаписывают тот же файл; атомарной временной замены нет. `log_states_dict` индексирован датой, но файл содержит только выбранное состояние текущей даты, не весь накопленный словарь. [JSON writer](repo://tradingagents/graph/trading_graph.py#L581-L621).
 
 ### Явный экспорт Markdown
 

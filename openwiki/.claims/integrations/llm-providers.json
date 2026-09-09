@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a8877c379ada7b8a0205536c6c55ce31117f2f1a821bba432909f00c2dccfa50",
+  "pageVersion": "sha256:f29b83fe019428d7860cc5ab532695671c9b251016b397ce3e4ac2b9d2fe97d4",
   "claims": [
     {
       "id": "claim_76f26a262b18411486e2b99168e0b59e",
-      "statement": "TradingAgentsGraph создаёт отдельные quick-thinking и deep-thinking LLM через create_llm_client, передавая обеим настроенный provider, backend URL, provider-specific kwargs и callbacks, если они заданы.",
+      "statement": "TradingAgentsGraph независимо формирует deep_kwargs и quick_kwargs вызовами _get_provider_kwargs с соответствующим уровнем и создаёт через create_llm_client сначала deep-, затем quick-клиент с общей настройкой provider и backend URL, отдельными моделями и reasoning, добавляя заданные callbacks в оба словаря; get_llm обоих клиентов создаёт модели.",
       "evidence": [
         {
-          "resource": "repo://tradingagents/graph/trading_graph.py#L108-L129",
-          "version": "repo-lines-v1:sha256:47675d915e546fff443e7fb4afd2a6b1e9825582babd7b328be538bd9b70722d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWQzN2FmMDdmYjQxZGM2Mjk0MTA1MjhkYmYzMzcyNTI5NmU2MTJhODgxOWM1N2EzNzk2MGY0N2Y1Mjg5MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2N2U0YzU1OWNiZDNhYWE0NjcwNGY0OTRlMmQyNjE2NWNmYTQ1MTNiMDQ3YjgxNTJlODFhYWM3NDFlMGIyOTgifQ"
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L94-L148",
+          "version": "repo-lines-v1:sha256:f54750f7b264a8c4f07f8dc8b1d22081797f5fd2d5999f421f05ea8f1425d3cb:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ODUyZTc5MzE4OTljMzBiYjQwMzZjNTE4ZjUxZjMxMTk4ZmJiYWM0NmI0MzhkMjk3ZGJhNTM5MDRmMDFjNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMzExYmNiOGFhNGE0YjdjNDE5Njk3NzAyMDllOTQ3MjdkZjQ4NWI1OWRlMjEzZDcyYzVjYzRlOTMxMzZhYzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4MzE4YTIyMjM2MzZhYTlkZDgyMDVmOGQzNzg5YTcyY2NhYWI3MTgwZDg2N2NhN2E2ZmZlOGU5OTRkMDY5YTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tradingagents/graph/trading_graph.py#L168-L208",
-          "version": "repo-lines-v1:sha256:24edc10da90ef7ceff527eef388178deadd85301f4d212785d46bb83b6a1af92:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiZjJkMzM1YTIxODNkMDBlYWY2ZWI0YzE4MmMxNjAxZGRlZmFiYzUyOGQ5OWNmZWRmZmZjMGYxNDFlZmI0MzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwM2E5ZjU4N2NlNDlkNzNlZDhhNzRkMzZiNTAyODlkNmUwYWQ5YmRhOWVmYzlhYjllNzg3YzhiMzJmOGZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMDNiODA2NDEyZDM5NTBjN2MzNGMyMmY5YWNkYWYyNzI0ODc0ODNlZmM0MTAzYjdlYTUxZGFhZjMxMzhmMGQifQ"
+          "resource": "repo://tradingagents/graph/trading_graph.py#L108-L131",
+          "version": "repo-lines-v1:sha256:4f8b7ae00600a84dc78314376693d68fbc35f8b35221df6771218659d512a86d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWQzN2FmMDdmYjQxZGM2Mjk0MTA1MjhkYmYzMzcyNTI5NmU2MTJhODgxOWM1N2EzNzk2MGY0N2Y1Mjg5MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2N2U0YzU1OWNiZDNhYWE0NjcwNGY0OTRlMmQyNjE2NWNmYTQ1MTNiMDQ3YjgxNTJlODFhYWM3NDFlMGIyOTgifQ"
         }
       ]
     },
@@ -352,7 +352,7 @@
       "evidence": [
         {
           "resource": "repo://tradingagents/graph/trading_graph.py#L108-L129",
-          "version": "repo-lines-v1:sha256:47675d915e546fff443e7fb4afd2a6b1e9825582babd7b328be538bd9b70722d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWQzN2FmMDdmYjQxZGM2Mjk0MTA1MjhkYmYzMzcyNTI5NmU2MTJhODgxOWM1N2EzNzk2MGY0N2Y1Mjg5MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2N2U0YzU1OWNiZDNhYWE0NjcwNGY0OTRlMmQyNjE2NWNmYTQ1MTNiMDQ3YjgxNTJlODFhYWM3NDFlMGIyOTgifQ"
+          "version": "repo-lines-v1:sha256:4f8b7ae00600a84dc78314376693d68fbc35f8b35221df6771218659d512a86d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWQzN2FmMDdmYjQxZGM2Mjk0MTA1MjhkYmYzMzcyNTI5NmU2MTJhODgxOWM1N2EzNzk2MGY0N2Y1Mjg5MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2N2U0YzU1OWNiZDNhYWE0NjcwNGY0OTRlMmQyNjE2NWNmYTQ1MTNiMDQ3YjgxNTJlODFhYWM3NDFlMGIyOTgifQ"
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py#L188-L199",
@@ -541,10 +541,90 @@
           "version": "repo-lines-v1:sha256:d85efc2ac1a03bde12969f37cae7dcb77edbc4e44ff9d00cc1ec39bc76cba68f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNDNhN2JlZjgwZGYxNmZiYzY0YWNkYzUxMTgwMzUzMTg3NjUzNTJiN2VjZjZiMmNkZTFjZTlkMWFlOTc2ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwOWQ4OTM5YmQwOTJhZjQxMTU1Y2VmNzgzZDgwZjdjZjJkNjRhOGY5YWJiZjgxMmMwN2NiM2M1N2NjYzkyZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0MWUzNTQzYWZkNTM2NWVjYWFjYjFhMmJhMTU4NjRhZDMwMjllZmFkMTNhMmQ3ZjdmMGIyOTAzMDE4ZjNmZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzNGU1MGMxMGEwMzg4YmNmNjdlMmY3MWE0OTkyZjRmNDIwNjk4MjczNWE1NTdhYWFhM2JmNDFlNDEzMmJmNmQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_844d77e3e2c1412abaaa0a4ccd78c746",
+      "statement": "Reasoning каждого уровня разрешается из deep_think_reasoning_effort или quick_think_reasoning_effort, затем из общей настройки только активного провайдера, затем опускается: отсутствующий ключ, None и пустая строка наследуют общее значение. Граф использует истинность значений и не нормализует литерал 'none' или пробельные строки; универсального enum в графе нет, допустимость остаётся за адаптером и моделью/SDK.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L14-L88",
+          "version": "repo-lines-v1:sha256:a55bb072bf5af89ede4e7a4b64e6937573d3581dd4f6b8640d262444c3f35dbf:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyYWNjNzgwNWMzM2IxZjI0MDQ5NzJhMTI4OGQ0YjU2NjNlMWRhNGRjNTU3OGI3ZGQ2ZGE4ZTIxNjBkMmZjMDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZmM2YjViNTZjMWQwZWY2YjQ2NGJjN2VhNjNhOGYxNzk2ODIwYjZlNTAwZTcwYjdmZWY4NWY0MGQ3ZGVlYjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3NTJkMTMyOGE1NDdmMjk2ZmVjYWIzYTZlNzMwMGIxNDAxZWZjMjU0MDhmZDk4OWJhYjI2NDgwM2ZjMDZkY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3YjQ4NjNmNDQ1YmE0NDgzZTRlODJhODdmMTE1MmE0ZjNmYmFiZDg5N2MxOTBiNDg0NTRjMGU5YzAzOTVlY2QifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L170-L191",
+          "version": "repo-lines-v1:sha256:03cfa9e98a18ce6639a268c10b202f4b664717364033cf0a67685865238f6869:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDBlNjVkZWMwNTVhMTIxYTRiNDBhYzU5ZTM3MTM1ZDg1MTk1ZDk2MjhkYjZhNWY2NWFjMzIzYzJkMTlkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiMDgzOTc4M2MwODVkZGRkZTFmNGJjMjA5YTIyM2Q5MzE1MDM4ZTFjNWJkODQxODIxNTAyYWUxOGQ2NTUwMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4NGM0MjkxZmIwZDY5MGI5YTFjODJiZTEyN2NiOWEwN2FkOGJiYjUyMDlmZTk0ZDIwMzUyMTRiNzg0YzgwY2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c90ad04894a042ed8bfdfc39e9f510a9",
+      "statement": "Граф маршрутизирует разрешённое reasoning для openai из openai_reasoning_effort в reasoning_effort, для anthropic из anthropic_effort в effort и для google из google_thinking_level в thinking_level; фабрика передаёт kwargs адаптерам, после чего действуют их модельные фильтры OpenAI/Anthropic и преобразование minimal в low для Google Pro. Для остальных ключей, включая другие OpenAI-совместимые провайдеры, Azure и Bedrock, эта функция графа не добавляет reasoning-аргумент.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L170-L213",
+          "version": "repo-lines-v1:sha256:d3822b41a9364955c0dbbadb3cd5d1d502b7a90b586da14faf5be9f5822ef04c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDBlNjVkZWMwNTVhMTIxYTRiNDBhYzU5ZTM3MTM1ZDg1MTk1ZDk2MjhkYjZhNWY2NWFjMzIzYzJkMTlkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwM2E5ZjU4N2NlNDlkNzNlZDhhNzRkMzZiNTAyODlkNmUwYWQ5YmRhOWVmYzlhYjllNzg3YzhiMzJmOGZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMDNiODA2NDEyZDM5NTBjN2MzNGMyMmY5YWNkYWYyNzI0ODc0ODNlZmM0MTAzYjdlYTUxZGFhZjMxMzhmMGQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/anthropic_client.py#L67-L74",
+          "version": "repo-lines-v1:sha256:55bc4813e1a4e816680d2864a263e0c71f5d5c830a32e578ce1fda079cbfcee5:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTEzZmUzMTFmNDI2NGE2N2QzNmIxZWFlM2VlZGI4Yjg1OThiZGE4M2JiMTc4YmU2ZTljOGFmMGYyYzQ5N2QyZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGEzNjVlNTMwMGM5MDc3MmQyMzQzOTk1MTA1NjE5NDE4NzBlOGJlNTkyNTUyZGMxZWRjOGIzOWUxNDBiNTM5NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjk1MmUwMjUyMTljNzQwZTU2NjgyNTk4OTA3M2NlYmMwMjhhZGQzZGZlMjc5ZDQ1ODE4ZjRiZDVhMGZhYTkyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDAzMDkyYjg0ZTFhMzU3YjcwZmZjZmVhMzQ4ZThjZDliM2YxMGU5YmFkMTEwNDRiNmJkM2VkMTEwOTAxMzEzYiJ9"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/factory.py#L29-L54",
+          "version": "repo-lines-v1:sha256:93e1a677fec44803d3131e8ace6966e9d24592ea4a21ae1077666cc4ddf58622:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZjQ1NzhkN2VjZDg2MGZkZTZhODcwOWM1YzE1MDIyNDZiZDNhM2E0YmMyMzIxMGUzMzZjYzM3MjhiNzllNjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyNDVlMjQwNmNkYTAyMTk1OWI5NjAyZjJiNDg3NWRkM2Q0MjBjYTE1N2E2Nzc5MDQzOTRmZDgzM2ZlOWY2YTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwOWM3MWI1Y2M3ODUyMGE4N2JkYjk1ZWJjNDdhZTNlZDI2OWM0ZmZlNTZiMzI5MTdiNGU2Y2M3YWZjMGY0ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/google_client.py#L44-L54",
+          "version": "repo-lines-v1:sha256:ae1d3eacdbc031b110f40a1a678508afc63e9be9464052d94bec6873b7e05a9f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlYzk2YTMwOWIyNmIxNGI2ZWM1Mjk2YWM5NjYwODkwMTk2OGJhNTcwYzQ4ZjgyODdmYjdmNDhjOWE0YzVlODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwOWQ4OTM5YmQwOTJhZjQxMTU1Y2VmNzgzZDgwZjdjZjJkNjRhOGY5YWJiZjgxMmMwN2NiM2M1N2NjYzkyZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYzM2Q1NGViOTgyMDI1YWJjYzE2N2IxMjFkODBjYmUxMTk4MjE5ZTZhNjQwNzE1Nzg4ODZhNjE3MDFhNGI0MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzNGU1MGMxMGEwMzg4YmNmNjdlMmY3MWE0OTkyZjRmNDIwNjk4MjczNWE1NTdhYWFhM2JmNDFlNDEzMmJmNmQifQ"
+        },
+        {
+          "resource": "repo://tradingagents/llm_clients/openai_client.py#L324-L333",
+          "version": "repo-lines-v1:sha256:4e92d06157973353ef60bf09812a1b979bac7b4f19b24f9ede199c4c9dc105c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlM2MyNzRkNDRlYTYxYzQwNjMwZTQ2ZmYxZjNhYmZlNGUzMzkzNDZhZTRiYzgzYmE5ODdiNDgzNzg0NmFjYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljN2ZkNjkxOGYxN2QzMTczMGM5NGE3MjJiMWE2YWE0MGY2NDFkZmE4MDg4ODBjODdkMjAxNzdlZjExZjdiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjYWM5ZmFkZDkwMmY0YmQ2ZjI2NzJmMTNkNmNjOTBkOGFkOTJlY2YzZDUxMDkwYzJlYThmZDhiNmI1NTUyMzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ODc3ZDlmZGQzM2VhYTY5ZDc0ZmEyZTczMmViY2VjYTRhODM3ZjY2YTY4NjFlYTlkZjc3MTcxZDBkZDhmZTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fa1a22f7646d4f34969295c8f00ecbd0",
+      "statement": "Вызов _get_provider_kwargs без уровня сохраняет поведение общей настройки, игнорируя overrides уровней; каждый вызов возвращает независимый словарь и не изменяет config, а temperature, retries и лимит токенов остаются общими для двух уровней.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L119-L148",
+          "version": "repo-lines-v1:sha256:32fc26d6cb855d849ea375d87828b930c2798b4babcca6c3e321f3319d479fbb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2OTRkNDE4YTY5ZTlmZjE0NTdlMDVmMTQyMThiYjRjODg4ZmQzZTc5MWNlNzEwNzIyZjZhNmQyNjM0ZGQxYjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMzExYmNiOGFhNGE0YjdjNDE5Njk3NzAyMDllOTQ3MjdkZjQ4NWI1OWRlMjEzZDcyYzVjYzRlOTMxMzZhYzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3YzBmZTFmNzcxYmMzMzA3NDdlYmQ0OTljODQxYzcxZWU3MzVmYzg4ZDYzMTRiNzJhZWRlNjNlZTQzNTU3ZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L73-L88",
+          "version": "repo-lines-v1:sha256:42007fb895b1b4414cea235cea72a21f055388f47c9ddb4d23805cab932f5904:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1ZmU4YzYwYjdiZmRjMzVjYzNmNWMwNDJkZjI3ZjI5N2UwODI2NzAxNGFmOGEwNDRkZDExNGIzZTdjZmYxNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZmM2YjViNTZjMWQwZWY2YjQ2NGJjN2VhNjNhOGYxNzk2ODIwYjZlNTAwZTcwYjdmZWY4NWY0MGQ3ZGVlYjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhYmU3MWE3NTExMTRkNjM5Y2UwMmRlNWYyMWVkYTEwMTM0NGI0OGRiZDZkNTA2YzEwOTM3ZGU2ZDJhMzYwYjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3YjQ4NjNmNDQ1YmE0NDgzZTRlODJhODdmMTE1MmE0ZjNmYmFiZDg5N2MxOTBiNDg0NTRjMGU5YzAzOTVlY2QifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L170-L213",
+          "version": "repo-lines-v1:sha256:d3822b41a9364955c0dbbadb3cd5d1d502b7a90b586da14faf5be9f5822ef04c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDBlNjVkZWMwNTVhMTIxYTRiNDBhYzU5ZTM3MTM1ZDg1MTk1ZDk2MjhkYjZhNWY2NWFjMzIzYzJkMTlkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwM2E5ZjU4N2NlNDlkNzNlZDhhNzRkMzZiNTAyODlkNmUwYWQ5YmRhOWVmYzlhYjllNzg3YzhiMzJmOGZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMDNiODA2NDEyZDM5NTBjN2MzNGMyMmY5YWNkYWYyNzI0ODc0ODNlZmM0MTAzYjdlYTUxZGFhZjMxMzhmMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_787d7f6199fa4c8dbbead09f675b5082",
+      "statement": "Тесты per-tier reasoning запрещают сеть и проверяют наследование, буквальные строки, совместимость helper без уровня, неизменность config и обе фабричные операции графа с общими параметрами и callbacks; модельную фильтрацию и Google Pro conversion отдельно проверяют тесты адаптеров, а не обращение к реальному API.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_anthropic_effort.py",
+          "version": "repo-file-v1:sha256:b629d355f66d1cee9fd45d8465387c804b865b41aba7a4f055fe1e5746e92d36"
+        },
+        {
+          "resource": "repo://tests/test_google_thinking_level.py",
+          "version": "repo-file-v1:sha256:605181b77b089107acb427b0fa916a412477892a68b43e3317407fee084271e3"
+        },
+        {
+          "resource": "repo://tests/test_openai_reasoning_effort.py",
+          "version": "repo-file-v1:sha256:c8ad47a954cd0ebf52c10b110f1d3d0e3373ff6fa88928961c68fb2249997214"
+        },
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py",
+          "version": "repo-file-v1:sha256:c4582e80fe32a5fda4a92c2c0c165f0aa772ba89ef34f4b212190b90d6cc787d"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T14:23:37.397Z"
+    "at": "2026-09-09T08:26:19.375Z"
   }
 }

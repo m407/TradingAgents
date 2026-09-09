@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:75919735330d336752832da34096a4affa7083d38852ec28a3f0e9676b8b84db",
+  "pageVersion": "sha256:bfd5a188f528005802580303e165cfa8e00cec95209897630c4383b7a0d23093",
   "claims": [
     {
       "id": "claim_7a85566998e548e1b2b33b30c99f957c",
@@ -26,7 +26,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py",
-          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+          "version": "repo-file-v1:sha256:e6695bd2686506f5ac712c3c1353a53f0f9a98b08c43ca3da021d910ceff2f36"
         }
       ]
     },
@@ -228,7 +228,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py",
-          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+          "version": "repo-file-v1:sha256:e6695bd2686506f5ac712c3c1353a53f0f9a98b08c43ca3da021d910ceff2f36"
         }
       ]
     },
@@ -302,7 +302,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py",
-          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+          "version": "repo-file-v1:sha256:e6695bd2686506f5ac712c3c1353a53f0f9a98b08c43ca3da021d910ceff2f36"
         }
       ]
     },
@@ -360,7 +360,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py",
-          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+          "version": "repo-file-v1:sha256:e6695bd2686506f5ac712c3c1353a53f0f9a98b08c43ca3da021d910ceff2f36"
         }
       ]
     },
@@ -392,7 +392,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py",
-          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+          "version": "repo-file-v1:sha256:e6695bd2686506f5ac712c3c1353a53f0f9a98b08c43ca3da021d910ceff2f36"
         },
         {
           "resource": "repo://tradingagents/reporting.py",
@@ -413,6 +413,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T14:23:37.397Z"
+    "at": "2026-09-09T08:26:19.375Z"
   }
 }

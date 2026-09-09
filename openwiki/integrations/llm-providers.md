@@ -3,9 +3,6 @@ type: архитектура интеграции
 title: Провайдеры LLM и совместимость моделей
 description: Как TradingAgents выбирает нативный или OpenAI-совместимый клиент, передаёт настройки в SDK и согласует идентификаторы моделей, структурированный вывод и reasoning_content. Описаны границы безопасного добавления провайдера, модели и параметра протокола.
 tags: [llm, providers, models, structured-output, compatibility]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-93c4bf642ecfa683655a01ec
     resource: repo://cli/main.py
@@ -41,6 +38,8 @@ sources:
     resource: repo://tests/test_openai_reasoning_effort.py
   - id: openwiki-source-0458b68316e2a43addf9874f
     resource: repo://tests/test_openai_responses_base_url.py
+  - id: openwiki-source-cb0425810080c23ce91acd3d
+    resource: repo://tests/test_per_tier_reasoning_effort.py
   - id: openwiki-source-3e88c4a4574ed0a5fa9b6600
     resource: repo://tests/test_provider_registry.py
   - id: openwiki-source-2b08e5978302e5baf32d90cd
@@ -71,7 +70,10 @@ sources:
     resource: repo://tradingagents/llm_clients/openai_client.py
   - id: openwiki-source-e718bd265e477feca4f6d235
     resource: repo://tradingagents/llm_clients/validators.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
 # Провайдеры LLM и совместимость моделей
@@ -82,7 +84,7 @@ generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
 
 ## От конфигурации графа до SDK
 
-`TradingAgentsGraph` собирает общие kwargs в `_get_provider_kwargs()`, добавляет callbacks, если они переданы, и создаёт два клиента с одинаковыми `llm_provider` и `backend_url`, но отдельными `deep_think_llm` и `quick_think_llm`. Затем вызывает `get_llm()` обоих клиентов. На этом этапе выполняются предупреждение о неизвестной модели, разрешение настроек клиента и конструирование chat-объекта.
+`TradingAgentsGraph` независимо собирает `deep_kwargs` через `_get_provider_kwargs("deep")` и `quick_kwargs` через `_get_provider_kwargs("quick")`. В оба словаря добавляются callbacks, если они переданы. Затем граф вызывает `create_llm_client()` сначала для `deep_think_llm`, затем для `quick_think_llm`: `llm_provider` и `backend_url` одинаковы, но reasoning-настройка разрешается отдельно для каждого уровня. После этого `get_llm()` обоих клиентов выполняет предупреждение о неизвестной модели, разрешение настроек адаптера и конструирование chat-объекта. Фабрика передаёт kwargs выбранному адаптеру; она не проверяет допустимость reasoning для модели.
 
 | Семейство | Ключи провайдеров | Адаптер |
 |---|---|---|
@@ -93,8 +95,12 @@ generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
 
 ```mermaid
 flowchart TD
-    Config["Конфигурация графа"] --> Kwargs["Thinking, temperature, retries, token cap, callbacks"]
-    Kwargs --> Factory["create_llm_client для quick и deep"]
+    Config["Конфигурация графа"] --> DeepKwargs["deep: reasoning уровня или общее значение"]
+    Config --> QuickKwargs["quick: reasoning уровня или общее значение"]
+    DeepKwargs --> DeepCall["deep_kwargs и общие temperature, retries, token cap, callbacks"]
+    QuickKwargs --> QuickCall["quick_kwargs и общие temperature, retries, token cap, callbacks"]
+    DeepCall --> Factory["Отдельные create_llm_client для deep и quick"]
+    QuickCall --> Factory
     Factory --> Native{"Нативный ключ провайдера"}
     Native -->|anthropic| Anthropic["AnthropicClient"]
     Native -->|google| Google["GoogleClient"]
@@ -212,7 +218,28 @@ flowchart TD
 
 ## Thinking, температура, retries и лимит токенов
 
-`TradingAgentsGraph._get_provider_kwargs()` — общий вход операционных настроек, но окончательная передача в SDK определяется allowlist конкретного клиента.
+`TradingAgentsGraph._get_provider_kwargs(tier)` — вход операционных настроек для отдельного уровня. Каждый вызов создаёт новый словарь: temperature, retries и лимит токенов остаются общими настройками, а reasoning разрешается независимо. Окончательная передача в SDK определяется allowlist и правилами модели конкретного клиента.
+
+### Независимый reasoning для deep и quick
+
+`deep_think_reasoning_effort` и `quick_think_reasoning_effort` переопределяют общее значение **активного** провайдера:
+
+| `llm_provider` (без учёта регистра) | Общее значение для наследования | Аргумент фабрики и адаптера |
+|---|---|---|
+| `openai` | `openai_reasoning_effort` | `reasoning_effort` → `OpenAIClient` |
+| `anthropic` | `anthropic_effort` | `effort` → `AnthropicClient` |
+| `google` | `google_thinking_level` | `thinking_level` → `GoogleClient` |
+| Остальные ключи | Не используются | Эта функция не добавляет reasoning-аргумент |
+
+Для каждого уровня порядок таков: значение уровня → общее значение активного провайдера → отсутствие аргумента. Отсутствующий ключ, `None` и `""` наследуют общее значение; если и оно отсутствует, равно `None` или `""`, аргумент опускается. Реализация использует истинность значения (`or` и `if`), а не специальный маркер отключения. Настройки неактивных провайдеров не участвуют в наследовании. В частности, другие OpenAI-совместимые ключи, включая `deepseek`, `openrouter`, `ollama` и `openai_compatible`, не получают reasoning от этой функции, несмотря на общий `OpenAIClient`; это относится также к `azure` и `bedrock`.
+
+Литерал `"none"` — непустая строка, а не Python `None`: он передаётся как значение. Строки из пробелов и строки с крайними пробелами граф тоже не нормализует. Здесь нет универсального enum: допустимость значения принадлежит адаптеру, модели и SDK/API. Передача графом не гарантирует принятия сервисом. Вызов `_get_provider_kwargs()` без `tier` сохраняет прежнее поведение с общей настройкой, игнорируя overrides уровней. Разрешение не изменяет `config` и не переносит результат одного уровня в другой.
+
+Например, при `llm_provider="openai"`, `openai_reasoning_effort="medium"`, `deep_think_reasoning_effort="high"` и `quick_think_reasoning_effort=""` фабрика получает `reasoning_effort="high"` для deep и `reasoning_effort="medium"` для quick. Дальше каждый адаптер отдельно проверяет поддержку параметра своей моделью.
+
+Источники: [разрешение уровней](repo://tradingagents/graph/trading_graph.py#L170-L213), [два вызова фабрики](repo://tradingagents/graph/trading_graph.py#L108-L131), [передача адаптерам](repo://tradingagents/llm_clients/factory.py#L29-L54), [матрица наследования](repo://tests/test_per_tier_reasoning_effort.py#L14-L88).
+
+### Общие параметры генерации
 
 | Настройка графа | Поведение |
 |---|---|
@@ -227,13 +254,13 @@ flowchart TD
 
 Thinking-настройки также не универсальны:
 
-- Граф передаёт `openai_reasoning_effort` только при `llm_provider="openai"`; `OpenAIClient` сохраняет `reasoning_effort` лишь для имён, соответствующих `^(gpt-5|o[1-9])` после приведения к нижнему регистру и удаления крайних пробелов.
+- После разрешения уровня граф передаёт `reasoning_effort` только для ключа `openai`; `OpenAIClient` сохраняет этот аргумент лишь для имён моделей, соответствующих `^(gpt-5|o[1-9])` после приведения имени к нижнему регистру и удаления крайних пробелов. Это нормализация имени модели, не значения effort.
 - Для Anthropic `effort` ограничен распознаваемыми семействами и минимальными версиями в `_supports_effort()`, включая отдельные точные исключения. Неизвестные или неподдерживаемые имена консервативно остаются без параметра.
 - Google передаёт непустой `thinking_level` непосредственно строкой. Если имя модели содержит `pro` без учёта регистра, `minimal` заменяется на `low`; остальные значения не переписываются. Преобразования в `thinking_budget` здесь нет.
 
 Соответствующие overrides: `TRADINGAGENTS_TEMPERATURE`, `TRADINGAGENTS_LLM_MAX_RETRIES`, `TRADINGAGENTS_MAX_TOKENS`, `TRADINGAGENTS_GOOGLE_THINKING_LEVEL`, `TRADINGAGENTS_OPENAI_REASONING_EFFORT`, `TRADINGAGENTS_ANTHROPIC_EFFORT`. Инструкции по окружению см. на [операционной странице](../operations/configuration-and-deployment.md).
 
-Источники: [валидация чисел](repo://tradingagents/graph/trading_graph.py#L48-L76), [kwargs графа](repo://tradingagents/graph/trading_graph.py#L168-L208), [Google](repo://tradingagents/llm_clients/google_client.py#L26-L54), [Anthropic](repo://tradingagents/llm_clients/anthropic_client.py), [Azure allowlist](repo://tradingagents/llm_clients/azure_client.py#L8-L47), [тест лимита](repo://tests/test_llm_max_tokens.py).
+Источники: [валидация чисел](repo://tradingagents/graph/trading_graph.py#L48-L76), [kwargs графа](repo://tradingagents/graph/trading_graph.py#L170-L213), [Google](repo://tradingagents/llm_clients/google_client.py#L26-L54), [Anthropic](repo://tradingagents/llm_clients/anthropic_client.py), [Azure allowlist](repo://tradingagents/llm_clients/azure_client.py#L8-L47), [тест лимита](repo://tests/test_llm_max_tokens.py).
 
 ## Безопасные точки расширения
 
@@ -256,7 +283,10 @@ pytest tests/test_capabilities.py tests/test_deepseek_reasoning.py tests/test_mi
 pytest tests/test_openai_compatible_provider.py tests/test_openai_responses_base_url.py
 pytest tests/test_bedrock_provider.py tests/test_llm_max_retries.py tests/test_temperature_config.py tests/test_llm_max_tokens.py
 pytest tests/test_google_api_key.py tests/test_google_thinking_level.py tests/test_openai_reasoning_effort.py tests/test_anthropic_effort.py tests/test_structured_agents.py
+pytest tests/test_per_tier_reasoning_effort.py
 ```
+
+`test_per_tier_reasoning_effort.py` запрещает сеть и проверяет матрицу наследования, независимость словарей, неизменность config, вызов helper без уровня, буквальные строки и отсутствие reasoning у DeepSeek. Тест конструктора графа перехватывает обе фабричные операции, проверяя модели, endpoint, общие параметры, callbacks и отдельные результаты `get_llm()`. Он не проверяет принятие значений реальным API: границу адаптер → SDK отдельно покрывают `test_openai_reasoning_effort.py` (сохранение и удаление параметра по модели), `test_anthropic_effort.py` (семейства и версии, сохранение остальных kwargs при удалении effort) и `test_google_thinking_level.py` (Flash, преобразование Pro `minimal` → `low`, отсутствие `thinking_budget`).
 
 Особенно важны: официальный namespace и сторонний publisher в `test_capabilities.py`; получение и обратная отправка `reasoning_content` через list и `ChatPromptValue`; сохранение schema tool при подавлении `tool_choice`; конечный `max_output_tokens` Google; fallback при результате `None`. Live-тест DeepSeek пропускается без реального ключа, но с ключом может обратиться к API.
 

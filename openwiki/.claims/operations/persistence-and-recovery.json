@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3f128da8ecb64cfc83cdd3296cde18317c2f5dd22bd82374fd28eb00bd7954d0",
+  "pageVersion": "sha256:5ddd427a4f8b678cb4ad6ed1e9f48db1c2b3ef128d3fdbb368a0873f89ef30f6",
   "claims": [
     {
       "id": "claim_4aa4b961a43142a086c20045499b1bd2",
@@ -16,7 +16,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py",
-          "version": "repo-file-v1:sha256:7e450787ad92bc3f5e674791571a009d6904cf5899d095a43444d74ba9199393"
+          "version": "repo-file-v1:sha256:e6695bd2686506f5ac712c3c1353a53f0f9a98b08c43ca3da021d910ceff2f36"
         },
         {
           "resource": "repo://tradingagents/reporting.py",
@@ -471,6 +471,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T14:23:37.397Z"
+    "at": "2026-09-09T08:26:19.375Z"
   }
 }

@@ -1,11 +1,11 @@
 ---
 type: архитектура выполнения
-title: Выполнение графа агентов
+title: Исполнение агентов и маршрутизация графа
 description: Сборка упорядоченной цепочки выбранных аналитиков, циклы инструментов, исследовательские и риск-дебаты и передача контекста до итогового решения Portfolio Manager. Описаны фактические входы промптов, обновления состояния и инварианты маршрутизации.
 tags: [agent-runtime, langgraph, graph-orchestration, analyst-pipeline, debate-routing]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
+    at: 2026-09-09T08:26:19.375Z
 sources:
   - id: openwiki-source-93c4bf642ecfa683655a01ec
     resource: repo://cli/main.py
@@ -13,6 +13,8 @@ sources:
     resource: repo://tests/test_analyst_execution.py
   - id: openwiki-source-c42d811bb56810568a16714e
     resource: repo://tests/test_debate_opening.py
+  - id: openwiki-source-cb0425810080c23ce91acd3d
+    resource: repo://tests/test_per_tier_reasoning_effort.py
   - id: openwiki-source-496bc5bd10e35ded6022ec30
     resource: repo://tests/test_risk_router_path_map.py
   - id: openwiki-source-297f24872c79c005ecebf687
@@ -51,14 +53,18 @@ sources:
     resource: repo://tradingagents/graph/conditional_logic.py
   - id: openwiki-source-7cd4dd9e605dbb48f04a4751
     resource: repo://tradingagents/graph/propagation.py
+  - id: openwiki-source-57d7a4616e8be4ce16d5bb08
+    resource: repo://tradingagents/graph/reflection.py
   - id: openwiki-source-4fad272cc4bfff0635067587
     resource: repo://tradingagents/graph/setup.py
+  - id: openwiki-source-45a8b306d0b2d10e4ff5871b
+    resource: repo://tradingagents/graph/signal_processing.py
   - id: openwiki-source-4e072b0f954dc477bfc36fee
     resource: repo://tradingagents/graph/trading_graph.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
 ---
 
-# Выполнение графа агентов
+# Исполнение агентов и маршрутизация графа
 
 Среда выполнения — `StateGraph(AgentState)`, который собирает `GraphSetup.setup_graph()`. Сначала работает выбранная вызывающим кодом цепочка аналитиков, затем bull/bear-дебаты и связка Research Manager → Trader, наконец трёхсторонние риск-дебаты и Portfolio Manager. Это последовательная маршрутизация, а не параллельное голосование агентов.
 
@@ -124,9 +130,13 @@ flowchart TD
 - `quick_thinking_llm`: все четыре аналитика, Bull/Bear Researcher, Trader и все три риск-аналитика;
 - `deep_thinking_llm`: Research Manager и Portfolio Manager.
 
-Обе модели создаются через `create_llm_client` с `llm_provider`, соответственно `quick_think_llm` и `deep_think_llm`, и общими настройками провайдера. Подробности — в [интеграции LLM](../integrations/llm-providers.md).
+Обе модели создаются через `create_llm_client` с общими `llm_provider` и `backend_url`, но с отдельными моделями (`deep_think_llm`, `quick_think_llm`) и **раздельно вычисленными параметрами**: конструктор вызывает `_get_provider_kwargs("deep")` и `_get_provider_kwargs("quick")`. Настройки `deep_think_reasoning_effort` и `quick_think_reasoning_effort` позволяют переопределить reasoning для соответствующего уровня; без переопределения используется общая настройка активного провайдера. Общие параметры клиента и переданные callbacks поступают в оба вызова. Полные правила разрешения и поддержки параметров — в [интеграции LLM](../integrations/llm-providers.md) и [конфигурации и развёртывании](../operations/configuration-and-deployment.md).
 
-Источники: [план аналитиков](repo://tradingagents/graph/analyst_execution.py#L20-L69), [назначения моделей](repo://tradingagents/graph/setup.py#L73-L111), [создание клиентов](repo://tradingagents/graph/trading_graph.py#L108-L164), [выбор CLI](repo://cli/main.py#L1009-L1016).
+Переопределения reasoning меняют параметры клиентов, **не переназначают агентов между quick/deep и не меняют топологию**. Назначения остаются ответственностью `GraphSetup`, а порядок аналитиков и пределы дебатов задаются отдельно.
+
+Вне узлов workflow конструктор также передаёт `quick_thinking_llm` в `Reflector` и `SignalProcessor`. `Reflector` действительно вызывает эту модель для рефлексии по итогам прошлого решения. `SignalProcessor` принимает аргумент только для обратной совместимости и игнорирует его: извлечение рейтинга детерминировано и не требует дополнительного LLM-вызова. Поэтому передача quick-модели вспомогательному компоненту не всегда означает её использование.
+
+Источники: [план аналитиков](repo://tradingagents/graph/analyst_execution.py#L20-L69), [назначения моделей](repo://tradingagents/graph/setup.py#L73-L111), [создание клиентов и параметры уровней](repo://tradingagents/graph/trading_graph.py#L108-L213), [рефлексия](repo://tradingagents/graph/reflection.py#L31-L57), [извлечение сигнала](repo://tradingagents/graph/signal_processing.py#L20-L38), [выбор CLI](repo://cli/main.py#L1009-L1016).
 
 ## Инструменты и очистка сообщений
 
@@ -222,6 +232,7 @@ Research Manager, Trader и Portfolio Manager связываются соотв�
 Полезные регрессии:
 
 - `tests/test_analyst_execution.py`: порядок, неизвестные ключи, совместимость `social`, порядок отчёта времени;
+- `tests/test_per_tier_reasoning_effort.py`: раздельное разрешение reasoning для deep/quick и оба реальных вызова фабрики в конструкторе при подменённых зависимостях; проверяются общие параметры, callbacks, отсутствие мутации конфигурации и передача quick-модели в `Reflector`/`SignalProcessor`. Сеть запрещена; назначения отдельных агентов нужно сверять с `GraphSetup`, который в этих тестах подменён;
 - `tests/test_risk_router_path_map.py`: обычные и изменённые метки, покрытие возвратов и достижимость менеджеров;
 - `tests/test_debate_opening.py`: пустые слоты оппонентов у всех пяти участников и передача настоящих аргументов;
 - `tests/test_structured_agent_prompts.py`: наличие запрета инструментов в реально сформированных промптах четырёх schema-only агентов, сохранение инструкций дат для tool-аналитиков;

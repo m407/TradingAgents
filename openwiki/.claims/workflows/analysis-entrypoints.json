@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6f3dc357b5df53c5410f4252769cf89a251cd54f08f488e4e8ef6dbde7c8dae3",
+  "pageVersion": "sha256:871b1dff9c377d5a26a803c77baa9b5cbef06c1330875873c19a73e16e73e897",
   "claims": [
     {
       "id": "claim_d3615abb35fb4991b24f7f4c75132b64",
@@ -22,11 +22,11 @@
     },
     {
       "id": "claim_5fb4c843e7d046a8b6a259a8a5f50226",
-      "statement": "`TradingAgentsGraph` construction eagerly publishes configuration to the dataflow layer, creates cache and results directories, builds quick and deep LLMs with callbacks, initializes tools and orchestration helpers, and compiles the selected LangGraph workflow.",
+      "statement": "Конструктор TradingAgentsGraph сразу публикует config в слой данных, создает cache/results, независимо получает kwargs deep и quick, добавляет callbacks в оба набора, создает два клиента и их LLM, инициализирует инструменты и вспомогательные компоненты и компилирует выбранный workflow.",
       "evidence": [
         {
-          "resource": "repo://tradingagents/graph/trading_graph.py#L65-L150",
-          "version": "repo-lines-v1:sha256:29dd0f314393de3890c5de3cc2410e50afa681af4d3a8f72087747fe2f022c74:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhODMzOTM4MjNiOTA1YTQ1ZDYwNGYxYjkyOTMwOTJjZjY0YzIxZTRmMGFjNmU1Mjg3NWNkMzkwYWMxODhmYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NDA5YTBkMTM4NDJhYmE2YmQ2MjczY2FmMjhlYTMyODUzOTVmYThjMjc0ZWFkMjFhNzllMjJjMjE2MjBkODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwMDViZDc3NjdmMjg0MjkyMjBkOGJiYzkzMGNkMTI2OWY0MmM0MGEzNTJmNjMyMDJkMDdkYjBiZDdjZmY5ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3ZmMzZDg0NDE1N2ZhMzc4YTk2M2EwZWFlNTU4N2Q3MWViYWU5MmFhNjVmMzBhZGYzODA2M2VlZDZiYThhMmEifQ"
+          "resource": "repo://tradingagents/graph/trading_graph.py#L98-L168",
+          "version": "repo-lines-v1:sha256:c4b759330e3c5318e1532060235c74d226697bc9d4ba705cc2a43ef067c7a593:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiYzgzNTA5YjE1NjdmZjQ0NzE0OGNlYzFlZDJmYzFlZGUyMzE5NDVhNzgxZTQzZmQ0NzZlODNhMjYzMTcxZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkYzNjYmI3MzFmYmNiNzA4ZDE5Yjg2YTIyOWQ2MGMyYTQyM2ZlNTRiYTEwYzZiMGYxMGMxMzkzNjAzY2VkMTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2Y2ExN2I2Yjk0NDEwZTBmNzQ2ODhkYTc4YWFiZWViZWUwN2Y5YjJmMDgwY2EwZDJmZmU2ZTg2ODlkYzZkZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkYjJiMzcxNGFhNTJhYzg3ZjdkYWJhNzFiMTc1NThmNGVkMGQ5ODgwYThmNDRiYzdjYmZhNjg0ZGJmNzViYWEifQ"
         }
       ]
     },
@@ -402,7 +402,7 @@
         },
         {
           "resource": "repo://tradingagents/graph/trading_graph.py#L99-L125",
-          "version": "repo-lines-v1:sha256:fdab8fb481e19fbbea4671aa7f4d9d21c0ac3bc00e9aa099921a454d11897d9d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxZTMwOTgxMjViOTliYWMzM2YyYjUwMjE5ZmQxNmMwNmFjNjY2YzlmY2QxZjJlMDNiMmQ5YzI1NzQyN2U1NDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkZDVlMmUyNjM1YzgyYzkxNmQ5MTFiYTIxZWU5YjFhOTUyMmNiZjQ3MzI4ODI0NTk3YWRmYjU1ZTNhZmNhODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiMTQxYTA3ZDRmNzUzOWU0MWY1MzJiNDUxODk2ZTkwMDU5MGQ2NGJkNzhkN2Y2ZTYwYWE1YzcwNGQ1NmZmYmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiYjU1MjJiMDVkNTYxMTllMDkzYTI2YTI1YTY5YzkwYTdmNzJjZWJjYjY5MWUyZTRjOGNlMGNiMDg0NWQ5OWQifQ"
+          "version": "repo-lines-v1:sha256:7c7de5f02e97bbd10bf3e81798ee3db791250bed4683e76cacaf86e732c475ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxZTMwOTgxMjViOTliYWMzM2YyYjUwMjE5ZmQxNmMwNmFjNjY2YzlmY2QxZjJlMDNiMmQ5YzI1NzQyN2U1NDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ZDc5ODdkNmYwYThhZjY0M2EwYmJjZTI3MWE3Y2NhOTViZDk1Y2NkZWEwNDlhZmE2YWZlMTAzMmMzZmMxZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiMTQxYTA3ZDRmNzUzOWU0MWY1MzJiNDUxODk2ZTkwMDU5MGQ2NGJkNzhkN2Y2ZTYwYWE1YzcwNGQ1NmZmYmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiYjU1MjJiMDVkNTYxMTllMDkzYTI2YTI1YTY5YzkwYTdmNzJjZWJjYjY5MWUyZTRjOGNlMGNiMDg0NWQ5OWQifQ"
         }
       ]
     },
@@ -491,10 +491,84 @@
           "version": "repo-lines-v1:sha256:9035e93d4ce9a9fd82f425b4f3059a22d389ec1c162db1cd4d25ad77da7d6f8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ZmE1Njg3NmQxNjg4ZWUzOTVjMmViMjkxMmRjNmQ2NGViMzQ1YjFjNDdlZDk4YmM1YmNiYTBmNDYwM2IxZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyYzRlMmY2MTFhMzJkNDdmMmE0YjFlNjY5MzE0ZGIzNWMzZDU1ZjYxM2NjNjFhNDBmM2I2OGEzOTA2YmUxNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzMjE3MTQzODU4NGQ3MmM3MDA1MjI3OWU2N2IxYWMyZDBjMWIzNmNhYjBmZTAzMjU3ZmVhOTgyYjMyNTA5MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNzdkYTdiYTU4ODVlOTczYWY1MWE2ZjA0MjhiZmY1MTkwZGUyMGRmYzAzNjM4OTA0MjRjNjRhNzQyZGExMzUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_f4883045b2fd49149133ef9ba2c62b1e",
+      "statement": "DEFAULT_CONFIG при импорте применяет TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT и TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT к tier-полям с исходным значением None; CLI копирует DEFAULT_CONFIG и сохраняет эти поля при наложении общих выборов, а Python-клиент может изменить их в config до создания графа.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L974-L1025",
+          "version": "repo-lines-v1:sha256:f73ded1db03a5c418b1aec5b98913425381d668371d9d5fa08873d9ccba50118:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0MTVmMjU3YzkwNGM4N2U3NGE1YmMzNzBiZGY1MjkzYzVmZTZhNWQwNDJmMTQzMzAxYWMyOTRhODIzZjhjMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxZmYwMTM4MjFiMTY1YTc2YjI3NjcxODk2MjdmNDk1M2JjMTVhMjBiY2IzZjcxYjFlNzFjNzM2ZmNkYTgyZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4Mjc0ZDYxNjJjY2VlNTg0ZTFiMTI2Zjg4NDA5OWIzNjYzODliZTBhYTNjYzBlMzRmZDdkMzgyMzkxNTVkMjYifQ"
+        },
+        {
+          "resource": "repo://main.py#L1-L12",
+          "version": "repo-lines-v1:sha256:83adcb508cc02e74eb1a07a1aa1799dcaa15c308eeab8014085fec7f7741af09:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlN2Y2YjVlNjBhYTZhMTdlYmE0OTA1MjIwZDZjNjUzMmJjOTg5NTY3NjdkYjEzMjU4MjZkNmMyMDQwNjJjMjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2OGNhNGE2YTQ0NTcwZGZjYThjYzhjNzA0MzNjMTk4MDcxZTQ1MWU4NmNjMzdlNmEzNGUyOGY4NjNhOWQxMzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3ZWZlNjdlNjlkYzA5MWNjYzM5NzhhZDcwMGNmNDI5YTE2MjA1YjVlM2FlZjdmOTkzNTk5OTQyNjgzM2RhMTgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/default_config.py#L10-L99",
+          "version": "repo-lines-v1:sha256:b2fc76deed5a4a9040972542c28d79753ea37a18deeaac0d15501b5688f6e7b8:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5YzE4OGJmM2NiNDIzZGQzYmZjMWM3OWVkYzZmYWEwMzQ0MmM5MTAyZWI3N2UxNDE2ZDFmOTMzYjNmYjYxYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4YzJmMTRkN2IwZTI5OWU4ZTdmZjFjYWEzNjNlNjFkMWU4ZjA0MDI1NTJkZGViOGM2OGU0MTg3ZDcxOTNiYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYmFhOGQ2ODRhZTgwZTg1NGQ0M2IyNDc0NzdhY2M1ODQ3NDhkY2UwNGJiZmUxM2UxMmM5M2QyM2UzZWE2ODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwYjE1MWI4YjA5OTI4ZDU1YzcxMDM2NTQzODBlMDdlMTZjN2U4MzIzNjc0Njc5ZjQ1ODNmYzkxODI3NDNhYzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_44fb77c82ec24a6db18861f96614e5d3",
+      "statement": "CLI не вводит отдельные интерактивные вопросы для tier reasoning: шаг 8 выбирает общее значение провайдера, tier-env сам по себе не пропускает вопрос, а env-провайдер или соответствующая общая env-настройка пропускают его; общий выбор служит fallback для tier.",
+      "evidence": [
+        {
+          "resource": "repo://cli/main.py#L694-L741",
+          "version": "repo-lines-v1:sha256:38bdaa7ee463375fccb9c9c0a8b606eceb5b7d298ecf920223b3d68f8e05ec68:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyNTMzNzEwYTk4Nzk2YjIzM2ZlYWVmNzdmZGI4NjFhMGQ5Y2VjZmQxMmM2MzZmNTE2NzRlZDY0YWM3OWQyY2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1ZGZiOGUzNmIwMDU5NGI4MTlkNjIxNmE1YzA3ZGNlNTE3Mjk0MjUxYzQ1NGMzZTQ3OGU5ZGEwMzVhNzZiNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlNjJmNWI1NmMyN2NkYWVkNjU4OTI0ODYxNzc4MDEyNTQ1NWU3YzBkZTU3ZTVlNzVmY2QyYmE1YzA4ZGU1OTQifQ"
+        },
+        {
+          "resource": "repo://tests/test_cli_env_skip.py#L120-L174",
+          "version": "repo-lines-v1:sha256:85fbaf4fde7a49278aadef94da8b0bac07d2b7ce84043c73a9f68e7e2bde4565:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5OWQ4YzExODQ3MjAxMDBjZTQyNTBjYjg5ODNlZWZkODQ0MWYyOGQyMzQ2NjlkOTFjYmQ2YjVhNjNiYzIyNzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3NGRlNjBlNmIxYzBkNjA1OTlmMWI3NTU5YzA0M2ZiODBlOTFkYTdlZGNlODdjZjM1Y2JmM2U1NzNkY2FlYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f557ed0ce8b45f6840bad8f3b79abd6",
+      "statement": "Resolver reasoning независимо для каждого tier использует его непустое значение или общее значение активного провайдера, отображая OpenAI в reasoning_effort, Anthropic в effort и Google в thinking_level; отсутствующий ключ, None и пустая строка наследуют общее значение, строка none передается как значение, а другие провайдеры не получают reasoning-параметра из этого resolver.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L14-L87",
+          "version": "repo-lines-v1:sha256:6288993a0e5d33c3e469502fda2bffaa41cdfc7f4e81161b202a79d45edc9d26:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyYWNjNzgwNWMzM2IxZjI0MDQ5NzJhMTI4OGQ0YjU2NjNlMWRhNGRjNTU3OGI3ZGQ2ZGE4ZTIxNjBkMmZjMDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMzExYmNiOGFhNGE0YjdjNDE5Njk3NzAyMDllOTQ3MjdkZjQ4NWI1OWRlMjEzZDcyYzVjYzRlOTMxMzZhYzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3NTJkMTMyOGE1NDdmMjk2ZmVjYWIzYTZlNzMwMGIxNDAxZWZjMjU0MDhmZDk4OWJhYjI2NDgwM2ZjMDZkY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYzA4YzU1MmIxYjg5NDlhMjIxNjYyOTQ1OTY2OTUwOTgzNmNjNTMzNTdjOTBjNWM0YWYyZTc2MDVkYzcyODgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L170-L213",
+          "version": "repo-lines-v1:sha256:d3822b41a9364955c0dbbadb3cd5d1d502b7a90b586da14faf5be9f5822ef04c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDBlNjVkZWMwNTVhMTIxYTRiNDBhYzU5ZTM3MTM1ZDg1MTk1ZDk2MjhkYjZhNWY2NWFjMzIzYzJkMTlkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwM2E5ZjU4N2NlNDlkNzNlZDhhNzRkMzZiNTAyODlkNmUwYWQ5YmRhOWVmYzlhYjllNzg3YzhiMzJmOGZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMDNiODA2NDEyZDM5NTBjN2MzNGMyMmY5YWNkYWYyNzI0ODc0ODNlZmM0MTAzYjdlYTUxZGFhZjMxMzhmMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eeaef22062644cb6a32da4ec04216846",
+      "statement": "Deep и quick клиенты используют общий provider/backend_url и свои модели с независимо рассчитанными reasoning kwargs; назначения остаются прежними: quick для аналитиков, bull/bear, Trader, риск-дебатеров и Reflector, deep для Research Manager и Portfolio Manager.",
+      "evidence": [
+        {
+          "resource": "repo://tradingagents/graph/setup.py#L75-L92",
+          "version": "repo-lines-v1:sha256:b52423290183dbd916ba7cd2fb0e4f9a58704f6cc8ed0fd239487ad931aa421c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjY2YwYmNiM2ExYWUyYWQ4ZjE1MDVkNjdjODQ3M2JiYTRhMDQ5MjcxYzg1MzMwODcxNjM5YzQ1NWE5Mzk4YWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4YjhhYTQyMGI3YmI5YmFiNzU0MGZjNDdlZDgxZTZkODFiNWYzY2FkZDA1MGQ5MWU5NWVmYjY5OTU1ODFkMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExNWRmY2RhNTMyYTZkMWE4ZjI4ZGMyNDZjYWNiNjAzNGI1ZDllM2NlYTU0MTNmMTM0MWYxMDNlZGJmNmE2MjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMzU0M2MyNTA0MWM0NmRhMmZhYzQwMWNjODAzNzNmNTY2YWUxODJiZjNiNmZjOWMwZmQyZjYzM2IyZmFiMjgifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L108-L154",
+          "version": "repo-lines-v1:sha256:79e26e4bf1a89de5d60dd99fcfd82ae042b950d20913b45dcff00bb3c97df555:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlOTBlMTMzZjU0NDQxNTg4MzEwNTkwOGM4NjgwMDIyM2U4YjE5YWI4Y2M3NDQ4ZDIxMjA0ZThlODVkMDQ3ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3ZTY1OTIwN2I0MDI0MWE2MmZjMzUxNmMzMzE1Y2RlZjgwMDYyMWJlYzY4MzY3NWExMjk3MmZlOGYzOTYzODMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MmYyMDY2MjJjNzU0Y2JmYmE2ZDJkOTEwZTM1YjE1ODBkMTRjYTkyYjEzOTRkMzMxODlmYzJlN2RkYzBhOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0ZDA5ZjMwNTYyN2JjZTMyNjRhOTFjZjJiMThlYTE1M2QxOTAxMWRlNjlkMDAxMzk4MjAyYWQ4ZDkxY2QxZjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_76d55733167c4a07afe7d1a300b7aa8a",
+      "statement": "Тесты test_cli_env_skip.py проверяют передачу tier-env через реальные выборы CLI, сборку config и конструктор до двух подмененных фабричных вызовов, останавливаясь до анализа; test_per_tier_reasoning_effort.py проверяет наследование, независимость kwargs, callbacks, общие параметры и отсутствие мутации config без сети, а не прием значений внешним API.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_cli_env_skip.py#L18-L174",
+          "version": "repo-lines-v1:sha256:84c439f701d41f354d29b5f51d515720f27e0c7d96d91d81a098c2eed3f791db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2ZjA4NjZmNDAxMWU1ODVmZmMwOTA5MmVkZjA4MzJlMTdiNTJmNGM5MGM0Y2EwYjQyZGNmYTA1MGZhMzc1YjVhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIxOTlkOGMxMTg0NzIwMTAwY2U0MjUwY2I4OTgzZWVmZDg0NDFmMjhkMjM0NjY5ZDkxY2JkNmI1YTYzYmMyMjc1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkOTdkNTNiYTZjMTMwMTA3ZmE4OWQ5N2NhNDUxODY1NjVlNDBjMzM2MDFjZGVmMzZhNDc5ZGRkOTY1Zjg5MjYwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlMWU0Nzc4NWIzMDE0ODRlYWM2ZWY1OWUzNWQxNWNiZDUzOGI0YTg1YWY4MTU3N2E5YWJkNWIxYWE5YTRkOTg2In0"
+        },
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L42-L148",
+          "version": "repo-lines-v1:sha256:7f9c4231d0241bc99b637b7ec2a7c9694525d17df455f4e541d2f36b4f7352ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2ZjA4NjZmNDAxMWU1ODVmZmMwOTA5MmVkZjA4MzJlMTdiNTJmNGM5MGM0Y2EwYjQyZGNmYTA1MGZhMzc1YjVhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzMDMxMWJjYjhhYTRhNGI3YzQxOTY5NzcwMjA5ZTk0NzI3ZGY0ODViNTlkZTIxM2Q3MmM1Y2M0ZTkzMTM2YWMxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkM2QxNzFkZTc1NDMxYTAyMWEwZDk0ZmE3NmZhYmYwZDcxMzljODk4YzFhMGI0NGI0M2NhNjA5MDNmYTFiODQ1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T14:23:37.397Z"
+    "at": "2026-09-09T08:26:19.375Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:129223b3db5e05b251a1ec82926dfed77f3918a18df331ae338d67ce262b7533",
+  "pageVersion": "sha256:3554cc218f4d2082824b38930e3e52cdb59105df7e96081637f0aa29f59301e6",
   "claims": [
     {
       "id": "claim_b83a05a996e74cae9289bfefd1561361",
@@ -318,15 +318,19 @@
     },
     {
       "id": "claim_2b394e6b54c7450389e8bf68dd96ac5a",
-      "statement": "Environment overlay DEFAULT_CONFIG проверяется через очистку известных overrides и importlib.reload; неправильные int и boolean вызывают ValueError при импорте, после которого тесты восстанавливают модуль; сброс dataflows _config сам по себе не переисполняет default_config.",
+      "statement": "Environment overlay DEFAULT_CONFIG проверяется очисткой известных _ENV_OVERRIDES и importlib.reload; неправильные int и boolean вызывают ValueError с последующим исправлением окружения и reload. Autouse-fixture _restore_default_config после каждого теста возвращает исходный объект DEFAULT_CONFIG, включая успешные reload; возврат environment и сброс dataflows _config сами по себе default_config не переисполняют.",
       "evidence": [
         {
           "resource": "repo://tests/conftest.py#L40-L56",
           "version": "repo-lines-v1:sha256:958e92c76f1b6090096952d92ccdbf601a4c1d54b86da2025e3082486042e49c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMDg2NmY0MDExZTU4NWZmYzA5MDkyZWRmMDgzMmUxN2I1MmY0YzkwYzRjYTBiNDJkY2ZhMDUwZmEzNzViNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MGEwZjJjNzMxNzBkZGU2ZjY1MThlMTFlZWFiODkxYjIwMTJhZTI0MWRlNjk2OGM3NDFjZDkzOGQwY2Q3MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwMGY4MmQ2ZTAwOGFkOGEzNTg4NThhNzgxZGE0Yjg3YTU3NzgyYmVjZjZkMzEyNDdiZjMxM2U3OGQzYjUxYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzYmY2ODkxZWQxODZjN2ExOTk5MWM0NzlmYWFmZjgzNDNkNmRiNmM4MzcxNmE2MGY0YzZhOTY0YmJlYmI5MDQifQ"
         },
         {
-          "resource": "repo://tests/test_env_overrides.py",
-          "version": "repo-file-v1:sha256:fc5d0e2fb703f36d93cb44339f7e9e9d504ffa6a779a987f74bc682fe2aa379c"
+          "resource": "repo://tests/test_env_overrides.py#L12-L26",
+          "version": "repo-lines-v1:sha256:25fbe0ac7122ae5b58dcd719b64fb8146a4470b1f258a94412e8023b2863aee0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMDg2NmY0MDExZTU4NWZmYzA5MDkyZWRmMDgzMmUxN2I1MmY0YzkwYzRjYTBiNDJkY2ZhMDUwZmEzNzViNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzZjE5MWI0OTcwY2YxYWYwZTBmMDZiZmQxZjAzMWUxOThhZjU2NmU5YjAyYTMxYjhmNmMxZTdlMDc0ZWJlOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YjMyNGNhNTZlYWUzYjExNTBlZmQ4YjM0M2YzMWE2OTU5N2Y4MjExNDJmZjdmYmI4ZjFlOWNjYjA5YmE3MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMmVhYmY0MTU2NDZmMzk0Njk3M2QyNmZmN2ZhYjljYmJlYTVlZTY3OGFkN2RmZDU4OTUzMTJlM2Y5OTJlNWYifQ"
+        },
+        {
+          "resource": "repo://tests/test_env_overrides.py#L163-L189",
+          "version": "repo-lines-v1:sha256:3939955c2bbb121f1e7b3974aa0d78db9493adb577289271954b7990a25964ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZmNiY2E4NDU2ZmUxODZlYzhmMTgxYmViYzFmNjhkMmFlOTAxZGYxYzVlMzYwNGVlM2IwOTBlMmE0YjE0MGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2YzliMWQxYTI0MzI0NzY5MjhlNWNhNGIwNjE5ZWQ5N2YyN2EzNDg5MGE4MzU0OGNlNzAzYTA3NTQ4ZmEzN2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRhNjBiMWFhNTAxOTU5MGYxMzM5M2UyMThiM2FjMTQ0Yzk5ODE2YzEwYzIzY2QwMTA2ZGUxZjdiNjAzMGNlNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -569,10 +573,122 @@
           "version": "repo-lines-v1:sha256:0b692a13c4bc11d1bf4efde66a0ce473e16a0d300a7a45121b08b8913bea0229:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjY1YTM3YWEwN2RlN2IwOTE2NzZhNjk2YWY2ZmU0ZjBiZjczNDk0ZThiMmVhMTg2MmRkMzQxOWY2ZTMxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMGM4NDIwYjhhNTQ5N2VhZmQzMjU1NWE3MTg4NThkYjE4NjYwOWNmMjVlYjVlNTI4Njg0NDE2N2EzZTlmYjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGIwNjNkOWI0N2U2NTM3OTYyNTU3MmNjZTE5NzY2OWQ1NzY3ZTEyYzE4YmUwNzU2NTJiOGNkOTgxY2U4ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_686c40b942204f7688664716d3343f19",
+      "statement": "Per-tier suite проверяет разрешение deep/quick для OpenAI, Anthropic, Google и контрольного DeepSeek: отдельные и односторонние overrides, старый config, декартово произведение missing/None/пустых значений, буквальные непустые строки и no-tier совместимость; заполненные inactive-provider keys не становятся fallback. DeepSeek не получает reasoning kwargs этого механизма.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L14-L88",
+          "version": "repo-lines-v1:sha256:a55bb072bf5af89ede4e7a4b64e6937573d3581dd4f6b8640d262444c3f35dbf:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyYWNjNzgwNWMzM2IxZjI0MDQ5NzJhMTI4OGQ0YjU2NjNlMWRhNGRjNTU3OGI3ZGQ2ZGE4ZTIxNjBkMmZjMDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZmM2YjViNTZjMWQwZWY2YjQ2NGJjN2VhNjNhOGYxNzk2ODIwYjZlNTAwZTcwYjdmZWY4NWY0MGQ3ZGVlYjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3NTJkMTMyOGE1NDdmMjk2ZmVjYWIzYTZlNzMwMGIxNDAxZWZjMjU0MDhmZDk4OWJhYjI2NDgwM2ZjMDZkY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3YjQ4NjNmNDQ1YmE0NDgzZTRlODJhODdmMTE1MmE0ZjNmYmFiZDg5N2MxOTBiNDg0NTRjMGU5YzAzOTVlY2QifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L170-L213",
+          "version": "repo-lines-v1:sha256:d3822b41a9364955c0dbbadb3cd5d1d502b7a90b586da14faf5be9f5822ef04c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NDBlNjVkZWMwNTVhMTIxYTRiNDBhYzU5ZTM3MTM1ZDg1MTk1ZDk2MjhkYjZhNWY2NWFjMzIzYzJkMTlkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwM2E5ZjU4N2NlNDlkNzNlZDhhNzRkMzZiNTAyODlkNmUwYWQ5YmRhOWVmYzlhYjllNzg3YzhiMzJmOGZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzYjY2YjBmYWVlZGI1OWE4OWEwZTMyZDAzMjY5YTZkYjRkMThkMmQ0MjY1ZGI2NTQxNzg3ZTI0MGUwODIyNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMDNiODA2NDEyZDM5NTBjN2MzNGMyMmY5YWNkYWYyNzI0ODc0ODNlZmM0MTAzYjdlYTUxZGFhZjMxMzhmMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bb73505e8563436bb3a9b67a3602a7f0",
+      "statement": "test_both_factory_calls выполняет реальный конструктор TradingAgentsGraph с mocked фабрикой и зависимостями и временными каталогами, проверяя два вызова deep затем quick, отдельные kwargs, неизменные модели и base_url, преобразованные общие temperature/retries/token cap и имя max_output_tokens только для Google; непустые callbacks передаются тем же объектом обоим клиентам, пустые не передаются.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L91-L136",
+          "version": "repo-lines-v1:sha256:5726e4670d9326f6bd15b4899713f723a939a5af80e2336ec634e25b2940874e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0NTAyNDRjMzMxM2U0ZGE0ZTkzMzM5MjMxZmYxMDA2YzUzM2MzNTU2YjljODNjMjJjMDhkYTVkZTMyYTJiNDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkZGJkZTJiOTc2ZTM2YWM3YzgyYTY3ODE4NjJjODIwY2JjZTI0NDNkMDk4MzNiY2U5ZWQ3Mjg5MGUzZDg2OWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkxYzA4YzU1MmIxYjg5NDlhMjIxNjYyOTQ1OTY2OTUwOTgzNmNjNTMzNTdjOTBjNWM0YWYyZTc2MDVkYzcyODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhlMTAxNzQwMDVkNTNjYWMyMDVkZTRjNmY5NzU2Y2RiODI4ZTNmN2Y5NTMwMWRiNGI5ZGI2ZTg5N2NhNzNjMTAifQ"
+        },
+        {
+          "resource": "repo://tradingagents/graph/trading_graph.py#L98-L128",
+          "version": "repo-lines-v1:sha256:c766efc5d480b495d33f340e8c7304340e6bfd4e696b9ca6c9b2ed07765229ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiYzgzNTA5YjE1NjdmZjQ0NzE0OGNlYzFlZDJmYzFlZGUyMzE5NDVhNzgxZTQzZmQ0NzZlODNhMjYzMTcxZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2Y2ExN2I2Yjk0NDEwZTBmNzQ2ODhkYTc4YWFiZWViZWUwN2Y5YjJmMDgwY2EwZDJmZmU2ZTg2ODlkYzZkZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkZjhlZDdhOTcwNGRmMzQ2MGJiMWMzYjE2MTk4NjJjODY1N2UzNmJmODM0MTUyZDY5YzFlOWFhMjU5Y2E3MzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bf9b76535f44442c917cf5cc9938335f",
+      "statement": "Per-tier тесты проверяют сохранение содержимого и идентичности входного config и независимость словарей helper, правильное присваивание результатов get_llm deep/quick слотам и передачу их GraphSetup, а quick LLM — Reflector и SignalProcessor.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L137-L148",
+          "version": "repo-lines-v1:sha256:5377d59c6b0d8740d83b131649d5f66e023f0b7ca643228031e8ddd9df6b537c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlMjAyYmZjOTY4YTAwNTRlYmM3MmQ4MTU5YmIxYjgyYmU3YTI3MGU0OWJkN2I4ZmEyNjFiYjcxYTA0NDgwNjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMzExYmNiOGFhNGE0YjdjNDE5Njk3NzAyMDllOTQ3MjdkZjQ4NWI1OWRlMjEzZDcyYzVjYzRlOTMxMzZhYzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1ODFkZTVhMzczZDZmNDI0MjBmN2YwYTlmMTdjNDU0YjMyODNmMDVmMjBjNGNjNDdmNTkxMGE2NWE1OWEzMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L73-L88",
+          "version": "repo-lines-v1:sha256:42007fb895b1b4414cea235cea72a21f055388f47c9ddb4d23805cab932f5904:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1ZmU4YzYwYjdiZmRjMzVjYzNmNWMwNDJkZjI3ZjI5N2UwODI2NzAxNGFmOGEwNDRkZDExNGIzZTdjZmYxNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZmM2YjViNTZjMWQwZWY2YjQ2NGJjN2VhNjNhOGYxNzk2ODIwYjZlNTAwZTcwYjdmZWY4NWY0MGQ3ZGVlYjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhYmU3MWE3NTExMTRkNjM5Y2UwMmRlNWYyMWVkYTEwMTM0NGI0OGRiZDZkNTA2YzEwOTM3ZGU2ZDJhMzYwYjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3YjQ4NjNmNDQ1YmE0NDgzZTRlODJhODdmMTE1MmE0ZjNmYmFiZDg5N2MxOTBiNDg0NTRjMGU5YzAzOTVlY2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bd9c11f83c6448af95197236456ff136",
+      "statement": "В test_per_tier_reasoning_effort.py и test_cli_env_skip.py локальные autouse-fixtures запрещают сеть через pytest.fail на socket connect, connect_ex, create_connection и getaddrinfo; общерепозиторная _dummy_api_keys лишь подставляет placeholder для отсутствующих или пустых ключей и не блокирует сеть.",
+      "evidence": [
+        {
+          "resource": "repo://tests/conftest.py#L32-L37",
+          "version": "repo-lines-v1:sha256:8f2109ccff5f6437d776be52a29a1bc7414c0931d60bf17cfc379803b4443ad4:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYwODY2ZjQwMTFlNTg1ZmZjMDkwOTJlZGYwODMyZTE3YjUyZjRjOTBjNGNhMGI0MmRjZmEwNTBmYTM3NWI1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWEwOTVhNjMzODU1MTI4NzBjYWVjNTg5MmQxMDM1ZWU3YmRiODQ4NWMwYmU0MTYxMDgyMjc2OWYyYTBkMzdmOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTk4YjA2M2Q5YjQ3ZTY1Mzc5NjI1NTcyY2NlMTk3NjY5ZDU3NjdlMTJjMThiZTA3NTY1MmI4Y2Q5ODFjZThkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWVmMTFjOWI3MTY3YzBhZGM0MmZlYTg1NGFiNjM0OTk3NzA4MTRiMGU3MTgxMDNhOWVjMGY5YmU3YWY2OTk3OSJ9"
+        },
+        {
+          "resource": "repo://tests/test_cli_env_skip.py#L18-L26",
+          "version": "repo-lines-v1:sha256:2c93e3b5a2cdd722179ae8a817360527adfd058ab2ca0f76cfcf00def8662828:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYwODY2ZjQwMTFlNTg1ZmZjMDkwOTJlZGYwODMyZTE3YjUyZjRjOTBjNGNhMGI0MmRjZmEwNTBmYTM3NWI1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWEwMzg3M2I0MGY5OWI2NzkzMTZhZTRiMjBiOTIzYzcwODI0MDFhYzgwYmEwYzViZGZkNmQ4ZGYwYzdiMTliMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDk3ZDUzYmE2YzEzMDEwN2ZhODlkOTdjYTQ1MTg2NTY1ZTQwYzMzNjAxY2RlZjM2YTQ3OWRkZDk2NWY4OTI2MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzYzZTJjYzUwYzQ5ODQ1OTI0ZDBmZGU5N2U4NTBkMzE4NzgyMzk2MTQ3Nzg2YzE0ZDIyMWM0MjdjYjkyMmNjZCJ9"
+        },
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L42-L50",
+          "version": "repo-lines-v1:sha256:2aadc1c1d057fc65aacbdedfbf8572d53a0daba38cd3348558f97e228a7205ec:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYwODY2ZjQwMTFlNTg1ZmZjMDkwOTJlZGYwODMyZTE3YjUyZjRjOTBjNGNhMGI0MmRjZmEwNTBmYTM3NWI1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWEwMzg3M2I0MGY5OWI2NzkzMTZhZTRiMjBiOTIzYzcwODI0MDFhYzgwYmEwYzViZGZkNmQ4ZGYwYzdiMTliMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDNkMTcxZGU3NTQzMWEwMjFhMGQ5NGZhNzZmYWJmMGQ3MTM5Yzg5OGMxYTBiNDRiNDNjYTYwOTAzZmExYjg0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2VjMmVhOWYxODIwMzRlMzIwNzUyOWRhZWFmYzAyNjIyNWI1YTk0ZmEyY2U2NTdjMWI3MzZmZWQzNjhlNDM0OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e66b70e4fab24deb9485616bf673bcd9",
+      "statement": "Environment per-tier матрица проверяет различные, односторонние, пустые и буквальные reasoning значения с overrides моделей и без них; reasoning настройки сохраняют model IDs, общие настройки провайдеров, llm_provider и backend_url.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_env_overrides.py#L92-L160",
+          "version": "repo-lines-v1:sha256:8fae6335637af6364c902e3571611e08becd02091c238bf8cf3f279e005b6531:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZjljYTE1OWUxMzQzYTQ1ZDdkMjc3Y2E5Y2JlZTU3OTU1NjNlYWRlNDFlNTY1ODg1MDM5ZTJlM2UwY2MxYWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxYjRkM2Q4MWQ5NzdlNjMwMzY3MjNhM2QwM2MwODVhYmEyODI2NTZlZjVlOWMxYmQ3Njc4MDcwNTA1MTFlZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxZGJkYjI3N2EwMjMyMzAyYTBkN2JkNGI2NTg2YWI4NGVhOWM3YjUzMGE3NWEzNzJkOThkNjA2ZTVhYWE5NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMzFmZjIwZmQ3YmFhODRiZDcxMGExODNiNjdkYjc2NWFlMDAzNWRiYmIzYzdlMTlhMzVlOGRmOGU3ZmE0OTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_288c6e3e470f470c9db816bed234bac1",
+      "statement": "CLI per-tier регрессии проходят реальные selection, сборку config и конструктор с mocked зависимостями, останавливая run_analysis сразу после создания клиентов; они восстанавливают исходный DEFAULT_CONFIG и проверяют отсутствие мутации defaults/config и сохранение моделей, callbacks, depth, языка и checkpoint.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_cli_env_skip.py#L37-L115",
+          "version": "repo-lines-v1:sha256:12fdeb3f9f10e0f4ea51d610f705cf540982138bd0ae7346194cc149a7c66ccf:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzZjM2NmI5YmQ5YThkMGYzNDBhMmJjMGJlMWUyMmVlYTIwNTY4ZGQ3OGE0NTI4MWI3MjFiMzBmMjJkMDg3ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmZDdmNzU4ZjljNDRlODMxODUzM2M0MTM2NDEzYTY2OTY4NjMyMTdlMTUwZjU2ZTcyZGYwOWE5NGIwYjFjOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2NGVmMGYwZmYxZDBlYTVlMTk5NWNlMTZkOTAwMGM5OWI2NjJjY2JkNjEwNmZkODRmMGJiZWIxNzBlYWM5YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxMGMxYWI3ZWI4YmVjOGM0OTg4YzZiYzllZGE0ZDc0NjYwODk4M2Q0MDhjYzExNDEwNGYyMDMxZDIzNzg1MzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e190e82b1d7e4a798f4332f2bfa18bd9",
+      "statement": "CLI per-tier тесты доказывают сохранение tier env до обеих фабрик при интерактивном и environment-выборе провайдера; tier-only настройки не подавляют общий reasoning prompt, ответ которого служит fallback для missing/None/пустых tier значений, не перезаписывая ключи или буквальное none. Общая env-настройка либо environment-выбор провайдера подавляют соответствующий reasoning prompt.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_cli_env_skip.py#L120-L174",
+          "version": "repo-lines-v1:sha256:85fbaf4fde7a49278aadef94da8b0bac07d2b7ce84043c73a9f68e7e2bde4565:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNDgyOTVjYTFiNzNlYWYzMDExNzFjNjUyMTZkOWQ5YjczMDRmMTExZWU4OTNhMzEwZWFkMjZmNTljYzkzZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5OWQ4YzExODQ3MjAxMDBjZTQyNTBjYjg5ODNlZWZkODQ0MWYyOGQyMzQ2NjlkOTFjYmQ2YjVhNjNiYzIyNzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3NGRlNjBlNmIxYzBkNjA1OTlmMWI3NTU5YzA0M2ZiODBlOTFkYTdlZGNlODdjZjM1Y2JmM2U1NzNkY2FlYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTQ3Nzg1YjMwMTQ4NGVhYzZlZjU5ZTM1ZDE1Y2JkNTM4YjRhODVhZjgxNTc3YTlhYmQ1YjFhYTlhNGQ5ODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fd51c2ad96664f899ef293a90ba64d48",
+      "statement": "Per-tier factory wiring с mocked клиентами не доказывает SDK или серверную совместимость моделей и значений; изменения model compatibility требуют соседних adapter тестов OpenAI reasoning gate и сконструированного LLM, Anthropic effort gate с сохранением других kwargs, Google Flash passthrough и Pro minimal-to-low remap, которые также не являются live API проверками.",
+      "evidence": [
+        {
+          "resource": "repo://tests/test_anthropic_effort.py",
+          "version": "repo-file-v1:sha256:b629d355f66d1cee9fd45d8465387c804b865b41aba7a4f055fe1e5746e92d36"
+        },
+        {
+          "resource": "repo://tests/test_google_thinking_level.py",
+          "version": "repo-file-v1:sha256:605181b77b089107acb427b0fa916a412477892a68b43e3317407fee084271e3"
+        },
+        {
+          "resource": "repo://tests/test_openai_reasoning_effort.py",
+          "version": "repo-file-v1:sha256:c8ad47a954cd0ebf52c10b110f1d3d0e3373ff6fa88928961c68fb2249997214"
+        },
+        {
+          "resource": "repo://tests/test_per_tier_reasoning_effort.py#L98-L140",
+          "version": "repo-lines-v1:sha256:025fd2a59af7d6e719849d523b19cb397675218ddf7145158a548cc5cd183818:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzI4NGQ5ODk2ZmUxZjBmZjhjMTI3YzIwYTMxMGRiNzkwYjYyMjQ3MjkxY2ZlOWE3MWE5NjEwZmY3ODM1Y2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlOWEwOWE2MzRmY2NjOWVlOWYzMGJhOTZiODg0NDg5MDA3NmVjYTU5OGM3ZDhjMDYyODEyM2Q4N2QyZGI1NDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4MDAzNDk0YjNiMjVjMWRjNDc4OWU0N2M1OWQ1YmM3NjA4ZmJjNDM5ZTQ2OTgzNDQ5ZTI4NTRiMmZlMzNiNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3MjdlNzAxYmFiNDY5Y2Q4ZmZmMjRjYmJiMjk4NDcwOTU0NjRkMWYyNjYyODMzMjdlMzEwOWQyM2MyNzJhZWEifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T14:23:37.397Z"
+    "at": "2026-09-09T08:26:19.375Z"
   }
 }
