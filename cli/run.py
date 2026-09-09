@@ -86,7 +86,7 @@ def _build_run_config(selections: dict, checkpoint: bool | None) -> dict:
     # Provider-specific thinking configuration. Only the main provider's is
     # asked; a tier on another provider keeps its configured value (#1440).
     for key in ("google_thinking_level", "openai_reasoning_effort", "anthropic_effort"):
-        if selections.get(key) is not None:
+        if selections.get(key) not in (None, ""):
             config[key] = selections[key]
     config["output_language"] = selections.get("output_language", "English")
     # --checkpoint/--no-checkpoint overrides only when explicitly given; omitting

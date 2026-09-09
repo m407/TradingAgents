@@ -15,6 +15,10 @@ _ENV_OVERRIDES = {
     "TRADINGAGENTS_QUICK_THINK_PROVIDER":      "quick_think_provider",
     "TRADINGAGENTS_DEEP_THINK_BACKEND_URL":    "deep_think_backend_url",
     "TRADINGAGENTS_QUICK_THINK_BACKEND_URL":   "quick_think_backend_url",
+    "TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER":    "deep_think_llm_provider",
+    "TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER":   "quick_think_llm_provider",
+    "TRADINGAGENTS_DEEP_THINK_LLM_BACKEND_URL": "deep_think_llm_backend_url",
+    "TRADINGAGENTS_QUICK_THINK_LLM_BACKEND_URL": "quick_think_llm_backend_url",
     "TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT":  "deep_think_reasoning_effort",
     "TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT": "quick_think_reasoning_effort",
     "TRADINGAGENTS_LLM_BACKEND_URL":      "backend_url",
@@ -110,6 +114,12 @@ def build_default_config() -> dict:
         "deep_think_provider": None,
         "quick_think_backend_url": None,
         "deep_think_backend_url": None,
+        # Legacy fork aliases; nonempty canonical keys above take precedence.
+        # Legacy-only providers inherit backend_url independently of provider.
+        "deep_think_llm_provider": None,
+        "quick_think_llm_provider": None,
+        "deep_think_llm_backend_url": None,
+        "quick_think_llm_backend_url": None,
         # Provider-specific thinking configuration
         "google_thinking_level": None,      # "high", "minimal", etc.
         "openai_reasoning_effort": None,    # "medium", "high", "low"

@@ -96,7 +96,7 @@ def build_llm_kwargs(
 ) -> dict[str, Any]:
     """Client kwargs, optionally overriding the provider's reasoning for a tier."""
     kwargs = {}
-    provider = config.get("llm_provider", "").lower()
+    provider = tier_provider(config, tier) if tier else config.get("llm_provider", "").lower()
     tier_effort = config.get(f"{tier}_think_reasoning_effort") if tier else None
 
     if provider == "google":
@@ -104,17 +104,18 @@ def build_llm_kwargs(
         if thinking_level:
             kwargs["thinking_level"] = thinking_level
 
-    elif provider in REASONING_EFFORT_PROVIDERS:
-        reasoning_effort = (
-            tier_effort if provider == "openai" else None
-        ) or config.get("openai_reasoning_effort")
-        if reasoning_effort:
-            kwargs["reasoning_effort"] = reasoning_effort
-
     elif provider == "anthropic":
         effort = tier_effort or config.get("anthropic_effort")
         if effort:
             kwargs["effort"] = effort
+
+    else:
+        from .openai_client import is_openai_compatible
+
+        if is_openai_compatible(provider) or provider == "azure":
+            reasoning_effort = tier_effort or config.get("openai_reasoning_effort")
+            if reasoning_effort:
+                kwargs["reasoning_effort"] = reasoning_effort
 
     # Sampling temperature is cross-provider: forward it whenever set.
     # float() here so a value coming from a TRADINGAGENTS_TEMPERATURE env
@@ -139,23 +140,48 @@ def build_llm_kwargs(
     return kwargs
 
 
+def _tier_override(config: dict, tier: str, setting: str):
+    """Prefer a nonempty canonical tier setting, then its legacy ``llm`` alias."""
+    return config.get(f"{tier}_think_{setting}") or config.get(f"{tier}_think_llm_{setting}")
+
+
 def tier_provider(config: dict, tier: str) -> str:
-    """The provider of the ``quick`` or ``deep`` model tier: its own, else ``llm_provider``."""
-    return (config.get(f"{tier}_think_provider") or config["llm_provider"]).lower()
+    """Lowercase provider: canonical tier key, legacy alias, then shared provider.
+
+    Missing, None and empty tier values inherit; the input config is not changed.
+    """
+    return (_tier_override(config, tier, "provider") or config["llm_provider"]).lower()
+
+
+def tier_backend_url(config: dict, tier: str) -> str | None:
+    """Resolve the endpoint while preserving both provider-key namespaces.
+
+    A nonempty canonical tier URL wins its legacy alias, regardless of provider.
+    Otherwise a canonical provider inherits the shared URL only when it matches
+    the shared provider. A legacy-only provider retains the fork's independent
+    URL inheritance, even across providers. With neither override, inherit the
+    shared URL. Missing, None and empty URLs resolve to None; config is untouched.
+    """
+    override = _tier_override(config, tier, "backend_url")
+    if override:
+        return override
+    legacy_provider = (
+        not config.get(f"{tier}_think_provider")
+        and config.get(f"{tier}_think_llm_provider")
+    )
+    if legacy_provider or tier_provider(config, tier) == config["llm_provider"].lower():
+        return config.get("backend_url") or None
+    return None
 
 
 def create_tier_client(config: dict, tier: str, **extra) -> BaseLLMClient:
     """The client for the ``quick`` or ``deep`` model tier (#1440).
 
-    A tier on its own provider gets that provider's settings (thinking level,
-    reasoning effort, the name of the output-token cap) and its own endpoint,
-    else the provider's default: ``backend_url`` belongs to ``llm_provider``.
+    Settings follow the effective provider. Connection aliases and inheritance
+    are resolved by ``tier_provider`` and ``tier_backend_url``.
     """
     provider = tier_provider(config, tier)
-    if provider == config["llm_provider"].lower():
-        base_url = config.get(f"{tier}_think_backend_url") or config.get("backend_url")
-    else:
-        base_url = config.get(f"{tier}_think_backend_url")
-    kwargs = build_llm_kwargs({**config, "llm_provider": provider}, tier)
+    base_url = tier_backend_url(config, tier)
+    kwargs = build_llm_kwargs(config, tier)
     return create_llm_client(provider=provider, model=config[f"{tier}_think_llm"], base_url=base_url,
                              **kwargs, **extra)
