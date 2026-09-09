@@ -87,6 +87,54 @@ def test_reasoning_effort_defaults_to_none(monkeypatch):
     assert config["openai_reasoning_effort"] is None
     assert config["google_thinking_level"] is None
     assert config["anthropic_effort"] is None
+    assert config["deep_think_reasoning_effort"] is None
+    assert config["quick_think_reasoning_effort"] is None
+
+
+@pytest.mark.parametrize(
+    "deep,quick",
+    [
+        ("high", "low"),
+        ("low", "high"),
+        ("high", None),
+        (None, "low"),
+        ("", ""),
+        ("", "low"),
+        ("high", ""),
+        ("none", " custom-level "),
+        (" custom-level ", "none"),
+    ],
+)
+@pytest.mark.parametrize("override_models", [False, True])
+def test_per_tier_reasoning_overrides(monkeypatch, deep, quick, override_models):
+    overrides = {
+        "TRADINGAGENTS_OPENAI_REASONING_EFFORT": "medium",
+        "TRADINGAGENTS_GOOGLE_THINKING_LEVEL": "minimal",
+        "TRADINGAGENTS_ANTHROPIC_EFFORT": "high",
+    }
+    if override_models:
+        overrides.update(
+            TRADINGAGENTS_DEEP_THINK_LLM="custom-deep",
+            TRADINGAGENTS_QUICK_THINK_LLM="custom-quick",
+        )
+    for tier, value in (("DEEP", deep), ("QUICK", quick)):
+        if value is not None:
+            overrides[f"TRADINGAGENTS_{tier}_THINK_REASONING_EFFORT"] = value
+
+    config = _config_with_env(monkeypatch, **overrides)
+    assert config["deep_think_reasoning_effort"] == (deep or None)
+    assert config["quick_think_reasoning_effort"] == (quick or None)
+    assert config["deep_think_llm"] == (
+        "custom-deep" if override_models else "gpt-6-sol"
+    )
+    assert config["quick_think_llm"] == (
+        "custom-quick" if override_models else "gpt-6-luna"
+    )
+    assert config["openai_reasoning_effort"] == "medium"
+    assert config["google_thinking_level"] == "minimal"
+    assert config["anthropic_effort"] == "high"
+    assert config["llm_provider"] == "openai"
+    assert config["backend_url"] is None
 
 
 def test_empty_env_value_is_passthrough(monkeypatch):
@@ -95,9 +143,13 @@ def test_empty_env_value_is_passthrough(monkeypatch):
         monkeypatch,
         TRADINGAGENTS_LLM_PROVIDER="",
         TRADINGAGENTS_MAX_DEBATE_ROUNDS="",
+        TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT="",
+        TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT="",
     )
     assert config["llm_provider"] == "openai"
     assert config["max_debate_rounds"] == 1
+    assert config["deep_think_reasoning_effort"] is None
+    assert config["quick_think_reasoning_effort"] is None
 
 
 def test_empty_path_value_keeps_the_default_path(monkeypatch):

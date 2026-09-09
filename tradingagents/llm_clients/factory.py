@@ -1,5 +1,5 @@
 
-from typing import Any
+from typing import Any, Literal
 
 from .base_client import BaseLLMClient
 
@@ -91,23 +91,28 @@ def _coerce_max_tokens(value):
 REASONING_EFFORT_PROVIDERS = ("openai", "chatgpt")
 
 
-def build_llm_kwargs(config: dict) -> dict[str, Any]:
-    """Keyword arguments for ``create_llm_client`` from a TradingAgents config."""
+def build_llm_kwargs(
+    config: dict, tier: Literal["deep", "quick"] | None = None,
+) -> dict[str, Any]:
+    """Client kwargs, optionally overriding the provider's reasoning for a tier."""
     kwargs = {}
     provider = config.get("llm_provider", "").lower()
+    tier_effort = config.get(f"{tier}_think_reasoning_effort") if tier else None
 
     if provider == "google":
-        thinking_level = config.get("google_thinking_level")
+        thinking_level = tier_effort or config.get("google_thinking_level")
         if thinking_level:
             kwargs["thinking_level"] = thinking_level
 
     elif provider in REASONING_EFFORT_PROVIDERS:
-        reasoning_effort = config.get("openai_reasoning_effort")
+        reasoning_effort = (
+            tier_effort if provider == "openai" else None
+        ) or config.get("openai_reasoning_effort")
         if reasoning_effort:
             kwargs["reasoning_effort"] = reasoning_effort
 
     elif provider == "anthropic":
-        effort = config.get("anthropic_effort")
+        effort = tier_effort or config.get("anthropic_effort")
         if effort:
             kwargs["effort"] = effort
 
@@ -151,6 +156,6 @@ def create_tier_client(config: dict, tier: str, **extra) -> BaseLLMClient:
         base_url = config.get(f"{tier}_think_backend_url") or config.get("backend_url")
     else:
         base_url = config.get(f"{tier}_think_backend_url")
-    kwargs = build_llm_kwargs({**config, "llm_provider": provider})
+    kwargs = build_llm_kwargs({**config, "llm_provider": provider}, tier)
     return create_llm_client(provider=provider, model=config[f"{tier}_think_llm"], base_url=base_url,
                              **kwargs, **extra)

@@ -1,5 +1,6 @@
 ---
 description: "Implement tasks from an OpenSpec change (Experimental)"
+agent: openspec-pro
 ---
 
 Implement tasks from an OpenSpec change.
