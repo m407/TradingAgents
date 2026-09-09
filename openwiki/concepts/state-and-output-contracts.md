@@ -3,9 +3,6 @@ type: контракт выполнения
 title: Контракты состояния и результатов
 description: Контракты AgentState, типизированных решений и Markdown, связывающие узлы TradingAgents с отчетами, памятью и итоговым сигналом. Объясняет редьюсеры, резервный текстовый ответ и различие между пятиуровневым рейтингом, REVIEW и совместимым значением по умолчанию в памяти.
 tags: [agent-state, structured-output, markdown, reporting, signal-processing, compatibility]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-93c4bf642ecfa683655a01ec
     resource: repo://cli/main.py
@@ -59,7 +56,10 @@ sources:
     resource: repo://tradingagents/graph/trading_graph.py
   - id: openwiki-source-029f62ab86f846277bf398b4
     resource: repo://tradingagents/reporting.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
 # Контракты состояния и результатов
@@ -211,7 +211,7 @@ FINAL TRANSACTION PROPOSAL: **HOLD**
 | `SignalProcessor.process_signal()` и `TradingAgentsGraph.process_signal()` | Возвращают `RATING_REVIEW`, то есть строку `REVIEW`. |
 | `parse_rating(text, default="Hold")`, используемый памятью | Возвращает переданный `default`, по умолчанию `Hold`, ради обратной совместимости. |
 
-`REVIEW` — не шестой уровень `PortfolioRating` и не торговая рекомендация: это признак необходимости проверки человеком или повторного запуска. Перед `PortfolioRating(signal)` нужно проверить `is_review(signal)`; эта функция проверяет точное равенство `REVIEW`. Вызов `propagate()` возвращает `(final_state, signal)`, где `signal` — один из пяти рейтингов **или `REVIEW`**.
+`REVIEW` — не шестой уровень `PortfolioRating` и не торговая рекомендация: это признак необходимости проверки человеком или повторного запуска. Перед `PortfolioRating(signal)` нужно проверить `is_review(signal)`; эта функция проверяет точное равенство `REVIEW`. Вызов `propagate()` возвращает `(final_state, signal)`, где `signal` — один из пяти рейтингов **или `REVIEW`**. [Контракт API](repo://tradingagents/graph/trading_graph.py#L409-L434), [делегирование парсеру](repo://tradingagents/graph/trading_graph.py#L623-L625).
 
 Следствие: один неразбираемый окончательный текст может дать `REVIEW` в API и тег `Hold` в памяти. Нельзя считать тег памяти доказательством явного решения модели. Сохранять `**Rating**: <значение шкалы>` особенно важно на резервном текстовом пути: эвристика без метки способна выбрать случайное слово из обоснования. [Парсер](repo://tradingagents/agents/utils/rating.py), [адаптер](repo://tradingagents/graph/signal_processing.py), [память](repo://tradingagents/agents/utils/memory.py#L30-L49).
 
@@ -244,7 +244,7 @@ complete_report.md
 
 В программном `_run_graph()` после выполнения устанавливается `curr_state`, вызывается `_log_state()`, затем `memory_log.store_decision()`, очищается успешный checkpoint и возвращается сигнал из `final_trade_decision`. Сохранение Markdown-дерева — отдельный вызов `save_reports()`, а не автоматическое следствие `propagate()`.
 
-`_log_state()` записывает **проекцию**, а не сериализацию всего `AgentState`, в `results_dir/<safe ticker>/TradingAgentsStrategy_logs/full_states_log_<trade_date>.json`. В нее входят отчеты, выбранные поля обсуждений, `investment_plan` и `final_trade_decision`; сообщения и все служебные поля туда не копируются. Историческое имя Trader в JSON — `trader_investment_decision`, хотя живой ключ — `trader_investment_plan`. [Завершение и JSON](repo://tradingagents/graph/trading_graph.py#L558-L616).
+`_log_state()` записывает **проекцию**, а не сериализацию всего `AgentState`, в `results_dir/<safe ticker>/TradingAgentsStrategy_logs/full_states_log_<trade_date>.json`. В нее входят отчеты, выбранные поля обсуждений, `investment_plan` и `final_trade_decision`; сообщения и все служебные поля туда не копируются. Историческое имя Trader в JSON — `trader_investment_decision`, хотя живой ключ — `trader_investment_plan`. [Завершение и JSON](repo://tradingagents/graph/trading_graph.py#L563-L625).
 
 Если настроен `memory_log_path`, память сохраняет полный окончательный Markdown под `DECISION:` и тег рейтинга через `parse_rating()`. Без пути запись — пустая операция. Pending-записи идемпотентны по тикеру и дате; разделитель `<!-- ENTRY_END -->` не путается с обычной Markdown-линейкой `---`. При последующем разрешении исхода добавляются метаданные и `REFLECTION:`. Подробности жизненного цикла — в [сохранении и восстановлении](../operations/persistence-and-recovery.md).
 
@@ -268,3 +268,4 @@ complete_report.md
 - `tests/test_reporting.py`: дерево файлов, содержание сводного отчета и одинаковый writer для API/CLI.
 
 Это проверки совместимости передач и сохраняемых артефактов, а не только оформления. При расширении резервного пути стоит отдельно покрыть ошибку рендеринга, необрабатываемое исключение привязки и ошибку обычной повторной попытки. Общий подход — в [проверке изменений](../testing/change-validation.md).
+lidation.md).

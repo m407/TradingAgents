@@ -3,9 +3,6 @@ type: процесс анализа
 title: Сквозной анализ через CLI и Python API
 description: Путь анализа от выбора инструмента и конфигурации до выполнения графа, итогового сигнала и экспорта отчетов. Сравнение прямого потока CLI с propagate(), включая общие checkpoint-хелперы и различия памяти, журналирования и обработки результата.
 tags: [analysis-workflow, entrypoints, cli, python-api, langgraph, instrument-identity, reports, memory]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-93c4bf642ecfa683655a01ec
     resource: repo://cli/main.py
@@ -21,10 +18,14 @@ sources:
     resource: repo://tests/test_checkpoint_lifecycle.py
   - id: openwiki-source-4d52c0896b6c3fa8252acf98
     resource: repo://tests/test_cli_config_precedence.py
+  - id: openwiki-source-f4e22e54cdac632d1dc70dfa
+    resource: repo://tests/test_cli_env_skip.py
   - id: openwiki-source-da365d5c466b6ae30a54f238
     resource: repo://tests/test_cli_symbol_handling.py
   - id: openwiki-source-d753e89882f3c32124e3155c
     resource: repo://tests/test_instrument_identity.py
+  - id: openwiki-source-cb0425810080c23ce91acd3d
+    resource: repo://tests/test_per_tier_reasoning_effort.py
   - id: openwiki-source-b9c16bf8cb3e6cdc3ba90359
     resource: repo://tests/test_reporting.py
   - id: openwiki-source-a1e95c75f9ad7fc77f818a2e
@@ -37,6 +38,8 @@ sources:
     resource: repo://tradingagents/agents/utils/memory.py
   - id: openwiki-source-e2c584332f4d761fae54c79d
     resource: repo://tradingagents/agents/utils/rating.py
+  - id: openwiki-source-b7e067f817386094262aeb7b
+    resource: repo://tradingagents/default_config.py
   - id: openwiki-source-04f008da9d84a33881758fa9
     resource: repo://tradingagents/graph/analyst_execution.py
   - id: openwiki-source-7cd4dd9e605dbb48f04a4751
@@ -47,7 +50,10 @@ sources:
     resource: repo://tradingagents/graph/trading_graph.py
   - id: openwiki-source-029f62ab86f846277bf398b4
     resource: repo://tradingagents/reporting.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
 # Сквозной анализ через CLI и Python API
@@ -83,9 +89,36 @@ CLI собирает тикер, дату, язык отчетов, аналит
 
 Тикер допускает Yahoo-символы с суффиксами бирж, `=`, `^` и другими разрешенными символами. `normalize_ticker_symbol()` делегирует в слой данных `normalize_symbol`: например, `BTCUSD` становится `BTC-USD`, а `XAUUSD` — `GC=F`. Классификация выполняется после нормализации: распознанные криптовалютные суффиксы дают `crypto`, остальные инструменты, включая `GC=F`, идут в режиме `stock`. API не повторяет интерактивную классификацию и проверку даты: вызывающий отвечает за выбранный режим и корректную дату, а builder преобразует дату в строку.
 
-Конструктор `TradingAgentsGraph` работает сразу: публикует конфигурацию в слой данных, создает каталоги cache/results, quick/deep LLM с callbacks, инструменты и вспомогательные объекты, затем компилирует выбранный workflow. Аналитики идут последовательно, могут повторять цикл вызовов своего `ToolNode`; переход к следующему аналитику проходит через очистку сообщений. После последнего аналитика следуют инвестиционные дебаты bull/bear, Research Manager с `investment_plan`, Trader с `trader_investment_plan`, риск-дебаты и Portfolio Manager с `final_trade_decision`, затем `END`. Пользовательский Sentiment Analyst имеет ключ `social`. Требуется хотя бы один известный аналитик; выбранный порядок влияет на топологию и checkpoint-подпись.
+Конструктор `TradingAgentsGraph` работает сразу: публикует конфигурацию в слой данных, создает каталоги cache/results, независимо собирает kwargs для deep и quick через `_get_provider_kwargs("deep")` и `_get_provider_kwargs("quick")`, добавляет переданные callbacks в оба набора и создает два клиента через `create_llm_client()`. Их `get_llm()` дают deep/quick LLM для инструментов и вспомогательных объектов; затем компилируется выбранный workflow. Аналитики идут последовательно, могут повторять цикл вызовов своего `ToolNode`; переход к следующему аналитику проходит через очистку сообщений. После последнего аналитика следуют инвестиционные дебаты bull/bear, Research Manager с `investment_plan`, Trader с `trader_investment_plan`, риск-дебаты и Portfolio Manager с `final_trade_decision`, затем `END`. Пользовательский Sentiment Analyst имеет ключ `social`. Требуется хотя бы один известный аналитик; выбранный порядок влияет на топологию и checkpoint-подпись.
 
 Подробности узлов и маршрутизации находятся на странице [исполнения агентов](../architecture/agent-runtime.md), параметры и приоритеты — в [конфигурации и развертывании](../operations/configuration-and-deployment.md).
+
+### Передача reasoning-настроек двум клиентам
+
+`DEFAULT_CONFIG` применяет env-переопределения при импорте. Параметры `deep_think_reasoning_effort` и `quick_think_reasoning_effort` по умолчанию равны `None`; их можно задать через `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` и `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT` либо в копии config перед созданием API-графа. В CLI `_build_run_config()` начинает с `DEFAULT_CONFIG.copy()` и не перезаписывает эти два поля: они доходят до конструктора вместе с выбранными моделями и общей reasoning-настройкой провайдера.
+
+**Отдельных интерактивных вопросов для deep/quick reasoning нет.** Шаг 8 по-прежнему выбирает общее значение активного провайдера. Наличие только tier-env не отменяет этот вопрос, даже если заданы оба tier; его пропускают при env-выборе провайдера либо при заданной соответствующей общей env-настройке. Общее интерактивное значение остается fallback, а не заменой явно заданных tier-значений.
+
+При построении каждого клиента resolver берет непустое значение его tier, иначе — общую настройку активного провайдера: `openai_reasoning_effort` → `reasoning_effort`, `anthropic_effort` → `effort`, `google_thinking_level` → `thinking_level`. Отсутствующий ключ, `None` и `""` наследуют общее значение; строка `"none"` не означает отсутствие настройки. Для остальных провайдеров этот resolver не добавляет reasoning-параметр. Подробные правила наследования см. в [конфигурации](../operations/configuration-and-deployment.md), модельные ограничения и преобразования — в [LLM-провайдерах](../integrations/llm-providers.md).
+
+Оба клиента используют общие `llm_provider` и `backend_url`, но свои модели и независимо рассчитанные reasoning kwargs. Это **не меняет назначения агентов**: quick обслуживает аналитиков, bull/bear, Trader и участников риск-дебатов; deep — Research Manager и Portfolio Manager. `Reflector` также получает quick LLM. Раздельная настройка применяется при конструировании, до расхождения путей CLI stream и API propagate.
+
+```mermaid
+flowchart TD
+    Defaults["DEFAULT_CONFIG с env-переопределениями"] --> API["Копия config и изменения Python-клиента"]
+    Defaults --> CLIConfig["_build_run_config: общий выбор CLI и сохраненные tier-поля"]
+    API --> Constructor["TradingAgentsGraph"]
+    CLIConfig --> Constructor
+    Constructor --> Deep["_get_provider_kwargs deep и callbacks"]
+    Constructor --> Quick["_get_provider_kwargs quick и callbacks"]
+    Deep --> DeepClient["create_llm_client: deep_think_llm"]
+    Quick --> QuickClient["create_llm_client: quick_think_llm"]
+    DeepClient --> Setup["get_llm и GraphSetup с прежними назначениями"]
+    QuickClient --> Setup
+```
+*Настройки сходятся в общем конструкторе, который независимо настраивает два клиента до запуска графа.*
+
+Основание: [env и значения по умолчанию](repo://tradingagents/default_config.py#L10-L99), [общий выбор CLI](repo://cli/main.py#L694-L741), [сборка config](repo://cli/main.py#L974-L1025), [создание клиентов и resolver](repo://tradingagents/graph/trading_graph.py#L98-L213), [назначения узлов](repo://tradingagents/graph/setup.py#L75-L92).
 
 ### Идентичность и начальное состояние
 
@@ -294,6 +327,8 @@ CLI ведет собственные артефакты представлен�
 | Тесты | Что защищают |
 |---|---|
 | `tests/test_cli_config_precedence.py` | Приоритет env-раундов и явных checkpoint-флагов |
+| `tests/test_cli_env_skip.py` | Пропуск общих вопросов по env и путь tier-env через реальные selection/config/constructor до двух фабричных вызовов; общий выбор остается fallback, tier-env сам по себе не отменяет вопрос |
+| `tests/test_per_tier_reasoning_effort.py` | Независимые kwargs и два вызова фабрики, наследование и старые config без tier-ключей, callbacks, общие параметры клиентов и отсутствие мутации config |
 | `tests/test_cli_symbol_handling.py` | Допустимые Yahoo-символы, нормализация, классификация |
 | `tests/test_instrument_identity.py` | Кеш, fail-open lookup, точный контекст и fallback без сети |
 | `tests/test_checkpoint_lifecycle.py` | No-op при отключении, перекомпиляция, `checkpoint_input(None)` при resume, сохранение после сбоя и очистка после успеха в CLI-подобном сценарии |
@@ -302,6 +337,6 @@ CLI ведет собственные артефакты представлен�
 | `tests/test_signal_processing.py` | Пять уровней, Markdown/NFKC, отсутствие LLM-вызова, `REVIEW` в графовом контракте отдельно от legacy `Hold` fallback |
 | `tests/test_reporting.py` | Содержимое общего дерева отчетов, явный путь и API-путь по умолчанию |
 
-Эти тесты проверяют отдельные контракты; в частности, checkpoint lifecycle тестирует хелперы на небольшом графе, а не весь интерактивный терминальный сеанс.
+Эти тесты проверяют отдельные контракты; в частности, checkpoint lifecycle тестирует хелперы на небольшом графе, а не весь интерактивный терминальный сеанс. Новые проверки передачи tier-настроек в `test_cli_env_skip.py` останавливают запуск после создания клиентов, подменяют фабрику и запрещают сеть; `test_per_tier_reasoning_effort.py` также проверяет конструктор без внешних сервисов. Это защита передачи конфигурации, а не проверка принятия reasoning-значений реальным API провайдера.
 
 См. также [обзор системы](../architecture/system-overview.md), [контракты состояния и результатов](../concepts/state-and-output-contracts.md) и [быстрый старт](../quickstart.md).

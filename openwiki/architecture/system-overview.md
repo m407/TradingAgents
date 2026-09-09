@@ -3,9 +3,6 @@ type: архитектура системы
 title: Архитектура системы и границы ответственности
 description: Обзор владельцев CLI и Python API, графа агентов, инструментов, адаптеров моделей и локального хранения TradingAgents. Разделяет общие механизмы checkpoint и идентификации инструмента и операции памяти, журналирования состояния и извлечения сигнала, выполняемые только через API.
 tags: [system-architecture, ownership-boundaries, cli, python-api, langgraph, persistence]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-93c4bf642ecfa683655a01ec
     resource: repo://cli/main.py
@@ -23,6 +20,8 @@ sources:
     resource: repo://tests/test_env_overrides.py
   - id: openwiki-source-4f714b705251a2444c0cfe25
     resource: repo://tests/test_market_toolnode.py
+  - id: openwiki-source-cb0425810080c23ce91acd3d
+    resource: repo://tests/test_per_tier_reasoning_effort.py
   - id: openwiki-source-b9c16bf8cb3e6cdc3ba90359
     resource: repo://tests/test_reporting.py
   - id: openwiki-source-496bc5bd10e35ded6022ec30
@@ -67,7 +66,10 @@ sources:
     resource: repo://tradingagents/llm_clients/factory.py
   - id: openwiki-source-029f62ab86f846277bf398b4
     resource: repo://tradingagents/reporting.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
 # Архитектура системы и границы ответственности
@@ -147,7 +149,7 @@ ta = TradingAgentsGraph(config=config)
 final_state, rating = ta.propagate("NVDA", "2026-01-15")
 ```
 
-Конструирование **немедленное, не ленивое**: `__init__()` публикует конфигурацию в dataflows, создаёт каталоги кеша и результатов, отдельные quick/deep LLM-клиенты, группы `ToolNode`, объекты памяти, маршрутизации, инициализации состояния, рефлексии и обработки сигнала. Затем строит `workflow` и компилирует `graph`. Ленивая загрузка модулей провайдеров в фабрике не отменяет этой ранней сборки выбранных зависимостей.
+Конструирование **немедленное, не ленивое**: `__init__()` публикует конфигурацию в dataflows, создаёт каталоги кеша и результатов, отдельные quick/deep LLM-клиенты, группы `ToolNode`, объекты памяти, маршрутизации, инициализации состояния, рефлексии и обработки сигнала. Затем строит `workflow` и компилирует `graph`. Для deep и quick ещё до создания клиентов отдельно вызывается `_get_provider_kwargs("deep")` и `_get_provider_kwargs("quick")`: reasoning-параметры разрешаются независимо, но оба клиента используют один `llm_provider` и один `backend_url`. Ленивая загрузка модулей провайдеров в фабрике не отменяет этой ранней сборки выбранных зависимостей. Основание: [конструктор](repo://tradingagents/graph/trading_graph.py#L82-L168).
 
 `propagate()` сначала разрешает ожидающие исходы прошлых решений для того же тикера. Затем в `checkpoint_scope()` вызывает `_run_graph()`: читает прошлый контекст, определяет инструмент, создаёт начальное состояние и запускает `invoke()` либо, при `debug=True`, `stream()`. После исполнения сохраняет `curr_state`, записывает JSON-снимок выбранных полей итогового состояния и решение в память, очищает checkpoint успешного запуска и возвращает состояние с разобранным сигналом.
 
@@ -175,7 +177,7 @@ flowchart TD
 ```
 *Сопоставление двух путей: ветви API/CLI показывают принадлежность операций, а `end_checkpoint()` выполняется при выходе из защищённого исполнения, включая ошибку; checkpoint очищается только на успешном пути.*
 
-Основание: [API и общие методы](repo://tradingagents/graph/trading_graph.py#L404-L574), [CLI](repo://cli/main.py#L1113-L1301), [сигнал](repo://tradingagents/graph/signal_processing.py#L20-L38).
+Основание: [API и общие методы](repo://tradingagents/graph/trading_graph.py#L409-L579), [CLI](repo://cli/main.py#L1113-L1301), [сигнал](repo://tradingagents/graph/signal_processing.py#L20-L38).
 
 ## Граф агентов и состояние
 
@@ -197,7 +199,9 @@ Quick-thinking LLM обслуживает аналитиков, исследов
 
 ## Граница моделей
 
-`TradingAgentsGraph` запрашивает у `create_llm_client()` два адаптера одного провайдера с разными идентификаторами моделей. Фабрика лениво импортирует реализации: импорт самой фабрики не загружает все SDK и не требует ключей всех провайдеров.
+`TradingAgentsGraph` запрашивает у `create_llm_client()` два адаптера одного провайдера и общего endpoint, выбирая модели из `deep_think_llm` и `quick_think_llm`. Раздельная настройка reasoning не меняет эти модели и не переназначает агентов между уровнями: распределение quick/deep по-прежнему задаёт `GraphSetup`. Фабрика лениво импортирует реализации: импорт самой фабрики не загружает все SDK и не требует ключей всех провайдеров.
+
+Настройки `deep_think_reasoning_effort` и `quick_think_reasoning_effort` преобразуются в параметр активного провайдера: `reasoning_effort` для OpenAI, `effort` для Anthropic и `thinking_level` для Google. Для остальных провайдеров этот механизм не добавляет reasoning kwargs. Проверка допустимых значений и совместимости с конкретной моделью остаётся на границе адаптера, а не маршрутизации агентов. Основание: [разрешение kwargs](repo://tradingagents/graph/trading_graph.py#L170-L213), [назначение моделей узлам](repo://tradingagents/graph/setup.py#L73-L92), [контракт раздельной сборки](repo://tests/test_per_tier_reasoning_effort.py#L14-L39).
 
 Для `anthropic`, `google`, `azure`, `bedrock` существуют отдельные ветви. Зарегистрированные OpenAI-совместимые провайдеры обслуживаются `OpenAIClient`; неизвестное имя вызывает `ValueError`. Адаптер возвращает chat-модель LangChain для фабрик агентов. Общие параметры подключения, callbacks, reasoning-настройки, temperature и бюджет повторов собираются в `TradingAgentsGraph`, а особенности SDK принадлежат адаптерам.
 
@@ -226,9 +230,11 @@ Quick-thinking LLM обслуживает аналитиков, исследов
 2. При импорте `default_config` распознанные `TRADINGAGENTS_*` накладываются на `DEFAULT_CONFIG`. Приведение опирается на тип исходного значения; неверные boolean/int завершаются `ValueError`, а не молчаливым default.
 3. CLI или Python-клиент передаёт конфигурацию конструктору графа.
 
+В `DEFAULT_CONFIG` добавлены `deep_think_reasoning_effort` и `quick_think_reasoning_effort`, оба по умолчанию `None`; их можно задать через `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` и `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT`. Незаданный уровень наследует общую reasoning-настройку активного провайдера, поэтому прежние конфигурации без новых ключей сохраняют поведение. Это настройка интенсивности reasoning, а не выбор другой модели, провайдера или endpoint. Подробные правила приоритета, пустых значений и взаимодействия с CLI — в [конфигурации и развёртывании](../operations/configuration-and-deployment.md). Основание: [default и env-overlay](repo://tradingagents/default_config.py#L10-L99), [проверки совместимости](repo://tests/test_per_tier_reasoning_effort.py#L71-L88), [проверки окружения](repo://tests/test_env_overrides.py#L92-L160).
+
 **Dataflow-конфигурация глобальна для процесса.** Каждый конструктор вызывает `set_config(self.config)`, обновляя модульный `_config`. Вложенные словари объединяются на один уровень; входные значения копируются, а `get_config()` возвращает глубокую копию. Это предотвращает случайное изменение по общей ссылке, но не обеспечивает изоляцию экземпляров. Создание второго графа с другими поставщиками или языком меняет настройки, которые впоследствии читают инструменты и языковые helpers в том же процессе. Разнородные параллельные запуски требуют внешней изоляции либо явной передачи конфигурации вместо глобального моста.
 
-Перед изменением шаблона используйте `DEFAULT_CONFIG.copy()`, а для независимого изменения вложенных структур — глубокую копию. Без переданной конфигурации граф использует общий default-объект; переменные окружения к этому моменту уже вычислены при импорте. Основание: [загрузка окружения](repo://tradingagents/__init__.py#L4-L17), [default-конфигурация](repo://tradingagents/default_config.py#L10-L76), [глобальный мост](repo://tradingagents/dataflows/config.py).
+Перед изменением шаблона используйте `DEFAULT_CONFIG.copy()`, а для независимого изменения вложенных структур — глубокую копию. Без переданной конфигурации граф использует общий default-объект; переменные окружения к этому моменту уже вычислены при импорте. Основание: [загрузка окружения](repo://tradingagents/__init__.py#L4-L17), [default-конфигурация](repo://tradingagents/default_config.py#L10-L113), [глобальный мост](repo://tradingagents/dataflows/config.py).
 
 ## Локальное хранение и восстановление
 
@@ -254,6 +260,7 @@ Quick-thinking LLM обслуживает аналитиков, исследов
 - **Полнота маршрутизации:** path maps дебатов обязаны покрывать все ответы общего router, включая запасные переходы. Проверки — `tests/test_risk_router_path_map.py`.
 - **Общее восстановление:** изменения checkpoint следует проверять не только через `propagate()`. `tests/test_checkpoint_lifecycle.py` моделирует CLI-последовательность begin → stream → clear/end, падение и продолжение, вход `None`, очистку после успеха и отключённый checkpoint. `tests/test_checkpoint_resume.py` проверяет API-resume и изоляцию по дате и подписи.
 - **Конфигурация:** копирование не равно изоляции процессов. `tests/test_dataflows_config.py` проверяет копии и вложенное слияние; `tests/test_cli_config_precedence.py` и `tests/test_env_overrides.py` — приоритеты и приведение типов.
+- **Раздельные LLM-настройки:** `tests/test_per_tier_reasoning_effort.py` без сети проверяет разрешение обоих уровней и два вызова фабрики из настоящего конструктора: независимые kwargs, сохранение моделей и общего provider/endpoint, передачу callbacks и общих параметров, отсутствие изменения входной конфигурации. `tests/test_env_overrides.py` проверяет, что env-настройки reasoning не меняют выбранные модели и общие настройки провайдера.
 - **Источники данных:** нельзя скрыто переходить к невыбранному поставщику. `tests/test_vendor_routing.py` проверяет цепочки и семантику ошибок.
 - **Отчёты:** успешный `propagate()` не обещает `complete_report.md`; сохранение явно запрашивает вызывающий код. `tests/test_reporting.py` проверяет общий формат CLI/API.
 - **Сигнал:** отсутствие распознанного рейтинга не должно становиться торговым `Hold`. `tests/test_signal_processing.py` проверяет отсутствие дополнительного LLM-вызова и контракт `REVIEW`.

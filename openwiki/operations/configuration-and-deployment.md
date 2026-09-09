@@ -1,11 +1,8 @@
 ---
 type: эксплуатационный контракт
-title: Конфигурация, установка и запуск в контейнерах
+title: Конфигурация и развертывание
 description: Приоритеты dotenv, переменных окружения, программной конфигурации и CLI в TradingAgents. Параметры LLM и поставщиков данных, рабочие каталоги, установка и контейнерный запуск с сохранением состояния.
 tags: [configuration, environment, cli, deployment, docker, credentials, operations]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-715dace563ef484b6e8bd1e2
     resource: repo://.dockerignore
@@ -41,6 +38,8 @@ sources:
     resource: repo://tests/test_llm_max_tokens.py
   - id: openwiki-source-30f0cfc563b284917df1c63f
     resource: repo://tests/test_model_validation.py
+  - id: openwiki-source-cb0425810080c23ce91acd3d
+    resource: repo://tests/test_per_tier_reasoning_effort.py
   - id: openwiki-source-3e88c4a4574ed0a5fa9b6600
     resource: repo://tests/test_provider_registry.py
   - id: openwiki-source-12060ccc88894da5cade1961
@@ -59,16 +58,25 @@ sources:
     resource: repo://tradingagents/default_config.py
   - id: openwiki-source-4e072b0f954dc477bfc36fee
     resource: repo://tradingagents/graph/trading_graph.py
+  - id: openwiki-source-a8ab50bd7f20e0d18e87ea5c
+    resource: repo://tradingagents/llm_clients/anthropic_client.py
   - id: openwiki-source-96bd7dcf3fc80141902b7491
     resource: repo://tradingagents/llm_clients/api_key_env.py
   - id: openwiki-source-74f8c404eb20225a4b7a76e9
     resource: repo://tradingagents/llm_clients/bedrock_client.py
   - id: openwiki-source-9fbb4a276656660693258c7c
     resource: repo://tradingagents/llm_clients/factory.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+  - id: openwiki-source-2fc0864c9ebc478a8b00a4f2
+    resource: repo://tradingagents/llm_clients/google_client.py
+  - id: openwiki-source-068ad01d56c56086cdc4c402
+    resource: repo://tradingagents/llm_clients/openai_client.py
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
-# Конфигурация, установка и запуск в контейнерах
+# Конфигурация и развертывание
 
 В TradingAgents нет единого рекурсивного загрузчика настроек. Импорт пакета загружает dotenv в окружение процесса; модуль `default_config` строит `DEFAULT_CONFIG`; вызывающий код или CLI формирует конфигурацию запуска; граф передаёт её в отдельное глобальное хранилище настроек dataflow. Порядок применения и границы изменяемости этих объектов важны не меньше самих значений.
 
@@ -106,7 +114,7 @@ flowchart TD
 
 ### Значения по умолчанию и типизированные переменные
 
-В текущем исходном коде `DEFAULT_CONFIG` использует `llm_provider="openai"`, `deep_think_llm="gpt-5.6"`, `quick_think_llm="gpt-5.6-luna"`. `backend_url=None` оставляет выбор адреса клиенту провайдера. Число раундов дебатов и обсуждения риска — по одному, `checkpoint_enabled=False`, язык отчётов — `English`, `max_recur_limit=100`. Закомментированные модели в `.env.example` — примеры, а не актуальный источник значений по умолчанию.
+В текущем исходном коде `DEFAULT_CONFIG` использует `llm_provider="openai"`, `deep_think_llm="gpt-5.6"`, `quick_think_llm="gpt-5.6-luna"`. `backend_url=None` оставляет выбор адреса клиенту провайдера. Число раундов дебатов и обсуждения риска — по одному, `checkpoint_enabled=False`, язык отчётов — `English`, `max_recur_limit=100`. Закомментированные модели в `.env.example` сейчас совпадают с этими defaults, но остаются примерами; источник значений по умолчанию — [словарь конфигурации](repo://tradingagents/default_config.py#L83-L123).
 
 Модуль применяет явное отображение `_ENV_OVERRIDES` при построении словаря:
 
@@ -115,6 +123,8 @@ flowchart TD
 | `TRADINGAGENTS_LLM_PROVIDER` | `llm_provider` | строка |
 | `TRADINGAGENTS_DEEP_THINK_LLM` | `deep_think_llm` | строка |
 | `TRADINGAGENTS_QUICK_THINK_LLM` | `quick_think_llm` | строка |
+| `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` | `deep_think_reasoning_effort` | строка при импорте, default `None` |
+| `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT` | `quick_think_reasoning_effort` | строка при импорте, default `None` |
 | `TRADINGAGENTS_LLM_BACKEND_URL` | `backend_url` | строка |
 | `TRADINGAGENTS_OUTPUT_LANGUAGE` | `output_language` | строка |
 | `TRADINGAGENTS_MAX_DEBATE_ROUNDS` | `max_debate_rounds` | `int` при импорте |
@@ -164,15 +174,59 @@ CLI собирает выбор пользователя, затем `_build_run
 - `TRADINGAGENTS_LLM_PROVIDER` пропускает выбор провайдера, но не вызов `ensure_api_key`.
 - URL выбирается в порядке: `TRADINGAGENTS_LLM_BACKEND_URL` → интерактивный или региональный адрес → адрес провайдера по умолчанию. Явный URL выигрывает и при интерактивном выборе провайдера.
 - Если задана хотя бы одна переменная модели, пропускаются **оба** вопроса о моделях; обе модели берутся из `DEFAULT_CONFIG`. Поэтому при смене провайдера безопаснее задавать обе модели, иначе незаданная сторона может остаться моделью OpenAI.
-- Переменная thinking/effort пропускает соответствующий вопрос. Если сам провайдер выбран через окружение, все его вопросы reasoning пропускаются и используются значения defaults, включая `None`.
+- Непустая **общая** переменная `TRADINGAGENTS_GOOGLE_THINKING_LEVEL`, `TRADINGAGENTS_OPENAI_REASONING_EFFORT` или `TRADINGAGENTS_ANTHROPIC_EFFORT` пропускает соответствующий вопрос. Если сам провайдер выбран через окружение, все его вопросы reasoning пропускаются и используются значения defaults, включая `None`. Переменные `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` и `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT` сами по себе **не пропускают общий вопрос**, даже если заданы обе.
 - Без `--checkpoint/--no-checkpoint` сохраняется настройка окружения или встроенное значение. Явный флаг имеет приоритет над обоими.
 - `--clear-checkpoints` — действие, а не переопределение: удаляет сохранённые checkpoints в `DEFAULT_CONFIG["data_cache_dir"]`, после чего запускает анализ.
 
 Тикер, дата и выбор аналитиков остаются интерактивными. Переменные уменьшают число вопросов, но не превращают CLI в пакетную команду без терминала. Не меняйте окружение между импортом и выбором CLI: проверка наличия переменной выполняется в момент вопроса, а её значение берётся из уже построенного `DEFAULT_CONFIG`. См. [CLI](repo://cli/main.py#L576-L741), [сборку настроек](repo://cli/main.py#L974-L1001) и [точки входа анализа](../workflows/analysis-entrypoints.md).
 
+Настройки отдельных уровней сохраняются в `_build_run_config` благодаря `DEFAULT_CONFIG.copy()`: функция записывает интерактивный выбор только в общие `google_thinking_level`, `openai_reasoning_effort`, `anthropic_effort`, не перезаписывая ключи уровней. Новых вопросов для deep/quick нет; общий выбор служит лишь запасным значением для уровня без переопределения. Этот путь от окружения через CLI до обоих клиентов проверяет [тест CLI](repo://tests/test_cli_env_skip.py#L120-L174).
+
 ## Управление LLM и ошибки инициализации
 
-`google_thinking_level`, `openai_reasoning_effort`, `anthropic_effort` по умолчанию равны `None`. Граф передаёт непустое значение только соответствующему провайдеру: `google` получает `thinking_level`, `openai` — `reasoning_effort`, `anthropic` — `effort`. Это не универсальная настройка всех OpenAI-compatible сервисов. Конкретная поддержка режима зависит от модели и клиента; см. [провайдеры LLM](../integrations/llm-providers.md).
+### Reasoning отдельно для deep и quick
+
+`deep_think_reasoning_effort` и `quick_think_reasoning_effort`, как и общие `google_thinking_level`, `openai_reasoning_effort`, `anthropic_effort`, по умолчанию равны `None`. При импорте непустые строки окружения сохраняются буквально: без удаления пробелов, смены регистра или проверки допустимого уровня. `high` и `low` в `.env.example` — примеры, не defaults и не универсальный перечень допустимых значений.
+
+Конструктор отдельно вызывает `_get_provider_kwargs("deep")` и `_get_provider_kwargs("quick")`. Для каждого уровня приоритет таков:
+
+1. Собственное непустое `deep_think_reasoning_effort` или `quick_think_reasoning_effort`.
+2. Непустая общая настройка **активного** провайдера.
+3. Если нет ни того, ни другого, аргумент reasoning не передаётся; остаётся поведение клиента/провайдера по умолчанию.
+
+| Активный провайдер | Общая настройка | Аргумент клиента |
+|---|---|---|
+| `openai` | `openai_reasoning_effort` | `reasoning_effort` |
+| `anthropic` | `anthropic_effort` | `effort` |
+| `google` | `google_thinking_level` | `thinking_level` |
+
+Другим провайдерам эти настройки не добавляют аргумент reasoning, в том числе OpenAI-compatible сервисам. Настройки неактивных провайдеров не используются как fallback. Отсутствующий ключ, Python `None` и `""` означают наследование, **не отключение reasoning**. Реализация выбирает через `or`: ложное значение уровня уступает общему. Строка `"none"` истинна и передаётся буквально, а не превращается в `None`; возможность такого режима зависит от провайдера и модели. Чтобы вообще опустить аргумент, оставьте незаданными и уровень, и соответствующую общую настройку.
+
+Пример частичного переопределения в свежем процессе (переменная quick отсутствует):
+
+```dotenv
+TRADINGAGENTS_LLM_PROVIDER=openai
+TRADINGAGENTS_OPENAI_REASONING_EFFORT=medium
+TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT=high
+```
+
+Эквивалентное явное переопределение в Python поверх полной копии:
+
+```python
+config = deepcopy(DEFAULT_CONFIG)
+config["llm_provider"] = "openai"
+config["openai_reasoning_effort"] = "medium"
+config["deep_think_reasoning_effort"] = "high"
+config["quick_think_reasoning_effort"] = None
+```
+
+В обоих случаях deep получает `high`, quick наследует `medium`. В Python явное `None` для quick также отменяет ранее импортированное переопределение этого уровня, но не общий fallback.
+
+Reasoning не меняет `deep_think_llm` и `quick_think_llm`, назначения агентов, `llm_provider` или `backend_url`. Конструктор по-прежнему использует общий провайдер и endpoint для двух моделей, а общие `temperature`, `llm_max_retries`, `max_tokens` и переданный список callbacks применяет к обоим клиентам. Разделены только словари аргументов уровней, исходный config при разрешении reasoning не изменяется. Основание: [конструктор и разрешение параметров](repo://tradingagents/graph/trading_graph.py#L97-L213), [матрица тестов и проверка двух вызовов фабрики](repo://tests/test_per_tier_reasoning_effort.py#L14-L148).
+
+Это разрешение приоритетов не заменяет проверку адаптера и не меняет её. Например, Google переводит `minimal` в `low` для модели с `pro` в имени, а OpenAI и Anthropic фильтруют reasoning/effort по поддержке выбранной моделью. Поэтому передача значения графом не гарантирует, что оно дойдёт до API без изменения или будет принято. См. [GoogleClient](repo://tradingagents/llm_clients/google_client.py#L44-L54), [AnthropicClient](repo://tradingagents/llm_clients/anthropic_client.py#L59-L74) и [провайдеры LLM](../integrations/llm-providers.md).
+
+### Общие параметры и границы ошибок
 
 Общие параметры передаются обоим клиентам — deep и quick:
 
@@ -328,7 +382,8 @@ Compose не загружает модели автоматически и не 
 
 Основные тесты контракта:
 
-- `tests/test_env_overrides.py`: defaults, преобразования, пустые и неизвестные переменные, явные ошибки импорта.
+- `tests/test_env_overrides.py`: defaults, преобразования, пустые и неизвестные переменные, явные ошибки импорта; значения уровней `None`, пустые и буквальные строки без изменения моделей.
+- `tests/test_per_tier_reasoning_effort.py`: матрица наследования для deep/quick, старые конфигурации без новых ключей, неактивные провайдеры, буквальная строка `"none"`, независимые kwargs и реальные два вызова фабрики с общими параметрами и callbacks. Внешние сервисы подменены, сеть запрещена.
 - `tests/test_cli_env_skip.py`: пропуск вопросов, endpoints и reasoning при сохранении API-key preflight.
 - `tests/test_cli_config_precedence.py`: независимый приоритет чисел раундов и трёхсостоянийный checkpoint-флаг.
 - `tests/test_dataflows_config.py` и `tests/conftest.py`: глубокое копирование, одноуровневое слияние и полный сброс глобального состояния.

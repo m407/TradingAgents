@@ -3,9 +3,6 @@ type: руководство разработчика
 title: Быстрый старт и навигация по задачам
 description: Минимальный путь установки и запуска TradingAgents через CLI и Python API. Навигация по архитектуре, контрактам, интеграциям, настройкам, хранению и проверке изменений с учетом различий жизненного цикла CLI и API.
 tags: [quickstart, developer-guide, task-routing, cli, python-api]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T14:23:37.397Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -29,6 +26,8 @@ sources:
     resource: repo://tests/test_checkpoint_lifecycle.py
   - id: openwiki-source-c7c2a5bfd6e48d6b7e43a2ef
     resource: repo://tests/test_env_overrides.py
+  - id: openwiki-source-cb0425810080c23ce91acd3d
+    resource: repo://tests/test_per_tier_reasoning_effort.py
   - id: openwiki-source-a1e95c75f9ad7fc77f818a2e
     resource: repo://tests/test_signal_processing.py
   - id: openwiki-source-12060ccc88894da5cade1961
@@ -37,7 +36,16 @@ sources:
     resource: repo://tradingagents/default_config.py
   - id: openwiki-source-4e072b0f954dc477bfc36fee
     resource: repo://tradingagents/graph/trading_graph.py
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T14:23:37.397Z" }
+  - id: openwiki-source-a8ab50bd7f20e0d18e87ea5c
+    resource: repo://tradingagents/llm_clients/anthropic_client.py
+  - id: openwiki-source-2fc0864c9ebc478a8b00a4f2
+    resource: repo://tradingagents/llm_clients/google_client.py
+  - id: openwiki-source-068ad01d56c56086cdc4c402
+    resource: repo://tradingagents/llm_clients/openai_client.py
+generated: { by: "openwiki/0.5.0", at: "2026-09-09T08:26:19.375Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T08:26:19.375Z
 ---
 
 # Быстрый старт и навигация по задачам
@@ -70,7 +78,7 @@ cp .env.example .env
 
 При импорте пакета поиск `.env`, затем `.env.enterprise` идет вверх от текущего рабочего каталога. Уже экспортированные переменные не перезаписываются. `DEFAULT_CONFIG` применяет известные `TRADINGAGENTS_*` при импорте: задайте их **до запуска процесса или импорта**, а не после создания графа. Ошибки булевых значений и целочисленных настроек с типизированным значением по умолчанию вызывают `ValueError`; необязательные числовые параметры с исходным `None` преобразуются позднее при создании клиентов. Храните файлы ключей локально и не включайте их в коммиты. Подробности — [конфигурация и развертывание](operations/configuration-and-deployment.md).
 
-Основания: [загрузка окружения](repo://tradingagents/__init__.py#L4-L17), [настройки](repo://tradingagents/default_config.py), [шаблон ключей](repo://.env.example), [параметры клиентов](repo://tradingagents/graph/trading_graph.py#L168-L208).
+Основания: [загрузка окружения](repo://tradingagents/__init__.py#L4-L17), [наложение окружения](repo://tradingagents/default_config.py#L10-L113), [шаблон ключей](repo://.env.example), [преобразование числовых параметров](repo://tradingagents/graph/trading_graph.py#L48-L76), [параметры клиентов](repo://tradingagents/graph/trading_graph.py#L170-L213).
 
 ## Запуск анализа
 
@@ -89,6 +97,10 @@ CLI на Typer/Rich запрашивает тикер, дату, аналити�
 ### Python API
 
 Перед запуском настройте доступного вам провайдера и модели через `.env` или `config`. Пример использует текущий `DEFAULT_CONFIG`, а не гарантирует доступ к моделям в вашей учетной записи.
+
+**Необязательно: независимая глубина рассуждения deep/quick.** До создания графа можно задать `config["deep_think_reasoning_effort"]` и `config["quick_think_reasoning_effort"]` либо `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` и `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT` в окружении. Оба ключа по умолчанию равны `None`: каждый уровень наследует общую настройку активного провайдера (`openai_reasoning_effort`, `anthropic_effort` или `google_thinking_level`), если собственное значение отсутствует, равно `None` или пустой строке. Если не задано ни одно, граф не передает параметр рассуждения. Строка `"none"` не означает наследование. Это не меняет выбранные модели и не выбирает их автоматически.
+
+Эти переопределения поддерживаются для OpenAI, Anthropic и Google; другие провайдеры не получают через них новый параметр. Допустимые значения и преобразования зависят от модели и адаптера: `high`/`low` в шаблоне — примеры, не универсальные значения и не новые значения по умолчанию. Приоритеты описаны в [конфигурации](operations/configuration-and-deployment.md), ограничения и адаптация — в [провайдерах LLM](integrations/llm-providers.md). Основания: [необязательные настройки](repo://.env.example#L68-L92), [раздельное создание клиентов и выбор параметров](repo://tradingagents/graph/trading_graph.py#L108-L128), [наследование](repo://tradingagents/graph/trading_graph.py#L170-L213).
 
 ```python
 from tradingagents.default_config import DEFAULT_CONFIG
@@ -145,6 +157,8 @@ ruff check .
 
 `test_env_overrides.py` проверяет наложение окружения и ошибочные значения; `test_checkpoint_lifecycle.py` — сохранение, сбой и возобновление на небольшом графе по схеме CLI; `test_signal_processing.py` — пять уровней рейтинга, `REVIEW` и отсутствие дополнительного обращения к LLM. Это изолированные проверки контрактов, а не доказательство работоспособности внешнего провайдера.
 
+Для изменений независимого рассуждения дополнительно выполните `pytest -q tests/test_per_tier_reasoning_effort.py tests/test_cli_env_skip.py`. [Первый набор](repo://tests/test_per_tier_reasoning_effort.py) без сети проверяет наследование и оба вызова фабрики из конструктора с раздельными параметрами; [проверки окружения](repo://tests/test_env_overrides.py#L92-L160) охватывают также независимые переопределения deep/quick. Правила диалогов CLI и адаптерные проверки — в [руководстве по проверке изменений](testing/change-validation.md).
+
 Чтобы исключить тесты с маркером внешней интеграции при наличии реальных ключей в окружении:
 
 ```bash
@@ -155,7 +169,7 @@ CI выполняет `pytest -q` на Python 3.10–3.13, `ruff check .` и п�
 
 ## Ориентиры выполнения
 
-Конструктор `TradingAgentsGraph` передает конфигурацию общему слою данных, создает каталоги результатов и кэша, клиентов быстрого и глубокого рассуждения, группы инструментов аналитиков и компилирует выбранный граф. Поэтому настройка нужна до создания экземпляра, а не только перед `propagate()`.
+Конструктор `TradingAgentsGraph` передает конфигурацию общему слою данных, создает каталоги результатов и кэша, клиентов быстрого и глубокого рассуждения, группы инструментов аналитиков и компилирует выбранный граф. Поэтому настройка нужна до создания экземпляра, а не только перед `propagate()`. Основания: [конструктор](repo://tradingagents/graph/trading_graph.py#L82-L168), [группы инструментов](repo://tradingagents/graph/trading_graph.py#L215-L255).
 
 ```mermaid
 flowchart TD
