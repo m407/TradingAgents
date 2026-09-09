@@ -10,6 +10,14 @@ import pytest
 import tradingagents.default_config as default_config_module
 
 
+@pytest.fixture(autouse=True)
+def _restore_default_config():
+    """Do not leak the config created by a test's reload into other tests."""
+    original = default_config_module.DEFAULT_CONFIG
+    yield
+    default_config_module.DEFAULT_CONFIG = original
+
+
 def _reload_with_env(monkeypatch, **overrides):
     """Set/clear env vars then reload default_config to re-evaluate DEFAULT_CONFIG."""
     for key in list(default_config_module._ENV_OVERRIDES):
@@ -88,6 +96,54 @@ def test_reasoning_effort_defaults_to_none(monkeypatch):
     assert dc.DEFAULT_CONFIG["openai_reasoning_effort"] is None
     assert dc.DEFAULT_CONFIG["google_thinking_level"] is None
     assert dc.DEFAULT_CONFIG["anthropic_effort"] is None
+    assert dc.DEFAULT_CONFIG["deep_think_reasoning_effort"] is None
+    assert dc.DEFAULT_CONFIG["quick_think_reasoning_effort"] is None
+
+
+@pytest.mark.parametrize(
+    "deep,quick",
+    [
+        ("high", "low"),
+        ("low", "high"),
+        ("high", None),
+        (None, "low"),
+        ("", ""),
+        ("", "low"),
+        ("high", ""),
+        ("none", " custom-level "),
+        (" custom-level ", "none"),
+    ],
+)
+@pytest.mark.parametrize("override_models", [False, True])
+def test_per_tier_reasoning_overrides(monkeypatch, deep, quick, override_models):
+    overrides = {
+        "TRADINGAGENTS_OPENAI_REASONING_EFFORT": "medium",
+        "TRADINGAGENTS_GOOGLE_THINKING_LEVEL": "minimal",
+        "TRADINGAGENTS_ANTHROPIC_EFFORT": "high",
+    }
+    if override_models:
+        overrides.update(
+            TRADINGAGENTS_DEEP_THINK_LLM="custom-deep",
+            TRADINGAGENTS_QUICK_THINK_LLM="custom-quick",
+        )
+    for tier, value in (("DEEP", deep), ("QUICK", quick)):
+        if value is not None:
+            overrides[f"TRADINGAGENTS_{tier}_THINK_REASONING_EFFORT"] = value
+
+    dc = _reload_with_env(monkeypatch, **overrides)
+    assert dc.DEFAULT_CONFIG["deep_think_reasoning_effort"] == (deep or None)
+    assert dc.DEFAULT_CONFIG["quick_think_reasoning_effort"] == (quick or None)
+    assert dc.DEFAULT_CONFIG["deep_think_llm"] == (
+        "custom-deep" if override_models else "gpt-6-sol"
+    )
+    assert dc.DEFAULT_CONFIG["quick_think_llm"] == (
+        "custom-quick" if override_models else "gpt-6-luna"
+    )
+    assert dc.DEFAULT_CONFIG["openai_reasoning_effort"] == "medium"
+    assert dc.DEFAULT_CONFIG["google_thinking_level"] == "minimal"
+    assert dc.DEFAULT_CONFIG["anthropic_effort"] == "high"
+    assert dc.DEFAULT_CONFIG["llm_provider"] == "openai"
+    assert dc.DEFAULT_CONFIG["backend_url"] is None
 
 
 def test_empty_env_value_is_passthrough(monkeypatch):
@@ -96,9 +152,13 @@ def test_empty_env_value_is_passthrough(monkeypatch):
         monkeypatch,
         TRADINGAGENTS_LLM_PROVIDER="",
         TRADINGAGENTS_MAX_DEBATE_ROUNDS="",
+        TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT="",
+        TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT="",
     )
     assert dc.DEFAULT_CONFIG["llm_provider"] == "openai"
     assert dc.DEFAULT_CONFIG["max_debate_rounds"] == 1
+    assert dc.DEFAULT_CONFIG["deep_think_reasoning_effort"] is None
+    assert dc.DEFAULT_CONFIG["quick_think_reasoning_effort"] is None
 
 
 def test_empty_path_value_keeps_the_default_path(monkeypatch):

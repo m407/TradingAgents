@@ -4,7 +4,7 @@ import os
 from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from tradingagents.agents.context import build_instrument_context, resolve_instrument_identity
 from tradingagents.agents.rating import parse_rating
@@ -14,6 +14,7 @@ from tradingagents.dataflows.symbols import safe_ticker_component
 from tradingagents.decision_log import TradingMemoryLog
 from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.llm_clients import build_llm_kwargs, create_llm_client
+from tradingagents.llm_clients.factory import _coerce_max_retries, _coerce_max_tokens
 from tradingagents.reporting import write_report_tree
 
 from . import settlement
@@ -67,22 +68,25 @@ class TradingAgentsGraph:
         os.makedirs(self.config["data_cache_dir"], exist_ok=True)
         os.makedirs(self.config["results_dir"], exist_ok=True)
 
-        llm_kwargs = build_llm_kwargs(self.config)
+        # Initialize LLMs with provider-specific thinking configuration
+        deep_kwargs = self._get_provider_kwargs("deep")
+        quick_kwargs = self._get_provider_kwargs("quick")
 
         if self.callbacks:
-            llm_kwargs["callbacks"] = self.callbacks
+            deep_kwargs["callbacks"] = self.callbacks
+            quick_kwargs["callbacks"] = self.callbacks
 
         deep_client = create_llm_client(
             provider=self.config["llm_provider"],
             model=self.config["deep_think_llm"],
             base_url=self.config.get("backend_url"),
-            **llm_kwargs,
+            **deep_kwargs,
         )
         quick_client = create_llm_client(
             provider=self.config["llm_provider"],
             model=self.config["quick_think_llm"],
             base_url=self.config.get("backend_url"),
-            **llm_kwargs,
+            **quick_kwargs,
         )
 
         self.deep_thinking_llm = deep_client.get_llm()
@@ -113,6 +117,51 @@ class TradingAgentsGraph:
         self.graph = self.workflow.compile()
         self._checkpointer_ctx = None
         self._resuming = False
+
+    def _get_provider_kwargs(
+        self, tier: Literal["deep", "quick"] | None = None,
+    ) -> dict[str, Any]:
+        """Get client kwargs, optionally overriding common reasoning for a tier."""
+        kwargs = {}
+        provider = self.config.get("llm_provider", "").lower()
+        tier_effort = self.config.get(f"{tier}_think_reasoning_effort") if tier else None
+
+        if provider == "google":
+            thinking_level = tier_effort or self.config.get("google_thinking_level")
+            if thinking_level:
+                kwargs["thinking_level"] = thinking_level
+
+        elif provider == "openai":
+            reasoning_effort = tier_effort or self.config.get("openai_reasoning_effort")
+            if reasoning_effort:
+                kwargs["reasoning_effort"] = reasoning_effort
+
+        elif provider == "anthropic":
+            effort = tier_effort or self.config.get("anthropic_effort")
+            if effort:
+                kwargs["effort"] = effort
+
+        # Sampling temperature is cross-provider: forward it whenever set.
+        # float() here so a value coming from a TRADINGAGENTS_TEMPERATURE env
+        # string ("0.2") works the same as a programmatic float.
+        temperature = self.config.get("temperature")
+        if temperature is not None and temperature != "":
+            kwargs["temperature"] = float(temperature)
+
+        # SDK retry budget is cross-provider. Forward it only when explicitly set
+        # so each provider keeps its own default (usually 2) otherwise (#1091).
+        max_retries = self.config.get("llm_max_retries")
+        if max_retries is not None and max_retries != "":
+            kwargs["max_retries"] = _coerce_max_retries(max_retries)
+
+        # Output-token cap is cross-provider, but Gemini names it
+        # ``max_output_tokens``; forward under the right key when set (#1204).
+        max_tokens = self.config.get("max_tokens")
+        if max_tokens is not None and max_tokens != "":
+            key = "max_output_tokens" if provider == "google" else "max_tokens"
+            kwargs[key] = _coerce_max_tokens(max_tokens)
+
+        return kwargs
 
     def resolve_instrument_context(self, ticker: str, asset_type: str = "stock",
                                    curr_date: str | None = None) -> str:

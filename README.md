@@ -300,6 +300,52 @@ The CLI takes the same content as a JSON file: `tradingagents --portfolio my_boo
 
 An empty `positions` list means a flat book, which is different from passing nothing. A run without a portfolio is never treated as flat.
 
+### Per-tier reasoning effort
+
+Deep and quick can use independent reasoning settings without changing their models. The model examples above match the built-in defaults: `gpt-6-sol` for deep and `gpt-6-luna` for quick. Reasoning settings do not change model selection, agent assignments, the shared provider or endpoint, or other generation settings.
+
+| Tier | Environment variable | Python key | Built-in default |
+| --- | --- | --- | --- |
+| Deep | `TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT` | `deep_think_reasoning_effort` | `None` (inherit) |
+| Quick | `TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT` | `quick_think_reasoning_effort` | `None` (inherit) |
+
+For example, set these in `.env` (uncomment the corresponding lines in `.env.example`):
+
+```dotenv
+# Illustrative values, not defaults; check support for your provider/model.
+TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT=high
+TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT=low
+```
+
+Or configure the two keys independently in Python before constructing the graph:
+
+```python
+config = DEFAULT_CONFIG.copy()
+# Illustrative values, not defaults; check support for your provider/model.
+config["deep_think_reasoning_effort"] = "high"
+config["quick_think_reasoning_effort"] = "low"
+```
+
+Reasoning is resolved **independently for each tier**, in this order:
+
+1. The tier's nonempty setting.
+2. The nonempty shared setting for the **active provider** (see below). Shared settings for other providers do not apply.
+3. Omit the reasoning parameter from the request so provider defaults apply.
+
+Missing keys, `None`, and empty strings (`""`, or an empty environment value) mean **inheritance**, not disabling reasoning. The literal string `"none"` is not an inheritance sentinel; its support depends on the provider/model. Both new Python defaults are `None`, and the environment template leaves the illustrative overrides commented out.
+
+For a partial override, `deep_think_reasoning_effort="high"`, `openai_reasoning_effort="medium"`, and quick unset yield deep=`high` and quick=`medium` with OpenAI. If neither a tier setting nor the active provider's shared setting is set, no reasoning parameter is sent for that tier. Existing configurations without tier overrides continue to use the shared setting.
+
+| Active provider | Shared fallback Python key | Shared environment variable | Adapter parameter |
+| --- | --- | --- | --- |
+| OpenAI | `openai_reasoning_effort` | `TRADINGAGENTS_OPENAI_REASONING_EFFORT` | `reasoning_effort` |
+| Anthropic | `anthropic_effort` | `TRADINGAGENTS_ANTHROPIC_EFFORT` | `effort` |
+| Google | `google_thinking_level` | `TRADINGAGENTS_GOOGLE_THINKING_LEVEL` | `thinking_level` |
+
+Valid values are provider/model-specific, not a universal enum: **`high` and `low` are examples, not defaults or a promise of support for every model**. Existing model restrictions and adapter transformations still apply. OpenAI and Anthropic adapters omit these parameters for models outside their existing reasoning/effort support checks; Google's adapter maps `minimal` to `low` for Pro models. Other providers gain no reasoning parameter from these settings, and no provider or model support is added.
+
+In the CLI, the existing shared interactive reasoning choice remains a fallback; tier overrides from the environment survive it. There are no new per-tier menus. Existing prompt-skip rules remain: setting a nonempty `TRADINGAGENTS_LLM_PROVIDER` or the active provider's shared reasoning environment variable skips the shared prompt. Setting both tier overrides alone does **not** suppress that prompt.
+
 ## Persistence and Recovery
 
 TradingAgents persists two kinds of state across runs.

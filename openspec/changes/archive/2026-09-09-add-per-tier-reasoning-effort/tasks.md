@@ -1,0 +1,16 @@
+## 1. Конфигурация
+
+- [x] 1.1 [agent=openspec-add-per-tier-reasoning-effort-task-1-1; depends-on=none; parallel=yes] Добавить два ключа reasoning effort и переменные окружения в `tradingagents/default_config.py`, расширить `tests/test_env_overrides.py` проверками независимых значений, defaults `None`, пустых переменных и сохранения текущих моделей. Verification: `pytest -q tests/test_env_overrides.py` проходит; scope-only review через `external-expert` не содержит блокирующих замечаний.
+
+## 2. Разрешение параметров и CLI
+
+- [x] 2.1 [agent=openspec-add-per-tier-reasoning-effort-task-2-1; depends-on=1.1; parallel=no] В `tradingagents/graph/trading_graph.py` разрешать reasoning отдельно для deep/quick по дизайну, добавить `tests/test_per_tier_reasoning_effort.py` с матрицей наследования, трёх провайдеров, неподдерживаемого провайдера, отсутствующих и пустых значений; перехватить оба вызова фабрики и проверить независимость параметров, сохранение моделей, endpoint, callbacks, temperature, retries и token limit без мутации конфигурации. Verification: `pytest -q tests/test_per_tier_reasoning_effort.py tests/test_temperature_config.py tests/test_llm_max_tokens.py` проходит без сетевых вызовов; scope-only review через `external-expert` не содержит блокирующих замечаний.
+- [x] 2.2 [agent=openspec-add-per-tier-reasoning-effort-task-2-2; depends-on=1.1,2.1; parallel=no] Расширить `tests/test_cli_env_skip.py` и при необходимости минимально скорректировать сборку конфигурации в `cli/main.py`, проверив сохранение новых env-значений до создания клиентов, общий интерактивный fallback и прежние правила пропуска запроса без новых меню. Verification: `pytest -q tests/test_cli_env_skip.py tests/test_cli_config_precedence.py` проходит, сценарии deep=`high` плюс общий `medium` и обе настройки через окружение проверяют итоговые значения; scope-only review через `external-expert` не содержит блокирующих замечаний.
+
+## 3. Документация
+
+- [x] 3.1 [agent=openspec-add-per-tier-reasoning-effort-task-3-1; depends-on=none; parallel=yes] Обновить `.env.example` и README примерами независимых настроек, наследованием, ограничениями провайдеров и отсутствием новых значений reasoning по умолчанию; согласовать соседние примеры моделей с текущими defaults без изменения самих defaults. Verification: документация содержит обе новые переменные и Python-ключи, явно обозначает `high`/`low` как пример и описывает пустое значение как наследование; scope-only review через `external-expert` не содержит блокирующих замечаний.
+
+## 4. Интеграционная проверка
+
+- [x] 4.1 [agent=openspec-add-per-tier-reasoning-effort-task-4-1; depends-on=1.1,2.1,2.2,3.1; parallel=no] Выполнить совместную регрессионную проверку конфигурации, CLI, параметров генерации и существующих адаптеров; проверить отсутствие изменений распределения агентов, новых провайдеров и новых зависимостей. Verification: `pytest -q tests/test_env_overrides.py tests/test_per_tier_reasoning_effort.py tests/test_cli_env_skip.py tests/test_cli_config_precedence.py tests/test_temperature_config.py tests/test_llm_max_tokens.py tests/test_openai_reasoning_effort.py tests/test_anthropic_effort.py tests/test_google_thinking_level.py` проходит без реальных запросов к LLM; итоговый scope-only review через `external-expert` не содержит блокирующих замечаний.

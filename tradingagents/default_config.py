@@ -11,6 +11,8 @@ _ENV_OVERRIDES = {
     "TRADINGAGENTS_LLM_PROVIDER":         "llm_provider",
     "TRADINGAGENTS_DEEP_THINK_LLM":       "deep_think_llm",
     "TRADINGAGENTS_QUICK_THINK_LLM":      "quick_think_llm",
+    "TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT":  "deep_think_reasoning_effort",
+    "TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT": "quick_think_reasoning_effort",
     "TRADINGAGENTS_LLM_BACKEND_URL":      "backend_url",
     "TRADINGAGENTS_OUTPUT_LANGUAGE":      "output_language",
     "TRADINGAGENTS_MAX_DEBATE_ROUNDS":    "max_debate_rounds",
@@ -81,6 +83,9 @@ DEFAULT_CONFIG = _apply_env_overrides({
     "llm_provider": "openai",
     "deep_think_llm": "gpt-6-sol",
     "quick_think_llm": "gpt-6-luna",
+    # None inherits the active provider's shared reasoning setting.
+    "deep_think_reasoning_effort": None,
+    "quick_think_reasoning_effort": None,
     # When None, each provider's client falls back to its own default endpoint
     # (api.openai.com for OpenAI, generativelanguage.googleapis.com for Gemini, ...).
     # The CLI overrides this per provider when the user picks one. Keeping a
