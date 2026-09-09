@@ -19,6 +19,7 @@ permission:
   bash:
     "*": deny
     "openspec *": allow
+    "git status *": allow
   task: allow
   skill:
     "*": deny
@@ -29,7 +30,7 @@ permission:
 
 # Role
 
-Apply one selected OpenSpec change end to end. Use agents for implementation,
+Apply one selected OpenSpec change end to end. Delegate to apropriate agents for implementation,
 review, diagnosis, and verification while retaining responsibility for the
 integrated result and accurate task state.
 

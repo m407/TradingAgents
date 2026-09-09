@@ -300,9 +300,42 @@ The CLI takes the same content as a JSON file: `tradingagents --portfolio my_boo
 
 An empty `positions` list means a flat book, which is different from passing nothing. A run without a portfolio is never treated as flat.
 
+### Per-model provider and URL
+
+Deep and quick can independently select a provider and URL while retaining the existing model keys. These four optional Python keys all default to `None`; nonempty ENV values override their corresponding keys:
+
+| Python | ENV |
+| --- | --- |
+| `deep_think_llm_provider` | `TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER` |
+| `quick_think_llm_provider` | `TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER` |
+| `deep_think_llm_backend_url` | `TRADINGAGENTS_DEEP_THINK_LLM_BACKEND_URL` |
+| `quick_think_llm_backend_url` | `TRADINGAGENTS_QUICK_THINK_LLM_BACKEND_URL` |
+
+For each tier, provider and URL resolve **independently**: use the nonempty individual provider, otherwise `llm_provider`; use the nonempty individual URL, otherwise `backend_url`. Missing keys, `None`, and empty strings inherit. **The common URL is inherited even when the individual provider differs**: there is no compatibility guard or automatic URL repair. An individual URL alone retains the common provider. If neither URL is set, the selected adapter keeps its existing defaults, provider ENV resolution (such as `OLLAMA_BASE_URL`), and mandatory-URL errors (`openai_compatible` requires a URL). Configurations without these overrides retain their connection behavior.
+
+For example, uncomment these illustrative settings in your own environment configuration for a gateway serving both protocols:
+
+```dotenv
+# TRADINGAGENTS_LLM_PROVIDER=openai
+# TRADINGAGENTS_DEEP_THINK_LLM=gpt-6-sol
+# TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER=openai
+# TRADINGAGENTS_DEEP_THINK_LLM_BACKEND_URL=http://localhost:8317/v1
+# TRADINGAGENTS_QUICK_THINK_LLM=gemini-3.8-flash-high
+# TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER=google
+# TRADINGAGENTS_QUICK_THINK_LLM_BACKEND_URL=http://localhost:8317/v1beta
+```
+
+`gemini-3.8-flash-high` is the direct model ID sent to the provider, not a new application alias. Explicit URLs matter for mixed protocols: with common OpenAI URL `http://localhost:8317/v1` and only a quick provider override to Google, quick would inherit `/v1`, not automatically switch to `/v1beta`. Both tiers may also use the same provider with different individual URLs. Model settings and agent assignments are otherwise unchanged.
+
+**Authorization remains provider-specific and shared, not per model.** The mixed example uses the existing `OPENAI_API_KEY` and `GOOGLE_API_KEY` mechanisms. Other existing key ENV names are `ANTHROPIC_API_KEY`, `XAI_API_KEY`, `DEEPSEEK_API_KEY`, `DASHSCOPE_API_KEY` / `DASHSCOPE_CN_API_KEY`, `ZHIPU_API_KEY` / `ZHIPU_CN_API_KEY`, `MINIMAX_API_KEY` / `MINIMAX_CN_API_KEY`, `OPENROUTER_API_KEY`, `MISTRAL_API_KEY`, `MOONSHOT_API_KEY` (Kimi), `GROQ_API_KEY`, and `NVIDIA_API_KEY`. Generic `openai_compatible` uses optional `OPENAI_COMPATIBLE_API_KEY`; Ollama needs no key. Two endpoints of the same provider retain that provider's shared authorization mechanism; there are no individual per-model authorization keys. A local URL does not make the OpenAI or Google Python client keyless. TradingAgents does not read OpenCode configuration, and an OpenCode key value `none` establishes no keyless Python-client support.
+
+Azure keeps `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT_NAME`, and `OPENAI_API_VERSION`. Bedrock keeps `AWS_BEARER_TOKEN_BEDROCK` (taking precedence) or the AWS credential chain, including optional `AWS_PROFILE`, with `AWS_REGION` / `AWS_DEFAULT_REGION` for region selection. **Azure and Bedrock keep their existing adapter endpoint and authorization mechanisms; these overrides do not add generic base-URL support to either adapter.**
+
+The CLI preserves individual connections, uses each tier's actual provider for model selection, and checks each unique actual provider's authorization, not an unused common provider. No per-tier connection menus are added. Existing common selection and ENV skip rules remain; individual connection overrides alone do not necessarily skip the common selection.
+
 ### Per-tier reasoning effort
 
-Deep and quick can use independent reasoning settings without changing their models. The model examples above match the built-in defaults: `gpt-6-sol` for deep and `gpt-6-luna` for quick. Reasoning settings do not change model selection, agent assignments, the shared provider or endpoint, or other generation settings.
+Deep and quick can use independent reasoning settings without changing their models. The built-in model defaults remain `gpt-6-sol` for deep and `gpt-6-luna` for quick. Reasoning settings do not change model selection, agent assignments, providers or endpoints, or other generation settings.
 
 | Tier | Environment variable | Python key | Built-in default |
 | --- | --- | --- | --- |
@@ -313,8 +346,8 @@ For example, set these in `.env` (uncomment the corresponding lines in `.env.exa
 
 ```dotenv
 # Illustrative values, not defaults; check support for your provider/model.
-TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT=high
-TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT=low
+# TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT=high
+# TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT=low
 ```
 
 Or configure the two keys independently in Python before constructing the graph:
@@ -329,7 +362,7 @@ config["quick_think_reasoning_effort"] = "low"
 Reasoning is resolved **independently for each tier**, in this order:
 
 1. The tier's nonempty setting.
-2. The nonempty shared setting for the **active provider** (see below). Shared settings for other providers do not apply.
+2. The nonempty shared setting for that tier's **actual provider** (see below). Shared settings for other providers do not apply.
 3. Omit the reasoning parameter from the request so provider defaults apply.
 
 Missing keys, `None`, and empty strings (`""`, or an empty environment value) mean **inheritance**, not disabling reasoning. The literal string `"none"` is not an inheritance sentinel; its support depends on the provider/model. Both new Python defaults are `None`, and the environment template leaves the illustrative overrides commented out.
@@ -338,13 +371,17 @@ For a partial override, `deep_think_reasoning_effort="high"`, `openai_reasoning_
 
 | Active provider | Shared fallback Python key | Shared environment variable | Adapter parameter |
 | --- | --- | --- | --- |
-| OpenAI | `openai_reasoning_effort` | `TRADINGAGENTS_OPENAI_REASONING_EFFORT` | `reasoning_effort` |
+| OpenAI, existing OpenAI-compatible providers, Azure | `openai_reasoning_effort` | `TRADINGAGENTS_OPENAI_REASONING_EFFORT` | `reasoning_effort` |
 | Anthropic | `anthropic_effort` | `TRADINGAGENTS_ANTHROPIC_EFFORT` | `effort` |
 | Google | `google_thinking_level` | `TRADINGAGENTS_GOOGLE_THINKING_LEVEL` | `thinking_level` |
 
-Valid values are provider/model-specific, not a universal enum: **`high` and `low` are examples, not defaults or a promise of support for every model**. Existing model restrictions and adapter transformations still apply. OpenAI and Anthropic adapters omit these parameters for models outside their existing reasoning/effort support checks; Google's adapter maps `minimal` to `low` for Pro models. Other providers gain no reasoning parameter from these settings, and no provider or model support is added.
+For a mixed pair with no tier reasoning overrides, OpenAI deep inherits `openai_reasoning_effort`, while Google quick inherits `google_thinking_level`. For example, shared `high` and `minimal` respectively produce `reasoning_effort=high` and `thinking_level=minimal`. No new Bedrock reasoning protocol is introduced.
 
-In the CLI, the existing shared interactive reasoning choice remains a fallback; tier overrides from the environment survive it. There are no new per-tier menus. Existing prompt-skip rules remain: setting a nonempty `TRADINGAGENTS_LLM_PROVIDER` or the active provider's shared reasoning environment variable skips the shared prompt. Setting both tier overrides alone does **not** suppress that prompt.
+**Reasoning compatibility change:** outgoing reasoning is no longer filtered by model name or rewritten. Nonempty values, including literal `none` and Google's `minimal` (also for Pro models), pass unchanged at the application boundary. There is no universal enum: **`high` and `low` are examples, not defaults or a promise of SDK/server acceptance**. Errors are not hidden by retrying without reasoning. This also affects old common settings that were previously silently filtered or transformed. To omit a rejected parameter in graph configuration, remove both the individual value and its provider's common fallback. Omission uses provider defaults; it is not a universal server-side reasoning-off switch.
+
+The graph's nonempty resolution above is distinct from direct OpenAI adapter calls: explicitly supplied `reasoning_effort=None` or `reasoning_effort=""` still passes to the SDK boundary; an absent kwarg is not added. Response normalization, DeepSeek's `reasoning_content` round-trip, and MiniMax's reasoning/text separation remain unchanged.
+
+In the CLI, the existing shared interactive reasoning choice remains a fallback only for tiers using the corresponding actual provider; tier overrides and other providers' common settings from configuration survive it. There are no new per-tier menus. Existing prompt-skip rules remain: setting a nonempty `TRADINGAGENTS_LLM_PROVIDER` or the active provider's shared reasoning environment variable skips the shared prompt. Setting both tier overrides alone does **not** suppress that prompt.
 
 ## Persistence and Recovery
 

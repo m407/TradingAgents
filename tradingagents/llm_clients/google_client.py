@@ -1,23 +1,10 @@
-import re
 from typing import Any
+from urllib.parse import urlsplit
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from .base_client import BaseLLMClient, normalize_content
 from .validators import validate_model
-
-_GEMINI_VERSION = re.compile(r"^gemini-(\d+)\.(\d+)")
-
-
-def _accepts_minimal_thinking(model: str) -> bool:
-    """Whether ``thinking_level="minimal"`` is accepted: numbered Flash models
-    before 3.8. Pro, 3.8+ and version-less aliases (which move between
-    generations) are treated as rejecting it."""
-    model_lc = model.lower()
-    match = _GEMINI_VERSION.match(model_lc)
-    return bool(match) and "pro" not in model_lc and (
-        (int(match.group(1)), int(match.group(2))) < (3, 8)
-    )
 
 
 class NormalizedChatGoogleGenerativeAI(ChatGoogleGenerativeAI):
@@ -44,6 +31,9 @@ class GoogleClient(BaseLLMClient):
 
         if self.base_url:
             llm_kwargs["base_url"] = self.base_url
+            # The SDK otherwise appends v1beta even when the endpoint includes it.
+            if urlsplit(self.base_url).path.rstrip("/").endswith("/v1beta"):
+                llm_kwargs["api_version"] = ""
 
         for key in ("timeout", "max_retries", "temperature", "max_output_tokens",
                     "callbacks", "http_client", "http_async_client"):
@@ -55,14 +45,9 @@ class GoogleClient(BaseLLMClient):
         if google_api_key:
             llm_kwargs["google_api_key"] = google_api_key
 
-        # Gemini 3.x takes the string ``thinking_level`` (the integer
-        # ``thinking_budget`` was for the now-retired 2.5 line). Pro, Gemini
-        # 3.8+ and the -latest aliases reject "minimal" with a 400; "low" is
-        # accepted everywhere, so it is the fallback.
+        # Preserve explicit values; acceptance is determined by the SDK/server.
         thinking_level = self.kwargs.get("thinking_level")
         if thinking_level:
-            if thinking_level == "minimal" and not _accepts_minimal_thinking(self.model):
-                thinking_level = "low"
             llm_kwargs["thinking_level"] = thinking_level
 
         return NormalizedChatGoogleGenerativeAI(**llm_kwargs)

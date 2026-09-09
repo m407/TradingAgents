@@ -1,62 +1,62 @@
-"""Gemini thinking_level forwarding (Gemini 3.x).
+"""Literal application-to-SDK arguments, not a promise of server acceptance."""
 
-The catalog is Gemini 3.x only, which takes the string ``thinking_level``
-directly. Pro, Gemini 3.8+ and the -latest aliases reject "minimal" with a 400,
-so it is mapped to "low" there; numbered Flash models before 3.8 accept it.
-"""
-
+import os
+import socket
 from unittest import mock
 
 import pytest
 
+from tradingagents.llm_clients import google_client
 from tradingagents.llm_clients.google_client import GoogleClient
 
 
+@pytest.fixture(autouse=True)
+def isolated_environment(monkeypatch):
+    def no_network(*args, **kwargs):
+        raise AssertionError("Real network access is forbidden")
+
+    monkeypatch.setattr(socket.socket, "connect", no_network)
+    monkeypatch.setattr(socket.socket, "connect_ex", no_network)
+    monkeypatch.setattr(socket, "getaddrinfo", no_network)
+    with mock.patch.dict(os.environ, {}, clear=True):
+        yield
+
+
 def _captured_kwargs(model, **kwargs):
-    captured = {}
-    with mock.patch.object(
-        __import__("tradingagents.llm_clients.google_client", fromlist=["x"]),
-        "NormalizedChatGoogleGenerativeAI",
-        lambda **kw: captured.setdefault("kw", kw),
-    ):
-        GoogleClient(model, api_key="x", **kwargs).get_llm()
-    return captured["kw"]
+    # Arbitrary strings may be rejected by SDK validation; capture before it.
+    with mock.patch.object(google_client, "NormalizedChatGoogleGenerativeAI") as sdk:
+        result = GoogleClient(model, api_key="dummy-google-key", **kwargs).get_llm()
+    sdk.assert_called_once()
+    assert result is sdk.return_value
+    assert sdk.call_args.args == ()
+    return sdk.call_args.kwargs
 
 
-@pytest.mark.parametrize("level", ["minimal", "low", "medium", "high"])
-def test_flash_passes_thinking_level_through(level):
-    kw = _captured_kwargs("gemini-3.5-flash", thinking_level=level)
-    assert kw["thinking_level"] == level
-    assert "thinking_budget" not in kw  # the 2.5-era param is gone
+@pytest.mark.parametrize(
+    "model", ["gemini-3.5-flash", "gemini-3.1-pro-preview", "unknown-model", "custom-PRO"]
+)
+@pytest.mark.parametrize("level", ["minimal", "low", "medium", "high", "none", "custom-value", " HIGH "])
+def test_literal_thinking_level(model, level):
+    kw = _captured_kwargs(model, thinking_level=level)
+    assert kw == {"model": model, "google_api_key": "dummy-google-key", "thinking_level": level}
 
 
-def test_pro_remaps_minimal_to_low():
-    kw = _captured_kwargs("gemini-3.1-pro-preview", thinking_level="minimal")
-    assert kw["thinking_level"] == "low"  # Pro doesn't accept "minimal"
+@pytest.mark.parametrize("kwargs", [{}, {"thinking_level": None}, {"thinking_level": ""}])
+def test_absent_thinking_level_is_omitted(kwargs):
+    kw = _captured_kwargs("gemini-3.5-flash", **kwargs)
+    assert kw == {"model": "gemini-3.5-flash", "google_api_key": "dummy-google-key"}
 
 
-def test_flash_38_remaps_minimal_to_low():
-    kw = _captured_kwargs("gemini-3.8-flash", thinking_level="minimal")
-    assert kw["thinking_level"] == "low"  # 3.8 Flash 400s on "minimal"
+def test_unknown_model_still_warns_and_forwards():
+    with pytest.warns(RuntimeWarning, match="not in the known model list.*Continuing anyway"):
+        kw = _captured_kwargs("unknown-model", thinking_level="minimal")
+    assert kw["thinking_level"] == "minimal"
 
 
-def test_flash_38_keeps_supported_levels():
-    kw = _captured_kwargs("gemini-3.8-flash", thinking_level="high")
-    assert kw["thinking_level"] == "high"
-
-
-@pytest.mark.parametrize("alias", ["gemini-flash-latest", "gemini-pro-latest"])
-def test_latest_alias_remaps_minimal_to_low(alias):
-    # Aliases move between generations; gemini-flash-latest 400s on "minimal".
-    assert _captured_kwargs(alias, thinking_level="minimal")["thinking_level"] == "low"
-
-
-def test_pro_keeps_high():
-    kw = _captured_kwargs("gemini-3.1-pro-preview", thinking_level="high")
-    assert kw["thinking_level"] == "high"
-
-
-def test_no_thinking_level_is_omitted():
-    kw = _captured_kwargs("gemini-3.5-flash")
-    assert "thinking_level" not in kw
-    assert "thinking_budget" not in kw
+def test_sdk_rejection_is_not_retried_without_reasoning():
+    error = ValueError("synthetic SDK validation error")
+    with mock.patch.object(google_client, "NormalizedChatGoogleGenerativeAI", side_effect=error) as sdk:
+        with pytest.raises(ValueError) as raised:
+            GoogleClient("gemini-3.1-pro-preview", thinking_level="none").get_llm()
+    assert raised.value is error
+    sdk.assert_called_once_with(model="gemini-3.1-pro-preview", thinking_level="none")

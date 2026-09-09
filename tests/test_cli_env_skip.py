@@ -18,6 +18,34 @@ import cli.selections as cli_selections
 
 
 @pytest.fixture(autouse=True)
+def _isolated_cli(monkeypatch, tmp_path):
+    """Never consume user config/credentials or persist a prompted credential."""
+    import dotenv
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("Credential prompts/writes are forbidden in CLI configuration tests")
+
+    monkeypatch.setattr(dotenv, "load_dotenv", lambda *args, **kwargs: False)
+    with mock.patch.dict(os.environ, {
+        "PYTHON_DOTENV_DISABLED": "1", "HOME": str(tmp_path),
+    }, clear=True):
+        import cli.prompts as prompts
+        import cli.run as cli_run
+        import cli.selections as cli_selections
+        import questionary
+        import tradingagents.default_config as dc
+
+        monkeypatch.setattr(dc, "DEFAULT_CONFIG", dc.DEFAULT_CONFIG)
+        importlib.reload(dc)
+        monkeypatch.setattr(cli_selections, "DEFAULT_CONFIG", deepcopy(dc.DEFAULT_CONFIG))
+        monkeypatch.setattr(cli_run, "DEFAULT_CONFIG", deepcopy(dc.DEFAULT_CONFIG))
+        monkeypatch.setattr(questionary, "password", forbidden)
+        monkeypatch.setattr(prompts, "set_key", forbidden)
+        monkeypatch.setattr(prompts, "find_dotenv", forbidden)
+        yield
+
+
+@pytest.fixture(autouse=True)
 def _no_network(monkeypatch):
     def forbidden(*args, **kwargs):
         pytest.fail("Network access is forbidden in CLI configuration tests")
@@ -51,7 +79,9 @@ def cli_client_run(monkeypatch, tmp_path):
     for key in dc._ENV_OVERRIDES:
         monkeypatch.delenv(key, raising=False)
 
-    def run(provider, env, config_overrides=None):
+    def run(provider, env, config_overrides=None, *, menu_url=None,
+            prompt_values=None, real_auth=False, client_factory=None, error=None,
+            error_match=None):
         for key, value in env.items():
             monkeypatch.setenv(key, value)
         importlib.reload(dc)
@@ -72,7 +102,8 @@ def cli_client_run(monkeypatch, tmp_path):
             "fetch_announcements": None, "display_announcements": None,
             "get_ticker": "AAPL", "get_analysis_date": "2026-05-29",
             "select_analysts": [AnalystType.MARKET], "select_research_depth": 2,
-            "ensure_api_key": None, "select_llm_provider": (provider, None),
+            "ensure_api_key": None, "select_llm_provider": (provider, menu_url),
+            "prompt_openai_compatible_url": "http://generic.test/v1",
             "ask_output_language": "English",
             "select_shallow_thinking_agent": defaults["quick_think_llm"],
             "select_deep_thinking_agent": defaults["deep_think_llm"],
@@ -81,8 +112,13 @@ def cli_client_run(monkeypatch, tmp_path):
         }.items():
             prompts[name] = mock.MagicMock(return_value=value)
             monkeypatch.setattr(cli_selections, name, prompts[name])
+        for name, value in (prompt_values or {}).items():
+            prompts[name].return_value = value
+        if real_auth:
+            from cli.prompts import ensure_api_key
+            prompts["ensure_api_key"].side_effect = ensure_api_key
 
-        factory = mock.MagicMock(side_effect=[mock.MagicMock(), mock.MagicMock()])
+        factory = mock.MagicMock(side_effect=client_factory or [mock.MagicMock(), mock.MagicMock()])
         monkeypatch.setattr(graph_module, "create_llm_client", factory)
         for name in ("set_config", "TradingMemoryLog", "ConditionalLogic", "GraphSetup",
                      "Propagator", "Reflector"):
@@ -95,15 +131,19 @@ def cli_client_run(monkeypatch, tmp_path):
         def construct(*args, **kwargs):
             factory.assert_not_called()
             captured["config"] = deepcopy(kwargs["config"])
-            graph_module.TradingAgentsGraph(*args, **kwargs)
-            assert kwargs["config"] == captured["config"]
+            try:
+                graph_module.TradingAgentsGraph(*args, **kwargs)
+            finally:
+                assert kwargs["config"] == captured["config"]
             raise ClientsCreated
 
         monkeypatch.setattr(cli_run, "TradingAgentsGraph", construct)
-        with pytest.raises(ClientsCreated):
+        with pytest.raises(error or ClientsCreated, match=error_match):
             cli_run.run_analysis(checkpoint=None)
 
         assert defaults == before_defaults
+        if error:
+            return captured["config"], factory.call_args_list, prompts
         assert factory.call_count == 2
         config = captured["config"]
         assert config["llm_provider"] == provider
@@ -112,9 +152,14 @@ def cli_client_run(monkeypatch, tmp_path):
         assert config["checkpoint_enabled"] == defaults["checkpoint_enabled"]
         for call, tier in zip(factory.call_args_list, ("deep", "quick"), strict=True):
             assert call.kwargs["model"] == defaults[f"{tier}_think_llm"]
-            assert call.kwargs["provider"] == provider
-            assert call.kwargs["base_url"] == config["backend_url"]
+            assert call.kwargs["provider"] == (
+                defaults.get(f"{tier}_think_llm_provider") or provider
+            ).lower()
+            assert call.kwargs["base_url"] == (
+                defaults.get(f"{tier}_think_llm_backend_url") or config["backend_url"] or None
+            )
             assert call.kwargs["callbacks"]
+        assert factory.call_args_list[0].kwargs["callbacks"] is factory.call_args_list[1].kwargs["callbacks"]
         return config, factory.call_args_list, prompts
 
     return run
@@ -175,6 +220,132 @@ def test_cli_shared_choice_is_fallback_only(
     expected = "none" if value == "none" else "medium"
     assert [call.kwargs[parameter] for call in calls] == [expected, expected]
     prompts[prompt].assert_called_once_with()
+
+
+@pytest.mark.parametrize("providers", [("OpenAI", "openai"), ("openai", "Google"), ("google", "openai")])
+def test_env_connections_reach_both_clients(cli_client_run, providers):
+    env = {
+        "TRADINGAGENTS_LLM_PROVIDER": "anthropic",  # unused: no auth check
+        "TRADINGAGENTS_LLM_BACKEND_URL": "http://common.test/v1",
+        "TRADINGAGENTS_OPENAI_REASONING_EFFORT": "none",
+        "TRADINGAGENTS_GOOGLE_THINKING_LEVEL": "minimal",
+        "TRADINGAGENTS_TEMPERATURE": "0.2",
+        "TRADINGAGENTS_LLM_MAX_RETRIES": "3",
+        "TRADINGAGENTS_MAX_TOKENS": "1024",
+    }
+    for tier, provider in zip(("DEEP", "QUICK"), providers):
+        env[f"TRADINGAGENTS_{tier}_THINK_LLM_PROVIDER"] = provider
+        env[f"TRADINGAGENTS_{tier}_THINK_LLM_BACKEND_URL"] = f"http://{tier.lower()}.test/v1"
+        env[f"TRADINGAGENTS_{tier}_THINK_LLM"] = f"direct-{tier.lower()}-pro-model"
+    config, calls, prompts = cli_client_run("anthropic", env)
+    for tier, call in zip(("deep", "quick"), calls):
+        assert config[f"{tier}_think_llm_provider"] == env[f"TRADINGAGENTS_{tier.upper()}_THINK_LLM_PROVIDER"]
+        assert config[f"{tier}_think_llm_backend_url"] == f"http://{tier}.test/v1"
+        kwargs = call.kwargs
+        google = kwargs["provider"] == "google"
+        assert kwargs == {
+            "provider": env[f"TRADINGAGENTS_{tier.upper()}_THINK_LLM_PROVIDER"].lower(),
+            "model": f"direct-{tier}-pro-model", "base_url": f"http://{tier}.test/v1",
+            "thinking_level" if google else "reasoning_effort": "minimal" if google else "none",
+            "max_output_tokens" if google else "max_tokens": 1024,
+            "temperature": 0.2, "max_retries": 3, "callbacks": kwargs["callbacks"],
+        }
+    assert prompts["ensure_api_key"].call_args_list == [
+        mock.call(p) for p in dict.fromkeys(p.lower() for p in providers)
+    ]
+    for name in ("select_llm_provider", "select_shallow_thinking_agent", "select_deep_thinking_agent",
+                 "prompt_openai_compatible_url", *(p[3] for p in REASONING_PROVIDERS)):
+        prompts[name].assert_not_called()
+
+
+@pytest.mark.parametrize("tier", ["DEEP", "QUICK"])
+def test_one_env_model_still_skips_both_menus(cli_client_run, tier):
+    config, calls, prompts = cli_client_run("openai", {
+        f"TRADINGAGENTS_{tier}_THINK_LLM": "direct-model-id",
+        "TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER": "google",
+    })
+    prompts["select_llm_provider"].assert_called_once_with(mock.ANY)
+    prompts["select_shallow_thinking_agent"].assert_not_called()
+    prompts["select_deep_thinking_agent"].assert_not_called()
+    assert config[f"{tier.lower()}_think_llm"] == "direct-model-id"
+    assert calls[0 if tier == "DEEP" else 1].kwargs["model"] == "direct-model-id"
+    other = "quick" if tier == "DEEP" else "deep"
+    assert config[f"{other}_think_llm"] == ("gpt-6-luna" if other == "quick" else "gpt-6-sol")
+
+
+@pytest.mark.parametrize("provider", ["ollama", "openai_compatible"])
+@pytest.mark.parametrize("with_key", [False, True])
+def test_optional_auth_uses_existing_rules(cli_client_run, monkeypatch, provider, with_key):
+    if with_key:
+        monkeypatch.setenv("OPENAI_COMPATIBLE_API_KEY", "test-only-key")
+    _, _, prompts = cli_client_run("anthropic", {
+        "TRADINGAGENTS_LLM_PROVIDER": "anthropic",
+        "TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER": provider,
+        "TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER": provider,
+        "TRADINGAGENTS_LLM_BACKEND_URL": "http://local.test/v1",
+    }, real_auth=True)
+    prompts["ensure_api_key"].assert_called_once_with(provider)
+
+
+@pytest.mark.parametrize("provider,key", [("openai", "OPENAI_API_KEY"), ("google", "GOOGLE_API_KEY"),
+                                          ("anthropic", "ANTHROPIC_API_KEY")])
+def test_actual_provider_auth_mapping(cli_client_run, monkeypatch, provider, key):
+    monkeypatch.setenv(key, "test-only-key")
+    _, _, prompts = cli_client_run("openai_compatible", {
+        "TRADINGAGENTS_LLM_PROVIDER": "openai_compatible",
+        "TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER": provider,
+        "TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER": provider,
+    }, real_auth=True)
+    prompts["ensure_api_key"].assert_called_once_with(provider)
+
+
+@pytest.mark.parametrize("provider_env", [False, True])
+@pytest.mark.parametrize("providers", [("openai", "google"), ("openai_compatible", "openai_compatible")])
+def test_unused_common_generic_url_never_prompts(cli_client_run, provider_env, providers):
+    env = {"TRADINGAGENTS_LLM_PROVIDER": "openai_compatible"} if provider_env else {}
+    for tier, provider in zip(("DEEP", "QUICK"), providers):
+        env[f"TRADINGAGENTS_{tier}_THINK_LLM_PROVIDER"] = provider
+        env[f"TRADINGAGENTS_{tier}_THINK_LLM_BACKEND_URL"] = f"http://{tier.lower()}.test/v1"
+    config, _, prompts = cli_client_run("openai_compatible", env)
+    assert config["backend_url"] is None
+    prompts["prompt_openai_compatible_url"].assert_not_called()
+    assert prompts["select_llm_provider"].call_count == (0 if provider_env else 1)
+
+
+def test_used_common_generic_url_keeps_existing_prompt(cli_client_run):
+    config, calls, prompts = cli_client_run("openai_compatible", {})
+    prompts["prompt_openai_compatible_url"].assert_called_once_with(mock.ANY)
+    assert config["backend_url"] == "http://generic.test/v1"
+    assert all(call.kwargs["base_url"] == config["backend_url"] for call in calls)
+
+
+@pytest.mark.parametrize("common", ["google", "openai_compatible"])
+def test_actual_generic_missing_url_keeps_client_error(cli_client_run, common):
+    from tradingagents.llm_clients import create_llm_client
+
+    # The real generic client fails before constructing an SDK client.
+    _, calls, prompts = cli_client_run(common, {
+        "TRADINGAGENTS_LLM_PROVIDER": common,
+        "TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER": "openai_compatible",
+    }, client_factory=create_llm_client, error=ValueError,
+        error_match="Provider 'openai_compatible' requires a base_url")
+    assert calls[0].kwargs["base_url"] is None
+    prompts["prompt_openai_compatible_url"].assert_not_called()
+
+
+@pytest.mark.parametrize("providers", [("openai", "google"), ("google", "openai")])
+def test_interactive_unused_generic_without_any_urls(cli_client_run, providers):
+    config, calls, prompts = cli_client_run("openai_compatible", {
+        "TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER": providers[0],
+        "TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER": providers[1],
+    })
+    assert config["backend_url"] is None
+    assert all(c.kwargs["base_url"] is None for c in calls)
+    prompts["prompt_openai_compatible_url"].assert_not_called()
+    prompts["select_llm_provider"].assert_called_once_with(mock.ANY)
+    prompts["select_deep_thinking_agent"].assert_called_once_with(providers[0], mock.ANY)
+    prompts["select_shallow_thinking_agent"].assert_called_once_with(providers[1], mock.ANY)
+    assert prompts["ensure_api_key"].call_args_list == [mock.call(p) for p in providers]
 
 
 @pytest.mark.unit

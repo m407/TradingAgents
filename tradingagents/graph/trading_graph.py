@@ -15,6 +15,7 @@ from tradingagents.decision_log import TradingMemoryLog
 from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.llm_clients import build_llm_kwargs, create_llm_client
 from tradingagents.llm_clients.factory import _coerce_max_retries, _coerce_max_tokens
+from tradingagents.llm_clients.openai_client import is_openai_compatible
 from tradingagents.reporting import write_report_tree
 
 from . import settlement
@@ -77,15 +78,21 @@ class TradingAgentsGraph:
             quick_kwargs["callbacks"] = self.callbacks
 
         deep_client = create_llm_client(
-            provider=self.config["llm_provider"],
+            provider=self._get_provider("deep"),
             model=self.config["deep_think_llm"],
-            base_url=self.config.get("backend_url"),
+            base_url=(
+                self.config.get("deep_think_llm_backend_url")
+                or self.config.get("backend_url") or None
+            ),
             **deep_kwargs,
         )
         quick_client = create_llm_client(
-            provider=self.config["llm_provider"],
+            provider=self._get_provider("quick"),
             model=self.config["quick_think_llm"],
-            base_url=self.config.get("backend_url"),
+            base_url=(
+                self.config.get("quick_think_llm_backend_url")
+                or self.config.get("backend_url") or None
+            ),
             **quick_kwargs,
         )
 
@@ -118,12 +125,17 @@ class TradingAgentsGraph:
         self._checkpointer_ctx = None
         self._resuming = False
 
+    def _get_provider(self, tier: Literal["deep", "quick"] | None = None) -> str:
+        """Resolve a tier's provider independently of its backend URL."""
+        override = self.config.get(f"{tier}_think_llm_provider") if tier else None
+        return (override or self.config.get("llm_provider", "")).lower()
+
     def _get_provider_kwargs(
         self, tier: Literal["deep", "quick"] | None = None,
     ) -> dict[str, Any]:
         """Get client kwargs, optionally overriding common reasoning for a tier."""
         kwargs = {}
-        provider = self.config.get("llm_provider", "").lower()
+        provider = self._get_provider(tier)
         tier_effort = self.config.get(f"{tier}_think_reasoning_effort") if tier else None
 
         if provider == "google":
@@ -131,7 +143,7 @@ class TradingAgentsGraph:
             if thinking_level:
                 kwargs["thinking_level"] = thinking_level
 
-        elif provider == "openai":
+        elif is_openai_compatible(provider) or provider == "azure":
             reasoning_effort = tier_effort or self.config.get("openai_reasoning_effort")
             if reasoning_effort:
                 kwargs["reasoning_effort"] = reasoning_effort

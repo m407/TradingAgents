@@ -11,6 +11,10 @@ _ENV_OVERRIDES = {
     "TRADINGAGENTS_LLM_PROVIDER":         "llm_provider",
     "TRADINGAGENTS_DEEP_THINK_LLM":       "deep_think_llm",
     "TRADINGAGENTS_QUICK_THINK_LLM":      "quick_think_llm",
+    "TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER":    "deep_think_llm_provider",
+    "TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER":   "quick_think_llm_provider",
+    "TRADINGAGENTS_DEEP_THINK_LLM_BACKEND_URL": "deep_think_llm_backend_url",
+    "TRADINGAGENTS_QUICK_THINK_LLM_BACKEND_URL": "quick_think_llm_backend_url",
     "TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT":  "deep_think_reasoning_effort",
     "TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT": "quick_think_reasoning_effort",
     "TRADINGAGENTS_LLM_BACKEND_URL":      "backend_url",
@@ -83,6 +87,11 @@ DEFAULT_CONFIG = _apply_env_overrides({
     "llm_provider": "openai",
     "deep_think_llm": "gpt-6-sol",
     "quick_think_llm": "gpt-6-luna",
+    # Optional per-model connections; None leaves shared settings in use.
+    "deep_think_llm_provider": None,
+    "quick_think_llm_provider": None,
+    "deep_think_llm_backend_url": None,
+    "quick_think_llm_backend_url": None,
     # None inherits the active provider's shared reasoning setting.
     "deep_think_reasoning_effort": None,
     "quick_think_reasoning_effort": None,

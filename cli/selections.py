@@ -181,8 +181,6 @@ def _prompt_selections(prefs):
         )
         console.print(f"[green]✓ LLM provider from environment:[/green] {selected_llm_provider}")
         console.print(f"[green]✓ Backend URL:[/green] {backend_url}")
-        # Still confirm/persist the API key so the run doesn't fail later.
-        ensure_api_key(selected_llm_provider)
     else:
         console.print(
             create_question_box(
@@ -207,9 +205,14 @@ def _prompt_selections(prefs):
             selected_llm_provider, backend_url, env_url=DEFAULT_CONFIG["backend_url"]
         )
 
-        # The generic OpenAI-compatible endpoint has no default; ask for it if
-        # neither the menu nor the environment supplied one.
-        if selected_llm_provider == "openai_compatible" and not backend_url:
+        # Keep the common generic URL prompt only when a generic connection
+        # actually needs this fallback. Individual connections add no prompts.
+        if selected_llm_provider == "openai_compatible" and not backend_url and any(
+            (DEFAULT_CONFIG.get(f"{tier}_think_llm_provider") or selected_llm_provider).lower()
+            == "openai_compatible"
+            and not DEFAULT_CONFIG.get(f"{tier}_think_llm_backend_url")
+            for tier in ("deep", "quick")
+        ):
             remembered_url = (prefs.get("backend_url")
                               if prefs.get("llm_provider") == selected_llm_provider else None)
             backend_url = prompt_openai_compatible_url(remembered_url)
@@ -219,10 +222,15 @@ def _prompt_selections(prefs):
         if selected_llm_provider == "ollama":
             confirm_ollama_endpoint(backend_url)
 
-        # Confirm the provider's API key is present; prompt the user to paste
-        # one and persist it to .env if it's missing, so the analysis run
-        # doesn't fail later at the first API call.
-        ensure_api_key(selected_llm_provider)
+    deep_provider = (
+        DEFAULT_CONFIG.get("deep_think_llm_provider") or selected_llm_provider
+    ).lower()
+    quick_provider = (
+        DEFAULT_CONFIG.get("quick_think_llm_provider") or selected_llm_provider
+    ).lower()
+    # Reuse existing auth/optional-key rules, once per actual provider.
+    for provider in dict.fromkeys((deep_provider, quick_provider)):
+        ensure_api_key(provider)
 
     # Step 7: Thinking agents (skipped when either model is set via environment)
     if os.environ.get("TRADINGAGENTS_QUICK_THINK_LLM") or os.environ.get("TRADINGAGENTS_DEEP_THINK_LLM"):
@@ -240,10 +248,10 @@ def _prompt_selections(prefs):
         )
         remembered = prefs if prefs.get("llm_provider") == selected_llm_provider else {}
         selected_shallow_thinker = select_shallow_thinking_agent(
-            selected_llm_provider, remembered.get("quick_think_llm")
+            quick_provider, remembered.get("quick_think_llm")
         )
         selected_deep_thinker = select_deep_thinking_agent(
-            selected_llm_provider, remembered.get("deep_think_llm")
+            deep_provider, remembered.get("deep_think_llm")
         )
 
     # Step 8: Provider-specific reasoning/thinking configuration. Each knob is
@@ -251,28 +259,24 @@ def _prompt_selections(prefs):
     # provider itself came from env) the prompt is skipped and the configured
     # value is used — same env-precedence rule as the steps above. None = each
     # provider's own default.
-    thinking_level = None
-    reasoning_effort = None
-    anthropic_effort = None
+    thinking_level = DEFAULT_CONFIG.get("google_thinking_level")
+    reasoning_effort = DEFAULT_CONFIG.get("openai_reasoning_effort")
+    anthropic_effort = DEFAULT_CONFIG.get("anthropic_effort")
 
     provider_lower = selected_llm_provider.lower()
-    if provider_from_env:
-        thinking_level = DEFAULT_CONFIG["google_thinking_level"]
-        reasoning_effort = DEFAULT_CONFIG["openai_reasoning_effort"]
-        anthropic_effort = DEFAULT_CONFIG["anthropic_effort"]
-    elif provider_lower == "google":
+    if not provider_from_env and provider_lower == "google":
         thinking_level = thinking_value_or_prompt(
             "TRADINGAGENTS_GOOGLE_THINKING_LEVEL", "google_thinking_level",
             "Gemini thinking mode", "Step 8: Thinking Mode",
             "Configure Gemini thinking mode", ask_gemini_thinking_config,
         )
-    elif provider_lower == "openai":
+    elif not provider_from_env and provider_lower == "openai":
         reasoning_effort = thinking_value_or_prompt(
             "TRADINGAGENTS_OPENAI_REASONING_EFFORT", "openai_reasoning_effort",
             "Reasoning effort", "Step 8: Reasoning Effort",
             "Configure OpenAI reasoning effort level", ask_openai_reasoning_effort,
         )
-    elif provider_lower == "anthropic":
+    elif not provider_from_env and provider_lower == "anthropic":
         anthropic_effort = thinking_value_or_prompt(
             "TRADINGAGENTS_ANTHROPIC_EFFORT", "anthropic_effort",
             "Claude effort", "Step 8: Effort Level",

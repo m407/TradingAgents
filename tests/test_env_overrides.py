@@ -35,6 +35,52 @@ def test_no_env_uses_built_in_defaults(monkeypatch):
     assert dc.DEFAULT_CONFIG["backend_url"] is None
     assert dc.DEFAULT_CONFIG["max_debate_rounds"] == 1
     assert dc.DEFAULT_CONFIG["checkpoint_enabled"] is False
+    assert dc.DEFAULT_CONFIG["deep_think_llm_provider"] is None
+    assert dc.DEFAULT_CONFIG["quick_think_llm_provider"] is None
+    assert dc.DEFAULT_CONFIG["deep_think_llm_backend_url"] is None
+    assert dc.DEFAULT_CONFIG["quick_think_llm_backend_url"] is None
+
+
+_PER_MODEL_CONNECTION_OVERRIDES = [
+    ("TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER", "deep_think_llm_provider", "openai"),
+    ("TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER", "quick_think_llm_provider", "google"),
+    ("TRADINGAGENTS_DEEP_THINK_LLM_BACKEND_URL", "deep_think_llm_backend_url",
+     "https://deep.example.invalid/v1"),
+    ("TRADINGAGENTS_QUICK_THINK_LLM_BACKEND_URL", "quick_think_llm_backend_url",
+     "https://quick.example.invalid/v1beta"),
+]
+
+
+def test_per_model_connections_are_independent(monkeypatch):
+    baseline = _reload_with_env(monkeypatch).DEFAULT_CONFIG.copy()
+    overrides = {env: value for env, key, value in _PER_MODEL_CONNECTION_OVERRIDES}
+    expected = baseline | {key: value for env, key, value in _PER_MODEL_CONNECTION_OVERRIDES}
+    assert _reload_with_env(monkeypatch, **overrides).DEFAULT_CONFIG == expected
+
+
+@pytest.mark.parametrize("env,key,value", _PER_MODEL_CONNECTION_OVERRIDES)
+@pytest.mark.parametrize("raw", [None, "", "configured"])
+@pytest.mark.parametrize("shared_overrides", [False, True])
+def test_partial_per_model_connections(monkeypatch, env, key, value, raw, shared_overrides):
+    overrides = {}
+    if shared_overrides:
+        overrides = {
+            "TRADINGAGENTS_LLM_PROVIDER": "anthropic",
+            "TRADINGAGENTS_LLM_BACKEND_URL": "https://shared.example.invalid",
+            "TRADINGAGENTS_OPENAI_REASONING_EFFORT": "high",
+            "TRADINGAGENTS_GOOGLE_THINKING_LEVEL": "minimal",
+            "TRADINGAGENTS_ANTHROPIC_EFFORT": "low",
+            "TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT": "medium",
+            "TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT": "high",
+        }
+    expected = _reload_with_env(monkeypatch, **overrides).DEFAULT_CONFIG.copy()
+    if raw is not None:
+        overrides[env] = value if raw else ""
+    if raw:
+        expected[key] = value
+    # Full-dict equality also guards models, reasoning, shared connections and
+    # every unrelated default. Unset/empty individual keys remain None.
+    assert _reload_with_env(monkeypatch, **overrides).DEFAULT_CONFIG == expected
 
 
 def test_string_overrides(monkeypatch):

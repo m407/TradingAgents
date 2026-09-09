@@ -15,7 +15,9 @@ PROVIDERS = [
     ("openai", "openai_reasoning_effort", "reasoning_effort"),
     ("anthropic", "anthropic_effort", "effort"),
     ("google", "google_thinking_level", "thinking_level"),
-    ("deepseek", None, None),
+    ("deepseek", "openai_reasoning_effort", "reasoning_effort"),
+    ("azure", "openai_reasoning_effort", "reasoning_effort"),
+    ("bedrock", None, None),
 ]
 CASES = [
     pytest.param("high", "low", "medium", "high", "low", id="distinct"),
