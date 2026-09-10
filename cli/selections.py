@@ -12,6 +12,7 @@ from cli import updates
 from cli.display import (
     console,
 )
+from cli.models import AnalystType
 from cli.prefs import load_last_run, sanitize, save_last_run
 from cli.prompts import (
     ask_anthropic_effort,
@@ -25,6 +26,7 @@ from cli.prompts import (
     detect_asset_type,
     ensure_api_key,
     ensure_signed_in,
+    filter_analysts_for_asset_type,
     get_ticker,
     parse_analysis_date,
     parse_analysts,
@@ -48,7 +50,33 @@ from tradingagents.llm_clients.openai_client import check_endpoint
 
 def get_user_selections(flags=None):
     """Ask for the run's settings, offering the previous run's answers."""
-    selections = _prompt_selections(load_last_run(), flags or {})
+    flags = flags or {}
+    if flags.get("non_interactive"):
+        if flags.get("ticker") is None:
+            raise typer.BadParameter("Required with --non-interactive", param_hint="--ticker")
+        try:
+            ticker = parse_ticker(flags["ticker"])
+        except ValueError as exc:
+            raise typer.BadParameter(str(exc), param_hint="--ticker") from exc
+        date = flags.get("date")
+        if date is None:
+            date = datetime.date.today().isoformat()
+        try:
+            analysis_date = parse_analysis_date(date)
+            if analysis_date != date:
+                raise ValueError("Use YYYY-MM-DD")
+        except ValueError as exc:
+            raise typer.BadParameter(str(exc), param_hint="--date") from exc
+        asset_type = detect_asset_type(ticker)
+        try:
+            analysts = (parse_analysts(flags["analysts"], asset_type)
+                        if flags.get("analysts") is not None
+                        else filter_analysts_for_asset_type(list(AnalystType), asset_type))
+        except ValueError as exc:
+            raise typer.BadParameter(str(exc), param_hint="--analysts/--analyst") from exc
+        return {"ticker": ticker, "asset_type": asset_type.value,
+                "analysis_date": analysis_date, "analysts": analysts}
+    selections = _prompt_selections(load_last_run(), flags)
     save_last_run(selections)
     return selections
 
