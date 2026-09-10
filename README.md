@@ -199,6 +199,62 @@ python -m cli.main     # alternative: run directly from source
 ```
 You will see a screen where you can select your desired tickers, analysis date, LLM provider, research depth, and more. Your previous run's answers come back as the defaults, so pressing Enter accepts them. The `TRADINGAGENTS_*` variables in `.env` still skip their step entirely.
 
+### Non-interactive CLI
+
+Run a predefined ticker without any input prompts, using models, providers, URLs,
+language, and debate settings from the environment and configured defaults:
+
+```bash
+uv run --env-file .env tradingagents --ticker FRHC --non-interactive --checkpoint
+```
+
+This defaults to today's local date and all four analysts (`market`, `social`,
+`news`, `fundamentals`). To fix the date for repeatable runs or checkpoint resume:
+
+```bash
+uv run --env-file .env tradingagents \
+  --ticker FRHC --date 2026-09-10 --non-interactive --checkpoint
+```
+
+To select a subset, repeat `--analyst`, for example
+`--analyst market --analyst news`. Supplying ticker, date, or analysts without
+`--non-interactive` skips only those questions and retains the other interactive
+choices. Non-interactive mode requires `--ticker`; invalid inputs or missing
+required provider keys fail rather than prompting or writing credentials.
+
+Full reports are saved automatically to
+`<results_dir>/<ticker>/<date>/reports/complete_report.md`, alongside the individual
+stage reports. The default root is `~/.tradingagents/logs`; override it with
+`TRADINGAGENTS_RESULTS_DIR`. Repeating a ticker/date updates reports in the same
+directory. The command prints the decision and report path without asking to save
+or display the full report. Report-save failures produce a nonzero exit status.
+
+Add `--silent` to suppress execution stdout/stderr, including the live display,
+final summary, Python warnings, and standard logging (including file handlers).
+Reports and `message_tool.log` are still saved, and exit codes are preserved.
+`--silent` requires `--non-interactive`; using it alone exits with code 2 without
+prompting or printing an error. It does not implicitly change the execution mode.
+Help and argument-parser errors (such as unknown options or invalid analyst names)
+remain visible, as does any output during imports before command execution.
+Native/subprocess writes that bypass Python stdout/stderr are not redirected.
+
+```bash
+uv run --env-file .env tradingagents --ticker FRHC --non-interactive --silent --checkpoint
+```
+
+Checkpoint resume requires the same date, analyst selection, discussion settings,
+and cache location. Fix `--date` when resuming on a later day. Checkpointing remains
+controlled by `--checkpoint` / `--no-checkpoint` or
+`TRADINGAGENTS_CHECKPOINT_ENABLED` when neither flag is supplied.
+
+Exported environment variables can take precedence over `.env`. To use the file's
+OpenAI key instead of an inherited `OPENAI_API_KEY`, launch with:
+
+```bash
+env -u OPENAI_API_KEY uv run --env-file .env tradingagents \
+  --ticker FRHC --non-interactive --checkpoint
+```
+
 ### Markets and tickers
 
 TradingAgents works with any market Yahoo Finance covers, using the exchange-suffixed ticker. Company identity and the alpha benchmark resolve automatically per market.

@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import sys
 from pathlib import Path
 
 import typer
@@ -12,6 +13,7 @@ from cli.announcements import display_announcements, fetch_announcements
 from cli.display import (
     console,
 )
+from cli.models import AnalystType
 from cli.prefs import load_last_run, sanitize, save_last_run
 from cli.prompts import (
     ask_anthropic_effort,
@@ -25,6 +27,8 @@ from cli.prompts import (
     detect_asset_type,
     ensure_api_key,
     get_ticker,
+    is_valid_ticker_input,
+    normalize_ticker_symbol,
     prompt_openai_compatible_url,
     resolve_backend_url,
     select_analysts,
@@ -33,18 +37,62 @@ from cli.prompts import (
     select_research_depth,
     select_shallow_thinking_agent,
 )
+from tradingagents.dataflows.symbols import safe_ticker_component
 from tradingagents.default_config import DEFAULT_CONFIG
 
 
-def get_user_selections():
+def get_user_selections(*, ticker=None, analysis_date=None, analysts=None, non_interactive=False):
     """Ask for the run's settings, offering the previous run's answers."""
-    selections = _prompt_selections(load_last_run())
+    if ticker is not None:
+        if not ticker.strip() or not is_valid_ticker_input(ticker):
+            raise typer.BadParameter("Provide a valid nonblank ticker", param_hint="--ticker")
+        try:
+            ticker = safe_ticker_component(normalize_ticker_symbol(ticker))
+        except ValueError as exc:
+            raise typer.BadParameter(str(exc), param_hint="--ticker") from exc
+    elif non_interactive:
+        raise typer.BadParameter("Required with --non-interactive", param_hint="--ticker")
+    if analysis_date is not None:
+        try:
+            parsed = datetime.datetime.strptime(analysis_date, "%Y-%m-%d").date()
+            if parsed.isoformat() != analysis_date:
+                raise ValueError("Use YYYY-MM-DD")
+            if parsed > datetime.datetime.now().date():
+                raise ValueError("Analysis date cannot be in the future")
+        except ValueError as exc:
+            raise typer.BadParameter(
+                f"Invalid date: {exc}. Use YYYY-MM-DD", param_hint="--date"
+            ) from exc
+    if analysts:
+        analysts = [analyst for analyst in AnalystType if analyst in analysts]
+    if non_interactive:
+        return {
+            "ticker": ticker,
+            "asset_type": detect_asset_type(ticker).value,
+            "analysis_date": analysis_date or datetime.datetime.now().date().isoformat(),
+            "analysts": analysts or list(AnalystType),
+        }
+    selections = _prompt_selections(load_last_run(), ticker=ticker, analysis_date=analysis_date, analysts=analysts)
     save_last_run(selections)
     return selections
 
 
-def _prompt_selections(prefs):
+def _prompt_selections(prefs, *, ticker=None, analysis_date=None, analysts=None):
     """Walk the selection steps. ``prefs`` prefills, the environment skips."""
+    cur_mod = sys.modules.get("cli.selections")
+    _m = sys.modules.get("cli.main")
+
+    def _call(name, default_fn, *args, **kwargs):
+        if _m:
+            patched = getattr(_m, name, None)
+            if patched is not None:
+                return patched(*args, **kwargs)
+        if cur_mod:
+            patched = getattr(cur_mod, name, None)
+            if patched is not None and patched is not default_fn:
+                return patched(*args, **kwargs)
+        return default_fn(*args, **kwargs)
+
     with open(Path(__file__).parent / "static" / "welcome.txt", encoding="utf-8") as f:
         welcome_ascii = f.read()
 
@@ -68,8 +116,8 @@ def _prompt_selections(prefs):
     console.print()  # Add vertical space before announcements
 
     # Fetch and display announcements (silent on failure)
-    announcements = fetch_announcements()
-    display_announcements(console, announcements)
+    announcements = _call("fetch_announcements", fetch_announcements)
+    _call("display_announcements", display_announcements, console, announcements)
 
     def create_question_box(title, prompt, default=None):
         box_content = f"[bold]{title}[/bold]\n"
@@ -78,7 +126,7 @@ def _prompt_selections(prefs):
             box_content += f"\n[dim]Default: {default}[/dim]"
         return Panel(box_content, border_style="blue", padding=(1, 2))
 
-    def thinking_value_or_prompt(env_var, config_key, label, box_title, box_body, prompt_fn):
+    def thinking_value_or_prompt(env_var, config_key, label, box_title, box_body, prompt_fn, prompt_name=None):
         """Return the env-configured reasoning/thinking value, or prompt for it.
 
         When ``env_var`` is set the interactive choice is skipped and the value
@@ -90,17 +138,21 @@ def _prompt_selections(prefs):
             console.print(f"[green]✓ {label} from environment:[/green] {value}")
             return value
         console.print(create_question_box(box_title, box_body))
-        return prompt_fn()
+        name = prompt_name or getattr(prompt_fn, "__name__", "")
+        return _call(name, prompt_fn)
 
     # Step 1: Ticker symbol
-    console.print(
-        create_question_box(
-            "Step 1: Ticker Symbol",
-            "Enter the ticker, with exchange suffix when needed (e.g. SPY, 0700.HK, BTC-USD)",
-            "SPY",
+    if ticker is not None:
+        selected_ticker = ticker
+    else:
+        console.print(
+            create_question_box(
+                "Step 1: Ticker Symbol",
+                "Enter the ticker, with exchange suffix when needed (e.g. SPY, 0700.HK, BTC-USD)",
+                "SPY",
+            )
         )
-    )
-    selected_ticker = get_ticker()
+        selected_ticker = _call("get_ticker", get_ticker)
     asset_type = detect_asset_type(selected_ticker)
     # Only announce when it's not the default stock path, to avoid printing
     # "stock" on every run.
@@ -110,15 +162,18 @@ def _prompt_selections(prefs):
         )
 
     # Step 2: Analysis date
-    default_date = datetime.datetime.now().strftime("%Y-%m-%d")
-    console.print(
-        create_question_box(
-            "Step 2: Analysis Date",
-            "Enter the analysis date (YYYY-MM-DD)",
-            default_date,
+    if analysis_date is not None:
+        selected_analysis_date = analysis_date
+    else:
+        default_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        console.print(
+            create_question_box(
+                "Step 2: Analysis Date",
+                "Enter the analysis date (YYYY-MM-DD)",
+                default_date,
+            )
         )
-    )
-    analysis_date = get_analysis_date()
+        selected_analysis_date = _call("get_analysis_date", get_analysis_date)
 
     # Step 3: Output language (skipped when set via TRADINGAGENTS_OUTPUT_LANGUAGE)
     if os.environ.get("TRADINGAGENTS_OUTPUT_LANGUAGE"):
@@ -133,16 +188,19 @@ def _prompt_selections(prefs):
                 "Select the language for analyst reports and final decision"
             )
         )
-        output_language = ask_output_language(prefs.get("output_language"))
+        output_language = _call("ask_output_language", ask_output_language, prefs.get("output_language"))
 
     # Step 4: Select analysts
-    console.print(
-        create_question_box(
-            "Step 4: Analysts Team", "Select your LLM analyst agents for the analysis"
+    if analysts:
+        selected_analysts = analysts
+    else:
+        console.print(
+            create_question_box(
+                "Step 4: Analysts Team", "Select your LLM analyst agents for the analysis"
+            )
         )
-    )
-    prefs = sanitize(prefs, asset_type.value)
-    selected_analysts = select_analysts(asset_type, prefs.get("analysts"))
+        prefs = sanitize(prefs, asset_type.value)
+        selected_analysts = _call("select_analysts", select_analysts, asset_type, prefs.get("analysts"))
     console.print(
         f"[green]Selected analysts:[/green] {', '.join(analyst.value for analyst in selected_analysts)}"
     )
@@ -167,7 +225,7 @@ def _prompt_selections(prefs):
                 "Step 5: Research Depth", "Select your research depth level"
             )
         )
-        selected_research_depth = select_research_depth(prefs.get("research_depth"))
+        selected_research_depth = _call("select_research_depth", select_research_depth, prefs.get("research_depth"))
 
     # Step 6: LLM Provider (skipped when set via TRADINGAGENTS_LLM_PROVIDER).
     # The backend URL comes from TRADINGAGENTS_LLM_BACKEND_URL when set,
@@ -187,7 +245,7 @@ def _prompt_selections(prefs):
                 "Step 6: LLM Provider", "Select your LLM provider"
             )
         )
-        selected_llm_provider, backend_url = select_llm_provider(prefs.get("llm_provider"))
+        selected_llm_provider, backend_url = _call("select_llm_provider", select_llm_provider, prefs.get("llm_provider"))
 
         # Providers with regional endpoints prompt for the region as a secondary
         # step so the main dropdown stays clean (mainland China and international
@@ -230,7 +288,7 @@ def _prompt_selections(prefs):
     ).lower()
     # Reuse existing auth/optional-key rules, once per actual provider.
     for provider in dict.fromkeys((deep_provider, quick_provider)):
-        ensure_api_key(provider)
+        _call("ensure_api_key", ensure_api_key, provider)
 
     # Step 7: Thinking agents (skipped when either model is set via environment)
     if os.environ.get("TRADINGAGENTS_QUICK_THINK_LLM") or os.environ.get("TRADINGAGENTS_DEEP_THINK_LLM"):
@@ -247,10 +305,10 @@ def _prompt_selections(prefs):
             )
         )
         remembered = prefs if prefs.get("llm_provider") == selected_llm_provider else {}
-        selected_shallow_thinker = select_shallow_thinking_agent(
+        selected_shallow_thinker = _call("select_shallow_thinking_agent", select_shallow_thinking_agent,
             quick_provider, remembered.get("quick_think_llm")
         )
-        selected_deep_thinker = select_deep_thinking_agent(
+        selected_deep_thinker = _call("select_deep_thinking_agent", select_deep_thinking_agent,
             deep_provider, remembered.get("deep_think_llm")
         )
 
@@ -269,24 +327,27 @@ def _prompt_selections(prefs):
             "TRADINGAGENTS_GOOGLE_THINKING_LEVEL", "google_thinking_level",
             "Gemini thinking mode", "Step 8: Thinking Mode",
             "Configure Gemini thinking mode", ask_gemini_thinking_config,
+            "ask_gemini_thinking_config",
         )
     elif not provider_from_env and provider_lower == "openai":
         reasoning_effort = thinking_value_or_prompt(
             "TRADINGAGENTS_OPENAI_REASONING_EFFORT", "openai_reasoning_effort",
             "Reasoning effort", "Step 8: Reasoning Effort",
             "Configure OpenAI reasoning effort level", ask_openai_reasoning_effort,
+            "ask_openai_reasoning_effort",
         )
     elif not provider_from_env and provider_lower == "anthropic":
         anthropic_effort = thinking_value_or_prompt(
             "TRADINGAGENTS_ANTHROPIC_EFFORT", "anthropic_effort",
             "Claude effort", "Step 8: Effort Level",
             "Configure Claude effort level", ask_anthropic_effort,
+            "ask_anthropic_effort",
         )
 
     return {
         "ticker": selected_ticker,
         "asset_type": asset_type.value,
-        "analysis_date": analysis_date,
+        "analysis_date": selected_analysis_date,
         "analysts": selected_analysts,
         "research_depth": selected_research_depth,
         "llm_provider": selected_llm_provider.lower(),

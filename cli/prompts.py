@@ -6,7 +6,7 @@ from dotenv import find_dotenv, set_key
 
 from cli.display import console
 from cli.models import AnalystType, AssetType
-from tradingagents.llm_clients.api_key_env import get_api_key_env
+from tradingagents.llm_clients.api_key_env import PROVIDER_API_KEY_ENV, get_api_key_env
 from tradingagents.llm_clients.model_catalog import get_model_options
 
 TICKER_INPUT_EXAMPLES = "SPY, 0700.HK, BTC-USD"
@@ -585,7 +585,7 @@ def confirm_ollama_endpoint(url: str) -> None:
         )
 
 
-def ensure_api_key(provider: str) -> str | None:
+def ensure_api_key(provider: str, *, interactive: bool = True) -> str | None:
     """Make sure the API key for `provider` is available in the environment.
 
     If the env var is already set, returns its value untouched. Otherwise
@@ -593,9 +593,12 @@ def ensure_api_key(provider: str) -> str | None:
     .env file via python-dotenv's set_key (creating .env if needed), and
     exports it into os.environ so the current process picks it up.
 
-    Returns None for providers that do not require a key (e.g. ollama)
-    and for providers not found in the canonical mapping.
+    With interactive=False, missing required keys and unknown providers raise
+    ValueError without prompting or writing files. Credential-chain providers
+    such as Bedrock retain their native authentication behavior.
     """
+    if not interactive and provider.lower() not in PROVIDER_API_KEY_ENV:
+        raise ValueError(f"Unsupported LLM provider: {provider}")
     env_var = get_api_key_env(provider)
     if env_var is None:
         return None  # ollama / unknown — no key check possible
@@ -608,8 +611,11 @@ def ensure_api_key(provider: str) -> str | None:
         return os.environ.get(env_var)
 
     existing = os.environ.get(env_var)
-    if existing:
+    if existing and (interactive or existing.strip()):
         return existing
+
+    if not interactive:
+        raise ValueError(f"Missing required environment variable '{env_var}' for provider '{provider}'")
 
     console.print(
         f"\n[yellow]{env_var} is not set in your environment.[/yellow]"
