@@ -15,9 +15,9 @@ pytestmark = pytest.mark.unit
 MISSING = object()
 
 
-@pytest.fixture(scope="session", autouse=True)
-def offline_session():
-    """Keep network forbidden through the remaining acceptance suites as well."""
+@pytest.fixture(scope="module", autouse=True)
+def offline_module():
+    """Forbid network access without leaking patches into other suites."""
     def forbidden(*args, **kwargs):
         pytest.fail("Network access is forbidden in graph acceptance tests")
 
