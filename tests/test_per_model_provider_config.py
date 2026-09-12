@@ -17,7 +17,7 @@ MISSING = object()
 
 
 @pytest.fixture(autouse=True)
-def offline_session():
+def offline_network():
     """Keep this module offline without leaking patches into other test modules."""
     def forbidden(*args, **kwargs):
         pytest.fail("Network access is forbidden in graph acceptance tests")
