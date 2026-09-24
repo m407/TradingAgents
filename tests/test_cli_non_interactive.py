@@ -284,7 +284,7 @@ def test_interactive_completion_still_prompts(streamed, monkeypatch):
                       deep_thinker="deep", llm_provider="openai", backend_url=None)
     select = mock.Mock(return_value=selections)
     prompt = mock.Mock(side_effect=["N", "N"])
-    monkeypatch.setattr(m, "get_user_selections", select)
+    monkeypatch.setattr("cli.run.get_user_selections", select)
     monkeypatch.setattr(m.typer, "prompt", prompt)
     result = invoke(m)
     assert result.exit_code == 0, result.output
@@ -299,7 +299,7 @@ def test_no_args_retains_old_signature(isolated, monkeypatch):
     monkeypatch.setattr(isolated, "run_analysis", run)
     result = invoke(isolated)
     assert result.exit_code == 0, result.output
-    run.assert_called_once_with(checkpoint=None)
+    run.assert_called_once_with(checkpoint=None, portfolio=None)
 
 
 @pytest.mark.parametrize("supplied", [("ticker",), ("analysis_date",), ("analysts",),
@@ -344,6 +344,7 @@ def test_options_visible_in_help(isolated, monkeypatch):
 def test_silent_stream_saves_reports_and_suppresses_output(streamed, monkeypatch):
     m, graph, _ = streamed
     from pathlib import Path
+
     from tradingagents.graph import checkpointer
 
     clear = mock.Mock(return_value=2)

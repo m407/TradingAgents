@@ -72,6 +72,10 @@ def test_no_bearer_token_omits_api_key(monkeypatch):
 @pytest.mark.unit
 def test_construction_when_extra_installed(monkeypatch):
     pytest.importorskip("langchain_aws")
+    for var in ("http_proxy", "https_proxy", "HTTP_PROXY", "HTTPS_PROXY"):
+        monkeypatch.delenv(var, raising=False)
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", "test")
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "test")
     import tradingagents.llm_clients.bedrock_client as bc
     monkeypatch.setattr(bc, "_BEDROCK_CLASS", None)
     monkeypatch.setenv("AWS_DEFAULT_REGION", "eu-west-1")

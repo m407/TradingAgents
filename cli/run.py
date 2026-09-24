@@ -55,8 +55,13 @@ def _announce_checkpoint_state(graph, ticker: str, trade_date: str) -> None:
     The graph logs this, but nothing in the CLI configures logging and the live
     view owns the screen, so a resume was invisible.
     """
+    from cli.display import message_buffer as _real_buffer
     _m = sys.modules.get("cli.main")
-    buf = getattr(_m, "message_buffer", message_buffer) if _m else message_buffer
+    buf = message_buffer
+    if _m and getattr(_m, "message_buffer", None) is not None:
+        cand = _m.message_buffer
+        if cand is not _real_buffer:
+            buf = cand
     if getattr(graph, "_resuming", False):
         buf.add_message(
             "System", f"Resuming the saved run for {ticker} on {trade_date}"
@@ -105,15 +110,13 @@ def _build_run_config(selections: dict, checkpoint: bool | None) -> dict:
 def run_analysis(checkpoint: bool | None = None, portfolio=None, *, ticker=None,
                  analysis_date=None, analysts=None, non_interactive=False):
     _m = sys.modules.get("cli.main")
-    # First get user selections
     selection_options = {}
     for key, value in (("ticker", ticker), ("analysis_date", analysis_date), ("analysts", analysts)):
         if value is not None:
             selection_options[key] = value
     if non_interactive:
         selection_options["non_interactive"] = True
-    get_selections = getattr(_m, "get_user_selections", get_user_selections) if _m else get_user_selections
-    selections = get_selections(**selection_options)
+    selections = get_user_selections(**selection_options)
 
     if non_interactive:
         # No interactive depth/model/URL defaults may overwrite the env overlay.
@@ -143,7 +146,7 @@ def run_analysis(checkpoint: bool | None = None, portfolio=None, *, ticker=None,
 
     graph_cls = TradingAgentsGraph
     if _m and getattr(_m, "TradingAgentsGraph", None) is not None:
-        graph_cls = getattr(_m, "TradingAgentsGraph")
+        graph_cls = _m.TradingAgentsGraph
     graph = graph_cls(
         selected_analyst_keys,
         config=config,
@@ -151,7 +154,12 @@ def run_analysis(checkpoint: bool | None = None, portfolio=None, *, ticker=None,
         callbacks=[stats_handler],
     )
 
-    buf = getattr(_m, "message_buffer", message_buffer) if _m else message_buffer
+    from cli.display import message_buffer as _real_buffer
+    buf = message_buffer
+    if _m and getattr(_m, "message_buffer", None) is not None:
+        cand = _m.message_buffer
+        if cand is not _real_buffer:
+            buf = cand
     buf.init_for_analysis(selected_analyst_keys)
 
     # Track start time for elapsed display

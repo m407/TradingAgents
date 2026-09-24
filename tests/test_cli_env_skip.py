@@ -29,10 +29,11 @@ def _isolated_cli(monkeypatch, tmp_path):
     with mock.patch.dict(os.environ, {
         "PYTHON_DOTENV_DISABLED": "1", "HOME": str(tmp_path),
     }, clear=True):
+        import questionary
+
         import cli.prompts as prompts
         import cli.run as cli_run
         import cli.selections as cli_selections
-        import questionary
         import tradingagents.default_config as dc
 
         monkeypatch.setattr(dc, "DEFAULT_CONFIG", dc.DEFAULT_CONFIG)

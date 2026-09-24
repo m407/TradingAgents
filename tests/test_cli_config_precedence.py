@@ -10,7 +10,6 @@ from unittest import mock
 
 import pytest
 
-import cli.main as m
 import cli.run as cli_run
 from tests.test_cli_env_skip import (  # shared offline ENV -> CLI -> client harness
     MISSING,

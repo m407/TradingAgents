@@ -7,10 +7,10 @@ from contextlib import redirect_stderr, redirect_stdout
 
 import typer
 
-from cli.display import MessageBuffer, console, message_buffer
+from cli.display import MessageBuffer as MessageBuffer, console, message_buffer as message_buffer
 from cli.models import AnalystType
 from cli.run import run_analysis
-from cli.selections import get_user_selections
+from cli.selections import get_user_selections as get_user_selections
 from tradingagents.backtest import iter_grid, run_backtest, summarize
 from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.portfolio import load_portfolio
@@ -85,7 +85,7 @@ def analyze(
     ctx: typer.Context,
     ticker: str | None = typer.Option(None, "--ticker", help="Ticker symbol to analyze."),
     analysis_date: str | None = typer.Option(None, "--date", help="Analysis date (YYYY-MM-DD; defaults to today in noninteractive mode)."),
-    analysts: list[AnalystType] | None = typer.Option(None, "--analyst", help="Analyst to include; repeat for a subset. Defaults to all four in noninteractive mode."),
+    analysts: list[AnalystType] | None = typer.Option(None, "--analyst", help="Analyst to include; repeat for a subset. Defaults to all four in noninteractive mode."),  # noqa: B008
     non_interactive: bool = typer.Option(False, "--non-interactive", help="Run without prompts, using configured defaults, and automatically save reports. Requires --ticker."),
     silent: bool = typer.Option(False, "--silent", help="Suppress execution output, preserving reports and exit codes. Requires --non-interactive; help and parser errors remain visible."),
     checkpoint: bool | None = typer.Option(
@@ -131,9 +131,7 @@ def analyze(
                     options[key] = value
             if non_interactive:
                 options["non_interactive"] = True
-            if portfolio_context is not None:
-                options["portfolio"] = portfolio_context
-            run_analysis(checkpoint=checkpoint, **options)
+            run_analysis(checkpoint=checkpoint, portfolio=portfolio_context, **options)
         except ValueError as exc:
             if not non_interactive:
                 raise

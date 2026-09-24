@@ -69,10 +69,8 @@ def test_case_insensitive_lookup():
 @pytest.fixture
 def prompts(monkeypatch):
     """Import cli.prompts with a fresh environment so module-level state is consistent."""
-    import importlib
-
     import cli.prompts as prompts_module
-    return importlib.reload(prompts_module)
+    return prompts_module
 
 
 def test_ensure_api_key_returns_existing(monkeypatch, prompts):

@@ -13,7 +13,7 @@ from tradingagents.dataflows.date_window import get_current_date
 from tradingagents.dataflows.symbols import safe_ticker_component
 from tradingagents.decision_log import TradingMemoryLog
 from tradingagents.default_config import DEFAULT_CONFIG
-from tradingagents.llm_clients import build_llm_kwargs, create_llm_client
+from tradingagents.llm_clients import create_llm_client
 from tradingagents.llm_clients.factory import _coerce_max_retries, _coerce_max_tokens
 from tradingagents.llm_clients.openai_client import is_openai_compatible
 from tradingagents.reporting import write_report_tree
