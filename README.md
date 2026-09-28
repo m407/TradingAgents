@@ -190,6 +190,47 @@ Alternatively, copy `.env.example` to `.env` and fill in your keys:
 cp .env.example .env
 ```
 
+### Tradernet Global credentials with fnox
+
+The root [`fnox.toml`](fnox.toml) stores references to Tradernet Global API
+credentials in the OS keychain under the service `tradingagents-tradernet-global`.
+The configuration can be committed; the actual credentials stay in the keychain.
+This prepares credential storage for the planned `tradernet-sdk` news adapter;
+it does not enable Tradernet news retrieval by itself.
+
+Install [fnox](https://fnox.jdx.dev/) separately from the Python dependencies.
+On Linux, its [keychain provider](https://fnox.jdx.dev/providers/keychain)
+requires a running, unlocked Secret Service such as GNOME Keyring. Headless
+sessions need access to that service as well.
+
+Create an API key pair in the
+[Tradernet Global API key page](https://tradernet.global/tradernet-api/auth-api).
+Save the private key when it is first displayed; trading activation is not
+needed for news access. From the repository root, store both values using
+hidden interactive prompts:
+
+```bash
+fnox set TRADERNET_PUBLIC_KEY --provider tradernet_keychain
+fnox set TRADERNET_PRIVATE_KEY --provider tradernet_keychain
+```
+
+Omit the value arguments as shown, so credentials do not enter shell history.
+Do not put either value in `fnox.toml` or commit them to the repository.
+After storing them, check availability and launch with injected environment
+variables:
+
+```bash
+fnox check
+fnox exec -- uv run tradingagents
+```
+
+Both entries are required for this fnox configuration. Ordinary launches without
+`fnox exec` do not require Tradernet credentials. The planned adapter will read
+`TRADERNET_PUBLIC_KEY` and `TRADERNET_PRIVATE_KEY` and pass them explicitly to
+the SDK's `public` and `private` constructor parameters; the SDK does not read
+these environment variable names automatically. Other API keys can still be
+configured using the existing environment or `.env` setup.
+
 ### CLI Usage
 
 Launch the interactive CLI:
