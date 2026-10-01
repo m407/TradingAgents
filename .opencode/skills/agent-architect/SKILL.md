@@ -1,15 +1,21 @@
 ---
 name: agent-architect
-description: Create and update OpenCode agents (primary and subagents) in Markdown format. Use when user asks to create a new agent, add a subagent, update agent configuration, configure agent tools/permissions, or design specialized AI assistants for specific tasks.
+description: Create and update OpenCode V2 agents (primary and subagents) in Markdown format. Use when user asks to create a new agent, add a subagent, update agent configuration, configure agent tools/permissions, or migrate agent definitions to native V2.
 ---
 
 # Agent Architect
 
-Create and update OpenCode agents following best practices and official specification.
+Create and update OpenCode agents using native V2 frontmatter.
 
 This `SKILL.md` is authoritative. Files under `references/` provide supporting
 detail, and `scripts/create_agent.py` is an implementation helper; neither may
 override this workflow.
+
+Use the `opencode` skill and the official V2 [Agents](https://opencode.ai/v2/docs/agents),
+[Permissions](https://opencode.ai/v2/docs/permissions), and
+[Migration](https://opencode.ai/v2/docs/migrate-v1) guides for configuration semantics.
+These official guides take precedence over bundled examples. Do not infer V2 fields
+from the V1 documentation or `https://opencode.ai/config.json` schema.
 
 ## Workflow Decision Tree
 
@@ -56,28 +62,41 @@ Ask user (if not clear):
 
 | Mode | When to Use |
 |------|-------------|
-| `primary` | Main agents user interacts with directly (Tab to switch) |
-| `subagent` | Specialized agents invoked by primary agents or via `@mention` |
-| `all` | Can be used as both (default if omitted) |
+| `primary` | Main session agent; V2 default for new custom agents when omitted |
+| `subagent` | Runs in a child session through the `subagent` tool |
+| `all` | Can be used as either |
 
 **Rule of thumb**: Most custom agents should be `subagent`.
 
 ### Step 3: Design Tools & Permissions
 
-Apply **permission hygiene** — explicitly list tools based on agent role:
+Use an ordered `permissions` list to express the agent's required policy.
+Every rule has `action`, `resource`, and `effect`; the last matching rule wins.
+Put broad rules before specific exceptions. Agent rules append after global rules.
+Custom agents start with the base policy; they do not inherit the parent's permissions
+or agent-specific `build` overrides. Omitting `permissions` is valid when that policy fits.
+If asked to match `build`, inspect its effective policy in the target workspace instead of guessing.
 
-| Role | Recommended Tools |
+| Role | Common permission actions |
 |------|-------------------|
-| Analyzer/Reviewer | `Read, Grep, Glob, WebSearch` |
-| Implementer | `Read, Edit, Write, Bash, Grep, Glob` |
-| Planner | `Read, Grep, Glob, Task` |
-| Documentation | `Read, Write, Grep, Glob` |
+| Analyzer/Reviewer | `read`, `grep`, `glob`, `websearch` |
+| Implementer | `read`, `edit`, `shell`, `grep`, `glob` |
+| Planner | `read`, `grep`, `glob`, scoped `subagent` |
+| Documentation | `read`, `edit`, `grep`, `glob` |
 
 **Permission values**: `allow`, `ask`, `deny`
+
+`edit` covers editing, writing and patching; it cannot distinguish create-only from
+update-only access. `shell` resources match command text; use `curl *` for a command
+with arguments (also matches bare `curl`). MCP actions use sanitized `<server>_<tool>`
+names, for example `chrome_devtools_*`. Permission rules cannot supply absent tools.
 
 ### Step 4: Write Agent File
 
 **Location**: `.opencode/agents/<name>.md`
+
+The path determines the agent ID; do not add a `name` field to agent frontmatter.
+Keep the system instructions in the Markdown body.
 
 **Description contract**: make `description` a compact formal agent contract, not a generic summary. It should state:
 - input files to be attached as context 
@@ -97,16 +116,19 @@ description: >
   - Produces: <files/paths or none>
   - Output message: Responds with <message contents>
 mode: subagent
-model: cibaa/qwen-coder  # optional
-temperature: 0.3                            # optional
-tools:
-  write: false
-  edit: false
-  bash: false
-permission:
-  bash:
-    "git status *": allow
-    "git diff *": allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "git status *"
+    effect: allow
+  - action: shell
+    resource: "git diff *"
+    effect: allow
 ---
 
 # Role
@@ -127,7 +149,9 @@ permission:
 Check:
 - [ ] `description` is clear, actionable and includes the input/output contract and usage trigger
 - [ ] `mode` matches intended usage
-- [ ] `tools` explicitly listed (not inherited)
+- [ ] Native V2 fields only; permission order and effective access match the role
+- [ ] Model, if specified, uses `provider/model#variant` (variant optional)
+- [ ] YAML parses, including descriptions, wildcard resources and quoted scalar values
 - [ ] HITL rules defined for risky operations
 - [ ] Definition of Done included
 
@@ -137,6 +161,27 @@ Check:
 2. **Identify** what needs to change (tools, permissions, prompt)
 3. **Apply** minimal changes preserving existing structure
 4. **Validate** updated configuration
+
+For V1 migration, convert the entire agent entry to V2 rather than mixing formats:
+- `permission` and boolean `tools` → ordered `permissions` rules.
+- `bash` → `shell`; `task` → `subagent`; `write`/`patch` → `edit`.
+- `disable` → `disabled`; `maxSteps` → `steps`; join `variant` to `model` with `#`.
+- Move `temperature`, `top_p`, and provider options to `request.body`.
+- Remove `name`; retain the file path and Markdown body.
+
+Resolve conflicting write/edit settings explicitly because V2 combines them. Preserve
+existing approval requirements and user changes. Supported V1 definitions are translated
+automatically; native conversion is optional unless requested.
+
+The V2 runner currently preserves agent `request` values but does not send them to the
+model. Do not promise that agent-level temperature changes generation; active request
+settings belong on the provider, model or variant. Use `steps`, `hidden`, `disabled`,
+and six-digit hex `color` only when needed. See the reference for details.
+
+For runtime verification, use the read-only agent API with an explicit workspace:
+`opencode api get '/api/agent?location%5Bdirectory%5D=<URL-encoded-absolute-workspace>'`.
+Check the returned `location.directory` and the relevant agents' loaded values; a result
+from another location or an old cached definition is not validation of the edited files.
 
 ## Best Practices
 
@@ -187,23 +232,33 @@ Every agent should have completion criteria:
 
 **Read-heavy agents** (PM, Architect, Reviewer):
 ```yaml
-tools:
-  write: false
-  edit: false
-  bash: false
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
 ```
 
 **Write-enabled agents** (Implementer):
 ```yaml
-tools:
-  write: true
-  edit: true
-  bash: true
-permission:
-  bash:
-    "*": ask
-    "git *": allow
-    "npm test *": allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: ask
+  - action: shell
+    resource: "git status *"
+    effect: allow
+  - action: shell
+    resource: "git diff *"
+    effect: allow
+  - action: shell
+    resource: "npm test *"
+    effect: allow
 ```
 
 ## Examples
@@ -221,6 +276,13 @@ Ready-to-use agent templates include:
 
 [create_agent](scripts/create_agent.py) — Generates agents from templates
 
+The helper emits explicit rules for a known set of core actions, followed by role
+exceptions and CLI overrides. It is a starting policy, not a copy of `build` and not
+an exhaustive plugin allowlist. Docs and orchestrator templates permit `edit` to
+retain their file-output capability. Use `--no-tools edit` for an orchestrator that
+must delegate all edits. `--no-tools` wins over role rules and `--tools`.
+Legacy CLI aliases `bash`, `task`, `write`, and `patch` normalize to V2 actions.
+
 <create_agent_usage>
     Agent Creator - Creates OpenCode agents from templates or specifications.
     
@@ -233,13 +295,13 @@ Ready-to-use agent templates include:
     Options:
     --role <role>           Agent role: reviewer, security, docs, tester, refactor, planner, orchestrator
     --template <template>   Use predefined template
-    --mode <mode>           primary or subagent (default: subagent)
+    --mode <mode>           primary, subagent or all (helper default: subagent)
     --path <path>           Output directory (default: .opencode/agents)
-    --model <model>         Model to use (e.g., anthropic/claude-sonnet-4-20250514)
-    --temperature <temp>    Temperature 0.0-1.0
+    --model <model>         provider/model with optional #variant
+    --temperature <temp>    Stored under request.body; currently inactive in the V2 runner
     --description <desc>    Custom description; prefer the formal input/output contract format
-    --tools <tools>         Comma-separated tools to enable
-    --no-tools <tools>      Comma-separated tools to disable
+    --tools <actions>       Comma-separated permission actions to allow
+    --no-tools <actions>    Comma-separated permission actions to deny
     --dry-run               Print generated content without writing
     
     Examples:

@@ -1,6 +1,7 @@
 """yfinance-based news data fetching functions."""
 
 import contextlib
+from collections.abc import Iterator
 from datetime import UTC, datetime
 
 import yfinance as yf
@@ -9,6 +10,7 @@ from dateutil.relativedelta import relativedelta
 from tradingagents.dataflows.config import get_config
 from tradingagents.dataflows.date_window import coverage_gap, in_window
 from tradingagents.dataflows.errors import VendorUnavailableError
+from tradingagents.dataflows.news import NewsArticle
 from tradingagents.dataflows.symbols import normalize_symbol
 from tradingagents.dataflows.vendors.yahoo.common import yf_retry
 
@@ -84,6 +86,58 @@ def _format_articles(articles: list[dict]) -> str:
     return out
 
 
+def _ticker_feed(canonical: str, limit: int) -> tuple[list, bool]:
+    """Fetch the quote feed or tagged search results; identify sampled coverage."""
+    feed = yf_retry(lambda: yf.Ticker(canonical).get_news(count=limit)) or []
+    if feed:
+        return feed, False
+    found, answered = _search_news(canonical, limit)
+    if not answered:
+        raise VendorUnavailableError(f"Yahoo Finance returned no news response for {canonical}")
+    if not found:
+        raise VendorUnavailableError(f"Yahoo Finance has no news articles tagged {canonical}")
+    return found, True
+
+
+def _article_record(article: dict) -> NewsArticle:
+    """Adapt Yahoo's null-safe extraction to the combined feed's record contract."""
+    data = _extract_article_data(article)
+    content = article.get("content")
+    if not isinstance(content, dict):
+        content = article
+    max_text_chars = get_config().get("news_max_text_chars", 4000)
+    if isinstance(max_text_chars, bool) or not isinstance(max_text_chars, int) or max_text_chars <= 0:
+        raise ValueError("invalid news_max_text_chars")
+    return NewsArticle(
+        source_id=str(content.get("id") or article.get("id") or ""),
+        delivery_sources=("yahoo",),
+        publisher=data["publisher"],
+        title=data["title"],
+        text=data["summary"],
+        url=data["link"],
+        published_at=data["pub_date"],
+        language=content.get("language"),
+        max_text_chars=max_text_chars,
+    )
+
+
+def fetch_news_records_yfinance(ticker: str) -> list[NewsArticle]:
+    """Structured news using the same transport and search fallback as standalone Yahoo."""
+    feed, _ = _ticker_feed(normalize_symbol(ticker), get_config()["news_article_limit"])
+    return [_article_record(article) for article in feed]
+
+
+def fetch_global_news_records_yfinance(queries: list[str], limit: int) -> Iterator[NewsArticle]:
+    """Keep distinct same-title articles for the combined feed's own deduplication."""
+    for query in queries:
+        search = yf_retry(lambda q=query: yf.Search(
+            query=q, news_count=limit, enable_fuzzy_query=True,
+        ))
+        if search is None:
+            raise VendorUnavailableError("Yahoo Finance returned no global news response")
+        yield from (_article_record(article) for article in (search.news or []))
+
+
 def get_news_yfinance(
     ticker: str,
     start_date: str,
@@ -104,17 +158,8 @@ def get_news_yfinance(
     canonical = normalize_symbol(ticker)
     resolved = "" if canonical == ticker else f" (resolved to {canonical})"
     subject = f"news for {ticker}{resolved}"
-    feed = yf_retry(lambda: yf.Ticker(canonical).get_news(count=article_limit)) or []
+    feed, sampled = _ticker_feed(canonical, article_limit)
     articles = [_extract_article_data(a) for a in feed]
-    if not feed:
-        found, answered = _search_news(canonical, article_limit)
-        if not answered:
-            raise VendorUnavailableError(f"Yahoo Finance returned no news response for {canonical}")
-        if not found:
-            # With the quote feed empty, no tagged article says nothing about the
-            # company's news (Yahoo tags no article with most non-US listings).
-            raise VendorUnavailableError(f"Yahoo Finance has no news articles tagged {canonical}")
-        articles = [_extract_article_data(a) for a in found]
 
     start_dt = datetime.strptime(start_date, "%Y-%m-%d")
     end_dt = datetime.strptime(end_date, "%Y-%m-%d")
@@ -123,7 +168,7 @@ def get_news_yfinance(
     if in_range:
         return f"## {ticker}{resolved} News, from {start_date} to {end_date}:\n\n{_format_articles(in_range)}"
 
-    if not feed:
+    if sampled:
         return (f"<Yahoo Finance news unavailable for {start_date}..{end_date}: Yahoo search "
                 f"returns only a sample of recent articles about {canonical}, so this is not "
                 f"an absence of {subject}>")

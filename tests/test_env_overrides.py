@@ -100,6 +100,45 @@ def test_string_overrides(monkeypatch):
     assert config["output_language"] == "Chinese"
 
 
+def test_news_env_overrides_and_mapping_validation(monkeypatch):
+    config = _config_with_env(
+        monkeypatch,
+        TRADINGAGENTS_NEWS_VENDOR="combined",
+        TRADINGAGENTS_FREEDOM_NEWS_LANGUAGE="en",
+        TRADINGAGENTS_FREEDOM_SYMBOL_MAP='{"AAPL":"AAPL.US"}',
+    )
+    assert config["news_vendor"] == "combined"
+    assert config["freedom_news_language"] == "en"
+    assert config["freedom_symbol_map"] == {"AAPL": "AAPL.US"}
+    assert config["freedom_news_page_size"] == 20
+    assert config["freedom_news_max_pages"] == 3
+    assert config["freedom_news_max_details"] == 40
+    assert config["freedom_news_timeout_seconds"] == 15
+    assert config["news_max_text_chars"] == 4000
+
+
+def test_numeric_news_settings_are_environment_configurable(monkeypatch):
+    config = _config_with_env(
+        monkeypatch,
+        TRADINGAGENTS_FREEDOM_NEWS_PAGE_SIZE="50",
+        TRADINGAGENTS_FREEDOM_NEWS_MAX_PAGES="2",
+        TRADINGAGENTS_FREEDOM_NEWS_MAX_DETAILS="12",
+        TRADINGAGENTS_FREEDOM_NEWS_TIMEOUT_SECONDS="9",
+        TRADINGAGENTS_NEWS_MAX_TEXT_CHARS="1200",
+    )
+    assert config["freedom_news_page_size"] == 50
+    assert config["freedom_news_max_pages"] == 2
+    assert config["freedom_news_max_details"] == 12
+    assert config["freedom_news_timeout_seconds"] == 9
+    assert config["news_max_text_chars"] == 1200
+
+
+@pytest.mark.parametrize("raw", ["[]", '"AAPL.US"', '{"AAPL":1}', "not-json"])
+def test_invalid_freedom_symbol_map_env_raises(monkeypatch, raw):
+    with pytest.raises(ValueError, match="TRADINGAGENTS_FREEDOM_SYMBOL_MAP"):
+        _config_with_env(monkeypatch, TRADINGAGENTS_FREEDOM_SYMBOL_MAP=raw)
+
+
 def test_int_coercion(monkeypatch):
     config = _config_with_env(
         monkeypatch,

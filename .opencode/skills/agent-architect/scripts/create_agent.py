@@ -15,13 +15,13 @@ Usage:
 Options:
     --role <role>           Agent role: reviewer, security, docs, tester, refactor, planner, orchestrator
     --template <template>   Use predefined template
-    --mode <mode>           primary or subagent (default: subagent)
+    --mode <mode>           primary, subagent or all (default: subagent)
     --path <path>           Output directory (default: .opencode/agents)
-    --model <model>         Model to use (e.g., anthropic/claude-sonnet-4-20250514)
-    --temperature <temp>    Temperature 0.0-1.0
+    --model <model>         provider/model with optional #variant
+    --temperature <temp>    Stored under request.body; currently inactive in the V2 runner
     --description <desc>    Custom description; prefer the formal input/output contract format
-    --tools <tools>         Comma-separated tools to enable
-    --no-tools <tools>      Comma-separated tools to disable
+    --tools <actions>       Comma-separated permission actions to allow
+    --no-tools <actions>    Comma-separated permission actions to deny (wins over allows)
     --dry-run               Print generated content without writing
 
 Examples:
@@ -31,28 +31,26 @@ Examples:
     create_agent.py custom --role planner --description "Plans Android features"
 """
 
-import sys
 import argparse
+import json
+import sys
 from pathlib import Path
 from typing import Optional
 
-ALL_TOOLS = [
+CORE_ACTIONS = [
     "read",
     "edit",
-    "write",
-    "bash",
+    "shell",
     "grep",
     "glob",
-    "list",
-    "patch",
     "skill",
-    "todowrite",
-    "todoread",
     "webfetch",
+    "websearch",
     "question",
-    "task",
-    "lsp",
+    "subagent",
 ]
+
+ACTION_ALIASES = {"bash": "shell", "task": "subagent", "write": "edit", "patch": "edit"}
 
 
 def contract(
@@ -80,7 +78,7 @@ ROLES = {
         ),
         "temperature": 0.2,
         "tools_enabled": ["read", "grep", "glob", "webfetch"],
-        "tools_disabled": ["write", "edit", "bash"],
+        "tools_disabled": ["edit", "shell"],
         "prompt": """# Role
 You are a senior code reviewer focusing on quality, security, and maintainability.
 
@@ -131,7 +129,7 @@ You are a senior code reviewer focusing on quality, security, and maintainabilit
         ),
         "temperature": 0.1,
         "tools_enabled": ["read", "grep", "glob", "webfetch"],
-        "tools_disabled": ["write", "edit", "bash"],
+        "tools_disabled": ["edit", "shell"],
         "prompt": """# Role
 You are a security expert focused on identifying vulnerabilities and risks.
 
@@ -182,8 +180,8 @@ You are a security expert focused on identifying vulnerabilities and risks.
             output_message="Responds with created or updated doc paths and a concise change summary.",
         ),
         "temperature": 0.5,
-        "tools_enabled": ["read", "write", "grep", "glob"],
-        "tools_disabled": ["edit", "bash"],
+        "tools_enabled": ["read", "edit", "grep", "glob"],
+        "tools_disabled": ["shell"],
         "prompt": """# Role
 You are a technical writer creating clear, comprehensive documentation.
 
@@ -228,19 +226,17 @@ You are a technical writer creating clear, comprehensive documentation.
             output_message="Responds with pass/fail status, counts, failure details, and next-step recommendations.",
         ),
         "temperature": 0.1,
-        "tools_enabled": ["read", "bash", "grep", "glob"],
-        "tools_disabled": ["write", "edit"],
-        "permissions": {
-            "bash": {
-                "*": "deny",
-                "npm test *": "allow",
-                "npm run test *": "allow",
-                "./gradlew test *": "allow",
-                "./gradlew :*:test *": "allow",
-                "pytest *": "allow",
-                "go test *": "allow",
-            }
-        },
+        "tools_enabled": ["read", "shell", "grep", "glob"],
+        "tools_disabled": ["edit"],
+        "permissions": [
+            {"action": "shell", "resource": "*", "effect": "deny"},
+            {"action": "shell", "resource": "npm test *", "effect": "allow"},
+            {"action": "shell", "resource": "npm run test *", "effect": "allow"},
+            {"action": "shell", "resource": "./gradlew test *", "effect": "allow"},
+            {"action": "shell", "resource": "./gradlew :*:test *", "effect": "allow"},
+            {"action": "shell", "resource": "pytest *", "effect": "allow"},
+            {"action": "shell", "resource": "go test *", "effect": "allow"},
+        ],
         "prompt": """# Role
 You execute tests and provide clear reports on results.
 
@@ -291,11 +287,13 @@ You execute tests and provide clear reports on results.
             output_message="Responds with changed file paths, refactoring rationale, and validation status.",
         ),
         "temperature": 0.3,
-        "tools_enabled": ["read", "edit", "write", "bash", "grep", "glob"],
+        "tools_enabled": ["read", "edit", "shell", "grep", "glob"],
         "tools_disabled": [],
-        "permissions": {
-            "bash": {"*": "ask", "git status *": "allow", "git diff *": "allow"}
-        },
+        "permissions": [
+            {"action": "shell", "resource": "*", "effect": "ask"},
+            {"action": "shell", "resource": "git status *", "effect": "allow"},
+            {"action": "shell", "resource": "git diff *", "effect": "allow"},
+        ],
         "prompt": """# Role
 You are a refactoring expert improving code structure while preserving behavior.
 
@@ -341,9 +339,8 @@ You are a refactoring expert improving code structure while preserving behavior.
             output_message="Responds with analysis, recommendations, and an implementation plan when applicable.",
         ),
         "temperature": 0.3,
-        "tools_enabled": ["read", "grep", "glob", "list", "webfetch", "task"],
-        "tools_disabled": ["write", "edit", "bash"],
-        "permissions": {"edit": "deny", "bash": "deny"},
+        "tools_enabled": ["read", "grep", "glob", "webfetch", "subagent"],
+        "tools_disabled": ["edit", "shell"],
         "prompt": """# Role
 You analyze code and create plans without making any changes.
 
@@ -392,9 +389,8 @@ You analyze code and create plans without making any changes.
             output_message="Responds with phase status, validation checkpoints, and final delivery summary.",
         ),
         "temperature": 0.3,
-        "tools_enabled": ["read", "grep", "glob", "task", "write"],
-        "tools_disabled": ["edit", "bash"],
-        "permissions": {"task": {"*": "allow"}},
+        "tools_enabled": ["read", "grep", "glob", "subagent", "edit"],
+        "tools_disabled": ["shell"],
         "prompt": """# Role
 You coordinate complex workflows by delegating to specialized subagents.
 
@@ -445,7 +441,7 @@ def ensure_description_contract(description: str, role_contract: dict) -> str:
         summary,
         "Meta:",
         f"- Input prompt: {role_contract['input_prompt']}",
-        f"- Consumes: {role_contract['consumes']}",
+        f"- Consumes: {role_contract['input_files_context']}",
         f"- Produces: {role_contract['produces']}",
         f"- Output message: {role_contract['output_message']}",
     ]
@@ -460,39 +456,24 @@ def generate_description_yaml(description: str) -> str:
     return "\n".join(lines)
 
 
-def generate_tools_yaml(enabled: list, disabled: list) -> str:
-    """Generate tools YAML section with explicit allow/deny values."""
-    lines = []
-    tool_states = {tool: False for tool in ALL_TOOLS}
-
-    for tool in enabled:
-        tool_states[tool] = True
-    for tool in disabled:
-        tool_states[tool] = False
-
-    extra_tools = [tool for tool in tool_states if tool not in ALL_TOOLS]
-    ordered_tools = ALL_TOOLS + sorted(extra_tools)
-
-    for tool in ordered_tools:
-        lines.append(f"  {tool}: {'true' if tool_states[tool] else 'false'}")
-
-    return "\n".join(lines)
+def normalize_action(action: str) -> str:
+    """Map supported legacy CLI aliases to native V2 permission actions."""
+    if action in {"list", "todowrite", "todoread", "lsp", "doom_loop"}:
+        raise ValueError(f"Unsupported V2 Core action: {action}")
+    return ACTION_ALIASES.get(action, action)
 
 
-def generate_permissions_yaml(permissions: dict) -> str:
-    """Generate permissions YAML section."""
-    if not permissions:
-        return ""
-
-    lines = []
-    for key, value in permissions.items():
-        if isinstance(value, dict):
-            lines.append(f"  {key}:")
-            for pattern, action in value.items():
-                lines.append(f'    "{pattern}": {action}')
-        else:
-            lines.append(f"  {key}: {value}")
-
+def generate_permissions_yaml(permissions: list[dict[str, str]]) -> str:
+    """Render ordered V2 rules, quoting values safely for YAML."""
+    lines = ["permissions:"]
+    for rule in permissions:
+        lines.extend(
+            [
+                f"  - action: {json.dumps(rule['action'])}",
+                f"    resource: {json.dumps(rule['resource'])}",
+                f"    effect: {rule['effect']}",
+            ]
+        )
     return "\n".join(lines)
 
 
@@ -510,6 +491,10 @@ def generate_agent(
 
     if role not in ROLES:
         raise ValueError(f"Unknown role: {role}. Available: {', '.join(ROLES.keys())}")
+    if mode not in {"primary", "subagent", "all"}:
+        raise ValueError(f"Unknown mode: {mode}")
+    if temperature is not None and not 0.0 <= temperature <= 1.0:
+        raise ValueError("Temperature must be between 0.0 and 1.0")
 
     config = ROLES[role]
     desc = ensure_description_contract(
@@ -527,35 +512,33 @@ def generate_agent(
 
     # Model (optional)
     if model:
-        frontmatter_lines.append(f"model: {model}")
+        frontmatter_lines.append(f"model: {json.dumps(model)}")
 
     # Temperature
     temp = temperature if temperature is not None else config.get("temperature")
     if temp is not None:
-        frontmatter_lines.append(f"temperature: {temp}")
+        frontmatter_lines.extend(["request:", "  body:", f"    temperature: {temp}"])
 
-    # Tools
-    enabled = list(config.get("tools_enabled", []))
-    disabled = list(config.get("tools_disabled", []))
-
-    if extra_tools_enabled:
-        enabled.extend(extra_tools_enabled)
-    if extra_tools_disabled:
-        disabled.extend(extra_tools_disabled)
-
-    if enabled or disabled:
-        frontmatter_lines.append("tools:")
-        tools_yaml = generate_tools_yaml(enabled, disabled)
-        if tools_yaml:
-            frontmatter_lines.append(tools_yaml)
-
-    # Permissions
-    permissions = config.get("permissions", {})
-    if permissions:
-        frontmatter_lines.append("permission:")
-        perm_yaml = generate_permissions_yaml(permissions)
-        if perm_yaml:
-            frontmatter_lines.append(perm_yaml)
+    # Known core actions first, then role exceptions and explicit CLI overrides.
+    states = dict.fromkeys(CORE_ACTIONS, "deny")
+    for action in config.get("tools_enabled", []):
+        states[normalize_action(action)] = "allow"
+    for action in config.get("tools_disabled", []):
+        states[normalize_action(action)] = "deny"
+    permissions = [
+        {"action": action, "resource": "*", "effect": effect}
+        for action, effect in states.items()
+    ]
+    permissions.extend(config.get("permissions", []))
+    for actions, effect in (
+        (extra_tools_enabled or [], "allow"),
+        (extra_tools_disabled or [], "deny"),
+    ):
+        for action in actions:
+            permissions.append(
+                {"action": normalize_action(action), "resource": "*", "effect": effect}
+            )
+    frontmatter_lines.append(generate_permissions_yaml(permissions))
 
     frontmatter_lines.append("---")
 
@@ -599,7 +582,7 @@ Examples:
     parser.add_argument(
         "--mode",
         "-m",
-        choices=["primary", "subagent"],
+        choices=["primary", "subagent", "all"],
         default="subagent",
         help="Agent mode",
     )
@@ -607,16 +590,20 @@ Examples:
         "--path", "-p", default=".opencode/agents", help="Output directory"
     )
     parser.add_argument(
-        "--model", help="Model to use (e.g., anthropic/claude-sonnet-4-20250514)"
+        "--model", help="provider/model with optional #variant"
     )
-    parser.add_argument("--temperature", type=float, help="Temperature 0.0-1.0")
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        help="Stored request.body temperature (0.0-1.0); currently inactive in the V2 runner",
+    )
     parser.add_argument(
         "--description",
         "-d",
         help="Custom description; prefer the formal input/output contract format",
     )
-    parser.add_argument("--tools", help="Comma-separated tools to enable")
-    parser.add_argument("--no-tools", help="Comma-separated tools to disable")
+    parser.add_argument("--tools", help="Comma-separated permission actions to allow")
+    parser.add_argument("--no-tools", help="Comma-separated actions to deny (wins over allows)")
     parser.add_argument("--dry-run", action="store_true", help="Print without writing")
     parser.add_argument(
         "--list-templates",
@@ -686,7 +673,9 @@ Examples:
 
     output_file.write_text(content)
     print(f"Created agent: {output_file}")
-    print(f"\nTo use: @{args.name} <your request>")
+    print(f"\nAgent ID: {args.name} (mode: {args.mode})")
+    if args.mode in {"subagent", "all"}:
+        print(f"Ask your primary agent to use the {args.name} subagent.")
 
     return 0
 
