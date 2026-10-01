@@ -17,7 +17,12 @@ from tradingagents.dataflows.vendors.alpha_vantage import (
     get_news as get_alpha_vantage_news,
     get_stock as get_alpha_vantage_stock,
 )
+from tradingagents.dataflows.vendors.combined_news import (
+    get_global_news_combined,
+    get_news_combined,
+)
 from tradingagents.dataflows.vendors.fred import get_macro_data as get_fred_macro_data
+from tradingagents.dataflows.vendors.freedom import get_global_news_freedom, get_news_freedom
 from tradingagents.dataflows.vendors.polymarket import (
     get_prediction_markets as get_polymarket_prediction_markets,
 )
@@ -137,10 +142,14 @@ VENDOR_METHODS = {
     "get_news": {
         "alpha_vantage": get_alpha_vantage_news,
         "yfinance": get_news_yfinance,
+        "freedom": get_news_freedom,
+        "combined": get_news_combined,
     },
     "get_global_news": {
         "yfinance": get_global_news_yfinance,
         "alpha_vantage": get_alpha_vantage_global_news,
+        "freedom": get_global_news_freedom,
+        "combined": get_global_news_combined,
     },
     "get_insider_transactions": {
         "alpha_vantage": get_alpha_vantage_insider_transactions,
@@ -176,6 +185,11 @@ def get_vendor(category: str, method: str = None) -> str:
         tool_vendors = config.get("tool_vendors", {})
         if method in tool_vendors:
             return tool_vendors[method]
+
+        if method in {"get_news", "get_global_news"}:
+            news_vendor = config.get("news_vendor")
+            if isinstance(news_vendor, str) and news_vendor.strip():
+                return news_vendor.strip()
 
     # Fall back to category-level configuration
     return config.get("data_vendors", {}).get(category, "default")

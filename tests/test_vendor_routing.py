@@ -118,6 +118,38 @@ class VendorRoutingTests(unittest.TestCase):
                 self.assertRaises(ValueError):
             router.route_to_vendor("get_stock_data", "AAPL", "2026-01-01", "2026-01-10")
 
+    def test_news_vendor_changes_only_news_and_tool_override_wins(self):
+        set_config({"news_vendor": "combined", "tool_vendors": {"get_news": "freedom"}})
+        self.assertEqual(router.get_vendor("news_data", "get_news"), "freedom")
+        self.assertEqual(router.get_vendor("news_data", "get_global_news"), "combined")
+        self.assertEqual(router.get_vendor("news_data", "get_insider_transactions"), "yfinance")
+        self.assertEqual(router.get_vendor("macro_data", "get_macro_indicators"), "fred")
+        self.assertEqual(default_config.DEFAULT_CONFIG["data_vendors"]["news_data"], "yfinance")
+
+    def test_registered_news_vendors_route(self):
+        set_config({"tool_vendors": {"get_news": "combined"}})
+        fetch = mock.Mock(return_value="combined-feed")
+        with self._route_method("get_news", {"combined": fetch}):
+            result = router.route_to_vendor("get_news", "AAPL", "2026-01-01", "2026-01-02")
+        self.assertEqual(result, "combined-feed")
+        fetch.assert_called_once()
+
+    def test_default_news_chain_keeps_existing_vendors_before_new_sources(self):
+        set_config({"data_vendors": {"news_data": "default"}})
+        yahoo = mock.Mock(return_value="yahoo-feed")
+        freedom = mock.Mock(return_value="freedom-feed")
+        combined = mock.Mock(return_value="combined-feed")
+        with self._route_method("get_news", {
+            "alpha_vantage": _raises(ValueError("not configured")),
+            "yfinance": yahoo,
+            "freedom": freedom,
+            "combined": combined,
+        }):
+            result = router.route_to_vendor("get_news", "AAPL", "2026-01-01", "2026-01-02")
+        self.assertEqual(result, "yahoo-feed")
+        freedom.assert_not_called()
+        combined.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

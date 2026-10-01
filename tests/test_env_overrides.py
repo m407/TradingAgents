@@ -55,7 +55,7 @@ def test_per_model_connections_are_independent(monkeypatch):
     baseline = _reload_with_env(monkeypatch).DEFAULT_CONFIG.copy()
     overrides = {env: value for env, key, value in _PER_MODEL_CONNECTION_OVERRIDES}
     expected = baseline | {key: value for env, key, value in _PER_MODEL_CONNECTION_OVERRIDES}
-    assert _reload_with_env(monkeypatch, **overrides).DEFAULT_CONFIG == expected
+    assert expected == _reload_with_env(monkeypatch, **overrides).DEFAULT_CONFIG
 
 
 @pytest.mark.parametrize("env,key,value", _PER_MODEL_CONNECTION_OVERRIDES)
@@ -80,7 +80,7 @@ def test_partial_per_model_connections(monkeypatch, env, key, value, raw, shared
         expected[key] = value
     # Full-dict equality also guards models, reasoning, shared connections and
     # every unrelated default. Unset/empty individual keys remain None.
-    assert _reload_with_env(monkeypatch, **overrides).DEFAULT_CONFIG == expected
+    assert expected == _reload_with_env(monkeypatch, **overrides).DEFAULT_CONFIG
 
 
 def test_string_overrides(monkeypatch):
@@ -97,6 +97,48 @@ def test_string_overrides(monkeypatch):
     assert dc.DEFAULT_CONFIG["quick_think_llm"] == "gemini-3-flash-preview"
     assert dc.DEFAULT_CONFIG["backend_url"] == "https://example.invalid/v1"
     assert dc.DEFAULT_CONFIG["output_language"] == "Chinese"
+
+
+def test_news_env_overrides_and_mapping_validation(monkeypatch):
+    dc = _reload_with_env(
+        monkeypatch,
+        TRADINGAGENTS_NEWS_VENDOR="combined",
+        TRADINGAGENTS_FREEDOM_NEWS_LANGUAGE="en",
+        TRADINGAGENTS_FREEDOM_SYMBOL_MAP='{"AAPL":"AAPL.US"}',
+    )
+    assert dc.DEFAULT_CONFIG["news_vendor"] == "combined"
+    assert dc.DEFAULT_CONFIG["freedom_news_language"] == "en"
+    assert dc.DEFAULT_CONFIG["freedom_symbol_map"] == {"AAPL": "AAPL.US"}
+    assert dc.DEFAULT_CONFIG["freedom_news_page_size"] == 20
+    assert dc.DEFAULT_CONFIG["freedom_news_max_pages"] == 3
+    assert dc.DEFAULT_CONFIG["freedom_news_max_details"] == 40
+    assert dc.DEFAULT_CONFIG["freedom_news_timeout_seconds"] == 15
+    assert dc.DEFAULT_CONFIG["news_max_text_chars"] == 4000
+
+
+def test_numeric_news_settings_are_environment_configurable(monkeypatch):
+    dc = _reload_with_env(
+        monkeypatch,
+        TRADINGAGENTS_FREEDOM_NEWS_PAGE_SIZE="50",
+        TRADINGAGENTS_FREEDOM_NEWS_MAX_PAGES="2",
+        TRADINGAGENTS_FREEDOM_NEWS_MAX_DETAILS="12",
+        TRADINGAGENTS_FREEDOM_NEWS_TIMEOUT_SECONDS="9",
+        TRADINGAGENTS_NEWS_MAX_TEXT_CHARS="1200",
+    )
+    assert dc.DEFAULT_CONFIG["freedom_news_page_size"] == 50
+    assert dc.DEFAULT_CONFIG["freedom_news_max_pages"] == 2
+    assert dc.DEFAULT_CONFIG["freedom_news_max_details"] == 12
+    assert dc.DEFAULT_CONFIG["freedom_news_timeout_seconds"] == 9
+    assert dc.DEFAULT_CONFIG["news_max_text_chars"] == 1200
+
+
+@pytest.mark.parametrize("raw", ["[]", '"AAPL.US"', '{"AAPL":1}', "not-json"])
+def test_invalid_freedom_symbol_map_env_raises(monkeypatch, raw):
+    monkeypatch.setenv("TRADINGAGENTS_FREEDOM_SYMBOL_MAP", raw)
+    with pytest.raises(ValueError, match="TRADINGAGENTS_FREEDOM_SYMBOL_MAP"):
+        importlib.reload(default_config_module)
+    monkeypatch.delenv("TRADINGAGENTS_FREEDOM_SYMBOL_MAP", raising=False)
+    importlib.reload(default_config_module)
 
 
 def test_int_coercion(monkeypatch):

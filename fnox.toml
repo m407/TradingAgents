@@ -1,0 +1,35 @@
+# API credentials are OS keychain entry names, never plaintext values.
+# Run with: fnox exec -- uv run tradingagents
+[providers.tradingagents_keychain]
+type = "keychain"
+service = "tradingagents"
+
+[providers.tradernet_keychain]
+type = "keychain"
+service = "tradingagents-tradernet-global"
+
+[secrets]
+TRADERNET_PUBLIC_KEY = { provider = "tradernet_keychain", value = "TRADERNET_PUBLIC_KEY" }
+TRADERNET_PRIVATE_KEY = { provider = "tradernet_keychain", value = "TRADERNET_PRIVATE_KEY" }
+OPENAI_API_KEY= { provider = "tradingagents_keychain", value = "OPENAI_API_KEY" }
+ALPHA_VANTAGE_API_KEY= { provider = "tradingagents_keychain", value = "ALPHA_VANTAGE_API_KEY" }
+FRED_API_KEY= { provider = "tradingagents_keychain", value = "FRED_API_KEY" }
+GOOGLE_API_KEY= { provider = "tradingagents_keychain", value = "GOOGLE_API_KEY" }
+
+# Non-sensitive settings migrated from .env.
+TRADINGAGENTS_LLM_PROVIDER = { default = "openai" }
+TRADINGAGENTS_LLM_BACKEND_URL = { default = "http://localhost:8317/v1" }
+TRADINGAGENTS_DEEP_THINK_LLM_PROVIDER = { default = "openai" }
+TRADINGAGENTS_DEEP_THINK_LLM_BACKEND_URL = { default = "http://localhost:8317/v1" }
+TRADINGAGENTS_DEEP_THINK_LLM = { default = "gpt-6.1-sol" }
+TRADINGAGENTS_DEEP_THINK_REASONING_EFFORT = { default = "high" }
+TRADINGAGENTS_QUICK_THINK_LLM_PROVIDER = { default = "openai" }
+TRADINGAGENTS_QUICK_THINK_LLM_BACKEND_URL = { default = "http://localhost:8317/v1" }
+TRADINGAGENTS_QUICK_THINK_LLM = { default = "gpt-6.1-sol" }
+TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT = { default = "low" }
+TRADINGAGENTS_OUTPUT_LANGUAGE = { default = "Russian" }
+TRADINGAGENTS_MAX_DEBATE_ROUNDS = { default = "2" }
+TRADINGAGENTS_MAX_RISK_ROUNDS = { default = "2" }
+TRADINGAGENTS_CHECKPOINT_ENABLED = { default = "true" }
+TRADINGAGENTS_BENCHMARK_TICKER = { default = "FRHC" }
+TRADINGAGENTS_LLM_MAX_RETRIES = { default = "30" }

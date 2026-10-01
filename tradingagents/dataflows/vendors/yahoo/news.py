@@ -1,6 +1,7 @@
 """yfinance-based news data fetching functions."""
 
 import contextlib
+from collections.abc import Iterator
 from datetime import datetime, timezone
 
 import yfinance as yf
@@ -9,6 +10,7 @@ from dateutil.relativedelta import relativedelta
 from tradingagents.dataflows.config import get_config
 from tradingagents.dataflows.date_window import coverage_gap, in_window
 from tradingagents.dataflows.errors import NoMarketDataError
+from tradingagents.dataflows.news import NewsArticle
 from tradingagents.dataflows.symbols import normalize_symbol
 from tradingagents.dataflows.vendors.yahoo.ohlcv import yf_retry
 
@@ -39,14 +41,10 @@ def _extract_article_data(article: dict) -> dict:
             "pub_date": pub_date,
         }
     else:
-        # Fallback for flat structure. Parse the epoch publish time so flat
-        # articles are date-filterable too (otherwise they bypass the
-        # historical window and leak future news, #992/#1007).
+        # Fallback for flat structure. Parse epoch timestamps as aware UTC.
         pub_date = None
         ts = article.get("providerPublishTime")
         if ts:
-            # Epoch seconds are UTC; parse them as UTC-aware so filtering does
-            # not shift with the host timezone (#1126).
             with contextlib.suppress(ValueError, OSError, TypeError):
                 pub_date = datetime.fromtimestamp(ts, tz=timezone.utc)
         return {
@@ -58,6 +56,46 @@ def _extract_article_data(article: dict) -> dict:
         }
 
 
+def _article_record(article: dict) -> NewsArticle:
+    """Extract a Yahoo article without imposing standalone presentation rules."""
+    data = _extract_article_data(article)
+    content = article.get("content", article)
+    article_id = str(content.get("id") or article.get("id") or "")
+    language = content.get("language")
+    max_text_chars = get_config().get("news_max_text_chars", 4000)
+    if isinstance(max_text_chars, bool) or not isinstance(max_text_chars, int) or max_text_chars <= 0:
+        raise ValueError("invalid news_max_text_chars")
+    return NewsArticle(
+        source_id=article_id,
+        delivery_sources=("yahoo",),
+        publisher=data["publisher"],
+        title=data["title"],
+        text=data["summary"],
+        url=data["link"],
+        published_at=data["pub_date"],
+        language=language,
+        max_text_chars=max_text_chars,
+    )
+
+
+def fetch_news_records_yfinance(ticker: str) -> list[NewsArticle]:
+    """Fetch structured ticker news records for adapters such as combined news."""
+    canonical = normalize_symbol(ticker)
+    article_limit = get_config()["news_article_limit"]
+    stock = yf.Ticker(canonical)
+    raw_news = yf_retry(lambda: stock.get_news(count=article_limit)) or []
+    return [_article_record(article) for article in raw_news]
+
+
+def fetch_global_news_records_yfinance(
+    queries: list[str], limit: int
+) -> Iterator[NewsArticle]:
+    """Fetch structured global-news records, preserving distinct same-title items."""
+    for query in queries:
+        search = yf_retry(lambda q=query: yf.Search(
+            query=q, news_count=limit, enable_fuzzy_query=True,
+        ))
+        yield from (_article_record(article) for article in (search.news or []))
 def get_news_yfinance(
     ticker: str,
     start_date: str,
@@ -74,15 +112,13 @@ def get_news_yfinance(
     Returns:
         Formatted string containing news articles
     """
-    article_limit = get_config()["news_article_limit"]
     # Query Yahoo with the canonical symbol, like every other yfinance path —
     # a raw broker/forex/crypto alias (XAUUSD, BTCUSD) otherwise silently
     # returns no news. Keep the user's ticker in the report header.
     canonical = normalize_symbol(ticker)
     resolved = "" if canonical == ticker else f" (resolved to {canonical})"
     try:
-        stock = yf.Ticker(canonical)
-        news = yf_retry(lambda: stock.get_news(count=article_limit)) or []
+        records = fetch_news_records_yfinance(ticker)
 
         start_dt = datetime.strptime(start_date, "%Y-%m-%d")
         end_dt = datetime.strptime(end_date, "%Y-%m-%d")
@@ -90,8 +126,10 @@ def get_news_yfinance(
         news_str = ""
         filtered_count = 0
 
-        for article in news:
-            data = _extract_article_data(article)
+        for record in records:
+            data = {"title": record.title, "summary": record.text,
+                    "publisher": record.publisher, "link": record.url,
+                    "pub_date": record.published_at}
 
             # Keep only articles within the requested window (look-ahead safe).
             if not in_window(data["pub_date"], start_dt, end_dt):
@@ -107,7 +145,7 @@ def get_news_yfinance(
 
         if filtered_count == 0:
             gap = coverage_gap(
-                (_extract_article_data(a)["pub_date"] for a in news),
+                (record.published_at for record in records),
                 start_date, end_date, "Yahoo Finance news", f"news for {ticker}{resolved}",
             )
             return gap or f"No news found for {ticker}{resolved} between {start_date} and {end_date}"
@@ -151,24 +189,16 @@ def get_global_news_yfinance(
     seen_titles = set()
 
     try:
-        for query in search_queries:
-            search = yf_retry(lambda q=query: yf.Search(
-                query=q,
-                news_count=limit,
-                enable_fuzzy_query=True,
-            ))
-
-            for article in search.news or []:
-                # Window first: the limit counts what the run may read, so an
-                # out-of-window article must not spend the budget or cut the
-                # remaining searches short (#1356). Flat articles are filtered
-                # on the same rule, so none can leak future news (#1007).
-                data = _extract_article_data(article)
-                if not in_window(data["pub_date"], start_dt, curr_dt):
-                    continue
-                if data["title"] and data["title"] not in seen_titles:
-                    seen_titles.add(data["title"])
-                    in_window_news.append(data)
+        for article in fetch_global_news_records_yfinance(search_queries, limit):
+            # Keep the standalone historical title-deduplication behavior.
+            data = {"title": article.title, "summary": article.text,
+                    "publisher": article.publisher, "link": article.url,
+                    "pub_date": article.published_at}
+            if not in_window(data["pub_date"], start_dt, curr_dt):
+                continue
+            if data["title"] and data["title"] not in seen_titles:
+                seen_titles.add(data["title"])
+                in_window_news.append(data)
 
             if len(in_window_news) >= limit:
                 break

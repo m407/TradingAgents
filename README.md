@@ -195,8 +195,8 @@ cp .env.example .env
 The root [`fnox.toml`](fnox.toml) stores references to Tradernet Global API
 credentials in the OS keychain under the service `tradingagents-tradernet-global`.
 The configuration can be committed; the actual credentials stay in the keychain.
-This prepares credential storage for the planned `tradernet-sdk` news adapter;
-it does not enable Tradernet news retrieval by itself.
+Use `TRADINGAGENTS_NEWS_VENDOR=combined` to explicitly enable the combined news
+adapter; Yahoo remains the default and does not need Tradernet credentials.
 
 Install [fnox](https://fnox.jdx.dev/) separately from the Python dependencies.
 On Linux, its [keychain provider](https://fnox.jdx.dev/providers/keychain)
@@ -216,20 +216,28 @@ fnox set TRADERNET_PRIVATE_KEY --provider tradernet_keychain
 
 Omit the value arguments as shown, so credentials do not enter shell history.
 Do not put either value in `fnox.toml` or commit them to the repository.
-After storing them, check availability and launch with injected environment
-variables:
+After storing them, check availability and explicitly launch the combined news
+feed with injected environment variables (replace `FRHC` if needed):
 
 ```bash
 fnox check
-fnox exec -- uv run tradingagents
+TRADINGAGENTS_NEWS_VENDOR=combined \
+TRADINGAGENTS_FREEDOM_SYMBOL_MAP='{"FRHC":"FRHC.US"}' \
+  fnox exec -- uv run tradingagents
 ```
 
-Both entries are required for this fnox configuration. Ordinary launches without
-`fnox exec` do not require Tradernet credentials. The planned adapter will read
-`TRADERNET_PUBLIC_KEY` and `TRADERNET_PRIVATE_KEY` and pass them explicitly to
+Both entries are required for Freedom retrieval. Ordinary Yahoo launches without
+`fnox exec` do not require Tradernet credentials. The adapter reads
+`TRADERNET_PUBLIC_KEY` and `TRADERNET_PRIVATE_KEY` and passes them explicitly to
 the SDK's `public` and `private` constructor parameters; the SDK does not read
 these environment variable names automatically. Other API keys can still be
 configured using the existing environment or `.env` setup.
+
+For Python, pass `news_vendor="combined"` and (for unmapped ticker symbols) a
+`freedom_symbol_map` such as `{"FRHC": "FRHC.US"}` in the application config.
+Per-tool `tool_vendors` selections override `news_vendor`. Remove the environment
+override or config value to return to Yahoo; do not use `news_data` category
+selection, which also controls insider-data routing.
 
 ### CLI Usage
 
@@ -359,6 +367,34 @@ print(decision)
 ```
 
 See `tradingagents/default_config.py` for all configuration options.
+
+### Combined Yahoo and Freedom news
+
+Yahoo remains the default and does not require Tradernet credentials. To select Freedom alone or combine it with Yahoo, set the shared news vendor without changing insider, social, or macro providers. Unqualified ticker symbols need an explicit Tradernet instrument mapping; global news needs none.
+
+```python
+from tradingagents.default_config import DEFAULT_CONFIG
+from tradingagents.graph.trading_graph import TradingAgentsGraph
+
+config = DEFAULT_CONFIG.copy()
+config["news_vendor"] = "combined"  # or "freedom"
+config["freedom_news_language"] = "ru"
+config["freedom_symbol_map"] = {"AAPL": "AAPL.US"}
+ta = TradingAgentsGraph(debug=True, config=config)
+```
+
+For CLI runs, keep the existing `fnox.toml` credential entries (`TRADERNET_PUBLIC_KEY` and `TRADERNET_PRIVATE_KEY`) and set them with `fnox set`; never put key values in this file or the command line. Then enable the combined feed and mapping:
+
+```bash
+fnox set TRADERNET_PUBLIC_KEY
+fnox set TRADERNET_PRIVATE_KEY
+TRADINGAGENTS_NEWS_VENDOR=combined \
+TRADINGAGENTS_FREEDOM_NEWS_LANGUAGE=ru \
+TRADINGAGENTS_FREEDOM_SYMBOL_MAP='{"AAPL":"AAPL.US"}' \
+fnox exec -- uv run tradingagents
+```
+
+To roll back, unset `TRADINGAGENTS_NEWS_VENDOR` (and optional news settings) or remove `news_vendor` from the Python config. Yahoo resumes as the unchanged default. The mapping ENV must be a JSON object of string ticker-to-instrument entries. Numeric settings are also configurable via `TRADINGAGENTS_FREEDOM_NEWS_PAGE_SIZE`, `TRADINGAGENTS_FREEDOM_NEWS_MAX_PAGES`, `TRADINGAGENTS_FREEDOM_NEWS_MAX_DETAILS`, `TRADINGAGENTS_FREEDOM_NEWS_TIMEOUT_SECONDS`, and `TRADINGAGENTS_NEWS_MAX_TEXT_CHARS`; budgets must be positive and page size cannot exceed 100.
 
 ### Fundamentals as filed
 

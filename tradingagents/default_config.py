@@ -1,3 +1,4 @@
+import json
 import os
 
 _TRADINGAGENTS_HOME = os.path.join(os.path.expanduser("~"), ".tradingagents")
@@ -19,6 +20,14 @@ _ENV_OVERRIDES = {
     "TRADINGAGENTS_QUICK_THINK_REASONING_EFFORT": "quick_think_reasoning_effort",
     "TRADINGAGENTS_LLM_BACKEND_URL":      "backend_url",
     "TRADINGAGENTS_OUTPUT_LANGUAGE":      "output_language",
+    "TRADINGAGENTS_NEWS_VENDOR":          "news_vendor",
+    "TRADINGAGENTS_FREEDOM_NEWS_LANGUAGE": "freedom_news_language",
+    "TRADINGAGENTS_FREEDOM_SYMBOL_MAP":   "freedom_symbol_map",
+    "TRADINGAGENTS_FREEDOM_NEWS_PAGE_SIZE": "freedom_news_page_size",
+    "TRADINGAGENTS_FREEDOM_NEWS_MAX_PAGES": "freedom_news_max_pages",
+    "TRADINGAGENTS_FREEDOM_NEWS_MAX_DETAILS": "freedom_news_max_details",
+    "TRADINGAGENTS_FREEDOM_NEWS_TIMEOUT_SECONDS": "freedom_news_timeout_seconds",
+    "TRADINGAGENTS_NEWS_MAX_TEXT_CHARS":   "news_max_text_chars",
     "TRADINGAGENTS_MAX_DEBATE_ROUNDS":    "max_debate_rounds",
     "TRADINGAGENTS_MAX_RISK_ROUNDS":      "max_risk_discuss_rounds",
     "TRADINGAGENTS_CHECKPOINT_ENABLED":   "checkpoint_enabled",
@@ -69,7 +78,15 @@ def _apply_env_overrides(config: dict) -> dict:
         if raw is None or raw == "":
             continue
         try:
-            config[key] = _coerce(raw, config.get(key))
+            if key == "freedom_symbol_map":
+                parsed = json.loads(raw)
+                if (not isinstance(parsed, dict)
+                        or any(not isinstance(k, str) or not isinstance(v, str)
+                               for k, v in parsed.items())):
+                    raise ValueError("expected a JSON object with string keys and values")
+                config[key] = parsed
+            else:
+                config[key] = _coerce(raw, config.get(key))
         except ValueError as exc:
             raise ValueError(f"Invalid value for {env_var}: {exc}") from exc
     return config
@@ -135,6 +152,14 @@ DEFAULT_CONFIG = _apply_env_overrides({
     "news_article_limit": 20,             # max articles per ticker (ticker-news)
     "global_news_article_limit": 10,      # max articles for global/macro news
     "global_news_lookback_days": 7,       # macro news lookback window
+    "freedom_news_page_size": 20,
+    "freedom_news_max_pages": 3,
+    "freedom_news_max_details": 40,
+    "freedom_news_timeout_seconds": 15,
+    "news_max_text_chars": 4000,
+    "news_vendor": None,
+    "freedom_news_language": "ru",
+    "freedom_symbol_map": {},
     # Search queries used by get_global_news for macro headlines. Extend or
     # replace to broaden geographic / sector coverage.
     "global_news_queries": [
@@ -185,3 +210,12 @@ DEFAULT_CONFIG = _apply_env_overrides({
         "":     "SPY",         # default for US-listed tickers (no suffix)
     },
 })
+
+for _key in ("freedom_news_page_size", "freedom_news_max_pages",
+             "freedom_news_max_details", "freedom_news_timeout_seconds",
+             "news_max_text_chars"):
+    _value = DEFAULT_CONFIG[_key]
+    if isinstance(_value, bool) or not isinstance(_value, (int, float)) or _value <= 0:
+        raise ValueError(f"Invalid {_key}: expected a positive number")
+if DEFAULT_CONFIG["freedom_news_page_size"] > 100:
+    raise ValueError("Invalid freedom_news_page_size: maximum is 100")

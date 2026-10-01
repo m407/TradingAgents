@@ -246,7 +246,7 @@ def test_the_sentiment_analyst_hands_the_screen_to_both_social_fetchers(monkeypa
     screen = object()
     seen = []
     monkeypatch.setattr(sentiment_analyst, "jev_screen", lambda ticker: screen)
-    monkeypatch.setattr(sentiment_analyst.get_news, "func", lambda *a: "news")
+    monkeypatch.setattr(sentiment_analyst.get_news, "func", lambda *a, **k: "news")
     for name in ("fetch_stocktwits_messages", "fetch_reddit_posts"):
         monkeypatch.setattr(sentiment_analyst, name, lambda *a, screen=None, **k: seen.append(screen) or "")
 
