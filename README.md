@@ -433,6 +433,10 @@ The CLI takes the same content as a JSON file: `tradingagents --portfolio my_boo
 
 An empty `positions` list means a flat book, which is different from passing nothing. A run without a portfolio is never treated as flat.
 
+For the separate, explicit Freedom Broker portfolio reader and its valuation
+limits, see the [Freedom portfolio guide](docs/freedom-portfolio.md). It does
+not run automatically as part of analysis.
+
 ### Per-model provider and URL
 
 Deep and quick can independently select a provider and URL while retaining the existing model keys. These four optional Python keys all default to `None`; nonempty ENV values override their corresponding keys:
