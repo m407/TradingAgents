@@ -1,6 +1,6 @@
 """Deterministic, offline valuation of Tradernet portfolio snapshots."""
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
 from typing import Any
 
@@ -41,7 +41,7 @@ def _time(value: datetime) -> datetime:
         raise FreedomPortfolioError("invalid_fetched_at")
     if value.tzinfo is None or value.utcoffset() is None:
         raise FreedomPortfolioError("invalid_fetched_at")
-    return value.astimezone(timezone.utc)
+    return value.astimezone(UTC)
 
 
 def _trade_time(quote: dict | None) -> tuple[datetime | None, str | None]:
@@ -56,11 +56,11 @@ def _trade_time(quote: dict | None) -> tuple[datetime | None, str | None]:
     except ValueError:
         return None, raw
     if parsed.tzinfo is not None and parsed.utcoffset() is not None:
-        return parsed.astimezone(timezone.utc), None
+        return parsed.astimezone(UTC), None
     offset = _decimal(quote.get("UTCOffset"))
     if offset is None or offset != offset.to_integral_value():
         return None, raw
-    return parsed.replace(tzinfo=timezone(timedelta(minutes=int(offset)))).astimezone(timezone.utc), None
+    return parsed.replace(tzinfo=timezone(timedelta(minutes=int(offset)))).astimezone(UTC), None
 
 
 def validate_portfolio_snapshot(snapshot: dict) -> dict:

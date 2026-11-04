@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Literal, Optional, Protocol
+from datetime import UTC, datetime
+from typing import Literal, Protocol
 
 
 class SimulatorProtocolError(RuntimeError):
     """The simulator failed; do not score this as Harness failure."""
 
-    def __init__(self, message: str, *, evidence: Optional[object] = None) -> None:
+    def __init__(self, message: str, *, evidence: object | None = None) -> None:
         super().__init__(message)
         self.evidence = evidence
 
@@ -21,13 +21,13 @@ class Turn:
     role: Literal["user", "assistant"]
     content: str
     origin: Literal["instruction", "scripted", "harness", "simulator"]
-    decision_id: Optional[str] = None
+    decision_id: str | None = None
     timestamp: str = ""
 
 
 @dataclass(frozen=True)
 class UserTurn:
-    message: Optional[str]
+    message: str | None
     stop: bool
 
 
@@ -39,7 +39,7 @@ class ConversationResult:
     ]
     harness_calls: int
     simulator_calls: int
-    error: Optional[str] = None
+    error: str | None = None
 
 
 class ConversationRunError(RuntimeError):
@@ -50,7 +50,7 @@ class ConversationRunError(RuntimeError):
         message: str,
         *,
         result: ConversationResult,
-        simulator_evidence: Optional[object] = None,
+        simulator_evidence: object | None = None,
     ) -> None:
         super().__init__(message)
         self.result = result
@@ -98,7 +98,7 @@ def validate_user_turn(value: object) -> UserTurn:
 
 
 def _timestamp() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
 def _message(value: object, source: str) -> str:
@@ -140,13 +140,10 @@ async def run_llm_user_conversation(
 
     user_message = _message(first_message, "first user")
     turns = [Turn("user", user_message, "instruction", timestamp=_timestamp())]
-    simulator_calls = 0
-
-    for harness_calls in range(1, max_turns + 1):
+    for simulator_calls, harness_calls in enumerate(range(1, max_turns + 1), start=1):
         assistant_message = _message(await session.send(user_message), "assistant")
         turns.append(Turn("assistant", assistant_message, "harness", timestamp=_timestamp()))
 
-        simulator_calls += 1
         try:
             reply = await simulated_user.reply(tuple(turns))
         except SimulatorProtocolError as error:

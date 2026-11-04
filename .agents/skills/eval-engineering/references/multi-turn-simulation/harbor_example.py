@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import asyncio
 import json
+from collections.abc import Mapping
+from contextlib import suppress
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
-from typing import Mapping, Optional, Protocol, Tuple
+from datetime import UTC, datetime
+from typing import Protocol
 
 from harbor.agents.base import BaseAgent
 from harbor.environments.base import BaseEnvironment
@@ -21,12 +23,11 @@ from .runner import (
     run_scripted_conversation,
 )
 
-
 MAX_EVIDENCE_CHARS = 1_000_000
 
 
 def _timestamp() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
 @dataclass(frozen=True)
@@ -92,7 +93,7 @@ class MultiTurnHarborAgent(BaseAgent):
 
     SUPPORTS_ATIF = True
     MAX_TURNS = 8
-    SIMULATOR_MODEL: Optional[str] = None
+    SIMULATOR_MODEL: str | None = None
 
     @staticmethod
     def name() -> str:
@@ -109,10 +110,10 @@ class MultiTurnHarborAgent(BaseAgent):
     ) -> HarnessSession:
         raise NotImplementedError
 
-    def scripted_followups(self) -> Optional[Tuple[str, ...]]:
+    def scripted_followups(self) -> tuple[str, ...] | None:
         return None
 
-    def user_contract(self) -> Optional[str]:
+    def user_contract(self) -> str | None:
         return None
 
     async def call_user_model(self, system: str, payload: str) -> str:
@@ -126,12 +127,12 @@ class MultiTurnHarborAgent(BaseAgent):
     async def run(
         self, instruction: str, environment: BaseEnvironment, context: AgentContext
     ) -> None:
-        result: Optional[ConversationResult] = None
-        model_user: Optional[ModelUser] = None
-        session: Optional[RecordingSession] = None
-        error_type: Optional[str] = None
-        contract: Optional[str] = None
-        run_error: Optional[BaseException] = None
+        result: ConversationResult | None = None
+        model_user: ModelUser | None = None
+        session: RecordingSession | None = None
+        error_type: str | None = None
+        contract: str | None = None
+        run_error: BaseException | None = None
 
         try:
             session = RecordingSession(
@@ -201,12 +202,10 @@ class MultiTurnHarborAgent(BaseAgent):
 
         if artifact_errors and interaction_path.is_file():
             interaction["artifact_errors"] = artifact_errors
-            try:
+            with suppress(Exception):
                 interaction_path.write_text(
                     json.dumps(interaction, indent=2), encoding="utf-8"
                 )
-            except Exception:
-                pass
 
         if run_error is not None:
             raise run_error.with_traceback(run_error.__traceback__)
@@ -217,11 +216,11 @@ class MultiTurnHarborAgent(BaseAgent):
     def _interaction(
         self,
         instruction: str,
-        session: Optional[RecordingSession],
-        result: Optional[ConversationResult],
-        model_user: Optional[ModelUser],
-        contract: Optional[str],
-        error_type: Optional[str],
+        session: RecordingSession | None,
+        result: ConversationResult | None,
+        model_user: ModelUser | None,
+        contract: str | None,
+        error_type: str | None,
     ) -> dict[str, object]:
         harness = session.harness if session else None
         turns = [asdict(turn) for turn in result.turns] if result else []

@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 import os
 from contextlib import suppress
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -125,7 +125,7 @@ def fetch_freedom_portfolio(*, client: Any | None = None, timeout_seconds: float
             # The pure evaluator is the shared validator for API envelopes,
             # required collections, row currencies and tickers. Validate the
             # entire snapshot before any quote selection or transport call.
-            fetched_at = datetime.now(timezone.utc)
+            fetched_at = datetime.now(UTC)
             validated = value_freedom_portfolio(snapshot, {}, fetched_at=fetched_at)
             symbols = _quote_symbols(validated.positions)
             quotes: dict[str, dict] = {}
@@ -138,7 +138,7 @@ def fetch_freedom_portfolio(*, client: Any | None = None, timeout_seconds: float
                 except Exception:
                     warnings.append("quote_batch_unavailable")
             valuation = value_freedom_portfolio(snapshot, quotes, fetched_at=fetched_at,
-                                                quotes_fetched_at=datetime.now(timezone.utc) if symbols else None)
+                                                quotes_fetched_at=datetime.now(UTC) if symbols else None)
             if warnings:
                 from dataclasses import replace
                 valuation = replace(valuation, warnings=tuple(warnings))

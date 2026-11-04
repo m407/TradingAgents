@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from tradingagents.dataflows.news import (
     NewsArticle,
@@ -14,7 +14,7 @@ from tradingagents.dataflows.news import (
 
 def article(source, ident, title, url, day, text="body"):
     return NewsArticle(ident, (source,), source.title(), title, text, url,
-                       datetime.fromisoformat(day).replace(tzinfo=timezone.utc))
+                       datetime.fromisoformat(day).replace(tzinfo=UTC))
 
 
 def test_window_is_utc_half_open_and_excludes_next_midnight():

@@ -1,6 +1,6 @@
 """Offline contract tests for the bounded Freedom adapter."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from requests import HTTPError, Response
@@ -41,7 +41,7 @@ def test_sdk_commands_provider_filter_and_bounded_parameters():
         config=config(freedom_symbol_map={"AAPL": "AAPL.US"}))
     assert result.articles[0].text == "body"
     assert result.articles[0].language == "kk"
-    assert result.articles[0].published_at == datetime(2025, 1, 2, 7, tzinfo=timezone.utc)
+    assert result.articles[0].published_at == datetime(2025, 1, 2, 7, tzinfo=UTC)
     assert result.articles[0].instrument == "AAPL.US"
     assert [call[0] for call in client.calls] == ["getNewsList", "getNewsDetail"]
     page = client.calls[0][1]
@@ -195,7 +195,7 @@ def test_standalone_ticker_wrapper_formats_structured_status_and_applies_config_
     rows = tuple(
         freedom.NewsArticle(str(index), ("freedom",), "Freedom Finance", f"Article {index}",
                             "body", f"https://example.test/{index}",
-                            datetime(2025, 1, 2, 12, tzinfo=timezone.utc))
+                            datetime(2025, 1, 2, 12, tzinfo=UTC))
         for index in range(3)
     )
     monkeypatch.setattr(freedom, "get_config", lambda: {"news_article_limit": 1})
@@ -269,21 +269,21 @@ def test_live_api_envelope_offset_and_integer_detail_id_without_discovery():
     assert result.outcome == NewsOutcome.OK
     assert not result.reasons and not result.truncated
     assert len(result.articles) == 1
-    assert result.articles[0].published_at == datetime(2026, 9, 30, 17, 55, 27, tzinfo=timezone.utc)
+    assert result.articles[0].published_at == datetime(2026, 9, 30, 17, 55, 27, tzinfo=UTC)
     assert result.articles[0].text == "News body"
     assert [call[0] for call in client.calls] == ["getNewsList", "getNewsDetail"]
 
 
 @pytest.mark.parametrize("zone, expected", [
-    ("+0300", datetime(2025, 1, 1, 21, 30, tzinfo=timezone.utc)),
-    ("-0430", datetime(2025, 1, 2, 5, tzinfo=timezone.utc)),
-    ("+03:00", datetime(2025, 1, 1, 21, 30, tzinfo=timezone.utc)),
+    ("+0300", datetime(2025, 1, 1, 21, 30, tzinfo=UTC)),
+    ("-0430", datetime(2025, 1, 2, 5, tzinfo=UTC)),
+    ("+03:00", datetime(2025, 1, 1, 21, 30, tzinfo=UTC)),
     ("+2500", None),
     ("+bad", None),
 ])
 def test_numeric_timezone_offsets_filter_at_utc_day_boundary(zone, expected):
     published = freedom._published({"dateTime": "2025-01-02 00:30:00", "timeZone": zone})
-    assert (published.astimezone(timezone.utc) if published else None) == expected
+    assert (published.astimezone(UTC) if published else None) == expected
 
 
 def test_live_empty_list_is_empty_not_unavailable():

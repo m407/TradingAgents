@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 
 import pytest
@@ -6,7 +6,7 @@ import pytest
 from tradernet_global.models import FreedomPortfolioError
 from tradernet_global.valuation import validate_portfolio_snapshot, value_freedom_portfolio
 
-NOW = datetime(2025, 1, 1, tzinfo=timezone.utc)
+NOW = datetime(2025, 1, 1, tzinfo=UTC)
 
 
 def snapshot(pos=(), acc=()):
@@ -71,7 +71,7 @@ def test_actual_nested_snapshot_and_trade_timestamp_offset_are_preserved_as_utc(
     quote = {"ltp": "5", "market_status": "closed", "trade_time": "2024-12-31T23:00:00", "UTCOffset": 60}
     result = value_freedom_portfolio(actual_shape, {"ABC.US": quote}, fetched_at=NOW)
     assert result.positions[0].value == Decimal("10")
-    assert result.positions[0].source_time == datetime(2024, 12, 31, 22, tzinfo=timezone.utc)
+    assert result.positions[0].source_time == datetime(2024, 12, 31, 22, tzinfo=UTC)
     assert result.fetched_at.date().isoformat() != result.positions[0].source_time.date().isoformat()
 
 
