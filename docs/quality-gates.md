@@ -81,10 +81,15 @@ date. New exceptions need a human decision and a narrow scope.
 
 ## Verification
 
-The complete local `mise run check` passed: 3,172 pytest tests and 100 subtests
+The complete local `GITHUB_ACTIONS=true mise run check` passed: 3,184 pytest tests and 100 subtests
 (one integration test deselected), package build/clean wheel imports, and both
 vulnerability scans. A first attempt hit a dependency-download network error;
 the retry completed successfully.
+
+GitHub validation exposed two portability issues: the timezone matrix entry
+overwrote the normal Python 3.12 run, and ANSI styling broke a CLI help assertion.
+The timezone entry is now an additional run; the help test checks visible text
+in both colored and plain modes.
 
 Scratch-branch probes confirmed nonzero exits for Ruff through the aggregate
 command, jactionlint, Hadolint, ShellCheck, invalid Compose schemas, OSV on a

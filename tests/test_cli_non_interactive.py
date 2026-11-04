@@ -14,6 +14,7 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
+from rich.text import Text
 from typer.testing import CliRunner
 
 from cli import display, prompts, run, selections
@@ -353,12 +354,17 @@ def test_interactive_flags_skip_only_matching_prompts(isolated, monkeypatch, sup
             prompt.assert_called_once()
 
 
-def test_options_visible_in_help(isolated, monkeypatch):
+@pytest.mark.parametrize("force_terminal", [False, True])
+def test_options_visible_in_help(isolated, monkeypatch, force_terminal):
+    import typer.rich_utils
+
+    monkeypatch.setattr(typer.rich_utils, "FORCE_TERMINAL", force_terminal)
     monkeypatch.setenv("COLUMNS", "160")
     result = CliRunner().invoke(isolated.app, ["--help"], terminal_width=160)
     assert result.exit_code == 0
+    output = Text.from_ansi(result.output).plain
     for option in ("--ticker", "--date", "--analyst", "--non-interactive", "--silent", "--checkpoint", "--clear-checkpoints"):
-        assert option in result.output
+        assert option in output
 
 
 def test_silent_stream_saves_reports_and_suppresses_output(streamed, monkeypatch):
