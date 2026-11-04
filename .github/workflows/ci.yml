@@ -4,6 +4,12 @@ on:
   push:
     branches: [main, 'v[0-9]+.[0-9]+.[0-9]+']
   pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 6 * * 1'
+
+permissions:
+  contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -13,6 +19,7 @@ jobs:
   test:
     name: tests (py${{ matrix.python-version }}${{ matrix.tz && format(', {0}', matrix.tz) || '' }})
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -23,9 +30,12 @@ jobs:
             tz: America/New_York
     env:
       TZ: ${{ matrix.tz }}
+      PYTHON_DOTENV_DISABLED: '1'
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install (with dev extras)
@@ -38,9 +48,12 @@ jobs:
   smoke-install:
     name: clean-install smoke
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: "3.12"
       - name: Fresh install (no dev extras) and import
@@ -51,17 +64,17 @@ jobs:
           # install must import the package and the CLI module.
           python -c "import tradingagents, cli.main; print('clean-install import OK')"
 
-  lint:
-    name: ruff (strict, full repo)
+  quality:
+    name: quality gates
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          python-version: "3.12"
-      - name: Install ruff
-        run: pip install "ruff>=0.16"
-      - name: Lint the repository
-        # The repo is fully clean under the strict select, so we lint everything
-        # (generated results/ is excluded via pyproject extend-exclude).
-        run: ruff check .
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5
+        with:
+          version: 2026.11.1
+      - name: Run all quality gates
+        run: mise run check

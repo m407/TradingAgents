@@ -136,6 +136,37 @@ Install the package and its dependencies (`uv pip install .` with uv):
 pip install .
 ```
 
+### Development checks
+
+Install [mise](https://mise.jdx.dev/), then run:
+
+```bash
+mise trust
+mise install
+mise run hooks:install
+mise run check
+```
+
+`mise.toml` pins the development toolchain. `mise run check` runs the same gates
+as CI: Ruff, workflow and shell lint, Dockerfile lint, configuration schemas,
+lockfile freshness, secret scans, offline tests, Python package builds and clean
+wheel imports, and dependency vulnerability scans. It requires network access for
+installation and vulnerability data. `mise run check:local` runs the pre-push
+checks; the commit hook checks staged files without applying fixes.
+
+Dependabot maintains Python dependencies (`pyproject.toml` and `uv.lock`) and
+GitHub Actions weekly, with a seven-day release cooldown. Its PRs are squash-merged
+only after the complete CI run succeeds for their current head commit. This
+includes the Python 3.11–3.14 test matrix and clean-install check. The merge
+workflow uses GitHub metadata only and respects repository protection rules.
+Tool pins in `mise.toml` are reviewed manually; Dependabot does not support mise.
+Dockerfiles are linted, but Docker images are not built by these checks.
+
+CI also runs weekly so new advisories and expired exceptions fail without a code
+change. Secret-scan exceptions are exact historical fingerprints in
+`.betterleaksignore`, with a reason and a checked review date. See
+[the adoption record](docs/quality-gates.md) for scope and verification details.
+
 ### Docker
 
 Alternatively, run with Docker:
