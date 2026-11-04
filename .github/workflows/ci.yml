@@ -24,6 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13", "3.14"]
+        # An explicit base value makes the include below a separate combination.
+        tz: [""]
         # One run away from UTC, so a test that only passes in UTC fails here.
         include:
           - python-version: "3.12"
