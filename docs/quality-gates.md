@@ -11,6 +11,12 @@ on 2026-11-05. Tool releases and maintenance status were checked at adoption.
 environment independent. Schema checks use schemas bundled with the pinned
 check-jsonschema release, avoiding mutable remote schemas.
 
+The fresh-install audit scans the complete `uv pip freeze` inventory, including
+transitive dependencies, with OSV's `--no-resolve`. Resolving that inventory
+again through deps.dev can fail when its metadata trails a new PyPI release
+(observed with langgraph 1.2.20). Vulnerability lookup remains online and findings
+still fail the check; this flag is specific to the already-resolved inventory.
+
 `mise run hooks:install` installs hk in this clone. Commit hooks check staged
 files, including staged secrets; pre-push runs `mise run check:local`. The
 complete CI command also checks vulnerability data. Weekly CI runs catch new
