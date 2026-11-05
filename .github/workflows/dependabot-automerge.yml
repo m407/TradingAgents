@@ -1,0 +1,61 @@
+name: Dependabot auto-merge
+
+on:
+  # Metadata-only merge after complete CI; no PR code/artifacts are executed (review 2027-02-05)
+  # jactionlint ignore=dangerous-triggers
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: dependabot-merge-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+    steps:
+      # No PR checkout or artifacts: this privileged job only reads GitHub metadata.
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const repo = context.repo;
+            if (run.path !== '.github/workflows/ci.yml' ||
+                run.head_repository?.full_name !== `${repo.owner}/${repo.repo}`) return;
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+              ...repo, run_id: run.id, filter: 'latest', per_page: 100,
+            });
+            const required = ['quality gates', 'clean-install smoke', 'tests (py3.11)',
+              'tests (py3.12)', 'tests (py3.13)', 'tests (py3.14)',
+              'tests (py3.12, America/New_York)'];
+            if (!required.every(name => jobs.some(job =>
+                job.name === name && job.conclusion === 'success'))) {
+              core.setFailed('The complete build, test matrix and quality gates must pass.');
+              return;
+            }
+            const prs = await github.paginate(github.rest.repos.listPullRequestsAssociatedWithCommit, {
+              ...repo, commit_sha: run.head_sha, per_page: 100,
+            });
+            for (const candidate of prs) {
+              const {data: pr} = await github.rest.pulls.get({...repo, pull_number: candidate.number});
+              if (pr.state !== 'open' || pr.draft || pr.user.login !== 'dependabot[bot]' ||
+                  pr.head.repo?.full_name !== `${repo.owner}/${repo.repo}` ||
+                  !pr.head.ref.startsWith('dependabot/') || pr.head.sha !== run.head_sha ||
+                  pr.base.ref !== context.payload.repository.default_branch) continue;
+              const {data: merged} = await github.rest.pulls.merge({
+                ...repo, pull_number: pr.number, sha: run.head_sha, merge_method: 'squash',
+              });
+              if (!merged.merged) core.setFailed(merged.message);
+            }

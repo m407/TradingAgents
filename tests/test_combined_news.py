@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from tradingagents.dataflows.news import NewsArticle, NewsCoverage, NewsOutcome, NewsSourceResult
 from tradingagents.dataflows.vendors import combined_news as combined
@@ -6,7 +6,7 @@ from tradingagents.dataflows.vendors import combined_news as combined
 
 def article(source, ident, url, day="2025-01-02T12:00:00"):
     return NewsArticle(ident, (source,), source, ident, "text", url,
-                       datetime.fromisoformat(day).replace(tzinfo=timezone.utc))
+                       datetime.fromisoformat(day).replace(tzinfo=UTC))
 
 
 def result(*articles, outcome=NewsOutcome.OK, truncated=False, reasons=()):

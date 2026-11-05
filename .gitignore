@@ -225,3 +225,5 @@ reports/
 /.cocoindex_code/
 /.github/workflows/openwiki-update.yml
 /.idea/
+hk.local.pkl
+.venv-quality/

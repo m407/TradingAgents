@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 
 import pytest
@@ -11,7 +11,7 @@ from tradingagents.portfolio import load_portfolio
 def valuation(positions=(), cash=(), currencies=None):
     currencies = currencies or {row.currency for row in positions} | {row.currency for row in cash}
     return FreedomPortfolioValuation(tuple(positions), tuple(cash), {c: object() for c in currencies}, True,
-                                     datetime.now(timezone.utc))
+                                     datetime.now(UTC))
 
 
 def position(ticker, quantity):

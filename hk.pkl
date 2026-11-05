@@ -1,0 +1,53 @@
+amends "package://github.com/jdx/hk/releases/download/v2.11.1/hk@2.11.1#/Config.pkl"
+
+fail_fast = false
+
+steps {
+  ["ruff"] {
+    glob = List("**/*.py", "*.py")
+    check = new Command { argv = List("ruff", "check", "--force-exclude", "{{files}}") }
+  }
+  ["workflows"] {
+    glob = List(".github/workflows/*.yml", ".github/workflows/*.yaml", ".github/dependabot.yml")
+    check = new Command { argv = List("jactionlint", "{{files}}") }
+  }
+  ["dockerfile"] {
+    glob = "Dockerfile"
+    check = "hadolint --failure-threshold info Dockerfile"
+  }
+  ["compose"] {
+    glob = "docker-compose.yml"
+    check = "check-jsonschema --builtin-schema vendor.compose-spec docker-compose.yml"
+  }
+  ["issue-forms"] {
+    glob = List(".github/ISSUE_TEMPLATE/bug-report.yml", ".github/ISSUE_TEMPLATE/data-issue.yml", ".github/ISSUE_TEMPLATE/feature-request.yml")
+    check = new Command {
+      argv = List("check-jsonschema", "--builtin-schema", "vendor.github-issue-forms", "{{files}}")
+    }
+  }
+  ["issue-config"] {
+    glob = ".github/ISSUE_TEMPLATE/config.yml"
+    check = "check-jsonschema --builtin-schema vendor.github-issue-config .github/ISSUE_TEMPLATE/config.yml"
+  }
+  ["exceptions"] {
+    check = "python scripts/quality.py exceptions"
+  }
+}
+
+hooks {
+  ["pre-commit"] {
+    fix = false
+    stage = false
+    stash = "git"
+    steps {
+      ["secrets"] {
+        check = "betterleaks git --pre-commit --staged --redact --no-banner --ignore-gitleaks-allow"
+      }
+    }
+  }
+  ["pre-push"] {
+    steps {
+      ["project"] { check = "mise run check:local" }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 """Offline tests for independent Freedom portfolio result models."""
 
 from dataclasses import fields
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 
 from tradernet_global.models import (
@@ -14,7 +14,7 @@ from tradernet_global.models import (
 
 
 def test_models_preserve_decimal_provenance_and_times():
-    now = datetime(2026, 10, 2, tzinfo=timezone.utc)
+    now = datetime(2026, 10, 2, tzinfo=UTC)
     position = PositionValuation(
         0, "p1", "ABC.US_RP1", "Synthetic", 8, "USD", Decimal("2"),
         Decimal("10"), Decimal("100"), Decimal("0"), Decimal("20"),
@@ -33,7 +33,7 @@ def test_models_preserve_decimal_provenance_and_times():
     assert position.warnings == ("synthetic warning",)
     assert cash.amount == Decimal("1.25")
     assert valuation.totals_by_currency["USD"].total == Decimal("21.25")
-    assert valuation.fetched_at.tzinfo is timezone.utc
+    assert valuation.fetched_at.tzinfo is UTC
     assert {field.name for field in fields(PositionValuation)} >= {
         "quantity", "price", "factor", "accrued_interest", "value",
         "reason", "price_source", "source_time", "warnings",

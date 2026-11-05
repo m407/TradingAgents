@@ -1,0 +1,52 @@
+min_version = "2026.9.12"
+
+[tools]
+python = "3.12.16"
+uv = "0.13.7"
+hk = "2.11.1"
+ruff = "0.17.3"
+jactionlint = "2.4.0"
+shellcheck = "0.11.0"
+hadolint = "2.15.1"
+betterleaks = "1.10.0"
+osv-scanner = "2.7.0"
+"pipx:check-jsonschema" = "0.39.0"
+
+[env]
+PYTHON_DOTENV_DISABLED = "1"
+
+[tasks.check]
+description = "Run every quality gate (includes network-backed vulnerability scans)"
+run = ["mise run check:local", "mise run audit"]
+
+[tasks."check:local"]
+description = "Whole-project checks used by pre-push"
+run = [
+  "hk check --all",
+  "uv lock --check",
+  "python scripts/quality.py secrets",
+  "mise run test",
+  "mise run build",
+]
+
+[tasks.test]
+description = "Run the offline regression suite against locked dependencies"
+run = "uv run --python python --locked --all-extras python -m pytest -q"
+
+[tasks.test.env]
+UV_PROJECT_ENVIRONMENT = "{{config_root}}/.venv-quality"
+
+[tasks.build]
+description = "Build and import the Python wheel in a clean environment"
+run = "python scripts/quality.py build"
+
+[tasks.audit]
+description = "Scan the lockfile and a fresh pip-compatible installation"
+run = [
+  "osv-scanner scan source --lockfile uv.lock",
+  "python scripts/quality.py audit-install",
+]
+
+[tasks."hooks:install"]
+description = "Install this repository's commit and push hooks"
+run = "hk install"

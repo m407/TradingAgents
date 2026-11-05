@@ -20,9 +20,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN useradd --create-home appuser \
+RUN useradd --uid 1000 --create-home appuser \
  && install -d -m 0755 -o appuser -g appuser /home/appuser/.tradingagents
-USER appuser
+USER 1000
 WORKDIR /home/appuser/app
 
 COPY --from=builder --chown=appuser:appuser /build .

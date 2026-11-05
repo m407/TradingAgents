@@ -35,7 +35,6 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Optional
 
 CORE_ACTIONS = [
     "read",
@@ -421,7 +420,7 @@ You coordinate complex workflows by delegating to specialized subagents.
 }
 
 
-def normalize_tools_csv(value: Optional[str]) -> list[str] | None:
+def normalize_tools_csv(value: str | None) -> list[str] | None:
     """Parse comma-separated tool lists."""
     if value is None:
         return None
@@ -481,11 +480,11 @@ def generate_agent(
     name: str,
     role: str,
     mode: str = "subagent",
-    model: Optional[str] = None,
-    temperature: Optional[float] = None,
-    description: Optional[str] = None,
-    extra_tools_enabled: Optional[list] = None,
-    extra_tools_disabled: Optional[list] = None,
+    model: str | None = None,
+    temperature: float | None = None,
+    description: str | None = None,
+    extra_tools_enabled: list | None = None,
+    extra_tools_disabled: list | None = None,
 ) -> str:
     """Generate agent markdown content."""
 

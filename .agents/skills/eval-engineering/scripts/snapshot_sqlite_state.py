@@ -10,7 +10,7 @@ import math
 import sqlite3
 import sys
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 
 class SnapshotError(ValueError):
@@ -79,10 +79,10 @@ def load_config(path: Path) -> list[dict[str, Any]]:
 
 def authorizer(
     action: int,
-    _arg1: Optional[str],
-    _arg2: Optional[str],
-    _db: Optional[str],
-    _source: Optional[str],
+    _arg1: str | None,
+    _arg2: str | None,
+    _db: str | None,
+    _source: str | None,
 ) -> int:
     return sqlite3.SQLITE_DENY if action in DENIED_ACTIONS else sqlite3.SQLITE_OK
 
@@ -100,7 +100,7 @@ def canonical_rows(cursor: sqlite3.Cursor, preserve_order: bool = False) -> list
     if len(columns) != len(set(columns)):
         raise SnapshotError("query result contains duplicate column names")
     rows = [
-        {column: json_value(value) for column, value in zip(columns, row)}
+        {column: json_value(value) for column, value in zip(columns, row, strict=True)}
         for row in cursor.fetchall()
     ]
     if preserve_order:
