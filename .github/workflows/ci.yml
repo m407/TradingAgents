@@ -23,11 +23,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12", "3.13", "3.14"]
-        # An explicit base value makes the include below a separate combination.
-        tz: [""]
-        # One run away from UTC, so a test that only passes in UTC fails here.
+        # Include-only entries are separate jobs; keep both Python 3.12 runs.
+        # Names must match the required jobs in dependabot-automerge.yml.
         include:
+          - python-version: "3.11"
+            tz: ""
+          - python-version: "3.12"
+            tz: ""
+          - python-version: "3.13"
+            tz: ""
+          - python-version: "3.14"
+            tz: ""
           - python-version: "3.12"
             tz: America/New_York
     env:

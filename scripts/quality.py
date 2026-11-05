@@ -106,7 +106,10 @@ def audit_install():
         requirements.write_text("\n".join(
             line for line in frozen.splitlines() if not line.startswith("tradingagents ")
         ) + "\n")
-        run("osv-scanner", "scan", "source", "--lockfile", str(requirements))
+        # freeze already includes every installed transitive dependency. Scan
+        # those exact versions without resolving again through deps.dev, whose
+        # package metadata can lag behind PyPI releases.
+        run("osv-scanner", "scan", "source", "--no-resolve", "--lockfile", str(requirements))
 
 
 if __name__ == "__main__":
