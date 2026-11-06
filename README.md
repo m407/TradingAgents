@@ -677,3 +677,11 @@ Please reference our work if you find *TradingAgents* provides you with some hel
       url={https://arxiv.org/abs/2412.20138}, 
 }
 ```
+
+## Trader Consultant
+
+The independent [trader-consultant package](packages/trader-consultant/README.md)
+turns a supplied portfolio snapshot and BUY/SELL/KEEP recommendations into a
+validated rebalance draft for human confirmation. It exposes a Python API,
+accepts a configured LangChain model, and includes standalone portfolio math
+adapted from Trading-R1. It does not connect to a broker or execute orders.

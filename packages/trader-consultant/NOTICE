@@ -1,0 +1,4 @@
+Trader Consultant includes adapted portfolio calculations from Trading-R1.
+Copyright 2026 Tauric Research. Licensed under Apache-2.0.
+Source: https://github.com/TauricResearch/Trading-R1/tree/main/trading_r1/tools/compute/portfolio
+See docs/provenance.md for changes.

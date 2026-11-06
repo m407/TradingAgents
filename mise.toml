@@ -27,6 +27,7 @@ run = [
   "python scripts/quality.py secrets",
   "mise run test",
   "mise run build",
+  "mise run consultant:check",
 ]
 
 [tasks.test]
@@ -44,9 +45,19 @@ run = "python scripts/quality.py build"
 description = "Scan the lockfile and a fresh pip-compatible installation"
 run = [
   "osv-scanner scan source --lockfile uv.lock",
+  "osv-scanner scan source --lockfile packages/trader-consultant/uv.lock",
   "python scripts/quality.py audit-install",
 ]
 
 [tasks."hooks:install"]
 description = "Install this repository's commit and push hooks"
 run = "hk install"
+
+[tasks."consultant:check"]
+description = "Check the standalone trader consultant and its clean wheel installation"
+run = [
+  "uv lock --project packages/trader-consultant --check",
+  "uv run --project packages/trader-consultant --locked --group dev ruff check packages/trader-consultant/src packages/trader-consultant/tests packages/trader-consultant/scripts",
+  "uv run --project packages/trader-consultant --locked --group dev python -m pytest -q packages/trader-consultant/tests",
+  "uv run --project packages/trader-consultant --locked python packages/trader-consultant/scripts/check_distribution.py",
+]
